@@ -1,0 +1,107 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4653496 */
+  src: url('iconfont.woff2?t=1730181287074') format('woff2'),
+       url('iconfont.woff?t=1730181287074') format('woff'),
+       url('iconfont.ttf?t=1730181287074') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.iconfont-select_room:before {
+  content: "\e64f";
+}
+
+.iconfont-zone:before {
+  content: "\e650";
+}
+
+.iconfont-smart:before {
+  content: "\e651";
+}
+
+.iconfont-pose:before {
+  content: "\e652";
+}
+
+.iconfont-water0:before {
+  content: "\e64e";
+}
+
+.iconfont-water2:before {
+  content: "\e64b";
+}
+
+.iconfont-water3:before {
+  content: "\e64c";
+}
+
+.iconfont-water1:before {
+  content: "\e64d";
+}
+
+.iconfont-fan4:before {
+  content: "\e646";
+}
+
+.iconfont-fan0:before {
+  content: "\e647";
+}
+
+.iconfont-fan2:before {
+  content: "\e648";
+}
+
+.iconfont-fan3:before {
+  content: "\e649";
+}
+
+.iconfont-fan1:before {
+  content: "\e64a";
+}
+
+.iconfont-repeat:before {
+  content: "\e645";
+}
+
+.iconfont-addArea:before {
+  content: "\e644";
+}
+
+.iconfont-charge:before {
+  content: "\e643";
+}
+
+.iconfont-setting:before {
+  content: "\e642";
+}
+
+.iconfont-pause:before {
+  content: "\e641";
+}
+
+.iconfont-start:before {
+  content: "\e640";
+}
+
+.iconfont-preference:before {
+  content: "\e63f";
+}
+
+.iconfont-sweep-mop:before {
+  content: "\e63c";
+}
+
+.iconfont-sweep:before {
+  content: "\e63d";
+}
+
+.iconfont-mop:before {
+  content: "\e63e";
+}
+

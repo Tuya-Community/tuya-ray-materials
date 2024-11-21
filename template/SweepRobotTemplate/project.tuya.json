@@ -1,0 +1,27 @@
+{
+  "name": "激光扫地机模版",
+  "type": "panel-app",
+  "ownerType": "tuya-official",
+  "i18n": false,
+  "description": "激光扫地机自研方案",
+  "publicRoot": "./assets",
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.0",
+    "MiniKit": "3.0.1",
+    "DeviceKit": "4.0.8",
+    "BizKit": "4.2.0",
+    "P2PKit": "2.1.1",
+    "IPCKit": "5.16.2"
+  },
+  "compilerOptions": {
+    "dangerouslyDisableRjsScope": true,
+    "enableHtmlIframe": true
+  },
+  "baseversion": "2.19.2",
+  "projectname": "激光扫地机",
+  "compileType": "miniprogram",
+  "webviewRoot": "webview",
+  "remoteDebug": "mqtt",
+  "devMode": "ray"
+}

@@ -1,0 +1,43 @@
+.battery {
+  display: flex;
+  height: 96rpx;
+  flex-direction: row;
+  align-items: center;
+  z-index: 1;
+  .batLeft {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .svg {
+    position: absolute;
+  }
+  .batNum {
+    color: var(--index-title-color);
+    font-family: Urbanist;
+    font-size: 44rpx;
+    line-height: 52rpx;
+    margin-left: 20rpx;
+  }
+  .util {
+    color: var(--index-title-color);
+    font-family: Urbanist;
+    font-size: 44rpx;
+    line-height: 52rpx;
+  }
+  .batIcon {
+    width: 42rpx;
+    height: 42rpx;
+    position: absolute;
+    margin-left: 2rpx;
+  }
+  .batWarn {
+    margin-left: 4rpx;
+    width: 24rpx;
+    height: 24rpx;
+  }
+}

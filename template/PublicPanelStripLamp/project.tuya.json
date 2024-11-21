@@ -1,0 +1,17 @@
+{
+  "name": "照明小程序模板",
+  "type": "panel-app",
+  "ownerType": "panel-lamp",
+  "devMode": "ray",
+  "i18n": false,
+  "description": "幻彩灯带模版小程序",
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.0",
+    "MiniKit": "3.0.0",
+    "DeviceKit": "3.0.0",
+    "BizKit": "3.0.1"
+  },
+  "projectname": "幻彩灯带",
+  "baseversion": "2.12.19"
+}

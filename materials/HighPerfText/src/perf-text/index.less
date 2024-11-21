@@ -1,0 +1,7 @@
+.text {
+  counter-reset: perf-text-counter var(--perf-text-value);
+}
+
+.text::after {
+  content: counter(perf-text-counter);
+}

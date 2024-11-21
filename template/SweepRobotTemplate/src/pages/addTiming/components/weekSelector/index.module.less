@@ -1,0 +1,36 @@
+@import '@/variables.less';
+
+.week{
+  flex-direction: row;
+  margin-bottom: 24px;
+  margin-top: 24px;
+  padding-left: 24px;
+  display: flex;
+}
+
+.weekItem{
+  align-items: center;
+  background-color: #f6f6f6;
+  border-radius: 20px;
+  height: 40px;
+  width: 40px;
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+
+.activeWeekItem{
+  .weekItem;
+  background-color: @themeColor;
+}
+
+.weekItemText{
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.activeWeekItemText{
+  .weekItemText;
+  color: #fff;
+}

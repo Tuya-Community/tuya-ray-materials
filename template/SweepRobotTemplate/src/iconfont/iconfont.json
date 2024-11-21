@@ -1,0 +1,170 @@
+{
+  "id": "4653496",
+  "name": "涂鸦扫地机",
+  "font_family": "iconfont",
+  "css_prefix_text": "iconfont-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "42265068",
+      "name": "Electorate",
+      "font_class": "select_room",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "42265056",
+      "name": "形状 (1)",
+      "font_class": "zone",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "42265055",
+      "name": "A",
+      "font_class": "smart",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "42265054",
+      "name": "形状",
+      "font_class": "pose",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "41476198",
+      "name": "水量0",
+      "font_class": "water0",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "41476189",
+      "name": "water2",
+      "font_class": "water2",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "41476187",
+      "name": "water3",
+      "font_class": "water3",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "41476186",
+      "name": "water1",
+      "font_class": "water1",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "41476172",
+      "name": "fan4",
+      "font_class": "fan4",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "41476171",
+      "name": "风力为0",
+      "font_class": "fan0",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "41476169",
+      "name": "风速2档",
+      "font_class": "fan2",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "41476170",
+      "name": "风力3档",
+      "font_class": "fan3",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "41476168",
+      "name": "风速1档",
+      "font_class": "fan1",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "41476166",
+      "name": "清扫次数",
+      "font_class": "repeat",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "41473952",
+      "name": "加号",
+      "font_class": "addArea",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "41472210",
+      "name": "充电",
+      "font_class": "charge",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "41472235",
+      "name": "setting",
+      "font_class": "setting",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "41470065",
+      "name": "暂停",
+      "font_class": "pause",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "41470142",
+      "name": "开始",
+      "font_class": "start",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "41469993",
+      "name": "清洁属性",
+      "font_class": "preference",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "41468900",
+      "name": "扫拖",
+      "font_class": "sweep-mop",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "41468898",
+      "name": "仅扫",
+      "font_class": "sweep",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "41468897",
+      "name": "仅拖",
+      "font_class": "mop",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    }
+  ]
+}
