@@ -26,7 +26,7 @@ Before using this template, you need to have a basic understanding of the Ray fr
 - Component dependency
   - None
 - Function page dependency
-  - None
+  - Device Detail Functional Page: settings => 'tycryc71qaug8at6yt'
 
 ## 4. Panel function
 
@@ -45,3 +45,13 @@ If you have any questions, please visit the link and submit post feedback: https
 ## 7. License
 
 [License details](LICENSE)
+
+## 8. Changelog
+
+### [1.0.2] - 2024-11-27
+
+#### Refactored
+
+- Updated `@ray-js/ray` version to `1.5.44`
+- Updated `@ray-js/smart-ui` version to `2.0.0`
+- Introducing `Device Details Function Page`
