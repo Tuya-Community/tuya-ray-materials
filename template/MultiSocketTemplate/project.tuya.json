@@ -1,0 +1,21 @@
+{
+  "name": "排插面板模板",
+  "type": "panel-app",
+  "ownerType": "tuya-official",
+  "i18n": false,
+  "description": "用于演示",
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.0",
+    "MiniKit": "3.0.1",
+    "DeviceKit": "3.0.2",
+    "BizKit": "3.0.6"
+  },
+  "baseversion": "2.13.3",
+  "projectname": "排插面板",
+  "devMode": "ray",
+  "category": ["pc"],
+  "uiId": "000000test",
+  "customPid": "",
+  "compileType": "miniprogram"
+}
