@@ -1,9 +1,14 @@
 import dpParser from './parsers';
-import dpCodes from '@/config/dpCodes';
-const { colourCode, switchGradientCode, controlCode, powerMemoryCode } = dpCodes;
+import { lampSchemaMap } from '@/devices/schema';
+const {
+  colour_data,
+  dreamlightmic_music_data,
+  paint_colour_data,
+  dreamlight_scene_mode,
+} = lampSchemaMap;
 
 export const protocols = {
-  [colourCode]: [
+  [colour_data.code]: [
     {
       name: 'hue' as const,
       bytes: 2,
@@ -21,7 +26,7 @@ export const protocols = {
       defaultValue: 1,
     },
   ],
-  [controlCode]: dpParser.ControlTransformer,
-  [switchGradientCode]: dpParser.SwitchGradientTransformer,
-  [powerMemoryCode]: dpParser.PowerMemoryTransformer,
+  [dreamlightmic_music_data.code]: dpParser.micMusicTransformer,
+  [dreamlight_scene_mode.code]: dpParser.sceneFormatter,
+  [paint_colour_data.code]: dpParser.smearFormatter,
 };

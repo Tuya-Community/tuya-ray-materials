@@ -34,24 +34,11 @@ export const Button = (props: IProps) => {
     onClickEnd,
   } = props;
   const [click, setClick] = useState(false);
-  // const timer = useRef<any>().current;
-  // useEffect(() => {
-  //   // console.log('click', click);
-  //   if (click) {
-  //     // setTimeout(() => {
-  //     //   setClick(false);
-  //     // }, 300);
-  //     // } else {
-  //     //   timer = null;
-  //     //   clearTimeout(timer);
-  //   }
-  // }, [click]);
   const handleClick = () => {
     if (disabled) {
       return;
     }
     onClick?.();
-    // setClick(true);
   };
   return (
     <View

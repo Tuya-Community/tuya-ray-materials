@@ -1,17 +1,33 @@
-import { shallowEqual, useSelector as useSelectorBase } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import { createLogger } from 'redux-logger';
+import { useDispatch } from 'react-redux';
+import uiStateSlice from './modules/uiStateSlice';
+import cloudStateSlice from './modules/cloudStateSlice';
 
-import { actions as CommonActions } from './actions/common';
-import { ReduxState, store } from './store';
+export * from './modules/cloudStateSlice';
+export * from './modules/uiStateSlice';
 
-const actions = {
-  common: CommonActions,
-};
+const isDev = process.env.NODE_ENV === 'development';
 
-export { actions, store };
+const logger = createLogger({
+  predicate: () => isDev,
+  collapsed: true,
+  duration: true,
+});
 
-export function useSelector<TSelected>(
-  selector: (state: ReduxState) => TSelected,
-  equalityFn?: (left: TSelected, right: TSelected) => boolean
-) {
-  return useSelectorBase<ReduxState, TSelected>(selector, equalityFn || shallowEqual);
-}
+const middlewares = isDev ? [logger] : [];
+
+export const store = configureStore({
+  reducer: {
+    uiState: uiStateSlice,
+    cloudState: cloudStateSlice,
+  },
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(middlewares),
+});
+
+export type ReduxState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+
+export default store;

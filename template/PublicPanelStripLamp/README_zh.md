@@ -1,43 +1,58 @@
 [English](README.md) | 简体中文[](README_zh.md)
 
-## 照明面板案例
+## 项目名称：照明幻彩灯带模版
 
-- 产品名称：照明面板
+## 1.使用须知
 
-### 快速开始：
+使用该模板开发前， 需要对 Ray 框架有基本的了解，建议先查阅 [Ray 开发文档](https://developer.tuya.com/cn/miniapp/develop/ray/guide/overview)
 
-1. 前往[IoT 平台](https://iot.tuya.com/)创建产品
+## 2.快速上手
 
-2. 选择品类 `照明`
-   ![功能选择](./images/iot01.png)
-3. 功能选择
+- [创建产品](https://developer.tuya.com/cn/miniapp-codelabs/codelabs/panel-lamp-strip/index.html#2)
+- [创建项目并在 IDE 中导入项目代码](https://developer.tuya.com/cn/miniapp-codelabs/codelabs/panel-lamp-strip/index.html#3)
+- 更多详细内容可参考[灯带教程](https://developer.tuya.com/cn/miniapp-codelabs/codelabs/panel-lamp-strip/index.html#0)
 
-   必须的功能点
+## 3.能力依赖
 
-   ```
-   switch_led,
-   work_mode,
-   bright_value,
-   temp_value,
-   colour_data,
-   control_data,
-   ```
+- App 版本
+  - 智能生活 4.5.0 及以上版本
+- TTT 依赖
+  - BaseKit: 3.3.13
+  - MiniKit: 3.1.0
+  - DeviceKit: 3.4.0
+  - BizKit: 3.3.1
+  - baseversion: 2.10.1
+- 组件依赖
+  - 暂无
+- 功能页依赖
+  - 定时倒计时功能页：rayScheduleFunctional=> 'tyjks565yccrej3xvo'
+  - 灯带剪裁功能页：rayStripClipFunctional=> 'tyj0zkwgqubepk3r1h'
 
-4. 安装项目并启动项目
+## 4.面板功能
 
-   ```
-   yarn && yarn start
-   ```
+- 涂抹调光
+- 情景
+- 音乐律动
+- 定时与倒计时
+- 灯带裁剪
 
-## :rocket: 若有疑问，请访问以下链接查看详细教程
+## 5.功能实现
 
-- [使用 `Ray` 开发万能面板](https://developer.tuya.com/cn/miniapp-codelabs/codelabs/panelmore-guide/index.html#0)
-- [关于 Ray](https://developer.tuya.com/cn/ray)
+- 参见[灯带教程](https://developer.tuya.com/cn/miniapp-codelabs/codelabs/panel-lamp-strip/index.html#0)
 
-## 如何获得技术支持
+## 6.问题反馈
 
-欢迎通过 [GitHub Issue](https://github.com/Tuya-Community/tuya-ray-demo/issues) 向我们反馈使用的问题和获得帮助
+若有疑问，请访问链接，提交帖子反馈：https://tuyaos.com/viewforum.php?f=10
 
-## 许可
+## 7.许可
 
 [许可详情](LICENSE)
+
+## 8.Changelog
+
+### [1.0.2] - 2024-11-21
+
+#### Changed
+
+- 文档格式和内容优化
+- 设备详情方式切换到功能页

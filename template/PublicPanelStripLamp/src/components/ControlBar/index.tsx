@@ -1,26 +1,51 @@
+/* eslint-disable no-shadow */
 import React from 'react';
 import { View, Image } from '@ray-js/ray';
-import { useActions } from '@ray-js/panel-sdk';
-import res from '@/res';
-import { Button } from '@/components';
 import styles from './index.module.less';
 
-const { bottom_dark, power } = res;
+type IProps = {
+  tabList: TTab[];
+  tabActive: string;
+  powerItem: TTab;
+  power: boolean;
+};
 
-export const ControlBar = () => {
-  const actions = useActions();
-  const handleTogglePower = () => {
-    actions.switch_led.toggle({ throttle: 300 });
-  };
+enum EActionType {
+  Dimmer = 'dimmer',
+  Scene = 'scene',
+  Music = 'music',
+  Clip = 'clip',
+  Timer = 'timer',
+  More = 'more',
+}
+
+export const ControlBar = (props: IProps) => {
+  const { tabActive = '', tabList = [], power = true, powerItem } = props;
+  const isHasRadius = tabActive !== EActionType.Dimmer;
   return (
-    <View className={styles.container}>
-      <Image className={styles.bg} mode="aspectFill" src={bottom_dark} />
-      <Button
-        img={power}
-        onClick={handleTogglePower}
-        imgClassName={styles.powerBtn}
-        className={styles.powerBox}
-      />
+    <View
+      className={styles.controlBarWrapper}
+      style={{
+        borderRadius: isHasRadius ? '32rpx 32rpx 0 0' : 0,
+        borderTop: !isHasRadius ? '1px solid #393838' : '',
+      }}
+    >
+      <View className={power ? styles.powerOnBox : styles.powerBoxOff} onClick={powerItem.callback}>
+        <Image src={powerItem.icon} className={styles.powerIcon} />
+      </View>
+      {tabList.map((tabItem: TTab) => {
+        const isActive = tabActive === tabItem.key;
+        return (
+          <Image
+            onClick={() => {
+              tabItem?.callback();
+            }}
+            key={tabItem.key}
+            src={isActive ? tabItem.activeIcon : tabItem.icon}
+            className={styles.tabItemIcon}
+          />
+        );
+      })}
     </View>
   );
 };

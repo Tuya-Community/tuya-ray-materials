@@ -2,13 +2,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { LampApi } from '@/api';
-import DefaultVal from '@/config/default';
-import { actions, store } from '@/redux';
-import './styles/index.less';
+import { hideLoading, setNavigationBarColor } from '@ray-js/ray';
+import { store, updateLightColorData } from '@/redux';
 import { devices, dpKit } from '@/devices';
+import { LIGHT_COLOR_DATA } from '@/constant';
+import { log } from '@/utils';
 
-const { defaultColors, defaultWhite } = DefaultVal;
+import './styles/index.less';
 
 interface Props {
   devInfo: DevInfo;
@@ -28,46 +28,50 @@ const composeLayout = (Comp: React.ComponentType<any>) => {
     async onLaunch() {
       devices.lamp.init();
       devices.lamp.onInitialized(res => {
+        log('======== __groupInfo__', res.__groupInfo__, ' ========');
+        log('======== devInfo', res.__devInfo__, ' ========');
         dpKit.init(devices.lamp);
-        const devInfo = res.getDevInfo();
-        const { devId, groupId } = devInfo;
-        this.initCloud(devInfo);
-        LampApi.fetchCloudConfig(devId, groupId).then(cloudData => {
-          if (cloudData && Object.keys(cloudData).length) {
-            this.handleCloudData(cloudData);
+        this.fetchColorCloudData();
+      });
+    }
+
+    onShow() {
+      // 把导航栏切换成黑色
+      setNavigationBarColor({
+        backgroundColor: '#000000',
+        frontColor: '#ffffff',
+        animation: null,
+      });
+    }
+
+    fetchColorCloudData() {
+      devices.lamp.model.abilities.storage
+        .get(LIGHT_COLOR_DATA, checkedMapColor => {
+          if (!checkedMapColor) {
+            return;
           }
-        });
-        ty.hideLoading();
-      });
-    }
-
-    async initCloud(devInfo) {
-      // 获取本地数据
-      // 加载云端配置
-
-      const { devId, groupId } = devInfo;
-      ty.showLoading({ title: '' });
-    }
-
-    handleCloudData(cloudData: any) {
-      // 获取云端数据，并放到redux里
-      let collectColorList = [...defaultColors];
-      let collectWhiteList = [...defaultWhite];
-      Object.entries(cloudData).forEach(([code, value]: [string, any]) => {
-        if (code === 'collectColors' && value && JSON.stringify(value) !== '[]') {
-          collectColorList = value;
-        }
-        if (code === 'collectWhites' && value && JSON.stringify(value) !== '[]') {
-          collectWhiteList = value;
-        }
-      });
-
-      dispatch(
-        actions.common.updateCloud({
-          collectColors: collectColorList,
-          collectWhites: collectWhiteList,
+          this.updateMapColor(checkedMapColor);
         })
-      );
+        .then(checkedMapColor => {
+          if (!checkedMapColor) {
+            return;
+          }
+          const { data, __isEqual__ } = checkedMapColor;
+          if (!data || __isEqual__) {
+            return;
+          }
+          this.updateMapColor(checkedMapColor);
+        });
+    }
+
+    updateMapColor(checkedMapColor) {
+      const { data } = checkedMapColor || {};
+      hideLoading();
+      if (!data) {
+        return;
+      }
+      const { value } = data;
+      dispatch(updateLightColorData(value));
     }
 
     render() {

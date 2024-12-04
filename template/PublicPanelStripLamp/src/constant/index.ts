@@ -1,2 +1,1 @@
-export const UPDATE_CLOUD = 'UPDATE_CLOUD';
-export const UPDATE_UI = 'UPDATE_UI';
+export const LIGHT_COLOR_DATA = 'paint_color_data';

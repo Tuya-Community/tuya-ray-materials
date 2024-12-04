@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 import React from 'react';
+// eslint-disable-next-line import/no-unresolved
 import 'ray';
 import '@/i18n';
 import { SdmProvider } from '@ray-js/panel-sdk';
 import { initPanelEnvironment } from '@ray-js/ray';
-import RayErrorCatch from '@ray-js/ray-error-catch';
 import { devices } from '@/devices';
+import RayErrorCatch from '@ray-js/ray-error-catch';
 
 import composeLayout from './composeLayout';
 

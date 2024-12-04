@@ -1,75 +1,51 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable no-shadow */
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  setNavigationBarTitle,
   setNavigationBarColor,
   View,
-  Image,
-  Text,
-  ScrollView,
+  showModal,
+  navigateTo,
+  getLaunchOptionsSync,
 } from '@ray-js/ray';
-import clsx from 'clsx';
-import {
-  useDevice,
-  useActions,
-  useProps,
-  useStructuredActions,
-  useStructuredProps,
-} from '@ray-js/panel-sdk';
-import { router } from 'ray';
-import { lampSchemaMap } from '@/devices/schema';
-import { ControlBar, Button } from '@/components';
-import Res from '@/res';
-import { devices } from '@/devices';
-import SupportUtils from '@/utils/SupportUtils';
-import { useSelector, store, actions } from '@/redux';
+import { useProps, useStructuredProps } from '@ray-js/panel-sdk';
 import Strings from '@/i18n';
-import useThrottleFn from '@/hooks/useThrottleFn';
+import { ControlBar } from '@/containers';
+import { SmearMode } from '@ray-js/panel-sdk/lib/protocols/lamp/SmearTransformer';
+import { updateCurrentTab, updateSmearType, selectCurrentTab } from '@/redux';
+import { devices } from '@/devices';
+import { useDebugPerf } from '@/hooks';
+
 import styles from './index.module.less';
 import Dimmer from '../Dimmer';
+import Scene from '../Scene';
+import More from '../More';
+import Music from '../Music';
 
-const { dispatch } = store;
+enum EActionType {
+  Dimmer = 'dimmer',
+  Scene = 'scene',
+  Music = 'music',
+  Clip = 'clip',
+  Timer = 'timer',
+  More = 'more',
+}
 
-const {
-  control_data,
-  white_gradi_time,
-  switch_gradient,
-  colour_gradi_time,
-  colour_data,
-  power_memory,
-  do_not_disturb,
-} = lampSchemaMap;
 export function Home() {
-  const deviceName = useDevice(d => d.devInfo.name);
-
-  const { systemInfo } = useSelector(({ cloudState }) => ({
-    systemInfo: cloudState.systemInfo,
-  }));
-  const [scrollEnabled, setScrollEnabled] = useState(true);
-  const dpActions = useActions();
-  const dpStructuredActions = useStructuredActions();
-  const colour = useStructuredProps(props => props.colour_data);
-  const brightness = useProps(props => props.bright_value);
-  const temperature = useProps(props => props.temp_value);
-  const power = useProps(props => props.switch_led);
+  const currentTab = useSelector(selectCurrentTab);
+  const paintColorData = useStructuredProps(props => props.paint_colour_data);
   const workMode = useProps(props => props.work_mode);
 
-  const moreFuncs = [
-    {
-      code: 'powerMemory',
-      hidden: !SupportUtils.isSupportDp(power_memory.code),
-    },
-    {
-      code: 'doNotDisturb',
-      hidden: !SupportUtils.isSupportDp(do_not_disturb.code),
-    },
-    {
-      code: 'switchGradient',
-      hidden:
-        !SupportUtils.isSupportDp(switch_gradient.code) &&
-        !SupportUtils.isSupportDp(white_gradi_time.code) &&
-        !SupportUtils.isSupportDp(colour_gradi_time.code),
-    },
-  ].filter(item => !item.hidden);
+  useDebugPerf(Home);
+
+  useEffect(() => {
+    let { smearMode } = paintColorData;
+    if (smearMode === SmearMode.clear) {
+      smearMode = SmearMode.all;
+    }
+    dispatch(updateSmearType(smearMode));
+  }, []);
+
   useEffect(() => {
     // 把导航栏切换成黑色
     setNavigationBarColor({
@@ -78,107 +54,86 @@ export function Home() {
       animation: null,
     });
   }, []);
+
+  const dispatch = useDispatch();
   useEffect(() => {
     // 根据workMode切换对应显示页面
-    dispatch(actions.common.updateUi({ currentTab: workMode }));
+    const isDimmerType = workMode === 'colour' || workMode === 'white';
+    dispatch(updateCurrentTab((isDimmerType ? 'dimmer' : workMode) as EActionType));
   }, [workMode]);
 
   useEffect(() => {
-    setNavigationBarTitle({ title: deviceName });
-  }, [deviceName]);
-
-  const handleChangeTab = (val: string) => {
-    // 切换tab,对应下发工作模式
-    dpActions.work_mode.set(val, { checkRepeat: false, throttle: 300 });
-  };
-
-  const handleColorChange = (isColour: boolean, data: any) => {
-    if (!SupportUtils.isSupportDp(control_data.code)) return;
-    let controlData = { hue: 0, saturation: 0, value: 0, bright: 0, temp: 0 };
-    if (isColour) {
-      const { hue, saturation, value } = data;
-      controlData = { hue, saturation, value, bright: 0, temp: 0 };
-    } else {
-      const { brightness: bright, temperature: temp } = data;
-      controlData = { hue: 0, saturation: 0, value: 0, bright, temp };
+    // 首次进入进行裁剪提示， 群组不进行提示
+    if (devices.lamp.model.abilities.support.isGroupDevice()) {
+      return;
     }
-    dpStructuredActions.control_data.set(controlData, { throttle: 300 });
-  };
+    const key = 'isConfigSlice3';
+    devices.lamp.model.abilities.storage.get(key).then(res => {
+      if (res) {
+        return;
+      }
+      const tips = Strings.getLang('tips');
+      const title = Strings.getLang('jumpToSlice');
+      showModal({
+        title: tips,
+        confirmText: Strings.getLang('confirm'),
+        cancelText: Strings.getLang('cancel'),
+        content: title,
+        success({ confirm }) {
+          if (confirm) {
+            const { deviceId, groupId } = getLaunchOptionsSync().query;
+            const jumpUrl = `functional://rayStripClipFunctional/home?deviceId=${deviceId ||
+              ''}&groupId=${groupId || ''}`;
+            navigateTo({
+              url: jumpUrl,
+            });
+          }
+          devices.lamp.model.abilities.storage.set(key, true);
+        },
+      });
+    });
+  }, []);
 
-  const putColorData = (code: string, value: any) => {
-    if (code === colour_data.code) {
-      dpStructuredActions[code].set(value, { throttle: 300, immediate: true });
-    } else {
-      dpActions[code].set(value, { throttle: 300 });
-    }
-  };
-
-  const handleReleaseWhite = (value: any) => {
-    devices.lamp.publishDps(value, { throttle: 300 });
-  };
-
-  const handleJump = useThrottleFn(
-    (code: string) => {
-      router.push(`/${code}`);
-    },
-    { wait: 80 }
-  ).run;
-
-  const renderMore = () => {
+  const renderDimmer = () => {
     return (
-      <View className={styles.moreContainer}>
-        <Text className={styles.title}>{Strings.getLang('more')}</Text>
-        <View className={styles.row}>
-          {moreFuncs.map((item, index) => {
-            return (
-              <Button
-                key={item.code}
-                className={clsx(styles.greyCard, styles.item)}
-                style={{ marginRight: moreFuncs.length > 1 && index === 0 ? 16 : 0 }}
-                onClick={() => handleJump(item.code)}
-              >
-                <Text className={styles.funcTitle}>{Strings.getLang(item.code)}</Text>
-                <Image
-                  style={{ width: 48, height: 48, marginRight: 12 }}
-                  src={Res[`setting_${item.code}`]}
-                />
-              </Button>
-            );
-          })}
-        </View>
+      <View
+        style={{
+          display: currentTab === EActionType.Dimmer ? 'block' : 'none',
+        }}
+      >
+        <Dimmer show={currentTab === EActionType.Dimmer} />
       </View>
     );
   };
-  return (
-    <View className={styles.view} style={{ paddingTop: systemInfo?.statusBarHeight * 2 }}>
-      {/* 根据开关显示不同的页面状态 */}
-      <View className={styles.devName}>{deviceName}</View>
+  const isLoadedScene = useRef(false);
+  !isLoadedScene.current && (isLoadedScene.current = currentTab === EActionType.Scene);
+  const renderScene = () => {
+    if (currentTab !== EActionType.Scene) {
+      return null;
+    }
+    return <Scene show={currentTab === EActionType.Scene} />;
+  };
 
-      {power ? (
-        <ScrollView
-          scrollY={scrollEnabled}
-          refresherTriggered
-          style={{ height: `calc(100vh - 320rpx - ${systemInfo?.statusBarHeight * 2}rpx)` }}
-        >
-          <Dimmer
-            setScrollEnabled={setScrollEnabled}
-            mode={workMode}
-            colour={colour}
-            brightness={brightness}
-            temperature={temperature}
-            handleModeChange={handleChangeTab}
-            onChange={handleColorChange}
-            onRelease={putColorData}
-            onReleaseWhite={handleReleaseWhite}
-          />
-          {moreFuncs.length > 0 && renderMore()}
-          <View style={{ height: 60 }} />
-        </ScrollView>
-      ) : (
-        <View className={clsx(styles.flexCenter, styles.flex1)}>
-          <Image src={Res.power_off} style={{ width: 550, height: 550 }} />
-        </View>
-      )}
+  const renderMusic = () => {
+    if (currentTab !== EActionType.Music) {
+      return null;
+    }
+    return <Music />;
+  };
+
+  const renderMore = () => {
+    if (currentTab !== EActionType.More) {
+      return null;
+    }
+    return <More />;
+  };
+
+  return (
+    <View className={styles.homeWrapper}>
+      {renderDimmer()}
+      {renderScene()}
+      {renderMusic()}
+      {renderMore()}
       <ControlBar />
     </View>
   );
