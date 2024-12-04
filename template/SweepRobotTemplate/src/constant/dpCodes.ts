@@ -3,12 +3,17 @@ export const pauseCode = 'pause';
 export const switchChargeCode = 'switch_charge';
 export const modeCode = 'mode';
 export const statusCode = 'status';
+// 自定义模式开关
 export const customizeModeSwitchCode = 'customize_mode_switch';
+// 工作模式，仅扫/仅拖/扫拖
 export const workModeCode = 'work_mode';
 export const cleanTimesCode = 'clean_times';
+// 吸力设置
 export const suctionCode = 'suction';
+// 水量设置
 export const cisternCode = 'cistern';
 export const mopStateCode = 'mop_state';
+// Y形式拖地
 export const yMopCode = 'y_mop';
 export const carpetCleanPreferCode = 'carpet_clean_prefer';
 export const autoBoostCode = 'auto_boost';
@@ -38,3 +43,4 @@ export const cleanCountTotalCode = 'clean_count_total';
 export const deviceInfoCode = 'device_info';
 export const switchLedCode = 'switch_led';
 export const workstationTypeCode = 'workstation_type';
+export const BasicPrivateCode = 'basic_private';

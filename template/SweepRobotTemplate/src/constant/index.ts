@@ -60,3 +60,5 @@ export const CISTERN_MAP: Record<Cistern, { code: Cistern; value: number }> = {
     code: 'high',
   },
 } as const;
+
+export const VIDEO_CLARIFY = { 2: 'normal', 4: 'hd' } as const;

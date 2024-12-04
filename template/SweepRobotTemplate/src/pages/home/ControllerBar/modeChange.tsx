@@ -77,19 +77,19 @@ const ModeChange: FC<Props> = ({ modeState, setMapStatus, setModeState }) => {
       {
         mode: 'select_room',
         mapStatus: ENativeMapStatusEnum.mapClick,
-        disabled: isEmptyMap || roomNum === 0,
+        disabled: isEmptyMap !== false || roomNum === 0,
       },
       // 指哪扫哪
       {
         mode: 'pose',
         mapStatus: ENativeMapStatusEnum.pressToRun,
-        disabled: isEmptyMap,
+        disabled: isEmptyMap !== false,
       },
       // 划区清扫
       {
         mode: 'zone',
         mapStatus: ENativeMapStatusEnum.areaSet,
-        disabled: isEmptyMap,
+        disabled: isEmptyMap !== false,
       },
     ] as const;
   }, [isEmptyMap, roomNum]);
@@ -107,7 +107,11 @@ const ModeChange: FC<Props> = ({ modeState, setMapStatus, setModeState }) => {
               setModeState(mode);
               handleSwitchMode(mode, mapStatus);
             }}
-            className={clsx(styles.cleanModeItem, isActive && styles.active)}
+            className={clsx(
+              styles.cleanModeItem,
+              isActive && styles.active,
+              disabled && styles.disabled
+            )}
             slot={{
               icon: (
                 <Icon

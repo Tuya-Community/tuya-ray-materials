@@ -1,30 +1,32 @@
-@import 'src/mixins.less';
+@import 'src/variables.less';
 
-.topbar {
+.topBar {
   display: flex;
   align-items: center;
-  position: relative;
+  padding-right: 144rpx;
+  height: 78rpx;
   width: 100vw;
-  height: 88rpx;
-  padding: 0 40rpx;
+  z-index: 99;
+  opacity: 1;
+  transition: opacity 1s @ease-out;
+
+  &.sub {
+    padding: 0 32rpx;
+    width: calc(100vw - 64rpx);
+    box-sizing: content-box;
+
+    justify-content: space-between;
+  }
 }
 
-.topbarText {
-  font-style: normal;
+.title {
+  font-size: 44rpx;
   font-weight: 600;
-  font-size: 48rpx;
-  line-height: 88rpx;
-  color: #000000;
-
-  .ellipsis(520rpx);
+  color: var(--panel-font-normal);
 }
 
-.menuBar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.statusBar {
-  height: 20px;
+.subTitle {
+  font-weight: 600;
+  font-size: 32rpx;
+  color: var(--panel-font-normal);
 }

@@ -16,7 +16,7 @@ export const useCreateVirtualWall = () => {
   const origin = useSelector(selectMapStateByKey('origin'));
   const lastTempAreaRef = useRef<{ points: Point[] }>();
   const { width: mapWidth, height: mapHeight } = mapSize;
-  const [lineColor, setLineColor] = useState('rgba(255, 68, 68, 1)');
+  const [lineColor, setLineColor] = useState('#FF4444');
   const [lineWidth, setLineWidth] = useState(2);
   const [maxLength, setMaxLength] = useState(5);
   const createNewWallPoints = (mapId: string): Promise<{ points: Point[] }> => {
@@ -80,12 +80,11 @@ export const useCreateVirtualWall = () => {
         showSideVertex: true,
         showSideVertexImage: true,
         sideVertexImage: base64Imgs.rDeleteBase64Img,
-        // 两个颜色叠加会互相影响
-        // sideVertexColor: convertColorToArgbHex(bgColor),
+        sideVertexColor: '#ffffffff',
         radius: 4,
       },
       unit: {
-        textColor: '#00FFFFFF',
+        textColor: '#00ffffff',
       },
       viewType: '',
       points,

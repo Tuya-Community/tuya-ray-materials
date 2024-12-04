@@ -8,6 +8,9 @@ import {
 } from '@/utils/openApi';
 
 import Strings from '@/i18n';
+import { mapExtrasUpdated } from '@/redux/modules/mapExtrasSlice';
+import { updateMapData } from '@/redux/modules/mapStateSlice';
+import { emitter } from '@/utils';
 import {
   isRobotSilence,
   isRobotSleep,
@@ -35,14 +38,12 @@ import {
 } from '@ray-js/robot-protocol';
 import { EMapSplitStateEnum, ENativeMapStatusEnum } from '@ray-js/robot-sdk-types';
 import { Grid } from '@ray-js/smart-ui';
+import { useUpdateEffect } from 'ahooks';
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useUpdateEffect } from 'ahooks';
-import { updateMapData } from '@/redux/modules/mapStateSlice';
-import { mapExtrasUpdated } from '@/redux/modules/mapExtrasSlice';
-import { emitter } from '@/utils';
 import AddAreaButton from './addAreaButton';
 import styles from './index.module.less';
+import IpcButton from './ipcButton';
 import ModeChange from './modeChange';
 import QuickMapButton from './quickMapButton';
 import RechargeButton from './rechargeButton';
@@ -174,10 +175,8 @@ const ControllerBar: FC<Props> = ({ mapStatus, setMapStatus }) => {
         <View
           style={{
             background: '#FA8C16',
-            width: '100%',
-            padding: 10,
-            borderRadius: 10,
-            margin: 10,
+            width: '100vw',
+            padding: '8rpx 16rpx',
           }}
         >
           <Text style={{ color: '#fff', fontSize: '12px' }}>
@@ -200,6 +199,7 @@ const ControllerBar: FC<Props> = ({ mapStatus, setMapStatus }) => {
           {/* 回充 */}
           {mapStatus === ENativeMapStatusEnum.areaSet ? <AddAreaButton /> : <RechargeButton />}
           <SettingButton />
+          <IpcButton />
         </Grid>
       </View>
     </CoverView>

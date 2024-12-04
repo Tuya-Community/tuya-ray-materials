@@ -1,0 +1,57 @@
+page {
+  font-size: 20px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: #fff;
+
+  .item {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 170rpx;
+    width: 33.3333%;
+
+    &.disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    :global(.smart-icon) {
+      color: #333;
+    }
+
+    .text {
+      margin-top: 8rpx;
+      font-size: 24rpx;
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+.recordingWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64rpx;
+  width: 64rpx;
+  .recording {
+    height: 36rpx;
+    width: 36rpx;
+    border-radius: 8rpx;
+    background-color: #ff4444;
+  }
+}

@@ -1,5 +1,5 @@
-import { commandTransCode } from '@/constant/dpCodes';
 import { PROTOCOL_VERSION } from '@/constant';
+import { commandTransCode } from '@/constant/dpCodes';
 import {
   useCreateVirtualWall,
   useForbiddenNoGo,
@@ -8,9 +8,10 @@ import {
   useZoneClean,
 } from '@/hooks';
 import store from '@/redux';
+import { selectCustomConfig, setCustomConfig } from '@/redux/modules/customConfigSlice';
 import { mapExtrasUpdated } from '@/redux/modules/mapExtrasSlice';
 import { updateMapData } from '@/redux/modules/mapStateSlice';
-import { decodeAreas, emitter } from '@/utils';
+import { decodeAreas, emitter, getDpIdByCode } from '@/utils';
 import log4js from '@ray-js/log4js';
 import { useActions } from '@ray-js/panel-sdk';
 import {
@@ -18,18 +19,28 @@ import {
   PARTITION_DIVISION_CMD_ROBOT_V1,
   PARTITION_MERGE_CMD_ROBOT_V1,
   ROOM_CLEAN_CMD_ROBOT_V1,
+  SET_FLOOR_MATERIAL_CMD_ROBOT_V1,
+  ROOM_ORDER_CMD_ROBOT_V1,
   SET_ROOM_NAME_CMD_ROBOT_V1,
+  SET_ROOM_PROPERTY_CMD_ROBOT_V1,
   USE_MAP_CMD_ROBOT_V1,
   VIRTUAL_AREA_CMD_ROBOT_V2,
   VIRTUAL_WALL_CMD_ROBOT_V1,
   VIRTUAL_WALL_CMD_ROBOT_V2,
   decodeRoomClean0x15,
+  decodeRoomOrder0x27,
+  decodeSetRoomName0x25,
+  decodeSetRoomProperty0x23,
   getCmdStrFromStandardFeatureCommand,
-  requestVirtualAreaV2,
-  requestVirtualWallV1,
+  requestVirtualArea0x39,
+  requestVirtualWall0x13,
 } from '@ray-js/robot-protocol';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { useSelector } from '@/redux';
+import { devices } from '@/devices';
+import { usePageEvent } from '@ray-js/ray';
+import { parseRoomHexId } from '@ray-js/robot-protocol';
 
 /**
  * 接收指令数据并解析
@@ -38,17 +49,90 @@ import { useDispatch } from 'react-redux';
 export default function useCommandTransData() {
   const dispatch = useDispatch();
   const dpActions = useActions();
+  const dpDataChangeRef = useRef<number>(null);
 
   const { getForbiddenNoMopConfig } = useForbiddenNoMop();
   const { getPoseCleanConfig } = usePoseClean();
   const { getForbiddenNoGoConfig } = useForbiddenNoGo();
   const { getZoneCleanConfig } = useZoneClean();
   const { getVirtualWallConfig } = useCreateVirtualWall();
+  const customConfig = useSelector(selectCustomConfig);
+  const { version } = useSelector(state => state.mapState);
+
+  usePageEvent('onUnload', () => {
+    dpDataChangeRef.current && devices.common.offDpDataChange(dpDataChangeRef.current);
+  });
 
   useEffect(() => {
+    dpDataChangeRef.current = devices.common.onDpDataChange(({ dps }) => {
+      const dpCommandTrans = dps[getDpIdByCode(commandTransCode)];
+
+      if (dpCommandTrans && Object.keys(dps).length <= 1) {
+        handleCommandTransData(dpCommandTrans);
+      }
+    });
+
     const handleCommandTransData = (command: string) => {
       const { version: mapVersion } = store.getState().mapState;
       const cmd = getCmdStrFromStandardFeatureCommand(command, PROTOCOL_VERSION);
+
+      if (cmd === SET_ROOM_NAME_CMD_ROBOT_V1) {
+        const data = decodeSetRoomName0x25({ command, version: PROTOCOL_VERSION, mapVersion });
+        if (data && data.length > 0) {
+          const res = { ...customConfig };
+          data.forEach(item => {
+            const { name, roomHexId } = item;
+
+            const preConfig = customConfig[roomHexId] || {};
+            res[roomHexId] = {
+              ...preConfig,
+              name,
+            };
+          });
+          dispatch(setCustomConfig(res));
+        }
+      }
+
+      if (cmd === ROOM_ORDER_CMD_ROBOT_V1) {
+        const data = decodeRoomOrder0x27({ command, version: PROTOCOL_VERSION });
+        if (data && data.length > 0) {
+          const res = { ...customConfig };
+          data.forEach((roomId, index) => {
+            const roomHexId = parseRoomHexId(roomId, version);
+            const preConfig = customConfig[roomHexId] || {};
+            res[roomHexId] = {
+              ...preConfig,
+              order: index + 1,
+            };
+          });
+          emitter.emit('receiveRoomOrderResponse', command);
+          dispatch(setCustomConfig(res));
+        }
+      }
+
+      if (cmd === SET_ROOM_PROPERTY_CMD_ROBOT_V1) {
+        const data = decodeSetRoomProperty0x23({
+          command,
+          version: PROTOCOL_VERSION,
+          mapVersion,
+        });
+        if (data && data.length > 0) {
+          const res = { ...customConfig };
+          data.forEach(item => {
+            const { suction, cistern, cleanTimes, roomHexId } = item;
+            const preConfig = customConfig[roomHexId] || {};
+            res[roomHexId] = {
+              ...preConfig,
+              water_level: cistern,
+              fan: suction,
+              sweep_count: cleanTimes,
+            };
+          });
+          dispatch(setCustomConfig(res));
+        }
+
+        return emitter.emit('receiveSetRoomPropertyResponse', command);
+      }
 
       if (cmd === ROOM_CLEAN_CMD_ROBOT_V1) {
         // 选区清扫上报
@@ -66,16 +150,17 @@ export default function useCommandTransData() {
       }
 
       if (cmd === DELETE_MAP_CMD_ROBOT_V1 || cmd === USE_MAP_CMD_ROBOT_V1) {
-        emitter.emit('receiveUseOrDeleteResponse', command);
+        emitter.emit('receiveUseOrDeleteResponse', { command, cmd });
         return;
       }
 
       if (
         cmd === SET_ROOM_NAME_CMD_ROBOT_V1 ||
         cmd === PARTITION_DIVISION_CMD_ROBOT_V1 ||
-        cmd === PARTITION_MERGE_CMD_ROBOT_V1
+        cmd === PARTITION_MERGE_CMD_ROBOT_V1 ||
+        cmd === ROOM_ORDER_CMD_ROBOT_V1
       ) {
-        emitter.emit('receiveRoomEditResponse', command);
+        emitter.emit('receiveRoomEditResponse', { command, cmd });
         return;
       }
 
@@ -96,6 +181,11 @@ export default function useCommandTransData() {
       }
 
       handleReorganizationRCTAreaList();
+
+      // 处理地板材质上报
+      if ([SET_FLOOR_MATERIAL_CMD_ROBOT_V1].includes(cmd)) {
+        emitter.emit('reportRoomFloorMaterial', command);
+      }
     };
 
     const handleReorganizationRCTAreaList = () => {
@@ -130,14 +220,12 @@ export default function useCommandTransData() {
       dispatch(updateMapData({ RCTAreaList: areaList }));
     };
 
-    emitter.on('receiveCommandTransData', handleCommandTransData);
     emitter.on('reorganizationRCTAreaList', handleReorganizationRCTAreaList);
 
-    dpActions[commandTransCode].set(requestVirtualAreaV2({ version: PROTOCOL_VERSION }));
-    dpActions[commandTransCode].set(requestVirtualWallV1({ version: PROTOCOL_VERSION }));
+    dpActions[commandTransCode].set(requestVirtualArea0x39({ version: PROTOCOL_VERSION }));
+    dpActions[commandTransCode].set(requestVirtualWall0x13({ version: PROTOCOL_VERSION }));
 
     return () => {
-      emitter.off('receiveCommandTransData');
       emitter.off('reorganizationRCTAreaList');
     };
   }, []);

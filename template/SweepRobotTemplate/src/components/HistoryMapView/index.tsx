@@ -1,44 +1,36 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Image, Text, View, getSystemInfoSync } from '@ray-js/ray';
+import { Image, View } from '@ray-js/ray';
 import useHistoryMapViewParams from '@/hooks/useHistoryMapViewParams';
 import { IndoorMap } from '@ray-js/robot-map-component';
-import Strings from '@/i18n';
 
 import Loading from '../Loading';
 import styles from '../MapView/index.module.less';
 import { IProps } from '../MapView/type';
 
 const HistoryMapView: React.FC<IProps & { enableGesture?: boolean }> = props => {
-  const idRef = useRef(String(new Date().getTime()));
-  const [mapLoaded, setMapLoaded] = useState(false);
-  const [snapshotImageLoaded, setSnapshotImageLoaded] = useState(true);
-  const [isEmpty, setIsEmpty] = useState(false);
-
-  const onDecodeMapData = useCallback(data => {
-    console.log('onDecodeMapData ==>', data);
-    const { mapWidth, mapHeight } = data;
-    // 如果地图的宽高是0 则认为是空地图
-    if (mapWidth === 0 || mapHeight === 0) {
-      setIsEmpty(true);
-    }
-  }, []);
-
-  const onDecodePathData = useCallback(data => {
-    console.log('onDecodePathData ==>', data);
-  }, []);
-
   const {
     isFullScreen = false,
-    is3d = false,
-    showLoading = true,
     enableGesture = true,
-    isLite,
     uiInterFace,
     history,
     snapshotImage,
     pathVisible,
     logPrint = false,
+    backgroundColor = '#f2f4f6',
   } = props;
+
+  const idRef = useRef(String(new Date().getTime()));
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const [snapshotImageLoaded, setSnapshotImageLoaded] = useState(true);
+
+  const handleDecodeMapData = useCallback(data => {
+    console.log('onDecodeMapData ==>', data);
+    props.onDecodeMapData?.(data);
+  }, []);
+
+  const handleDecodePathData = useCallback(data => {
+    console.log('onDecodePathData ==>', data);
+  }, []);
 
   const handleSnapshotImageLoad = () => {
     setTimeout(() => {
@@ -55,15 +47,13 @@ const HistoryMapView: React.FC<IProps & { enableGesture?: boolean }> = props => 
     }
   }, [snapshotImage]);
 
-  const params = {
+  const mapViewParams = useHistoryMapViewParams({
     pathVisible,
     uiInterFace,
     history,
-    is3d,
     mapId: idRef.current,
-  };
-
-  const mapViewParams = useHistoryMapViewParams(params);
+    backgroundColor,
+  });
 
   const eventCallbacks = useRef({
     onMapId: data => {
@@ -135,36 +125,9 @@ const HistoryMapView: React.FC<IProps & { enableGesture?: boolean }> = props => 
     },
   });
 
-  const isIDE = getSystemInfoSync().brand === 'devtools';
-
-  const isLoading = snapshotImage ? false : !mapViewParams.mapDataHex;
+  const isLoading = snapshotImage ? false : !mapLoaded || !mapViewParams.mapDataHex;
 
   console.log('HistoryMapview re-render', snapshotImage, mapViewParams);
-
-  if (isIDE) {
-    return (
-      <View
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '0 64rpx',
-        }}
-      >
-        <Text
-          style={{
-            fontSize: '40rpx',
-            fontWeight: '700',
-            textAlign: 'center',
-          }}
-        >
-          {Strings.getLang('dsc_ide_history_map_tips')}
-        </Text>
-      </View>
-    );
-  }
 
   return (
     <View
@@ -176,43 +139,39 @@ const HistoryMapView: React.FC<IProps & { enableGesture?: boolean }> = props => 
         pointerEvents: enableGesture ? 'auto' : 'none',
       }}
     >
-      {isFullScreen && (
-        <IndoorMap.Full
-          {...eventCallbacks.current}
-          {...mapViewParams}
-          mapId={idRef.current}
-          componentId={idRef.current}
-          componentBackground="#f2f4f6"
-          initUseThread={false}
-          enableAICapability
-          resourceUsageLevel="high"
-          onDecodeMapData={onDecodeMapData}
-          onDecodePathData={onDecodePathData}
-        />
+      <Loading isLoading={isLoading} />
+
+      {!snapshotImageLoaded && (
+        <>
+          {isFullScreen && (
+            <IndoorMap.Full
+              {...eventCallbacks.current}
+              {...mapViewParams}
+              mapId={idRef.current}
+              componentId={idRef.current}
+              componentBackground={backgroundColor}
+              initUseThread={false}
+              resourceUsageLevel="high"
+              onDecodeMapData={handleDecodeMapData}
+              onDecodePathData={handleDecodePathData}
+            />
+          )}
+          {!isFullScreen && (
+            <IndoorMap.Dynamic
+              {...eventCallbacks.current}
+              {...mapViewParams}
+              mapId={idRef.current}
+              componentId={idRef.current}
+              componentBackground={backgroundColor}
+              initUseThread={false}
+              resourceUsageLevel="high"
+              onDecodeMapData={handleDecodeMapData}
+              onDecodePathData={handleDecodePathData}
+            />
+          )}
+        </>
       )}
-      {!isFullScreen && (
-        <IndoorMap.Dynamic
-          {...eventCallbacks.current}
-          {...mapViewParams}
-          mapId={idRef.current}
-          componentId={idRef.current}
-          componentBackground="#f2f4f6"
-          initUseThread={false}
-          enableAICapability
-          resourceUsageLevel="high"
-          onDecodeMapData={onDecodeMapData}
-          onDecodePathData={onDecodePathData}
-        />
-      )}
-      {showLoading && (
-        <Loading
-          showLoading={showLoading}
-          isLoading={isLoading}
-          mapLoadEnd={mapLoaded || Boolean(snapshotImage)}
-          isEmpty={isEmpty}
-          isLite={isLite}
-        />
-      )}
+
       {snapshotImage && (
         <View
           className={styles.snapImageView}
@@ -220,7 +179,7 @@ const HistoryMapView: React.FC<IProps & { enableGesture?: boolean }> = props => 
         >
           <Image
             src={snapshotImage.image}
-            style={{ width: snapshotImage.width, height: snapshotImage.height }}
+            style={{ width: `${snapshotImage.width}px`, height: `${snapshotImage.height}px` }}
             onLoad={handleSnapshotImageLoad}
           />
         </View>

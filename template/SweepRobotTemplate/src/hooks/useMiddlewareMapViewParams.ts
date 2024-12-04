@@ -13,8 +13,8 @@ type Props = {
   pathVisible?: boolean;
   preCustomConfig: any;
   areaInfoList?: any[];
-  history?: any;
   mapId: string;
+  backgroundColor?: string;
 };
 
 export default function useMiddlewareMapViewParams({
@@ -23,6 +23,7 @@ export default function useMiddlewareMapViewParams({
   preCustomConfig,
   areaInfoList,
   mapId,
+  backgroundColor,
 }: Props) {
   const { isShowPileRing = false } = uiInterFace;
 
@@ -34,6 +35,7 @@ export default function useMiddlewareMapViewParams({
   const factor = mapResolution / 100;
   const originMap = useSelector(selectMapStateByKey('originMap'));
   const originPath = useSelector(selectMapStateByKey('originPath'));
+  const materialObject = useSelector(selectMapStateByKey('materialObject'));
 
   const iconParams = {
     pileIcon: base64Imgs.pileBase64Img,
@@ -76,7 +78,7 @@ export default function useMiddlewareMapViewParams({
     configurationData: {
       mapId,
       asynchronousLoadMap: false,
-      bgColor: convertColorToArgbHex('#F6F6F6'),
+      bgColor: convertColorToArgbHex(backgroundColor),
       factorInfo: {
         factor,
         font: 12,
@@ -175,6 +177,31 @@ export default function useMiddlewareMapViewParams({
           attributesOrderSet: true,
         },
       },
+      // 地板材质的配置枚举
+      roomFloorMaterialConfig: {
+        floorMaterial2d: {
+          attributes: {
+            opacity: 0.3,
+            scale: 5,
+          },
+          typeEnum: [
+            base64Imgs.floorMaterialDefault2d,
+            base64Imgs.floorMaterialCeramic2d,
+            base64Imgs.floorMaterialWoodHorizontal2d,
+          ],
+        },
+        floorMaterial3d: {
+          attributes: {
+            opacity: 0.3,
+            scale: 5,
+          },
+          typeEnum: [
+            base64Imgs.floorMaterialDefault3d,
+            base64Imgs.floorMaterialCeramic3d,
+            base64Imgs.floorMaterialWoodHorizontal3d,
+          ],
+        },
+      },
       mapColorConfig: {
         cleaningColor: '#D0D0D0',
         barrierColor: 'rgba(0, 0, 0, 0.36)',
@@ -206,8 +233,8 @@ export default function useMiddlewareMapViewParams({
       pathVisible,
       preCustomRoomConfig: preCustomConfig,
       customRoomConfig: customConfig,
-
       areaInfoList: JSON.stringify(areaInfoListForThisMap),
+      materialObject,
     },
     // 地图的Hex数据
     mapDataHex: originMap,

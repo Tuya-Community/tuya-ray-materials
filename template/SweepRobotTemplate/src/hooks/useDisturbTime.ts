@@ -1,4 +1,5 @@
 // 勿扰模式
+import { PROTOCOL_VERSION } from '@/constant';
 import { disturbTimeSetCode } from '@/constant/dpCodes';
 import { useSendDp } from '@/hooks/useSendDp';
 import { useProps } from '@ray-js/panel-sdk';
@@ -29,7 +30,7 @@ export const useDisturbTime = () => {
     if (value) {
       if (value === lastDataRef.current) return;
       lastDataRef.current = value;
-      const res = decodeDoNotDisturb0x41({ command: value as string, version: '1' });
+      const res = decodeDoNotDisturb0x41({ command: value as string, version: PROTOCOL_VERSION });
       isListeningRef.current = true;
       setDisturbTimeSetData(res);
     }

@@ -8,3 +8,5 @@ typings/*
 !typings/index.d.ts
 !typings/sdm.d.ts
 *.log
+
+.vscode

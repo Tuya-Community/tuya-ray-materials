@@ -138,3 +138,19 @@ type DirectionControl = 'forward' | 'backward' | 'turn_left' | 'turn_right' | 's
 type UnitSet = 'square_meter' | 'square_foot';
 
 type WorkstationType = 'charging_stand' | 'dust_bucket' | 'base_station' | 'almighty_base';
+
+type IMaterialMaterialMaps = {
+  uri: string;
+  width: number;
+  height: number;
+  isScale: number;
+  scale: number;
+};
+
+type IMaterialMaterials = Array<{
+  id: string;
+  type: string;
+  x: number;
+  y: number;
+  extends: { x: number; y: number; type: number } | string;
+}>;

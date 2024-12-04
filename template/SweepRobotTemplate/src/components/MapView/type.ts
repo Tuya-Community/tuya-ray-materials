@@ -1,7 +1,6 @@
-import { ConfigurationData } from '@ray-js/robot-map-component/lib/types/config';
 import { EventProps } from '@ray-js/robot-map-component/lib/types/event';
 export interface IProps extends EventProps {
-  mapDisplayMode?: mapDisplayModeEnum | string; // 地图模式
+  style?: React.CSSProperties;
   history?: {
     bucket: string;
     file: string;
@@ -26,20 +25,10 @@ export interface IProps extends EventProps {
   foldableRoomIds?: string[];
   areaInfoList?: [];
   iconColor?: string;
-  showLoading?: boolean;
-  isLite?: boolean;
-  mapLoadEnd?: boolean;
   isFreezeMap?: boolean;
   is3d?: boolean;
   snapshotImage?: { image: string; width: number; height: number };
   pathVisible?: boolean;
-  onIDEP2pData?: (data: IDEP2pData) => void;
   logPrint?: boolean;
-}
-
-export enum mapDisplayModeEnum {
-  immediateMap = 'immediateMap', // 实时地图
-  history = 'history', // 历史地图
-  splitMap = 'splitMap', // 地图分区
-  multiFloor = 'multiFloor', // 地图管理
+  backgroundColor?: string;
 }

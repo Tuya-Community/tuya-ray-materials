@@ -2,7 +2,7 @@
   position: absolute;
   bottom: 0;
   width: 100vw;
-  z-index: 100;
+  // z-index: 100;
 }
 
 .operationContainer {
@@ -12,7 +12,7 @@
   width: 100vw;
   padding-bottom: 20rpx;
   background-color: #ffffff;
-  z-index: 100;
+  // z-index: 100;
 }
 
 .full {
@@ -31,6 +31,10 @@
 .cleanModeItem {
   width: 25vw;
 
+  &.disabled {
+    opacity: 0.4;
+  }
+
   &.active {
     :global(.smart-grid-item__icon) {
       background-color: #3a9;
@@ -47,3 +51,5 @@
     justify-content: center;
   }
 }
+
+

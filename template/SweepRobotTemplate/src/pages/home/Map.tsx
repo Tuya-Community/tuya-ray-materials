@@ -6,16 +6,17 @@ import { updateMapData } from '@/redux/modules/mapStateSlice';
 import { foldableSingleRoomInfo } from '@/utils/openApi';
 import { isRobotQuiet } from '@/utils/robotStatus';
 import { useProps } from '@ray-js/panel-sdk';
-import { View, getDevInfo, getStorageSync, getSystemInfoSync, showToast } from '@ray-js/ray';
+import { getDevInfo, getStorageSync, getSystemInfoSync, showToast } from '@ray-js/ray';
 import { StreamDataNotificationCenter, useP2PDataStream } from '@ray-js/robot-data-stream';
 import { MapHeader, RoomDecoded, parseRoomId } from '@ray-js/robot-protocol';
 import log4js from '@ray-js/log4js';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { customizeModeSwitchCode, modeCode, statusCode } from '@/constant/dpCodes';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectSystemInfoByKey } from '@/redux/modules/systemInfoSlice';
+import { useDispatch } from 'react-redux';
 import { ENativeMapStatusEnum } from '@ray-js/robot-sdk-types';
 import { APP_LOG_TAG } from '@/constant';
+import useVisionData from '@/hooks/useVisionData';
+import useImgDialog from '@/hooks/useImageDialog';
 
 type Props = {
   mapStatus: number;
@@ -23,31 +24,47 @@ type Props = {
 
 const Map: React.FC<Props> = ({ mapStatus }) => {
   const dispatch = useDispatch();
-
-  // 状态栏高度
-  const statusBarHeight = useSelector(selectSystemInfoByKey('statusBarHeight'));
   // dp点
   const dpMode = useProps(props => props[modeCode]) as Mode;
   const dpStatus = useProps(props => props[statusCode]) as Status;
   const customizeModeSwitchState = useProps(props => props[customizeModeSwitchCode]);
   const mapId = useRef('');
 
-  const [mapLoadEnd, setMapLoadEnd] = useState(false);
+  const { imgDialogElement, startVisionImgTask } = useImgDialog({ waitTime: 5000 });
 
-  const onReceiveMapData = (data: string) => {
-    StreamDataNotificationCenter.emit('receiveMapData', data);
+  /**
+   * 可选参数, 机器人使用视觉识别的缩略概况数据从这里抛出
+   * @param data
+   */
+  const onReceiveAIPicData = (data: string) => {
+    StreamDataNotificationCenter.emit('receiveAIPicData', data);
   };
 
-  const onReceivePathData = (data: string) => {
-    StreamDataNotificationCenter.emit('receivePathData', data);
+  /**
+   * 可选参数, 机器人使用视觉识别的高清原图从这里抛出
+   * @param data
+   */
+  const onReceiveAIPicHDData = (data: string) => {
+    StreamDataNotificationCenter.emit('receiveAIPicHDData', data);
   };
 
-  useP2PDataStream(getDevInfo().devId, onReceiveMapData, onReceivePathData, {
-    logTag: APP_LOG_TAG,
-  });
+  const { onMapData } = useMapData();
+  const { onPathData } = usePathData();
 
-  useMapData();
-  usePathData();
+  const { appendDownloadStreamDuringTask } = useP2PDataStream(
+    getDevInfo().devId,
+    onMapData,
+    onPathData,
+    {
+      logTag: APP_LOG_TAG,
+      onReceiveAIPicData,
+      onReceiveAIPicHDData,
+    }
+  );
+
+  // AI Vision 需要你的设备支持IPC 视觉识别能力, 若不支持, 则不会收到数据
+  // AI 视觉识别协议的具体内容, 请咨询对应的项目经理或产品经理
+  useVisionData();
   useCommandTransData();
 
   useEffect(() => {
@@ -60,25 +77,23 @@ const Map: React.FC<Props> = ({ mapStatus }) => {
         key: `path_${getDevInfo().devId}`,
       });
 
+      // IDE 暂时不支持Vision的数据推送
+      // const cacheVision = getStorageSync({
+      //   key: `vision_${getDevInfo().devId}`,
+      // });
+
       if (cacheMap) {
-        StreamDataNotificationCenter.emit('receiveMapData', cacheMap);
+        onMapData(cacheMap as string);
       }
       if (cachePath) {
-        StreamDataNotificationCenter.emit('receivePathData', cachePath);
+        onPathData(cachePath as string);
       }
+      // IDE 暂时不支持Vision的数据推送
+      // if (cacheVision) {
+      //   StreamDataNotificationCenter.emit('receiveAIPicData', cacheVision);
+      // }
     }
   }, []);
-
-  const handleIDEP2pData = ({ map, path }: IDEP2pData) => {
-    // IDE环境下的P2p数据会在这里收到
-    if (map) {
-      onReceiveMapData(map);
-    }
-
-    if (path) {
-      onReceivePathData(path);
-    }
-  };
 
   /**
    * 地图唯一标识
@@ -91,16 +106,6 @@ const Map: React.FC<Props> = ({ mapStatus }) => {
         mapId: data.mapId,
       })
     );
-  };
-
-  /**
-   * 地图渲染完成回调
-   * @param success
-   */
-  const onMapLoadEnd = (success: boolean) => {
-    log4js.info('【HomeMapView】==> onMapLoadEnd', success, new Date().getTime());
-    setMapLoadEnd(success);
-    dispatch(updateMapData({ mapLoadEnd: success }));
   };
 
   /**
@@ -160,6 +165,36 @@ const Map: React.FC<Props> = ({ mapStatus }) => {
     foldableSingleRoomInfo(mapId.current, colorHex, true);
   };
 
+  /**
+   * 点击AI Vision 虚拟物体
+   * @param data
+   */
+  const onClickMaterial = ({ data }) => {
+    if (getSystemInfoSync().brand === 'devtools') {
+      log4js.warn(
+        '【HomeMapView】==> appendDownloadStreamDuringTask in IDE mode is not supported yet'
+      );
+      return;
+    }
+    const { xHex, yHex } = data.extends || {};
+
+    if (xHex && yHex) {
+      const fileName = `aiHD_${xHex}_${yHex}.bin`;
+      const successCallback = () => {
+        log4js.info('【HomeMapView】==> appendDownloadStreamDuringTask success', data);
+      };
+      const failCallback = () => {
+        log4js.info('【HomeMapView】==> appendDownloadStreamDuringTask fail', data);
+      };
+      // 开启文件下载
+      // 相当于在原来下载的文件列表中增加下载的文件，AI的数据只会收到一次
+      appendDownloadStreamDuringTask([fileName], successCallback, failCallback);
+
+      // 开启弹窗显示流程
+      startVisionImgTask();
+    }
+  };
+
   const uiInterFace = React.useMemo(() => {
     return {
       isShowCurPosRing: !isRobotQuiet(dpStatus), // 当前点ring
@@ -194,32 +229,22 @@ const Map: React.FC<Props> = ({ mapStatus }) => {
   };
 
   return (
-    <View
-      style={{
-        position: 'absolute',
-        top: `${statusBarHeight + 44}px`,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-      }}
-    >
-      {/* 地图组件 */}
+    <>
       <MapView
         isFullScreen
-        logPrint
-        mapDisplayMode="immediateMap"
         uiInterFace={uiInterFace}
         onMapId={onMapId}
         onClickSplitArea={onClickSplitArea}
         onDecodeMapData={onDecodeMapData}
         onClickRoomProperties={onClickRoomProperties}
+        onClickMaterial={onClickMaterial}
         onClickRoom={onClickRoom}
-        onMapLoadEnd={onMapLoadEnd}
-        onIDEP2pData={handleIDEP2pData}
-        showLoading
-        mapLoadEnd={mapLoadEnd}
+        style={{
+          height: '75vh',
+        }}
       />
-    </View>
+      {imgDialogElement}
+    </>
   );
 };
 

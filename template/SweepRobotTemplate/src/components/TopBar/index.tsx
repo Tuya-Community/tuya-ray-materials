@@ -1,27 +1,55 @@
-import { statusCode } from '@/constant/dpCodes';
-import Strings from '@/i18n';
-import { selectSystemInfoByKey } from '@/redux/modules/systemInfoSlice';
-import { useProps } from '@ray-js/panel-sdk';
-import { Text, View } from '@ray-js/ray';
+import React, { FC, useMemo } from 'react';
+import { Text, View, navigateBack } from '@ray-js/ray';
 import clsx from 'clsx';
-import React from 'react';
+import { useDevice } from '@ray-js/panel-sdk';
+import { Icon } from '@ray-js/smart-ui';
+import { iconAngleLeft } from '@/res/iconsvg';
 import { useSelector } from 'react-redux';
+import { selectIpcCommonValue } from '@/redux/modules/ipcCommonSlice';
 
 import styles from './index.module.less';
 
-const TopBar = () => {
-  const dpStatus = useProps(props => props[statusCode]) as Status;
-  const statusBarHeight = useSelector(selectSystemInfoByKey('statusBarHeight'));
+type PropsSub = {
+  title: string;
+  backgroundColor?: string;
+};
+
+const Sub: FC<PropsSub> = ({ title, backgroundColor }) => {
+  const { safeArea } = useMemo(() => ty.getSystemInfoSync(), []);
+  const isFull = useSelector(selectIpcCommonValue('isFull'));
+
+  const handleBack = () => {
+    navigateBack();
+  };
 
   return (
-    <View>
-      <View className={styles.statusBar} style={{ height: `${statusBarHeight}px` }} />
-
-      <View className={styles.topbar}>
-        <Text className={clsx(styles.topbarText)}>{Strings.getDpLang(statusCode, dpStatus)}</Text>
-      </View>
+    <View
+      className={clsx(styles.topBar, styles.sub, isFull && 'hide')}
+      style={{ paddingTop: `${safeArea?.top ?? 48}px`, backgroundColor }}
+    >
+      <Icon name={iconAngleLeft} size="64rpx" color="rgba(0, 0, 0, 0.7)" onClick={handleBack} />
+      <Text className={styles.subTitle}>{title}</Text>
+      <Icon name={iconAngleLeft} size="64rpx" customClass="hide" />
     </View>
   );
 };
+
+const TopBar: FC & { Sub: typeof Sub } = () => {
+  const { safeArea } = useMemo(() => ty.getSystemInfoSync(), []);
+  const devName = useDevice(device => device.devInfo.name);
+
+  const isFull = useSelector(selectIpcCommonValue('isFull'));
+
+  return (
+    <View
+      className={clsx(styles.topBar, isFull && 'hide')}
+      style={{ marginTop: `${safeArea?.top ?? 48}px` }}
+    >
+      <Text className={styles.title}>{devName}</Text>
+    </View>
+  );
+};
+
+TopBar.Sub = Sub;
 
 export default TopBar;

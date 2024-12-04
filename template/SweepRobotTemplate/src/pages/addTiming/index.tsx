@@ -1,4 +1,4 @@
-import { THEME_COLOR } from '@/constant';
+import { PROTOCOL_VERSION, THEME_COLOR } from '@/constant';
 import { deviceTimerCode } from '@/constant/dpCodes';
 import Strings from '@/i18n';
 import store from '@/redux';
@@ -54,7 +54,7 @@ const AddTiming = props => {
 
   useEffect(() => {
     if (index > -1) {
-      const data = decodeDeviceTimer0x31({ command: timerValue, version: '1' });
+      const data = decodeDeviceTimer0x31({ command: timerValue, version: PROTOCOL_VERSION });
       if (data) {
         const { list } = data;
         const timerList = list;
@@ -163,9 +163,15 @@ const AddTiming = props => {
         cleaningRange={cleaningRange}
         handleCleaningRangeChange={handleCleaningRangeChange}
       />
-      {cleaningRange === ECleaningRange.selectRoom && (
+
+      <View
+        style={{
+          visibility: cleaningRange === ECleaningRange.selectRoom ? 'visible' : 'hidden',
+          flex: 1,
+        }}
+      >
         <AddTimingMapView setRoomIds={setRoomIds} roomIds={roomIds} />
-      )}
+      </View>
 
       <Popup
         show={show}

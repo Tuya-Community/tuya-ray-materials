@@ -5,7 +5,7 @@ import {
   createSlice,
 } from '@reduxjs/toolkit';
 import { ReduxState } from '..';
-import { getDevInfo } from '@ray-js/ray';
+import { getCleaningRecords, getDevInfo } from '@ray-js/ray';
 import moment from 'moment';
 
 const cleanRecordsAdapter = createEntityAdapter<CleanRecord>({
@@ -15,7 +15,7 @@ const cleanRecordsAdapter = createEntityAdapter<CleanRecord>({
 export const fetchCleanRecords = createAsyncThunk<CleanRecord[], void, { state: ReduxState }>(
   'cleanRecords/fetchCleanRecords',
   async () => {
-    const { datas } = await ty.getCleaningRecords({
+    const { datas } = await getCleaningRecords({
       devId: getDevInfo().devId,
       startTime: '',
       endTime: moment().format('X'),

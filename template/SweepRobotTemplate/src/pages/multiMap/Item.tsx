@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { FC, useEffect, useMemo, useRef } from 'react';
 import { Text, View, hideLoading, showLoading } from '@ray-js/ray';
 import HistoryMapView from '@/components/HistoryMapView';
 import { Button, ToastInstance } from '@ray-js/smart-ui';
@@ -11,6 +11,8 @@ import {
   updateMultiMap,
 } from '@/redux/modules/multiMapsSlice';
 import {
+  DELETE_MAP_CMD_ROBOT_V1,
+  USE_MAP_CMD_ROBOT_V1,
   decodeDeleteMap0x2d,
   decodeUseMap0x2f,
   encodeDeleteMap0x2c,
@@ -19,6 +21,8 @@ import {
 import Strings from '@/i18n';
 import { snapshot } from '@/utils/openApi';
 import { emitter } from '@/utils';
+import { useDebounceFn } from 'ahooks';
+import { commandTransCode } from '@/constant/dpCodes';
 
 import styles from './index.module.less';
 
@@ -42,7 +46,7 @@ const Item: FC<Props> = ({ data }) => {
 
   const handleDelete = () => {
     showLoading({ title: '' });
-    actions.command_trans.set(encodeDeleteMap0x2c({ id }));
+    actions[commandTransCode].set(encodeDeleteMap0x2c({ id }));
 
     timerRef.current = setTimeout(() => {
       ToastInstance({
@@ -53,7 +57,7 @@ const Item: FC<Props> = ({ data }) => {
 
   const handleUseMap = () => {
     showLoading({ title: '' });
-    actions.command_trans.set(
+    actions[commandTransCode].set(
       encodeUseMap0x2e({
         mapId,
         url: file,
@@ -67,7 +71,7 @@ const Item: FC<Props> = ({ data }) => {
     }, 10 * 1000);
   };
 
-  const onVirtualInfoRendered = useCallback(
+  const onVirtualInfoRendered = useDebounceFn(
     (data: { rendered: boolean; data: { areaInfoList: any[] } }) => {
       const { rendered } = data;
       if (rendered && mapIdRef.current) {
@@ -95,44 +99,48 @@ const Item: FC<Props> = ({ data }) => {
         }, 1000);
       }
     },
-    []
-  );
+    { wait: 1000 }
+  ).run;
 
   useEffect(() => {
-    const handleUseOrDeleteResponse = (command: string) => {
+    const handleUseOrDeleteResponse = ({ cmd, command }) => {
       if (timerRef.current) {
-        const deleteMapResponse = decodeDeleteMap0x2d({ command });
-        if (deleteMapResponse) {
-          clearTimeout(timerRef.current);
-          hideLoading();
+        if (cmd === DELETE_MAP_CMD_ROBOT_V1) {
+          const deleteMapResponse = decodeDeleteMap0x2d({ command });
+          if (deleteMapResponse) {
+            clearTimeout(timerRef.current);
+            hideLoading();
 
-          if (deleteMapResponse.success) {
-            ToastInstance.success({
-              message: Strings.getLang('dsc_delete_map_success'),
-            });
-            dispatch(fetchMultiMaps());
-          } else {
-            ToastInstance.fail({
-              message: Strings.getLang('dsc_delete_map_fail'),
-            });
+            if (deleteMapResponse.success) {
+              ToastInstance.success({
+                message: Strings.getLang('dsc_delete_map_success'),
+              });
+              dispatch(fetchMultiMaps());
+            } else {
+              ToastInstance.fail({
+                message: Strings.getLang('dsc_delete_map_fail'),
+              });
+            }
+
+            return;
           }
-
-          return;
         }
 
-        const useMapResponse = decodeUseMap0x2f({ command });
-        if (useMapResponse) {
-          clearTimeout(timerRef.current);
-          hideLoading();
+        if (cmd === USE_MAP_CMD_ROBOT_V1) {
+          const useMapResponse = decodeUseMap0x2f({ command });
+          if (useMapResponse) {
+            clearTimeout(timerRef.current);
+            hideLoading();
 
-          if (useMapResponse.success) {
-            ToastInstance.success({
-              message: Strings.getLang('dsc_use_map_success'),
-            });
-          } else {
-            ToastInstance.fail({
-              message: Strings.getLang('dsc_use_map_fail'),
-            });
+            if (useMapResponse.success) {
+              ToastInstance.success({
+                message: Strings.getLang('dsc_use_map_success'),
+              });
+            } else {
+              ToastInstance.fail({
+                message: Strings.getLang('dsc_use_map_fail'),
+              });
+            }
           }
         }
       }
@@ -163,7 +171,6 @@ const Item: FC<Props> = ({ data }) => {
       </View>
       <View className={styles.mapWrapper}>
         <HistoryMapView
-          isLite
           history={history}
           onMapId={(data: any) => {
             mapIdRef.current = data.mapId;

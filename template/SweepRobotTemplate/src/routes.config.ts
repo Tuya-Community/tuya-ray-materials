@@ -56,4 +56,19 @@ export const routes: Routes = [
     path: '/pages/addTiming/index',
     name: 'AddTiming',
   },
+  {
+    route: '/cleanPreference',
+    path: '/pages/cleanPreference/index',
+    name: 'CleanPreference',
+  },
+  {
+    route: '/manual',
+    path: '/pages/manual/index',
+    name: 'Manual',
+  },
+  {
+    route: '/ipc',
+    path: '/pages/ipc/index',
+    name: 'Ipc',
+  },
 ];

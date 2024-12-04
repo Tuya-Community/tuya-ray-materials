@@ -42,6 +42,7 @@ export const saveJsonFile = async (jsonData: any, filename: string) => {
     const dirs = (ty as any).env.USER_DATA_PATH;
     const path = `${dirs}/${filename}`;
     const jsonString = typeof jsonData !== 'string' ? JSON.stringify(jsonData) : jsonData;
+
     await writeFile(path, jsonString, 'utf8');
   } catch (error) {
     console.log('saveJsonFile error', error);
@@ -88,6 +89,7 @@ export const fetchMultiMaps = createAsyncThunk<MultiMap[], void, { state: ReduxS
       if (!existMapIds.includes(filePathKey)) {
         const mapId = parseInt(extend.replace(/(.*_)(\d*)(_.*)/, '$2'), 10);
         const localJson = await readJsonFile(translateFileName(filePathKey));
+
         const snapshotImage = JsonUtil.parseJSON(localJson) as {
           image: string;
           width: number;

@@ -7,6 +7,7 @@
   --panel-theme-color: #3a9;
   --button-primary-background-color: var(--panel-theme-color);
   --button-primary-border-color: var(--panel-theme-color);
+  --divider-margin: 4px;
 
   .smart-grid-item__text {
     text-align: center;
@@ -15,6 +16,16 @@
 
 page {
   overflow-y: hidden;
+}
+
+cover-view {
+  z-index: 99;
+}
+
+.hide {
+  opacity: 0 !important;
+  transition: none !important;
+  pointer-events: none !important;
 }
 
 @import url('./iconfont/iconfont.css');

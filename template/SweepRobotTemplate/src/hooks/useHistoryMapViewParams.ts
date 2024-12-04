@@ -7,7 +7,7 @@ import {
 } from '@/hooks';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
 import { default as base64Imgs, default as res } from '@/res/base64Imgs';
-import { decodeAreas } from '@/utils';
+import { decodeAreas, fetchMapFile } from '@/utils';
 import { base64ToRaw } from '@ray-js/panel-sdk/lib/utils';
 import {
   convertColorToArgbHex,
@@ -18,14 +18,7 @@ import { IAnimationTypeEnum } from '@ray-js/robot-sdk-types';
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-const {
-  bDeleteBase64Img,
-  bResizeBase64Img,
-  bRotateBase64Img,
-  pileBase64Img,
-  pointIconBase64Img,
-  robotBase64Img,
-} = res;
+const { pileBase64Img, pointIconBase64Img, robotBase64Img } = res;
 
 type Props = {
   uiInterFace?: {
@@ -36,7 +29,6 @@ type Props = {
     isFoldable?: boolean; // 房间属性是否折叠
   };
   pathVisible?: boolean;
-  preCustomConfig?: any;
   history?: {
     bucket: string;
     file: string;
@@ -44,42 +36,15 @@ type Props = {
     pathLen?: number;
   };
   mapId: string | number;
-};
-
-const fetch = (url, ...rest) => {
-  return new Promise((resolve, reject) => {
-    ty.downloadFile({
-      url,
-      ...rest,
-      success: res => {
-        const { tempFilePath } = res;
-        ty.getFileSystemManager().readFile({
-          filePath: tempFilePath,
-          encoding: 'base64',
-          position: 0,
-          success: ({ data }) => {
-            resolve({
-              status: 200,
-              data,
-            });
-          },
-          fail: params => {
-            console.log('readFile fail', params);
-            reject();
-          },
-        });
-      },
-      failure: params => {
-        console.log('downloadFile failure', params);
-      },
-    });
-  });
+  backgroundColor?: string;
 };
 
 const getAreasFromMixedCommand = (command: string) => {
   const protocolVersion = getFeatureProtocolVersion(command);
   const wallLength =
-    (parseInt(protocolVersion === '1' ? command.slice(4, 12) : command.slice(4, 6), 16) + 2) * 2;
+    protocolVersion === '1'
+      ? parseInt(command.slice(4, 12), 16) * 2 + 14
+      : parseInt(command.slice(4, 6), 16) * 2 + 8;
   const wallCommand = command.slice(0, wallLength);
   const areaCommand = command.slice(wallLength);
 
@@ -91,6 +56,7 @@ export default function useHistoryMapViewParams({
   history,
   mapId = 'history_' + String(new Date().getTime()),
   pathVisible = false,
+  backgroundColor,
 }: Props) {
   const { getForbiddenNoMopConfig } = useForbiddenNoMop();
   const { getForbiddenNoGoConfig } = useForbiddenNoGo();
@@ -117,52 +83,60 @@ export default function useHistoryMapViewParams({
     const fetchHistoryMap = async () => {
       if (history) {
         const { bucket, file, mapLen, pathLen } = history;
-        const url = await OssApi.getCloudFileUrl(bucket, file);
 
-        const mapData = await fetch(url, {
-          method: 'GET',
-        })
-          .then(async (res: any) => {
-            const { status } = res;
-            if (status === 200) {
-              if (mapLen || pathLen) {
-                const data = base64ToRaw(res.data);
-                const mapStrLength = mapLen * 2;
-                const pathStrLength = pathLen * 2;
-                const mapData = data.slice(0, mapStrLength);
-                const pathData = data.slice(mapStrLength, mapStrLength + pathStrLength);
-                const virtualData = data.slice(mapStrLength + pathStrLength);
+        const getMapData = (data: string) => {
+          if (mapLen || pathLen) {
+            const mapStrLength = mapLen * 2;
+            const pathStrLength = pathLen * 2;
+            const mapData = data.slice(0, mapStrLength);
+            const pathData = data.slice(mapStrLength, mapStrLength + pathStrLength);
+            const virtualData = data.slice(mapStrLength + pathStrLength);
 
-                return {
-                  originMap: mapData,
-                  originPath: pathData,
-                  virtualState: getAreasFromMixedCommand(virtualData),
-                };
-              }
-              const data = base64ToRaw(res.data);
+            return {
+              originMap: mapData,
+              originPath: pathData,
+              virtualState: getAreasFromMixedCommand(virtualData),
+            };
+          }
 
-              const mapState = decodeMap(data);
-              const {
-                mapHeader: { dataLengthBeforeCompress, dataLengthAfterCompress, mapHeaderStr },
-              } = mapState;
-              let mapLength = 0;
-              if (dataLengthAfterCompress) {
-                mapLength = mapHeaderStr.length + dataLengthAfterCompress * 2;
-              } else {
-                mapLength = mapHeaderStr.length + dataLengthBeforeCompress * 2;
-              }
-              const virtualData = data.slice(mapLength);
+          const mapState = decodeMap(data);
+          const {
+            mapHeader: { dataLengthBeforeCompress, dataLengthAfterCompress, mapHeaderStr },
+          } = mapState;
+          let mapLength = 0;
+          if (dataLengthAfterCompress) {
+            mapLength = mapHeaderStr.length + dataLengthAfterCompress * 2;
+          } else {
+            mapLength = mapHeaderStr.length + dataLengthBeforeCompress * 2;
+          }
+          const virtualData = data.slice(mapLength);
 
-              return {
-                originMap: data,
-                originPath: '',
-                virtualState: getAreasFromMixedCommand(virtualData),
-              };
-            }
-          })
-          .catch(err => {
-            console.error(err);
+          return {
+            originMap: data,
+            originPath: '',
+            virtualState: getAreasFromMixedCommand(virtualData),
+          };
+        };
+
+        const { type, data } = await OssApi.getCloudFileUrl(bucket, file);
+
+        let mapData = null;
+
+        if (type === 'url') {
+          // 真机环境下载地图文件url得到数据
+          const res = await fetchMapFile(data, {
+            method: 'GET',
           });
+
+          if (res.status === 200) {
+            mapData = getMapData(base64ToRaw(res.data));
+          }
+        }
+
+        if (type === 'data') {
+          // IDE环境直接获取到数据
+          mapData = getMapData(data);
+        }
 
         if (mapData) {
           const { originMap, virtualState, originPath } = mapData;
@@ -240,7 +214,7 @@ export default function useHistoryMapViewParams({
     configurationData: {
       mapId,
       asynchronousLoadMap: false,
-      bgColor: convertColorToArgbHex('#F6F6F6'),
+      bgColor: convertColorToArgbHex(backgroundColor),
       factorInfo: {
         factor,
         font: 12,
@@ -277,6 +251,7 @@ export default function useHistoryMapViewParams({
           scale: 0.02,
         },
       },
+      roomFloorMaterialConfig: {},
       selectedParams: {
         checkedIcon: {
           checkedIconEnable: true,

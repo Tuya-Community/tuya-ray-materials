@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { View } from '@ray-js/ray';
-import { useActions } from '@ray-js/panel-sdk';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux';
 import {

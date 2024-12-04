@@ -1,9 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Text, View, getDevInfo } from '@ray-js/ray';
+import { View, getDevInfo, getVoiceList } from '@ray-js/ray';
 import { useProps } from '@ray-js/panel-sdk';
 import { decodeVoice0x35 } from '@ray-js/robot-protocol';
 import { Toast } from '@ray-js/smart-ui';
 import Strings from '@/i18n';
+import { voiceDataCode } from '@/constant/dpCodes';
 
 import styles from './index.module.less';
 import Item from './Item';
@@ -11,13 +12,13 @@ import Header from './Header';
 
 const VoicePack: FC = () => {
   const [voices, setVoices] = useState<Voice[]>([]);
-  const dpVoiceData = useProps(props => props.voice_data);
+  const dpVoiceData = useProps(props => props[voiceDataCode]);
 
-  const deviceVoice = decodeVoice0x35({ command: dpVoiceData });
+  const deviceVoice = dpVoiceData ? decodeVoice0x35({ command: dpVoiceData }) : {};
 
   useEffect(() => {
     const fetchVoices = async () => {
-      const res = await ty.getVoiceList({
+      const res = await getVoiceList({
         devId: getDevInfo().devId,
         offset: 0,
         limit: 100,

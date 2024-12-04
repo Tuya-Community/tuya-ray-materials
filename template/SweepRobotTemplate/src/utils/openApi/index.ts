@@ -18,6 +18,7 @@ import getCurrentRobotNDCPosition from './getCurrentRobotNDCPosition';
 import updateMapAreaColor from './updateMapAreaColor';
 import updateSelectRoom from './updateSelectRoom';
 import getMapPointsInfo from './getMapPointsInfo';
+import getAllMapAreaInfo from './getAllMapAreaInfo';
 
 export {
   getMapPointsInfo,
@@ -40,4 +41,5 @@ export {
   getCurrentRobotNDCPosition,
   updateMapAreaColor,
   updateSelectRoom,
+  getAllMapAreaInfo,
 };

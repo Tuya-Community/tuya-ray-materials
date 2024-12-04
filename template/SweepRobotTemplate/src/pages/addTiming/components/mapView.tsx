@@ -20,7 +20,6 @@ type Props = {
 
 export const AddTimingMapView: FC<Props> = props => {
   const mapIdRef = useRef<string>();
-  const [mapLoadEnd, setMapLoadEnd] = useState(false);
 
   /**
    * 获取选择的房间信息
@@ -41,10 +40,6 @@ export const AddTimingMapView: FC<Props> = props => {
     const selectRoomIds = await getSelectedRoomIds();
     handleMapChange?.(selectRoomIds);
   };
-
-  const onMapLoadEnd = useCallback((value: boolean) => {
-    setMapLoadEnd(value);
-  }, []);
 
   const handleMapChange = r => {
     props.setRoomIds(r);
@@ -78,14 +73,10 @@ export const AddTimingMapView: FC<Props> = props => {
     <View className={styles.mapBox}>
       <MapView
         isFullScreen={false}
-        mapDisplayMode="splitMap"
         onMapId={onMapId}
         onClickSplitArea={onClickSplitArea}
         onClickRoom={onClickRoom}
-        onMapLoadEnd={onMapLoadEnd}
         onLoggerInfo={onLoggerInfo}
-        showLoading
-        mapLoadEnd={mapLoadEnd}
         mapId={mapIdRef.current}
       />
     </View>

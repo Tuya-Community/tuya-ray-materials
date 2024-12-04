@@ -1,4 +1,4 @@
-.view {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,7 +6,14 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  // background-color: #efefef;
+
+  :global(.map-loading) {
+    padding-bottom: 160rpx;
+  }
+
+  :global(.map-empty) {
+    padding-bottom: 160rpx;
+  }
 }
 
 .content {

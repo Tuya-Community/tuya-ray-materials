@@ -7,6 +7,8 @@ import mapExtrasReducer from './modules/mapExtrasSlice';
 import customConfigReducer from './modules/customConfigSlice';
 import cleanRecordsReducer from './modules/cleanRecordsSlice';
 import multiMapsReducer from './modules/multiMapsSlice';
+import ipcCommonReducer from './modules/ipcCommonSlice';
+
 const isDev = process.env.NODE_ENV === 'development';
 import { TypedUseSelectorHook, useSelector as useSelector1 } from 'react-redux';
 
@@ -26,8 +28,10 @@ const store = configureStore({
     customConfig: customConfigReducer,
     cleanRecords: cleanRecordsReducer,
     multiMaps: multiMapsReducer,
+    ipcCommon: ipcCommonReducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(middlewares),
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({ serializableCheck: false }).concat(middlewares),
 });
 
 export type ReduxState = ReturnType<typeof store.getState>;

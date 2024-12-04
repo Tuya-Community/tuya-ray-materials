@@ -1,122 +1,123 @@
 import { useMiddlewareMapViewParams } from '@/hooks';
 import { View, getSystemInfoSync } from '@ray-js/ray';
 import { IndoorMap } from '@ray-js/robot-map-component';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { freezeMapUpdate } from '@/utils/openApi';
+import { useSelector } from 'react-redux';
+import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
+import { decodeMapHeader } from '@ray-js/robot-protocol';
 
 import Loading from '../Loading';
-import { IProps, mapDisplayModeEnum } from './type';
+import { IProps } from './type';
+import EmptyMap from '../EmptyMap';
 
 const MapView: React.FC<IProps> = React.memo(props => {
-  const idRef = useRef(String(new Date().getTime()));
-  const [isEmpty, setIsEmpty] = useState(false);
-  const events = useRef<any>({});
-
-  const onDecodeMapData = useCallback(data => {
-    console.log('onDecodeMapData ==>', data);
-    props.onDecodeMapData?.(data);
-    const { mapWidth, mapHeight } = data.mapHeader;
-    // 如果地图的宽高是0 则认为是空地图
-    if (mapWidth === 0 || mapHeight === 0) {
-      setIsEmpty(true);
-    } else {
-      setIsEmpty(false);
-    }
-  }, []);
-
-  const onDecodePathData = useCallback(data => {
-    console.log('onDecodePathData ==>', data);
-  }, []);
+  const [mapLoadEnd, setMapLoadEnd] = useState(false);
 
   const {
     isFullScreen = false,
-    showLoading = true,
-    isLite,
-    mapLoadEnd,
     uiInterFace,
     preCustomConfig,
     pathVisible,
     areaInfoList,
     logPrint = false,
+    backgroundColor = '#f2f4f6',
+    style = {},
   } = props;
 
-  const params = {
+  const idRef = useRef(String(new Date().getTime()));
+  const originMap = useSelector(selectMapStateByKey('originMap'));
+
+  const isEmpty = useMemo(() => {
+    const { mapHeight, mapWidth } = decodeMapHeader(originMap);
+
+    return mapWidth === 0 || mapHeight === 0;
+  }, [originMap]);
+
+  const events = useRef<any>({});
+
+  const handleDecodeMapData = useCallback(data => {
+    console.log('onDecodeMapData ==>', data);
+    props.onDecodeMapData?.(data);
+  }, []);
+
+  const handleDecodePathData = useCallback(data => {
+    //
+  }, []);
+
+  const mapViewParams = useMiddlewareMapViewParams({
     pathVisible,
     uiInterFace,
     areaInfoList,
     preCustomConfig,
     mapId: idRef.current,
-  };
-
-  const mapViewParams = useMiddlewareMapViewParams(params);
+    backgroundColor,
+  });
 
   const isIDE = getSystemInfoSync().brand === 'devtools';
 
-  const isLoading = isIDE ? !mapLoadEnd : !mapViewParams.mapDataHex;
+  const isLoading = isIDE ? !mapLoadEnd : !mapLoadEnd || !originMap;
 
   const {
-    onMapId = () => {
+    onMapId = data => {
+      console.log('onMapId', data);
+    },
+    onLaserMapPoints = data => {
+      console.log('onLaserMapPoints', data);
+    },
+    onClickSplitArea = data => {
+      console.log('onClickSplitArea', data);
+    },
+    onLongPressInAreaView = data => {
+      console.log('onLongPressInAreaView', data);
+    },
+    onClickRoom = data => {
+      console.log('onClickRoom', data);
+    },
+    onClickModel = data => {
+      console.log('onClickModel', data);
+    },
+    onModelLoadingProgress = data => {
+      console.log('onModelLoadingProgress', data);
+    },
+    onMapLoadEnd = data => {
+      console.log('onMapLoadEnd', data);
+    },
+    onGestureChange = data => {
+      console.log('onGestureChange', data);
+    },
+    onClickRoomProperties = data => {
+      console.log('onClickRoomProperties', data);
+    },
+    onPosPoints = data => {
+      console.log('onPosPoints', data);
+    },
+    onClickMapView = data => {
+      console.log('onClickMapView', data);
+    },
+    onScreenSnapshot = data => {
+      console.log('onScreenSnapshot', data);
+    },
+    onRobotPositionChange = data => {
       //
     },
-    onLaserMapPoints = () => {
-      console.log('onLaserMapPoints');
-    },
-    onClickSplitArea = () => {
-      console.log('onClickSplitArea');
-    },
-    onLongPressInAreaView = () => {
-      console.log('onLongPressInAreaView');
-    },
-    onClickRoom = () => {
-      console.log('onClickRoom');
-    },
-    onClickModel = () => {
-      console.log('onClickModel');
-    },
-    onModelLoadingProgress = () => {
-      console.log('onModelLoadingProgress');
-    },
-    onMapLoadEnd = () => {
-      console.log('onMapLoadEnd');
-    },
-    onGestureChange = () => {
+    onVirtualInfoRendered = data => {
       //
     },
-    onClickRoomProperties = () => {
-      console.log('onClickRoomProperties');
+    onRenderContextLost = data => {
+      console.log('onRenderContextLost', data);
     },
-    onPosPoints = () => {
-      console.log('onPosPoints');
+    onRenderContextRestored = data => {
+      console.log('onRenderContextRestored', data);
     },
-    onClickMapView = () => {
-      console.log('onClickMapView');
+    onContainerVisibilityChange = data => {
+      console.log('onContainerVisibilityChange', data);
     },
-    onScreenSnapshot = () => {
-      console.log('onScreenSnapshot');
+    onVirtualInfoOutOfBoundingBox = data => {
+      console.log('onVirtualInfoOutOfBoundingBox', data);
     },
-    onRobotPositionChange = () => {
-      console.log('onRobotPositionChange');
-    },
-    onVirtualInfoRendered = () => {
-      console.log('onVirtualInfoRendered');
-    },
-    onRenderContextLost = () => {
-      console.log('onRenderContextLost');
-    },
-    onRenderContextRestored = () => {
-      console.log('onRenderContextRestored');
-    },
-    onContainerVisibilityChange = () => {
-      console.log('onContainerVisibilityChange');
-    },
-    onVirtualInfoOutOfBoundingBox = () => {
-      console.log('onVirtualInfoOutOfBoundingBox');
-    },
-    onClickMaterial = () => {
-      console.log('onClickMaterial');
-    },
-    onIDEP2pData = () => {
-      //
+    onClickMaterial = data => {
+      console.log('onClickMaterial', data);
     },
   } = props;
 
@@ -196,6 +197,7 @@ const MapView: React.FC<IProps> = React.memo(props => {
       events.current.onModelLoadingProgress?.(data);
     },
     onMapLoadEnd: (data: any) => {
+      setMapLoadEnd(true);
       events.current.onMapLoadEnd?.(data);
     },
     onGestureChange: (data: any) => {
@@ -251,6 +253,8 @@ const MapView: React.FC<IProps> = React.memo(props => {
     },
   });
 
+  console.log('render MapView', mapViewParams);
+
   return (
     <View
       style={{
@@ -258,21 +262,24 @@ const MapView: React.FC<IProps> = React.memo(props => {
         height: '100%',
         position: 'relative',
         overflow: 'hidden',
+        ...style,
       }}
     >
+      {isEmpty && <EmptyMap />}
+
+      <Loading isLoading={isLoading} />
+
       {isFullScreen && (
         <IndoorMap.Full
           {...eventCallbacks.current}
           {...mapViewParams}
           mapId={idRef.current}
-          componentId={idRef.current}
-          componentBackground="#f6f6f6"
+          componentBackground={backgroundColor}
           initUseThread={false}
-          enableAICapability
           resourceUsageLevel="high"
-          onDecodeMapData={onDecodeMapData}
-          onDecodePathData={onDecodePathData}
-          onIDEP2pData={onIDEP2pData}
+          onDecodeMapData={handleDecodeMapData}
+          onDecodePathData={handleDecodePathData}
+          rootStyle={style as any}
         />
       )}
       {!isFullScreen && (
@@ -280,24 +287,11 @@ const MapView: React.FC<IProps> = React.memo(props => {
           {...eventCallbacks.current}
           {...mapViewParams}
           mapId={idRef.current}
-          componentId={idRef.current}
-          componentBackground="#f6f6f6"
+          componentBackground={backgroundColor}
           initUseThread={false}
-          enableAICapability
-          resourceUsageLevel="high"
-          onDecodeMapData={onDecodeMapData}
-          onDecodePathData={onDecodePathData}
-        />
-      )}
-
-      {showLoading && (
-        <Loading
-          showLoading={showLoading}
-          isLoading={isLoading}
-          mapLoadEnd={mapLoadEnd}
-          isEmpty={isEmpty}
-          isLite={isLite}
-          isHomeMap={props.mapDisplayMode === mapDisplayModeEnum.immediateMap}
+          resourceUsageLevel="low"
+          onDecodeMapData={handleDecodeMapData}
+          onDecodePathData={handleDecodePathData}
         />
       )}
     </View>

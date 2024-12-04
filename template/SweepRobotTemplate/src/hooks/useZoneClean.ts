@@ -4,7 +4,7 @@ import { ALL_ZONE_MUN_MAX } from '@/constant';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
 import base64Imgs from '@/res/base64Imgs';
 import { checkMapPointNumber, createLimitByNum } from '@/utils';
-import { addLaserMapArea, getMapPointsInfo } from '@/utils/openApi';
+import { addLaserMapArea, getMapPointsInfo, getLaserMapPoints } from '@/utils/openApi';
 import { convertColorToArgbHex } from '@ray-js/robot-protocol';
 import { ENativeMapStatusEnum, Point } from '@ray-js/robot-sdk-types';
 import { isUndefined } from 'lodash-es';
@@ -129,7 +129,7 @@ export const useZoneClean = () => {
       return null; // Consider throwing an error or returning a specific message instead of returning null for better error handling.
     }
     const config = getZoneCleanConfig(renderPoints);
-    await addLaserMapArea(mapId, config);
+    await addLaserMapArea(mapId, { ...config, id: existVirtualBox.length });
     return { area: { ...config, type: ENativeMapStatusEnum.areaSet } };
   };
 

@@ -1,6 +1,7 @@
 import ossApiInstance from '@/api/ossApi';
 import {
   deviceTimerCode,
+  directionControlCode,
   disturbTimeSetCode,
   mapResetCode,
   statusCode,
@@ -10,19 +11,23 @@ import {
 import { devices, support } from '@/devices';
 import Strings from '@/i18n';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
+import { fetchMultiMaps } from '@/redux/modules/multiMapsSlice';
 import { robotIsNotWorking } from '@/utils/robotStatus';
 import { useActions } from '@ray-js/panel-sdk';
 import { router } from '@ray-js/ray';
 import { Cell, CellGroup, Dialog, DialogInstance } from '@ray-js/smart-ui';
 import { useInterval } from 'ahooks';
 import React, { FC, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Setting: FC = () => {
+  const dispatch = useDispatch();
   const actions = useActions();
   const isEmptyMap = useSelector(selectMapStateByKey('isEmptyMap'));
 
   useEffect(() => {
+    dispatch(fetchMultiMaps());
+
     ty.setNavigationBarTitle({
       title: Strings.getLang('dsc_settings'),
     });
@@ -76,12 +81,6 @@ const Setting: FC = () => {
     }
   );
 
-  useEffect(() => {
-    ty.setNavigationBarTitle({
-      title: Strings.getLang('dsc_settings'),
-    });
-  }, []);
-
   return (
     <>
       <CellGroup>
@@ -92,11 +91,20 @@ const Setting: FC = () => {
             router.push('/multiMap');
           }}
         />
-        {!isEmptyMap && (
+        {isEmptyMap === false && (
           <Cell title={Strings.getLang('dsc_map_edit')} isLink onClick={handleNavToMapEdit} />
         )}
         {support.isSupportDp(mapResetCode) && (
           <Cell title={Strings.getLang('dsc_reset_map')} isLink onClick={handleResetMap} />
+        )}
+        {!isEmptyMap && (
+          <Cell
+            title={Strings.getLang('dsc_preference')}
+            isLink
+            onClick={() => {
+              router.push('/cleanPreference');
+            }}
+          />
         )}
         {support.isSupportDp(deviceTimerCode) && (
           <Cell
@@ -129,6 +137,15 @@ const Setting: FC = () => {
             isLink
             onClick={() => {
               router.push('/voicePack');
+            }}
+          />
+        )}
+        {support.isSupportDp(directionControlCode) && (
+          <Cell
+            title={Strings.getLang('dsc_manual')}
+            isLink
+            onClick={() => {
+              router.push('/manual');
             }}
           />
         )}

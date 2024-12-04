@@ -7,31 +7,48 @@ import Strings from '@/i18n';
 import store from '@/redux';
 import Res from '@/res';
 import { emitter, isForbiddenZonePointsInCurPos, isForbiddenZonePointsInPile } from '@/utils';
-import { freezeMapUpdate, getMapPointsInfo, setLaserMapStateAndEdit } from '@/utils/openApi';
-import { CoverView, Image, Text, View } from '@ray-js/ray';
-import { encodeVirtualArea0x38, encodeVirtualWall0x12 } from '@ray-js/robot-protocol';
+import { getMapPointsInfo, setLaserMapStateAndEdit } from '@/utils/openApi';
+import { CoverView, Image, showToast, Text, View } from '@ray-js/ray';
+import {
+  encodeSetRoomFloorMaterial0x52,
+  encodeVirtualArea0x38,
+  encodeVirtualWall0x12,
+  parseRoomId,
+} from '@ray-js/robot-protocol';
 import { ENativeMapStatusEnum } from '@ray-js/robot-sdk-types';
 import { Grid, GridItem } from '@ray-js/smart-ui';
 import { useThrottleFn } from 'ahooks';
 import { once } from 'lodash-es';
 import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
+import log4js from '@ray-js/log4js';
 
+import { setMapStatusClick, setMapStatusNormal } from '@/utils/openApi/mapStatus';
+import FloorMaterialPopLayout from '@/components/FloorMaterialPopLayout';
+import DecisionBar from '@/components/DecisionBar';
 import styles from './index.module.less';
 
 const MapEdit: FC = () => {
   const iconColor = THEME_COLOR;
-  const [mapLoadEnd, setMapLoadEnd] = useState(false);
   const [status, setStatus] = useState<number>(ENativeMapStatusEnum.normal);
   const [showVirtualBar, setShowVirtualBar] = useState(false);
   const [showMenuBar, setShowMenuBar] = useState(true);
+  const [showFloorMaterialPopup, setShowFloorMaterialPopup] = useState(false);
+  const [showDecisionBar, setShowDecisionBar] = useState(false);
+  const [activeConfirm, setActiveConfirm] = useState(false);
+  const [roomIdState, setRoomIdState] = useState<{ roomId: number; roomIdHex: string }>({});
+  const [previewCustom, setPreviewCustom] = useState<{
+    [key: string]: { roomId: number; floorMaterial: number };
+  }>({});
   const mapId = useRef('');
   const isWallRef = useRef(false);
+  const timerRef = useRef<NodeJS.Timeout>(null);
   const { drawOneVirtualWall } = useCreateVirtualWall();
   const { drawOneForbiddenNoGo } = useForbiddenNoGo();
   const { drawOneForbiddenNoMop } = useForbiddenNoMop();
 
   const { sendDP, getTimer, clearTimer } = useSendDp(undefined, () => {
     setMapStatus(status, true);
+    setPreviewCustom({});
     ty.showToast({
       title: Strings.getLang('dsc_save_failed'),
       icon: 'error',
@@ -49,23 +66,42 @@ const MapEdit: FC = () => {
       }
     };
 
+    const handleReportRoomFloorMaterial = () => {
+      if (getTimer()) {
+        setTimeout(() => {
+          setPreviewCustom({});
+          ty.hideLoading();
+          clearTimer();
+        }, 500);
+      }
+    };
+
     ty.setNavigationBarTitle({
       title: Strings.getLang('dsc_map_edit'),
     });
     emitter.on('reportVirtualData', handleReportVirtualData);
 
+    emitter.on('reportRoomFloorMaterial', handleReportRoomFloorMaterial);
+
     return () => {
       emitter.off('reportVirtualData', handleReportVirtualData);
-      freezeMapUpdate(mapId.current, false);
+      emitter.off('reportRoomFloorMaterial', handleReportRoomFloorMaterial);
+      // freezeMapUpdate(mapId.current, false);
     };
   }, []);
+
+  useEffect(() => {
+    const { length } = Object.keys(previewCustom);
+
+    if (length > 0) setActiveConfirm(true);
+    if (length === 0) setActiveConfirm(false);
+  }, [previewCustom]);
 
   /**
    * 地图加载完成回调
    * @param data
    */
   const onMapId = data => {
-    console.info('onMapId', data);
     mapId.current = data.mapId;
   };
 
@@ -106,14 +142,39 @@ const MapEdit: FC = () => {
     },
     { wait: 300, leading: true, trailing: false }
   );
+
+  const { run: onClickSplitArea } = useThrottleFn(
+    data => {
+      const { version } = store.getState().mapState;
+      const maxUnknownId = version === 1 ? 31 : 26;
+      if (!data || !data.length || !Array.isArray(data)) return;
+      const [firstRoom] = data;
+      const { pixel } = firstRoom;
+      const roomId = parseRoomId(pixel, version);
+      if (roomId > maxUnknownId) {
+        showToast({
+          title: Strings.getLang('dsc_home_selectRoom_unknown'),
+          icon: 'error',
+        });
+        return;
+      }
+      setShowFloorMaterialPopup(true);
+      setRoomIdState({ roomId, roomIdHex: pixel });
+    },
+    {
+      wait: 300,
+      leading: true,
+      trailing: false,
+    }
+  );
   /**
    * 地图渲染完成回调
    * @param success
    */
   const onMapLoadEnd = (success: boolean) => {
+    log4js.info('【mapEdit】==> onMapLoadEnd', success, new Date().getTime());
     // 进入地图编辑页面需要把地图先冻结掉
-    freezeMapUpdate(mapId.current, true);
-    setMapLoadEnd(success);
+    // freezeMapUpdate(mapId.current, true);
   };
 
   /**
@@ -206,7 +267,16 @@ const MapEdit: FC = () => {
           setMapStatus(ENativeMapStatusEnum.virtualWall, true);
         },
       },
-
+      {
+        text: Strings.getLang('dsc_floor_material_edit'),
+        image: Res.floorMaterial,
+        onClick: () => {
+          // freezeMapUpdate(mapId.current, false);
+          setMapStatusClick(mapId.current);
+          setShowMenuBar(false);
+          setShowDecisionBar(true);
+        },
+      },
       {
         text: Strings.getLang('dsc_room_edit'),
         image: Res.mapEdit,
@@ -216,7 +286,7 @@ const MapEdit: FC = () => {
       },
     ];
     return (
-      <Grid border={false} columnNum={3}>
+      <Grid border={false} columnNum={4}>
         {menuList.map(item => {
           return (
             <GridItem
@@ -262,6 +332,52 @@ const MapEdit: FC = () => {
     { wait: 300, leading: true, trailing: false }
   );
 
+  const onFloorMaterialConfirm = (hexId: string) => {
+    const room = {
+      roomId: roomIdState.roomId,
+      floorMaterial: parseInt(hexId, 16),
+    };
+    const curRoom = {
+      [roomIdState.roomIdHex]: {
+        ...room,
+      },
+    };
+
+    setPreviewCustom({ ...previewCustom, ...curRoom });
+    setShowFloorMaterialPopup(false);
+  };
+
+  const onFloorMaterialCancel = () => {
+    setShowFloorMaterialPopup(false);
+  };
+
+  const onCancel = () => {
+    setMapStatusNormal(mapId.current);
+    setShowDecisionBar(false);
+    setShowMenuBar(true);
+    setPreviewCustom({});
+    // freezeMapUpdate(mapId.current, true);
+  };
+
+  const onConfirm = () => {
+    setMapStatusNormal(mapId.current);
+    setShowDecisionBar(false);
+    setShowMenuBar(true);
+
+    const rooms = Object.keys(previewCustom).map((roomIdHex: string) => {
+      const room = previewCustom[roomIdHex];
+      return {
+        roomId: room.roomId,
+        material: room.floorMaterial,
+      };
+    });
+    const command = encodeSetRoomFloorMaterial0x52({
+      version: PROTOCOL_VERSION,
+      rooms,
+    });
+
+    sendDP(commandTransCode, command, true);
+  };
   /**
    * 渲染底部禁区编辑状态时的工具栏
    */
@@ -334,20 +450,33 @@ const MapEdit: FC = () => {
     <View className={styles.container}>
       <MapView
         isFullScreen
-        mapDisplayMode="splitMap"
+        // 房间信息临时数据
+        preCustomConfig={previewCustom}
         uiInterFace={uiInterFace}
         onMapId={onMapId}
         onLaserMapPoints={onLaserMapPoints}
-        isLite
+        onClickSplitArea={onClickSplitArea}
         onMapLoadEnd={onMapLoadEnd}
-        mapLoadEnd={mapLoadEnd}
         pathVisible={false}
         selectRoomData={[]}
       />
       <CoverView className={styles.bottomMenuBar}>
         {showMenuBar && renderMenuBar()}
         {!showMenuBar && showVirtualBar && renderVirtualMenuBar()}
+        {!showMenuBar && showDecisionBar && (
+          <DecisionBar
+            onCancel={onCancel}
+            activeConfirm={activeConfirm}
+            onConfirm={onConfirm}
+            tipText={Strings.getLang('dsc_floor_material_edit_tip')}
+          />
+        )}
       </CoverView>
+      <FloorMaterialPopLayout
+        show={showFloorMaterialPopup}
+        onCancel={onFloorMaterialCancel}
+        onConfirm={onFloorMaterialConfirm}
+      />
     </View>
   );
 };

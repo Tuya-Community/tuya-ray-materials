@@ -1,0 +1,20 @@
+@import 'src/mixins.less';
+
+.container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100vw;
+  padding: 0 40rpx;
+  z-index: 9;
+}
+
+.topbarText {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 48rpx;
+  line-height: 88rpx;
+  color: #000000;
+
+  .ellipsis(520rpx);
+}

@@ -12,22 +12,28 @@ import {
   getLaserMapMergeInfo,
   getLaserMapSplitPoint,
   getMapAreaInfo,
+  getMapPointsInfo,
   updateMapAreaColor,
 } from '@/utils/openApi';
 import {
   setMapStatusMerge,
   setMapStatusNormal,
+  setMapStatusOrder,
   setMapStatusRename,
   setMapStatusSplit,
 } from '@/utils/openApi/mapStatus';
 import { useActions } from '@ray-js/panel-sdk';
 import { CoverView, hideLoading, Image, showLoading, showToast, View } from '@ray-js/ray';
 import {
+  PARTITION_DIVISION_CMD_ROBOT_V1,
+  PARTITION_MERGE_CMD_ROBOT_V1,
+  SET_ROOM_NAME_CMD_ROBOT_V1,
   decodePartitionDivision0x1d,
   decodePartitionMerge0x1f,
   decodeSetRoomName0x25,
   encodePartitionDivision0x1c,
   encodePartitionMerge0x1e,
+  encodeRoomOrder0x26,
   encodeSetRoomName0x24,
   isAdjacent,
   parseRoomId,
@@ -38,6 +44,13 @@ import { Grid, GridItem, Toast, ToastInstance } from '@ray-js/smart-ui';
 import React, { FC, useEffect, useRef, useState } from 'react';
 
 import styles from './index.module.less';
+
+enum EditTypes {
+  split = 'split',
+  order = 'order',
+  merge = 'merge',
+  reName = 'reName',
+}
 
 const RoomEdit: FC = () => {
   const actions = useActions();
@@ -57,69 +70,84 @@ const RoomEdit: FC = () => {
     ty.setNavigationBarTitle({
       title: Strings.getLang('dsc_room_edit'),
     });
-    const handleRoomEditResponse = (command: string) => {
+    const handleRoomEditResponse = ({ cmd, command }) => {
       if (timerRef.current) {
         // 房间分割上报 刻意增加延迟，等待地图刷新
-        const splitResponse = decodePartitionDivision0x1d({ command });
-        if (splitResponse) {
-          clearTimeout(timerRef.current);
-          hideLoading();
-          handleNormal();
+        if (cmd === PARTITION_DIVISION_CMD_ROBOT_V1) {
+          const splitResponse = decodePartitionDivision0x1d({ command });
+          if (splitResponse) {
+            clearTimeout(timerRef.current);
+            hideLoading();
+            handleNormal();
 
-          if (splitResponse.success) {
-            ToastInstance.success({
-              message: Strings.getLang('dsc_split_room_success'),
-            });
-          } else {
-            ToastInstance.fail({
-              message: Strings.getLang('dsc_split_room_fail'),
-            });
+            if (splitResponse.success) {
+              ToastInstance.success({
+                message: Strings.getLang('edit_success'),
+              });
+            } else {
+              ToastInstance.fail({
+                message: Strings.getLang('dsc_split_room_fail'),
+              });
+            }
           }
-
-          return;
         }
 
-        const mergeResponse = decodePartitionMerge0x1f({ command });
-        if (mergeResponse) {
-          clearTimeout(timerRef.current);
-          hideLoading();
-          handleNormal();
+        if (cmd === PARTITION_MERGE_CMD_ROBOT_V1) {
+          const mergeResponse = decodePartitionMerge0x1f({ command });
+          if (mergeResponse) {
+            clearTimeout(timerRef.current);
+            hideLoading();
+            handleNormal();
 
-          if (mergeResponse.success) {
-            ToastInstance.success({
-              message: Strings.getLang('dsc_merge_room_success'),
-            });
-          } else {
-            ToastInstance.fail({
-              message: Strings.getLang('dsc_merge_room_fail'),
-            });
+            if (mergeResponse.success) {
+              ToastInstance.success({
+                message: Strings.getLang('dsc_merge_room_success'),
+              });
+            } else {
+              ToastInstance.fail({
+                message: Strings.getLang('dsc_merge_room_fail'),
+              });
+            }
           }
-
-          return;
         }
 
-        const roomNameResponse = decodeSetRoomName0x25({
-          command,
-          version: PROTOCOL_VERSION,
-          mapVersion: store.getState().mapState.version,
-        });
-
-        if (roomNameResponse) {
-          clearTimeout(timerRef.current);
-          hideLoading();
-          handleNormal();
-
-          ToastInstance.success({
-            message: Strings.getLang('dsc_rename_room_success'),
+        if (cmd === SET_ROOM_NAME_CMD_ROBOT_V1) {
+          const roomNameResponse = decodeSetRoomName0x25({
+            command,
+            version: PROTOCOL_VERSION,
+            mapVersion: store.getState().mapState.version,
           });
+
+          if (roomNameResponse) {
+            clearTimeout(timerRef.current);
+            hideLoading();
+            handleNormal();
+
+            ToastInstance.success({
+              message: Strings.getLang('dsc_rename_room_success'),
+            });
+          }
         }
       }
     };
 
+    const handleRoomOrderResponse = () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        hideLoading();
+        handleNormal();
+        ToastInstance.success({
+          message: Strings.getLang('edit_success'),
+        });
+      }
+    };
+
     emitter.on('receiveRoomEditResponse', handleRoomEditResponse);
+    emitter.on('receiveRoomOrderResponse', handleRoomOrderResponse);
 
     return () => {
       emitter.off('receiveRoomEditResponse', handleRoomEditResponse);
+      emitter.off('receiveRoomOrderResponse', handleRoomOrderResponse);
     };
   }, []);
 
@@ -132,8 +160,9 @@ const RoomEdit: FC = () => {
   };
 
   const onClickSplitArea = async (data: any) => {
-    if (stateType.current === 'split') setActiveConfirm(true);
-    if (stateType.current === 'merge') {
+    if (stateType.current === EditTypes.split || stateType.current === EditTypes.order)
+      setActiveConfirm(true);
+    if (stateType.current === EditTypes.merge) {
       const res: any = await getLaserMapSplitPoint(mapId.current);
       // console.info('getLaserMapSplitPoint', res);
       const { data: rooms } = res;
@@ -164,7 +193,7 @@ const RoomEdit: FC = () => {
       }
     }
 
-    if (stateType.current === 'reName') {
+    if (stateType.current === EditTypes.reName) {
       const { version } = store.getState().mapState;
       const maxUnknownId = version === 1 ? 31 : 26;
       if (!data || !data.length || !Array.isArray(data)) return;
@@ -235,19 +264,20 @@ const RoomEdit: FC = () => {
 
   /**
    * 重命名弹窗确定
-   * @param tag
+   * @param name 房间名称
    */
-  const handleRenameConfirm = (tag: string) => {
+  const handleRenameConfirm = (name: string) => {
     const room = previewCustom[roomIdHexState] || {};
     const curRoom = {
       [roomIdHexState]: {
         ...room,
-        name: tag,
+        name,
       },
     };
-    const curData = { ...previewCustom, ...curRoom };
+    const newPreviewCustom = { ...previewCustom, ...curRoom };
     setShowRenameModal(false);
-    setPreviewCustom(curData);
+
+    setPreviewCustom(newPreviewCustom);
     setActiveConfirm(true);
   };
 
@@ -257,6 +287,7 @@ const RoomEdit: FC = () => {
   const handleRenameCancel = () => {
     // 取消，弹框关闭，停留在rename
     setShowRenameModal(false);
+
     if (Object.keys(previewCustom).length === 0) setActiveConfirm(false);
   };
 
@@ -270,19 +301,30 @@ const RoomEdit: FC = () => {
     setShowDecisionBar(false);
   };
 
+  const handleOrder = async () => {
+    try {
+      setMapStatusOrder(mapId.current);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   /**
    * 改变当前的逻辑状态
    */
   const handleStateChange = (type: string) => {
     switch (type) {
-      case 'merge':
+      case EditTypes.merge:
         handleMerge();
         break;
-      case 'split':
+      case EditTypes.split:
         handleSplit();
         break;
-      case 'reName':
+      case EditTypes.reName:
         handleRename();
+        break;
+      case EditTypes.order:
+        handleOrder();
         break;
       default:
         break;
@@ -303,7 +345,7 @@ const RoomEdit: FC = () => {
         text: Strings.getLang('dsc_room_merge'),
         image: Res.roomMerge,
         onClick: () => {
-          handleStateChange('merge');
+          handleStateChange(EditTypes.merge);
         },
       },
       {
@@ -317,19 +359,26 @@ const RoomEdit: FC = () => {
             });
             return;
           }
-          handleStateChange('split');
+          handleStateChange(EditTypes.split);
         },
       },
       {
         text: Strings.getLang('dsc_rename_room'),
         image: Res.roomName,
         onClick: () => {
-          handleStateChange('reName');
+          handleStateChange(EditTypes.reName);
+        },
+      },
+      {
+        text: Strings.getLang('dsc_order_room'),
+        image: Res.mapEdit,
+        onClick: () => {
+          handleStateChange(EditTypes.order);
         },
       },
     ];
     return (
-      <Grid border={false} columnNum={3}>
+      <Grid border={false} columnNum={4}>
         {menuList.map(item => {
           return (
             <GridItem
@@ -406,24 +455,22 @@ const RoomEdit: FC = () => {
     try {
       const { version } = store.getState().mapState;
       const maxUnknownId = version === 1 ? 31 : 26;
-      const customKeys = Object.keys(previewCustom);
+      const keys = Object.keys(previewCustom);
 
-      if (customKeys.some(key => parseRoomId(key, version) > maxUnknownId)) {
+      if (keys.some(key => parseRoomId(key, version) > maxUnknownId)) {
         showToast({
           title: Strings.getLang('dsc_home_selectRoom_unknown'),
           icon: 'error',
         });
         return;
       }
-      if (customKeys.some(key => stringToByte(previewCustom[key]).length > 19)) {
+      if (keys.some(key => stringToByte(previewCustom[key]).length > 19)) {
         showToast({
           title: Strings.getLang('dsc_room_name_too_long'),
           icon: 'error',
         });
         return;
       }
-
-      const keys = Object.keys(previewCustom);
 
       if (keys.length > 0) {
         const command = encodeSetRoomName0x24({
@@ -535,8 +582,36 @@ const RoomEdit: FC = () => {
       case 'reName':
         handleRoomNameOk();
         break;
+      case EditTypes.order:
+        handleOrderOk();
+        break;
       default:
         break;
+    }
+  };
+
+  const handleOrderOk = async () => {
+    const { data } = await getMapPointsInfo(mapId.current);
+    const { version } = store.getState().mapState;
+
+    if (Array.isArray(data)) {
+      const roomIdHexs = data
+        .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
+        .map(itm => itm.pixel);
+      const command = encodeRoomOrder0x26({
+        version: PROTOCOL_VERSION,
+        roomIdHexs,
+        mapVersion: version,
+      });
+      actions[commandTransCode].set(command);
+      showLoading({ title: '' });
+
+      timerRef.current = setTimeout(() => {
+        hideLoading();
+        ToastInstance.fail({
+          message: Strings.getLang('edit_fail'),
+        });
+      }, 20 * 1000);
     }
   };
 
@@ -571,22 +646,20 @@ const RoomEdit: FC = () => {
   ];
 
   return (
-    <View>
+    <View className={styles.container}>
       <MapView
         isFullScreen
-        mapDisplayMode="splitMap"
-        // 修改后存储的临时数据
+        // 房间信息临时数据
         preCustomConfig={previewCustom}
         onMapId={onMapId}
         onClickSplitArea={onClickSplitArea}
         onSplitLine={onSplitLine}
-        isLite
         onMapLoadEnd={onMapLoadEnd}
-        mapLoadEnd={mapLoadEnd}
         selectRoomData={[]}
         areaInfoList={[]}
         pathVisible={false}
       />
+
       <CoverView className={styles.bottomMenuBar}>
         {showMenuBar && mapLoadEnd && renderMenuBar()}
         {!showMenuBar && showDecisionBar && mapLoadEnd && (
@@ -604,6 +677,7 @@ const RoomEdit: FC = () => {
         tags={tags}
         onCancel={handleRenameCancel}
         onConfirm={handleRenameConfirm}
+        defaultValue=""
       />
 
       <Toast id="smart-toast" />

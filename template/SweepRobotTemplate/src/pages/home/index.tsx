@@ -1,20 +1,16 @@
-import TopBar from '@/components/TopBar';
-import { commandTransCode } from '@/constant/dpCodes';
-import { devices } from '@/devices';
+import HomeTopBar from '@/components/HomeTopBar';
 import store from '@/redux';
-import { emitter, getDpIdByCode } from '@/utils';
 import { freezeMapUpdate, setLaserMapStateAndEdit } from '@/utils/openApi';
-import { View, usePageEvent } from '@ray-js/ray';
+import { View } from '@ray-js/ray';
 import { ENativeMapStatusEnum } from '@ray-js/robot-sdk-types';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import ControllerBar from './ControllerBar';
 import styles from './index.module.less';
 import Map from './Map';
 
-export function Home() {
+const Home: FC = () => {
   const [mapStatus, setMapStatus] = useState<ENativeMapStatusEnum>(ENativeMapStatusEnum.normal); // 地图状态
-  const dpDataChangeRef = useRef<number>(null);
 
   /**
    * 修改地图状态&地图编辑状态
@@ -36,30 +32,16 @@ export function Home() {
     setMapStatus(status);
   };
 
-  useEffect(() => {
-    dpDataChangeRef.current = devices.common.onDpDataChange(({ dps }) => {
-      const dpCommandTrans = dps[getDpIdByCode(commandTransCode)];
-
-      if (dpCommandTrans && Object.keys(dps).length <= 1) {
-        emitter.emit('receiveCommandTransData', dpCommandTrans);
-      }
-    });
-  }, []);
-
-  usePageEvent('onUnload', () => {
-    dpDataChangeRef.current && devices.common.offDpDataChange(dpDataChangeRef.current);
-  });
-
   return (
-    <View className={styles.view}>
+    <View className={styles.container}>
+      {/* Topbar */}
+      <HomeTopBar />
       {/* 实时地图 */}
       <Map mapStatus={mapStatus} />
-      {/* Topbar */}
-      <TopBar />
       {/* 操作栏 */}
       <ControllerBar mapStatus={mapStatus} setMapStatus={setMapStatusChange} />
     </View>
   );
-}
+};
 
 export default Home;

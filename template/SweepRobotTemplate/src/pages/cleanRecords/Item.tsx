@@ -1,11 +1,9 @@
-import React, { FC, useEffect } from 'react';
-import { View, Text, getDevInfo, showLoading, hideLoading, router } from '@ray-js/ray';
-import { useActions } from '@ray-js/panel-sdk';
+import React, { FC } from 'react';
+import { View, showLoading, hideLoading, router, deleteCleaningRecord } from '@ray-js/ray';
 import moment from 'moment';
 import { Cell, SwipeCell } from '@ray-js/smart-ui';
 import { parseDataFromString } from '@/utils';
-
-import styles from './index.module.less';
+import Strings from '@/i18n';
 
 type Props = {
   data: CleanRecord;
@@ -22,8 +20,8 @@ const Item: FC<Props> = ({ data, onDeleted }) => {
 
   const handleDelete = async () => {
     try {
-      showLoading({ title: '删除中...' });
-      await ty.deleteCleaningRecord({
+      showLoading({ title: Strings.getLang('dsc_cleaning_record_delete') });
+      await deleteCleaningRecord({
         devId,
         fileIds: [id],
       });
@@ -54,14 +52,16 @@ const Item: FC<Props> = ({ data, onDeleted }) => {
             }}
             onClick={handleDelete}
           >
-            删除
+            {Strings.getLang('dsc_delete')}
           </View>
         ),
       }}
     >
       <Cell
         title={moment(timeStamp).format('YYYY-MM-DD HH:mm:ss')}
-        label={`${time} 分钟 | ${area} 平方米`}
+        label={`${time} ${Strings.getLang('dsc_minute')} | ${area} ${Strings.getLang(
+          'dsc_square_meter'
+        )}`}
         border={false}
         isLink
         onClick={handleDetail}

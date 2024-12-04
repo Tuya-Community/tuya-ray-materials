@@ -11,6 +11,11 @@ import virtualArea from './virtualArea.png';
 import virtualWall from './virtualWall.png';
 import disturb from './disturb.png';
 import emptyTimer from './emptyTimer.png';
+import camera from './camera.png';
+import floorMaterial from './mapEdit.png';
+import floorMaterialDefault from './default.png';
+import floorMaterialCeramic from './ceramic.png';
+import floorMaterialWoodHorizontal from './wood.png';
 
 export default {
   inputClose,
@@ -26,4 +31,9 @@ export default {
   virtualWall,
   disturb,
   emptyTimer,
+  camera,
+  floorMaterial,
+  floorMaterialDefault,
+  floorMaterialCeramic,
+  floorMaterialWoodHorizontal,
 };

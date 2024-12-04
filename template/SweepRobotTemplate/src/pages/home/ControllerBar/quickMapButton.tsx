@@ -2,7 +2,7 @@ import Strings from '@/i18n';
 import { robotIsCleaning } from '@/utils/robotStatus';
 import { useActions, useProps } from '@ray-js/panel-sdk';
 import { View } from '@ray-js/ray';
-import { encodeQuickMapV1 } from '@ray-js/robot-protocol';
+import { encodeQuickMap0x3c } from '@ray-js/robot-protocol';
 import { Button, Col, Row } from '@ray-js/smart-ui';
 import React, { FC } from 'react';
 import { commandTransCode, modeCode, statusCode } from '@/constant/dpCodes';
@@ -23,10 +23,10 @@ const QuickMapButton: FC = () => {
    * 下发快速建图指令
    */
   const quickMapFn = () => {
-    dpActions[commandTransCode].set(encodeQuickMapV1({ version: PROTOCOL_VERSION }));
+    dpActions[commandTransCode].set(encodeQuickMap0x3c({ version: PROTOCOL_VERSION }));
   };
 
-  const show = isEmptyMap && !robotIsCleaning(dpMode, dpStatus);
+  const show = isEmptyMap === true && !robotIsCleaning(dpMode, dpStatus);
   return show ? (
     <View style={{ width: '100vw' }}>
       <Row>

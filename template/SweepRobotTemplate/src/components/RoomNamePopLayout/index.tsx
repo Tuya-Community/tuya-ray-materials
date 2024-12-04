@@ -1,7 +1,7 @@
 import Strings from '@/i18n';
 import Res from '@/res';
 import { Button, Image, Input, Text, View } from '@ray-js/ray';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Popup } from '@ray-js/smart-ui';
 import { stringToByte } from '@ray-js/robot-protocol';
 import { THEME_COLOR } from '@/constant';
@@ -13,9 +13,10 @@ type Props = {
   onConfirm: (tag: string) => void;
   onCancel: () => void;
   tags: { text: string }[];
+  defaultValue: string;
 };
 
-const RoomNamePopLayout: FC<Props> = ({ show, tags, onCancel, onConfirm }) => {
+const RoomNamePopLayout: FC<Props> = ({ show, tags, onCancel, onConfirm, defaultValue }) => {
   const [tag, setTag] = useState('');
   const [errText, setErrText] = useState('');
   const [showErrText, setShowErrText] = useState(false);
@@ -42,6 +43,12 @@ const RoomNamePopLayout: FC<Props> = ({ show, tags, onCancel, onConfirm }) => {
     setShowErrText(false);
     setTag(value);
   };
+
+  useEffect(() => {
+    if (show) {
+      setTag(defaultValue || '');
+    }
+  }, [show]);
 
   return (
     <Popup

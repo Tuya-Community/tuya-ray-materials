@@ -247,7 +247,7 @@ export async function isForbiddenZonePointsInPile(
  */
 export const parseDataFromString = (inputString: string) => {
   // 使用正则表达式提取所需的部分
-  const regex = /^(\d{5})_(\d{8}_\d{6})_(\d{3})_(\d{3})_(\d{5})_(\d{5})_(\d{5})_(\d{2})_(\d{2})_(\d{2})_(\d{2})/;
+  const regex = /^(\d{5})_(\d{8}_\d{6})_(\d{3})_(\d{3})_(\d{5})_(\d{5})_(\d{5})(?:_(\d{2})_(\d{2})_(\d{2})_(\d{2}))?$/;
   const match = inputString.match(regex);
 
   if (!match) {
@@ -261,7 +261,7 @@ export const parseDataFromString = (inputString: string) => {
   const mapLength = parseInt(match[5], 10);
   const pathLength = parseInt(match[6], 10);
   const virtualLength = parseInt(match[7], 10);
-  const cleanMode = parseInt(match[8], 10);
+  const cleanMode = match[8] ? parseInt(match[8], 10) : undefined;
   const workMode = match[9];
   const cleaningResult = match[10];
   const startMethod = match[11];
@@ -298,7 +298,7 @@ export const parseDataFromString = (inputString: string) => {
  */
 export const decodeAreas = (command: string) => {
   const version = getFeatureProtocolVersion(command);
-  const cmd = getCmdStrFromStandardFeatureCommand(command);
+  const cmd = getCmdStrFromStandardFeatureCommand(command, version);
 
   // 虚拟墙
   if (cmd === VIRTUAL_WALL_CMD_ROBOT_V1) {
@@ -361,4 +361,40 @@ export const createLimitByNum = (data: Array<any>, num = 5, tip: string) => {
     return true;
   }
   return false;
+};
+
+/**
+ * 下载OSS地图文件
+ * @param url url
+ * @param rest 其他参数
+ * @returns
+ */
+export const fetchMapFile = async (url, ...rest) => {
+  return new Promise<{ data: string; status: number }>((resolve, reject) => {
+    ty.downloadFile({
+      url,
+      ...rest,
+      success: res => {
+        const { tempFilePath } = res;
+        ty.getFileSystemManager().readFile({
+          filePath: tempFilePath,
+          encoding: 'base64',
+          position: 0,
+          success: ({ data }) => {
+            resolve({
+              status: 200,
+              data,
+            });
+          },
+          fail: params => {
+            console.log('readFile fail', params);
+            reject();
+          },
+        });
+      },
+      fail: params => {
+        console.log('downloadFile failure', params);
+      },
+    });
+  });
 };

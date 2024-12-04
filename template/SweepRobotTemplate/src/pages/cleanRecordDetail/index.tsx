@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useEffect } from 'react';
+import React, { FC, useMemo, useEffect } from 'react';
 import { Text, View } from '@ray-js/ray';
 import { useSelector } from 'react-redux';
 import { selectCleanRecordById } from '@/redux/modules/cleanRecordsSlice';
@@ -43,7 +43,7 @@ const CleanRecordDetail: FC<Props> = ({ location }) => {
 
   return (
     <View className={styles.container}>
-      <Grid columnNum={3} border={false} customClass={styles.grid}>
+      <Grid columnNum={cleanMode !== undefined ? 3 : 2} border={false} customClass={styles.grid}>
         <GridItem useSlot>
           <Text
             style={{
@@ -76,26 +76,28 @@ const CleanRecordDetail: FC<Props> = ({ location }) => {
             {Strings.getDpLang('clean_area_total')}({Strings.getDpLang('clean_area_total', 'unit')})
           </Text>
         </GridItem>
-        <GridItem useSlot>
-          <Text
-            style={{
-              fontSize: '36rpx',
-              lineHeight: '40rpx',
-              fontWeight: '700',
-              marginBottom: '16rpx',
-              textAlign: 'center',
-            }}
-          >
-            {Strings.getDpLang('mode', MODE_VALUE_MAP[cleanMode])}
-          </Text>
-          <Text style={{ textAlign: 'center', fontSize: '24rpx', color: 'rgba(0, 0, 0, 0.5)' }}>
-            {Strings.getDpLang('mode')}
-          </Text>
-        </GridItem>
+        {cleanMode !== undefined && (
+          <GridItem useSlot>
+            <Text
+              style={{
+                fontSize: '36rpx',
+                lineHeight: '40rpx',
+                fontWeight: '700',
+                marginBottom: '16rpx',
+                textAlign: 'center',
+              }}
+            >
+              {Strings.getDpLang('mode', MODE_VALUE_MAP[cleanMode])}
+            </Text>
+            <Text style={{ textAlign: 'center', fontSize: '24rpx', color: 'rgba(0, 0, 0, 0.5)' }}>
+              {Strings.getDpLang('mode')}
+            </Text>
+          </GridItem>
+        )}
       </Grid>
 
       <View className={styles.mapWrapper}>
-        <HistoryMapView isFullScreen isLite history={history} pathVisible />
+        <HistoryMapView isFullScreen history={history} pathVisible />
       </View>
     </View>
   );

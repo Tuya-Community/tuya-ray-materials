@@ -3,7 +3,7 @@ import { useDisturbTime } from '@/hooks/useDisturbTime';
 import Strings from '@/i18n';
 import { utils } from '@ray-js/panel-sdk';
 import { View } from '@ray-js/ray';
-import { Button, Cell, CellGroup, DateTimePicker, Popup, Switch } from '@ray-js/smart-ui';
+import { Button, Cell, CellGroup, DateTimePicker, Popup } from '@ray-js/smart-ui';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.less';
 import SwitchBox from './switchBox';

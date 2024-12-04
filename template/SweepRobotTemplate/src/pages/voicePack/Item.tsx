@@ -7,6 +7,7 @@ import { emitter } from '@/utils';
 import { useActions } from '@ray-js/panel-sdk';
 import Strings from '@/i18n';
 import { encodeVoice0x34 } from '@ray-js/robot-protocol';
+import { voiceDataCode } from '@/constant/dpCodes';
 
 type Props = {
   data: Voice;
@@ -84,7 +85,7 @@ const Item: FC<Props> = ({ data, deviceVoice }) => {
   };
 
   const handleUse = () => {
-    actions.voice_data.set(
+    actions[voiceDataCode].set(
       encodeVoice0x34({
         id: extendData.extendId,
         url: officialUrl,
