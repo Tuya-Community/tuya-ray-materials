@@ -1,0 +1,22 @@
+@class-prefix-rayui-normal-slider: ~'rayui-normal-slider';
+.@{class-prefix-rayui-normal-slider} {
+  position: relative;
+  &-bar {
+    position: relative;
+  }
+  &-thumb {
+    position: absolute;
+    cursor: grab;
+  }
+  &-ticks {
+    position: absolute;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}

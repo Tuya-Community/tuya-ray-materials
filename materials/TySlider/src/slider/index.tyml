@@ -1,0 +1,121 @@
+<sjs src="./index.sjs" module="computed"></sjs>
+
+<view class="rayui-slider_wrap {{direction === 'vertical' ? 'vertical': 'horizontal'}}"
+  catchtouchstart="{{disable ? null : computed.handleTrackMouseDown(instanceId)}}"
+  catchtouchmove="{{disable ? null : computed.onMouseMove(instanceId)}}"
+  catchtouchend="{{disable ? null : computed.onTrackMouseUp(instanceId)}}"
+  style="{{hotAreaStyle}}"
+>
+  <view 
+    id="{{instanceId}}"
+    class="rayui-slider {{direction === 'vertical' ? 'vertical': 'horizontal'}} {{reverse ? 'reverse': 'no-reverse'}} {{disable ? 'disabled': ''}} {{className}}"
+    
+    change:start="{{computed.startPropObserver(instanceId)}}"
+    change:end="{{computed.endPropObserver(instanceId)}}"
+    change:watchstart="{{computed.watchstartPropObserver(instanceId)}}"
+    change:watchend="{{computed.watchenddPropObserver(instanceId)}}"
+    start="{{start}}"
+    end="{{end}}"
+    watchstart="{{watchStart}}"
+    watchend="{{watchEnd}}"
+
+    data-max="{{max}}"
+
+    data-step="{{step}}"
+
+    data-startmin="{{startMin}}"
+    data-startmax="{{startMax}}"
+    data-valuemin="{{min}}"
+    
+    data-endmin="{{endMin}}"
+    data-endmax="{{endMax}}"
+
+    data-parcel="{{parcel}}"
+    data-parcelmargin="{{parcelMargin}}"
+    data-mode="{{mode}}"
+    data-barpad="{{barPad}}"
+    data-hidethumb="{{hideThumb}}"
+    data-hidethumbbutton="{{hideThumbButton}}"
+    data-showsteps="{{showSteps}}"
+    data-direction="{{direction}}"
+    data-reverse="{{reverse}}"
+    data-enabletouch="{{enableTouch}}"
+    data-enabletouchbar="{{enableTouchBar}}"
+    data-maxrangeoffset="{{maxRangeOffset}}"
+    data-texttemplate="{{textTemplate}}"
+    data-showtext="{{showText}}"
+    data-thumbstylecalc="{{thumbStyleCalc}}"
+    data-hidebaronfirstrender="{{hideBarOnFirstRender}}"
+    data-thumbwrapstyle="{{thumbWrapStyle}}"
+
+    formatterrenderformatter="{{thumbStyleRenderFormatter}}"
+    formatterrenderscale="{{thumbStyleRenderValueScale}}"
+    thumbstylerendervaluestart="{{thumbStyleRenderValueStart}}"
+    thumbstylerendervaluereverse="{{thumbStyleRenderValueReverse}}"
+    data-formatterrenderformatter="{{thumbStyleRenderFormatter}}"
+    data-formatterrenderscale="{{thumbStyleRenderValueScale}}"
+    data-thumbstylerendervaluestart="{{thumbStyleRenderValueStart}}"
+    data-thumbstylerendervaluereverse="{{thumbStyleRenderValueReverse}}"
+    data-inferthumbbgcolorfromtrackbgcolor="{{inferThumbBgColorFromTrackBgColor}}"
+    data-trackbgcolor="{{trackBgColor}}"
+
+    data-starteventname="{{startEventName}}"
+    data-moveeventname="{{moveEventName}}"
+    data-endeventname="{{endEventName}}"
+
+    change:formatterrenderformatter="{{computed.updateObserver(instanceId)}}"
+    change:formatterrenderscale="{{computed.updateObserver(instanceId)}}"
+    change:thumbstylerendervaluestart="{{computed.updateObserver(instanceId)}}"
+    change:thumbstylerendervaluereverse="{{computed.updateObserver(instanceId)}}"
+
+    step="{{step}}"
+    change:step="{{computed.updateObserver(instanceId)}}"
+
+    hidden="{{hidden}}"
+    change:hidden="{{computed.updateObserver(instanceId)}}"
+    
+    style="{{trackStyle}}"
+  >
+    <view ty:if="{{showSteps}}" class="rayui-slider-steps">
+      <view class="rayui-slider-steps-dot" ty:if="{{stepsInited}}" ty:for="{{steps}}" style="{{stepStyle}}" ty:for-item="step">
+      </view>
+    </view>
+    <view class="rayui-slider-bar"
+      style="{{barStyle}}"
+    >
+      <view ty:if="{{showText}}" class="rayui-slider-bar-text" style="{{textStyle}}">
+        {{text}}
+      </view>
+      <view class="rayui-slider-bar-steps_wrap">
+        <view ty:if="{{showSteps}}" class="rayui-slider-steps">
+          <view class="rayui-slider-steps-dot" ty:if="{{stepsInited}}" ty:for="{{steps}}" style="{{activeStepStyle}}" ty:for-item="step">
+          </view>
+        </view>
+      </view>
+      <view ty:if="{{parcel}}" class="rayui-slider-thumb-render rayui-slider-thumb-parcel" style="{{thumbStyle}};width:{{parcelThumbWidth}}px;height:{{parcelThumbHeight}}px;"></view>
+    </view>
+    <view
+      class="rayui-slider-thumb rayui-slider-thumb-start"
+      data-name="start"
+      bind:touchstart="{{disable ? null : computed.handleMouseDown(instanceId)}}"
+      bind:touchend="{{disable ? null : computed.onMouseUp(instanceId)}}"
+    >
+      <view 
+        data-name="start"
+        class="rayui-slider-thumb-render rayui-slider-thumb-start-render"
+      ></view>
+    </view>
+    <view
+      class="rayui-slider-thumb rayui-slider-thumb-end"
+      data-name="end"
+      bind:touchstart="{{disable ? null : computed.handleMouseDown(instanceId)}}"
+      bind:touchend="{{disable ? null : computed.onMouseUp(instanceId)}}"
+    >
+      <view 
+        data-name="end"
+        class="rayui-slider-thumb-render rayui-slider-thumb-end-render" style="{{thumbStyle}};opacity:{{(hideThumbButton || parcel) ? 0 : 1}};"
+      >
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,70 @@
+{
+  "name": "@ray-js/components-ty-slider",
+  "version": "0.2.52",
+  "description": "涂鸦风格滑动条",
+  "main": "lib/index",
+  "files": [
+    "lib"
+  ],
+  "license": "MIT",
+  "types": "lib/index.d.ts",
+  "maintainers": [
+    "tuya_npm",
+    "",
+    {
+      "name": "tuyafe",
+      "email": "tuyafe@tuya.com"
+    }
+  ],
+  "scripts": {
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "build": "ray build --type=component",
+    "watch": "export BROWSERSLIST='Last 3 versions' && ray start --type=component",
+    "build:tuya": "ray build ./example -t tuya",
+    "build:wechat": "ray build ./example --target=wechat",
+    "build:web": "ray build ./example --target=web",
+    "build:native": "ray build ./example --target=native",
+    "start:tuya": "export BROWSERSLIST='Last 3 versions' && ray start ./example",
+    "start:native": "ray start ./example -t native",
+    "start:wechat": "ray start ./example -t wechat",
+    "start:web": "ray start ./example -t web",
+    "prepublishOnly": "yarn build",
+    "release-it": "standard-version"
+  },
+  "dependencies": {
+    "clsx": "^1.2.1",
+    "to-style": "^1.3.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "@ray-js/cli": "^1.5.47",
+    "@ray-js/ray": "^1.5.47",
+    "babel-loader": "^9.2.1",
+    "core-js": "^3.19.1",
+    "eslint-config-tuya-panel": "^0.4.2",
+    "husky": "^1.2.0",
+    "lint-staged": "^10.2.11",
+    "patch-package": "^8.0.0",
+    "standard-version": "9.3.2"
+  },
+  "peerDependencies": {
+    "@ray-js/ray": "^1.5.36"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS --config commitlint.config.js",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}

@@ -145,5 +145,16 @@ Tuya Ray Materials
   </details>
   </td>
 </tr>
+
+<tr>
+  <td id="TySlider">2024/12</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/TySlider">TySlider</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/materials-TySlider.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
 </table>
 <!-- txp-asset-qrcode-end -->

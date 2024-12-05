@@ -1,0 +1,7 @@
+export default Render({
+  emit(eventName, val){
+    if(this.instance.eventChannel) {
+      this.instance.eventChannel.emit(eventName, val);
+    }
+  }
+});

@@ -1,0 +1,14 @@
+{
+  "projectname": "@ray-js/components-ty-slider",
+  "i18n": false,
+  "description": "",
+  "baseversion": "2.13.3",
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "2.1.2",
+    "DeviceKit": "2.2.2",
+    "MiniKit": "2.3.7",
+    "TYKit": "2.0.6"
+  },
+  "compileType": "miniprogram"
+}
