@@ -174,7 +174,7 @@ Tuya Ray Materials
   <td>
   <details>
   <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=PanelLock" target="_blank">View Details</a>
+  <img src="./qrCode/template-PanelLock.png" width="100" height="100">
   </details>
   </td>
 </tr>
