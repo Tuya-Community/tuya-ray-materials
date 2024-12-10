@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.device-list {
+  padding: 0 32rpx 0;
+  flex: 1;
+}
+
+.device-item {
+  margin-bottom: 24rpx;
+}
+
+.select-all-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.select-all-text {
+  font-weight: normal;
+  font-size: 26rpx;
+  color: var(--index-text-color-alpha7)
+}
+
+.select-progress {
+  font-weight: bold;
+  font-size: 26rpx;
+  color: var(--theme-color);
+  margin-left: 4rpx;
+}
+
+.select-all-checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  margin-left: 12rpx;
+}
+
+.empty-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - var(--bottom-fixed-button-height) - var(--bottom-fixed-button-content-padding) * 2 - var(--safe-area-bottom) - var(--safe-area-top));
+}

@@ -1,0 +1,31 @@
+:root {
+  --theme-color: #4797FF;
+  --bottom-fixed-button-height: 108rpx;
+  --bottom-fixed-button-content-padding: 24rpx;
+  --safe-area-top: env(safe-area-inset-top, 0);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0);
+
+  --index-main-bg: #FFFFFF; // 页面底色
+  --index-card-bg: #FFFFFF; // 内容卡片背景色
+  --index-text-color-alpha1: rgba(0, 0, 0, 0.1);
+  --index-text-color-alpha2: rgba(0, 0, 0, 0.2);
+  --index-text-color-alpha3: rgba(0, 0, 0, 0.3);
+  --index-text-color-alpha7: rgba(0, 0, 0, 0.7);
+  --index-text-color-alpha9: rgba(0, 0, 0, 0.9);
+  --index-border-color: rgba(0, 0, 0, 0.05);
+  // 字体图标
+  .iconfont {
+    margin: 0 !important;
+  }
+}
+
+:root[theme='dark'] {
+  --index-main-bg: #000000; // 页面底色
+  --index-card-bg: #191919; // 内容卡片背景色
+  --index-text-color-alpha1: rgba(255, 255, 255, 0.1);
+  --index-text-color-alpha2: rgba(255, 255, 255, 0.2);
+  --index-text-color-alpha3: rgba(255, 255, 255, 0.3);
+  --index-text-color-alpha7: rgba(255, 255, 255, 0.7);
+  --index-text-color-alpha9: rgba(255, 255, 255, 0.9);
+  --index-border-color: rgba(255, 255, 255, 0.05);
+}

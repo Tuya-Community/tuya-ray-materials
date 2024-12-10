@@ -1,0 +1,35 @@
+.bottom-button {
+  background-color: var(--index-main-bg);
+
+  &-placeholder {
+    width: 100%;
+    height: calc(var(--bottom-fixed-button-height) + var(--bottom-fixed-button-content-padding) * 2);
+    padding-bottom: var(--safe-area-bottom);
+    box-sizing: content-box;
+  }
+
+  &-content {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px -6rpx 16rpx rgba(0, 0, 0, 0.04);
+    padding: var(--bottom-fixed-button-content-padding) 0 calc(var(--bottom-fixed-button-content-padding) + var(--safe-area-bottom));
+  }
+
+  &-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 568rpx;
+    height: var(--bottom-fixed-button-height);
+    border-radius: 92px;
+    font-weight: bold;
+    font-size: 32rpx;
+    color: #FFFFFF;
+  }
+}

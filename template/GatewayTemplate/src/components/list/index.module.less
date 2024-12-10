@@ -1,0 +1,43 @@
+.list {
+  background-color: var(--index-card-bg);
+
+  &-item-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 168rpx;
+    margin: 0 40rpx;
+
+    &:not(:last-child) {
+      border-bottom: 1rpx solid rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  &-disabled-item {
+    opacity: 0.3;
+  }
+
+  &-item-left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+
+  &-item-image {
+    width: 56rpx;
+    height: 56rpx;
+    margin-right: 24rpx;
+  }
+
+  &-item-title {
+    color: var(--index-text-color-alpha7);
+    font-weight: bold;
+    font-size: 30rpx;
+  }
+
+  &-arrow {
+    width: 36rpx;
+    height: 36rpx;
+  }
+}

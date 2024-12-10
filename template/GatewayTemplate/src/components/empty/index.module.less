@@ -1,0 +1,21 @@
+.empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &-image {
+    width: 360rpx;
+    height: 360rpx;
+    margin-bottom: 72rpx;
+  }
+
+  &-tips {
+    font-weight: bold;
+    font-size: 36rpx;
+    color: var(--theme-text-color);
+    // 因为切出来的图上面留有较多空白，约65px。所以给文字下方也加上。以达到居中的效果
+    margin-bottom: 130rpx;
+  }
+}

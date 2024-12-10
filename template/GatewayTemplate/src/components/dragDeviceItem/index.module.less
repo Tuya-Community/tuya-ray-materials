@@ -1,0 +1,69 @@
+.device-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  height: 172rpx;
+  background: var(--index-card-bg);
+  border-radius: 16px;
+  padding: 0 28rpx;
+
+  &-disabled {
+    background-color: var(--index-card-bg);
+    opacity: 0.3;
+  }
+
+  &-left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  &-icon {
+    width: 80rpx;
+    height: 80rpx;
+    margin-right: 24rpx;
+  }
+
+  &-main-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  &-name {
+    font-weight: bold;
+    font-size: 30rpx;
+    line-height: 36rpx;
+    color: var(--index-text-color-alpha7);
+    text-align: left;
+  }
+
+  &-online-state-tag {
+    display: inline-block;
+    margin-top: 12rpx;
+    border-radius: 5px;
+    padding: 8rpx;
+    font-size: 24rpx;
+    line-height: 28rpx;
+    background: rgba(71, 151, 255, 0.2);
+    color: var(--theme-color);
+  }
+
+  &-offline {
+    color: var(--index-text-color-alpha7);
+    background: var(--index-text-color-alpha2);
+  }
+
+  &-checkbox-icon {
+    width: 40rpx;
+    height: 40rpx;
+  }
+}
+
+button[disabled] {
+  background-color: var(--index-card-bg);
+  opacity: 0.3;
+}
