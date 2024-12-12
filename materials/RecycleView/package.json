@@ -1,0 +1,66 @@
+{
+  "name": "@ray-js/recycle-view",
+  "version": "0.1.1",
+  "description": "Ray 长列表",
+  "main": "lib/index",
+  "files": [
+    "lib"
+  ],
+  "license": "MIT",
+  "types": "lib/index.d.ts",
+  "maintainers": [
+    "tuya_npm",
+    {
+      "name": "tuyafe",
+      "email": "tuyafe@tuya.com"
+    }
+  ],
+  "scripts": {
+    "dev": "yarn start:tuya",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "build": "patch-package && ray build --type=component",
+    "build:tuya": "ray build --bundler webpack ./example --target=tuya",
+    "start:tuya": "ray start ./example",
+    "prepublishOnly": "yarn build",
+    "release-it": "standard-version"
+  },
+  "peerDependencies": {
+    "@ray-js/ray": "^1.4.9"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "@ray-js/cli": "^1.4.9",
+    "@ray-js/panel-sdk": "^1.13.0-storage.7",
+    "@ray-js/ray": "^1.4.9",
+    "core-js": "^3.19.1",
+    "eslint-config-tuya-panel": "^0.4.2",
+    "husky": "^1.2.0",
+    "lint-staged": "^10.2.11",
+    "patch-package": "^8.0.0",
+    "standard-version": "9.3.2"
+  },
+  "resolutions": {
+    "@ray-js/builder-mp": "1.4.15"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS --config commitlint.config.js",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "author": "罗丘（黄辉）"
+}

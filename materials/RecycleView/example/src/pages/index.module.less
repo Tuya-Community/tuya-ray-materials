@@ -1,0 +1,30 @@
+.recycleView {
+  height: calc(100vh - 44px - 30px);
+}
+.buttonWrapper {
+  display: flex;
+  justify-content: space-around;
+  height: 44px;
+  line-height: 44px;
+}
+.demoBlockTitle {
+  position: relative;
+  padding-bottom: 6px;
+  .demoBlockTitleText {
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 28rpx;
+    padding-left: 16rpx;
+    height: 23px;
+    line-height: 23px;
+  }
+  .demoBlockTitleText::before {
+    position: absolute;
+    content: '';
+    top: calc(50% - 2rpx);
+    left: 0;
+    width: 4rpx;
+    height: 4rpx;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.45);
+  }
+}
