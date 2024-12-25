@@ -1,6 +1,6 @@
 {
   "name": "panel-lamp",
-  "version": "1.1.8",
+  "version": "1.2.1",
   "description": "Panel Lamp",
   "main": "index.js",
   "private": true,
@@ -14,15 +14,14 @@
     "build:tuya": "ray build -t tuya --verbose"
   },
   "dependencies": {
-    "@ray-js/components-ty-lamp": "^1.10.13",
+    "@ray-js/components-ty-lamp": "^2.0.1",
     "@ray-js/panel-sdk": "^1.13.1",
-    "@ray-js/ray": "^1.5.44",
+    "@ray-js/ray": "^1.6.1",
     "@ray-js/ray-error-catch": "^0.0.25",
-    "@ray-js/smart-ui": "^2.0.0",
+    "@ray-js/smart-ui": "^2.1.6",
     "@reduxjs/toolkit": "^2.0.1",
     "ahooks": "^3.7.1",
     "clsx": "^1.2.1",
-    "core-js": "^3.23.5",
     "lodash-es": "^4.17.21",
     "react-redux": "^7.0.0",
     "redux-logger": "^3.0.6"
@@ -30,11 +29,12 @@
   "devDependencies": {
     "@commitlint/cli": "^7.2.1",
     "@commitlint/config-conventional": "^9.0.1",
-    "@ray-js/cli": "^1.5.44",
+    "@ray-js/cli": "^1.6.1",
     "@types/lodash-es": "^4.17.6",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
     "@types/redux-logger": "^3.0.12",
+    "core-js": "^3.23.5",
     "eslint-config-tuya-panel": "^0.4.1",
     "eslint-plugin-literal-check": "^0.1.2",
     "eslint-plugin-prettier": "^3.0.1",

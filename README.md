@@ -81,17 +81,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="PublicPanelLamp">2024/11</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelLamp">PublicPanelLamp</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-PublicPanelLamp.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="LampBeaconTemplate">2024/11</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/LampBeaconTemplate">LampBeaconTemplate</a></td>
   <td>
@@ -186,6 +175,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <img src="./qrCode/template-PublicSdmTemplate.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="PublicPanelLamp">2024/12</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelLamp">PublicPanelLamp</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-PublicPanelLamp.png" width="100" height="100">
   </details>
   </td>
 </tr>

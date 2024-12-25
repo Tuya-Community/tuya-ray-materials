@@ -8,7 +8,6 @@ import { Button } from '@/components';
 import Strings from '@/i18n';
 import defaultConfig from '@/config/default';
 import { useHideMenuButton } from '@/hooks/useHideMenuButton';
-import { useSystemInfo } from '@/hooks/useSystemInfo';
 import { selectCustomColor, updateCustomColor } from '@/redux/modules/uiStateSlice';
 import { useAppDispatch } from '@/redux';
 import { NavBar } from '@ray-js/smart-ui';
@@ -20,10 +19,9 @@ const { hsv2rgbString, brightKelvin2rgb } = utils;
 
 export function PowerMemory() {
   const dispatch = useAppDispatch();
-  const { safeArea } = useSystemInfo();
   const dpActions = useStructuredActions();
   const powerMemory = useStructuredProps(props => props[power_memory.code]);
-  const [mode, setMode] = useState(`${powerMemory?.mode}` ?? '1');
+  const [mode, setMode] = useState(`${powerMemory?.mode ?? 1}`);
   const customColor = useSelector(selectCustomColor);
 
   useHideMenuButton();
@@ -89,7 +87,6 @@ export function PowerMemory() {
                 style={{
                   borderBottom: `1px solid ${item.mode === '2' ? 'transparent' : '#393838'}`,
                 }}
-                opacity={item.mode !== '2' ? 0.7 : 1}
                 onClick={() => {
                   setMode(item.mode);
                 }}

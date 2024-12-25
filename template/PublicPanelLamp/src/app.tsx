@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import React from 'react';
-import 'ray';
 import '@/i18n';
 import './app.less';
 import { SdmProvider } from '@ray-js/panel-sdk';

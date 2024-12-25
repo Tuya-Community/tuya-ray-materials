@@ -4,10 +4,10 @@ import { useUnmount } from 'ahooks';
 import { View } from '@ray-js/ray';
 import { useProps, utils, kit, useStructuredActions } from '@ray-js/panel-sdk';
 import { LampMusicCard } from '@ray-js/components-ty-lamp';
-import { CoolBarCard } from '@/components';
 import defaultConfig from '@/config/default';
 // import { useSystemInfo } from '@/hooks/useSystemInfo';
 import Strings from '@/i18n';
+import { CoolBarCard } from '../../CoolBarCard';
 import styles from './index.module.less';
 
 const { defaultAppMusicList } = defaultConfig;

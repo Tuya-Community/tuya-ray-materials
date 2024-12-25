@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image } from '@ray-js/ray';
 import { useActions } from '@ray-js/panel-sdk';
-import { Button } from '@/components';
+import { Button } from '../Button';
 import styles from './index.module.less';
 
 export const ControlBar = () => {

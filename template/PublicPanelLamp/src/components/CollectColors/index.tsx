@@ -7,7 +7,6 @@ import { useUnmount } from 'ahooks';
 import clsx from 'clsx';
 import { useSelector } from 'react-redux';
 import Strings from '@/i18n';
-import { Button } from '@/components';
 import { devices } from '@/devices';
 import { CLOUD_DATA_KEYS_MAP } from '@/constant';
 import { ReduxState, useAppDispatch } from '@/redux';
@@ -21,6 +20,7 @@ import {
   updateCollectColors,
   updateCollectWhites,
 } from '@/redux/modules/cloudStateSlice';
+import { Button } from '../Button';
 import styles from './index.module.less';
 
 const { hsv2rgbString, brightKelvin2rgb } = utils;
@@ -90,13 +90,6 @@ export const CollectColors = (props: IProps) => {
   });
 
   const handleAddColor = () => {
-    // const storageKey = isColor
-    //   ? CLOUD_DATA_KEYS_MAP.collectColors
-    //   : CLOUD_DATA_KEYS_MAP.collectWhites;
-    // devices.lamp.model.abilities.storage.remove(storageKey).then(res => {
-    //   console.log('=== remove res', res);
-    // });
-    // return;
     if (activeIndex > -1) {
       showModal({
         title: Strings.getLang('repeatColor'),

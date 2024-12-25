@@ -2,7 +2,8 @@ import React from 'react';
 import { View } from '@ray-js/components';
 import { useActions, useSupport } from '@ray-js/panel-sdk';
 import { getDefaultScenes } from '@/utils/getDefaultScenes';
-import { CoolBarCard, SceneCard } from '@/components';
+import { CoolBarCard } from '../../CoolBarCard';
+import { SceneCard } from '../../SceneCard';
 import styles from './index.module.less';
 
 interface Props {

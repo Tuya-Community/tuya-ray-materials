@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { View, Input, Image } from '@ray-js/ray';
 import { useUpdateEffect, useThrottleFn } from 'ahooks';
-import { Button } from '@/components';
+import { Button } from '../Button';
 import styles from './index.module.less';
 
 interface IProps {

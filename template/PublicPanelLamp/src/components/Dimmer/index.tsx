@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { DpState, useSupport } from '@ray-js/panel-sdk';
 import { useCreation } from 'ahooks';
-import { TabBar, CollectColors } from '@/components';
 import { lampSchemaMap } from '@/devices/schema';
 import Strings from '@/i18n';
+import { TabBar } from '../TabBar';
+import { CollectColors } from '../CollectColors';
 import { Box } from '../Box';
 import { Scene } from './Scene';
 import { Music } from './Music';
@@ -135,7 +136,7 @@ export const Dimmer = React.memo((props: IProps) => {
     >
       {workModeTabs.length > 1 && (
         <TabBar
-          itemWidth={`${100 / workModeTabs.length ?? 2}%`}
+          itemWidth={`${100 / (workModeTabs.length ?? 2)}%`}
           itemHeight={56}
           value={['colour', 'white', 'scene', 'music'].includes(mode) ? mode : 'white'}
           tabList={workModeTabs}
