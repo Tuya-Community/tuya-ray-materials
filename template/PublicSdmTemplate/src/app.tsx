@@ -1,6 +1,5 @@
 /* eslint-disable import/no-duplicates */
 import React from 'react';
-import 'ray';
 import '@/i18n';
 import '@/res/iconfont/iconfont.css';
 import './app.less';

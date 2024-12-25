@@ -46,13 +46,19 @@ If you have any questions, please visit the link and submit post feedback: https
 
 ## 8. Changelog
 
-## [1.2.2] - 2024-11-19
+### [1.2.4] - 2024-12-17
+
+- Remove some redundant code
+- Update `@ray-js/ray` version to `1.6.1`
+- Update `@ray-js/smart-ui` version to `2.1.5`
+
+### [1.2.2] - 2024-11-19
 
 - Access Device Details Feature Page
 
-## [1.2.0] - 2024-11-18
+### [1.2.0] - 2024-11-18
 
-### Refactored
+#### Refactored
 
 - Updated `@ray-js/ray` version to `1.5.44`
 - Updated `@ray-js/panel-sdk` version to `1.13.1`
