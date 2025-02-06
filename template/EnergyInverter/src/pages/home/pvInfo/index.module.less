@@ -1,0 +1,82 @@
+.card {
+  overflow: hidden;
+  padding: 48rpx;
+  margin-bottom: 24rpx;
+  --field-card-width: 200rpx;
+  --field-error-message-text-font-size: 28rpx;
+  --field-card-padding: 0;
+
+  :global(.smart-field__body) {
+    justify-content: flex-start !important;
+  }
+
+  .staticsWrap {
+    display: flex;
+    justify-content: space-between;
+
+    .chartWrap {
+      flex: 1;
+
+      .canvasWrap {
+        width: 240rpx;
+        height: 240rpx;
+      }
+    }
+
+    .sepWrap {
+      width: 2rpx;
+      height: 180rpx;
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    .dataWrap {
+      flex: 1;
+      padding-left: 76rpx;
+
+      // .inputClsx {
+      //   border: 1px solid red;
+      // }
+    }
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-around;
+    text-align: left;
+    margin-top: 24rpx;
+  }
+
+  .font1 {
+    font-family: PingFang SC;
+    font-size: 24rpx;
+    color: rgba(0, 0, 0, 0.45);
+  }
+  .font2 {
+    font-family: Manrope;
+    font-size: 40rpx;
+    font-weight: 700;
+  }
+  .font3 {
+    font-family: Manrope;
+    font-size: 28rpx;
+    font-weight: 700;
+    color: #000;
+  }
+}
+
+.mt4 {
+  margin-top: 8rpx;
+}
+
+.mt16 {
+  margin-top: 32rpx;
+}
+
+.headWrap {
+  background-image: url(../../../res/images/home/pv_bg.png);
+  background-size: 100% 100%;
+  width: 480rpx;
+  height: 213rpx;
+  margin-top: 74rpx;
+  margin-left: 240rpx;
+}

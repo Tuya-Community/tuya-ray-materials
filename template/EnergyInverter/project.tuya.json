@@ -1,0 +1,19 @@
+{
+  "name": "tyiq6ya0x6tbjb7wbt",
+  "type": "panel-app",
+  "ownerType": "tuya-official",
+  "i18n": false,
+  "description": "",
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.11.3",
+    "MiniKit": "3.9.8",
+    "DeviceKit": "4.5.1",
+    "BizKit": "4.5.1"
+  },
+  "baseversion": "2.19.0",
+  "projectname": "储能逆变器",
+  "devMode": "ray",
+  "compileType": "miniprogram",
+  "remoteDebug": "mqtt"
+}

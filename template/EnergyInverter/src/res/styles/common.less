@@ -1,0 +1,22 @@
+.flex-row() {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column() {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center() {
+  justify-content: center;
+  align-items: center;
+}
+
+.multiple-line-ellipsis(@lines) {
+  display: -webkit-box;
+  -webkit-line-clamp: @lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

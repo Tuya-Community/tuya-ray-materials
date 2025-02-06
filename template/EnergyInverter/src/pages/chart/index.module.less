@@ -1,0 +1,160 @@
+.wrap {
+  --switch-width: 80rpx;
+
+  .card {
+    padding: 32rpx 0;
+    .titleWrap {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+
+      .unit {
+        flex: 1;
+        font-size: 28rpx;
+        text-align: center;
+        color: rgba(0, 0, 0, 0.34);
+
+        &.active {
+          color: #000;
+
+          &::after {
+            content: '';
+            height: 4rpx;
+            width: 34rpx;
+            border-radius: 2rpx;
+            background: #000;
+            display: inline-block;
+            vertical-align: 16rpx;
+          }
+        }
+      }
+    }
+
+    .chartWrap {
+      padding: 0 32rpx;
+      margin-top: 40rpx;
+    }
+
+    .legendWrap {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      margin-top: 30rpx;
+    }
+
+    .dateTimeWrap {
+      margin-top: 60rpx;
+
+      .timeWrap {
+        display: flex;
+        justify-content: space-between;
+
+        .iconLeftArrow {
+          width: 48rpx;
+          height: 48rpx;
+          vertical-align: middle;
+        }
+
+        .iconRightArrow {
+          width: 48rpx;
+          height: 48rpx;
+          transform: rotate(180deg);
+          vertical-align: middle;
+        }
+      }
+
+      .dateWrap {
+        margin-top: 24rpx;
+        display: flex;
+        text-align: center;
+        background-color: #f2f2f2;
+        border-radius: 16rpx;
+        padding: 8rpx;
+        gap: 16rpx;
+
+        .unit {
+          flex: 1;
+          border-radius: 12rpx;
+          font-size: 24rpx;
+          font-weight: 500;
+          height: 48rpx;
+          line-height: 48rpx;
+          color: rgba(0, 0, 0, 0.5);
+
+          &.active {
+            background-color: #fff;
+            color: #000;
+          }
+        }
+      }
+    }
+  }
+
+  .noWrap {
+    text-align: center;
+    padding: 220rpx 0;
+    color: #ccc;
+  }
+
+  .font1 {
+    font-family: PingFang SC;
+    font-size: 24rpx;
+    color: rgba(0, 0, 0, 0.45);
+  }
+
+  .font2 {
+    font-family: Manrope;
+    font-size: 40rpx;
+    font-weight: 700;
+  }
+
+  .font3 {
+    font-family: SF Pro Display;
+    font-size: 28rpx;
+  }
+
+  .font4 {
+    font-family: PingFang SC;
+    font-size: 32rpx;
+    font-weight: 600;
+  }
+
+  .mt6 {
+    margin-top: 12rpx;
+  }
+  .ml3 {
+    margin-left: 6rpx;
+  }
+
+  .picsWrap {
+    margin: 24rpx 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-row-gap: 26rpx;
+    grid-column-gap: 26rpx;
+    margin-bottom: 160rpx;
+
+    .unit {
+      border-radius: 32rpx;
+      height: 236rpx;
+      overflow: hidden;
+      padding: 32rpx 0 0 40rpx;
+      background-size: 100% 100%;
+      background-color: #eef5ff;
+    }
+
+    .co2 {
+      background-image: url(/images/chart/co2.png);
+    }
+    .tree {
+      background-image: url(/images/chart/tree.png);
+    }
+    .coal {
+      background-image: url(/images/chart/coal.png);
+    }
+    .electricity {
+      background-image: url(/images/chart/electricity.png);
+    }
+  }
+}

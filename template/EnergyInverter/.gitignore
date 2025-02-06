@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+.ray
+.history
+/typings/tuya_miniapp__api-types
+/typings/tuya-miniapp__BaseKit
+/typings/tuya-miniapp__BizKit
+/typings/tuya-miniapp__DeviceKit
+/typings/tuya-miniapp__MiniKit

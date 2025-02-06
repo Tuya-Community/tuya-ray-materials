@@ -1,0 +1,45 @@
+export default Render({
+  pageDraw(rate) {
+    getCanvasById('pageCanvas1', this).then((canvas) => {
+      const context = canvas.getContext("2d");
+      const _width_ = 120;
+      const _height_ = 120;
+      const _radius_ = _width_ * 0.8;
+      const _lineWidth_ = (13 / 68) * _width_;
+
+      canvas.width = _width_ * 2
+      canvas.height = _height_ * 2
+
+      let _rate = 0;
+      let timer = null;
+
+      animate();
+
+      function animate() {
+        context.clearRect(0, 0, _width_ * 2, _height_ * 2);
+
+        context.lineWidth = _lineWidth_;
+        context.strokeStyle = '#CCC'
+        context.beginPath();
+        context.arc(_width_, _height_, _radius_, 0, 2 * Math.PI, false);
+        context.stroke();
+
+        context.lineWidth = _lineWidth_;
+        context.strokeStyle = '#3BCF77'
+        context.lineCap = 'round';
+        context.beginPath();
+        context.arc(_width_, _height_, _radius_, Math.PI * 0.5, Math.PI * ((_rate / 100) * 2 + 0.5), false);
+        context.stroke();
+        context.closePath();
+        context.textAlign = 'center';
+        context.font = 'bold 40px Manrope';
+        context.fillText(_rate + '%', _width_, _height_ + 10);
+        timer = requestAnimationFrame(animate);
+        _rate++;
+        if (_rate > rate) {
+          cancelAnimationFrame(timer);
+        }
+      }
+    })
+  },
+});

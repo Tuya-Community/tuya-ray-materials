@@ -1,0 +1,36 @@
+{
+  "light": {
+    "navBgColor": "tan",
+    "navTxtStyle": "black",
+    "bgColor": "var(--app-B1)",
+    "tabFontColor": "rgba(0, 0, 0, 0.3)",
+    "tabSelectedColor": "#000",
+    "tabBgColor": "#fff",
+    "tabBorderStyle": "white",
+    "iconPathDashboard": "/images/tab/dashboard.png",
+    "selectedIconPathDashboard": "/images/tab/dashboard-selected.png",
+    "iconPathChart": "/images/tab/chart.png",
+    "selectedIconPathChart": "/images/tab/chart-selected.png",
+    "iconPathAlarm": "/images/tab/alarm.png",
+    "selectedIconPathAlarm": "/images/tab/alarm-selected.png",
+    "iconPathMenu": "/images/tab/menu.png",
+    "selectedIconPathMenu": "/images/tab/menu-selected.png"
+  },
+  "dark": {
+    "navBgColor": "tan",
+    "navTxtStyle": "white",
+    "bgColor": "var(--app-B1)",
+    "tabFontColor": "#ffffff",
+    "tabSelectedColor": "#51a937",
+    "tabBgColor": "#191919",
+    "tabBorderStyle": "white",
+    "iconPathDashboard": "/images/tab/dashboard.png",
+    "selectedIconPathDashboard": "/images/tab/dashboard-selected.png",
+    "iconPathChart": "/images/tab/chart.png",
+    "selectedIconPathChart": "/images/tab/chart-selected.png",
+    "iconPathAlarm": "tabFontColor/images/tab/alarm.png",
+    "selectedIconPathAlarm": "/images/tab/alarm-selected.png",
+    "iconPathMenu": "/images/tab/menu.png",
+    "selectedIconPathMenu": "/images/tab/menu-selected.png"
+  }
+}

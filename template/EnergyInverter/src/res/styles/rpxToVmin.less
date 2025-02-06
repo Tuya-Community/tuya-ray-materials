@@ -1,0 +1,15 @@
+.rpxToVmin(@property, @value) {
+  @{property}: unit((@value / 7.5), vmin);
+}
+
+.rpxToVmin(@property, @value1, @value2) {
+  @{property}: unit((@value1 / 7.5), vmin) unit((@value2 / 7.5), vmin);
+}
+
+.rpxToVmin(@property, @value1, @value2, @value3) {
+  @{property}: unit((@value1 / 7.5), vmin) unit((@value2 / 7.5), vmin) unit((@value3 / 7.5), vmin);
+}
+
+.rpxToVmin(@property, @value1, @value2, @value3, @value4) {
+  @{property}: unit((@value1 / 7.5), vmin) unit((@value2 / 7.5), vmin) unit((@value3 / 7.5), vmin) unit((@value4 / 7.5), vmin);
+}
