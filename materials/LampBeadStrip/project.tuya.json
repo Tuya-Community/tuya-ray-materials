@@ -1,0 +1,14 @@
+{
+  "projectname": "@ray-js/lamp-bead-strip",
+  "i18n": false,
+  "description": "",
+  "baseversion": "2.10.4",
+  "miniprogramRoot": "./example/dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.1",
+    "BizKit": "3.0.7",
+    "DeviceKit": "4.0.8",
+    "MiniKit": "3.0.7"
+  },
+  "compileType": "miniprogram"
+}

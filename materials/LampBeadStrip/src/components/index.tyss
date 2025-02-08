@@ -1,0 +1,9 @@
+.ray-lamp-bead-strip {
+  height: 48rpx;
+  width:570rpx;
+}
+
+.ray-lamp-bead-strip-canvas {
+  width: 100%;
+  height: 100%;
+}

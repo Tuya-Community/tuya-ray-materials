@@ -1,0 +1,176 @@
+/*
+ * @Author: mjh
+ * @Date: 2024-09-02 11:42:04
+ * @LastEditors: mjh
+ * @LastEditTime: 2025-01-20 10:05:42
+ * @Description: 
+ */
+
+import { topList } from './utils'
+import modeOption from './mode/index'
+export default Render({
+  ctx: null,
+  offset: 0,
+  scale: 1,
+  timer: null,
+  colors: [],
+  contentValue: {},
+  speed: 50,
+  ready: true,
+  mode: null,
+  animationStore: null,
+  closeRgb: null,
+  preCustom: null,
+  /**
+   * @name: 渲染灯带动画
+   * @desc: 
+   * @param {*} props
+   * @return {*}
+   */  
+  async renderLight(props) {
+    this.scale = props.scale || 1;
+    if (!props.canvasId) {
+      console.log('canvasId 是必传项！');
+      return
+    }
+    // 初始化记录和缩放 canvas
+    if(!this.ctx) {
+      const canvas5 = await getCanvasById('ray-lamp-bead-strip-canvasId-' + props.canvasId);
+      this.ctx = canvas5.getContext('2d');
+      this.ctx.scale(this.scale, this.scale);
+    }
+    this.ready = props.ready ?? true
+    // 自定义动画模式
+    if (props.customAnimationList) {
+      this.checkCustomAnimation(props)
+      return
+    }
+    // 只有关键属性变化才重置动画
+    const isSameContent = `${props.closeColor}${props.mode}${props.colors.length}${props.contentValue.expand}${props.contentValue.segmented}` === `${this.closeRgb}${this.mode}${this.colors.length}${this.contentValue.expand}${this.contentValue.segmented}`
+    this.closeRgb = props.closeColor;
+    this.mode = props.mode;
+    this.colors = props.colors;
+    this.contentValue = props.contentValue || {};
+    this.speed = props.speed || 50; 
+    // 获取对应模式的动画方法
+    const currFun = modeOption[this.mode];
+    const isSafe = this.errorCheck(currFun, props)
+    if(!isSafe) return
+    this.animationStore = modeOption[this.mode](props.colors, props.contentValue, this.closeRgb)
+    this.startLight(!isSameContent)
+  },
+  /**
+   * @name: 开始动画
+   * @desc: 
+   * @param {*} init 是否重置动画
+   * @return {*}
+   */
+  startLight(init) {
+    // 重置动画
+    if (init) {
+      this.offset = 0
+    }
+    this.stopLight();
+    this.draw();
+    // 动画更新时间
+    const speed = this.speed < 30 ? 200 + (30 - this.speed) * 5 : 6000 / this.speed;
+    if(!this.ready) return
+    this.timer = setInterval(() => {
+      this.draw();
+    },speed);
+  },
+  /**
+   * @name: 暂停动画
+   * @desc: 
+   * @return {*}
+   */
+  async stopLight() {
+    if (!this.timer) return;
+    clearInterval(this.timer);
+    this.timer = null;
+  },
+  /**
+   * @name: 绘制动画
+   * @desc: 
+   * @return {*}
+   */
+  draw() {
+    const { colorList, length } = this.animationStore
+    this.drawPoint(colorList[this.offset]);
+    this.offset += 1;
+    if(this.offset === length) this.offset = 0
+  },
+  checkCustomAnimation(props) {
+    const isSameContent = this.preCustom ? `${JSON.stringify(props.customAnimationList)}${props.customAnimationChangeTime}` === this.preCustom : false;
+    this.preCustom = `${JSON.stringify(props.customAnimationList)}${props.customAnimationChangeTime}`;
+    // 重置动画
+    if (!isSameContent) {
+      this.offset = 0
+    }
+    this.stopLight();
+    this.drawCustom(props.customAnimationList);
+    if(!this.ready) return
+    this.timer = setInterval(() => {
+      this.drawCustom(props.customAnimationList);
+    }, props.customAnimationChangeTime);
+  },
+  drawCustom(colorList) {
+    this.drawPoint(colorList[this.offset]);
+    this.offset += 1;
+    if(this.offset === colorList.length) this.offset = 0
+  },
+  /**
+   * @name: 绘制点
+   * @desc: 
+   * @param {*} colorList 颜色列表
+   * @return {*}
+   */  
+  drawPoint(colorList) {
+    if(!colorList) return;
+    this.ctx.globalCompositeOperation = 'destination-over';
+    // clear canvas
+    this.ctx.clearRect(0, 0, this.ctx.canvas.clientWidth, this.ctx.canvas.clientHeight);
+    let startTop = (8.75 + 4.5)
+    colorList.forEach((_, index) => {
+      const color = colorList[index]
+      const topMid = topList[index]
+      startTop -= topMid
+      //开始绘制
+      this.ctx.beginPath();
+      this.ctx.arc(
+        (4.5 + 14.45 * index),
+        startTop,
+        4.5,
+        0,
+        2*Math.PI);
+      this.ctx.fillStyle = color;
+      this.ctx.fill();
+    })
+  },
+  /**
+   * @name: 异常错误检测
+   * @desc: 
+   * @param {*} currFun 动画方法
+   * @param {*} props 入参
+   * @return {*}
+   */
+  errorCheck(currFun, props) {
+    if (!currFun) {
+      console.error('错误的动画mode类型！');
+      return false
+    }
+    if (!props.colors?.length) {
+      console.error('未传入颜色列表！');
+      return false
+    }
+    if (props.colors.some(item => typeof item === 'string' ? !item.startsWith('rgb(') : true)) {
+      console.error('颜色必须是rgb！');
+      return false
+    }
+    if (props.speed > 100 || props.speed < 1) {
+      console.error('错误的speed值，其范围为1～100！');
+      return false
+    }
+    return true
+  }
+});

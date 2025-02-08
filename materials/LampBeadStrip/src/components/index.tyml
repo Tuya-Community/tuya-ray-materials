@@ -1,0 +1,11 @@
+<view 
+    class="ray-lamp-bead-strip {{prop.className}}" 
+    style="{{prop.containerStyle}}"
+>
+    <canvas 
+        type="2d" 
+        class="ray-lamp-bead-strip-canvas"
+        canvas-id="ray-lamp-bead-strip-canvasId-{{prop.canvasId}}" 
+        style="{{prop.canvasStyle}}"
+    ></canvas>
+</view>
