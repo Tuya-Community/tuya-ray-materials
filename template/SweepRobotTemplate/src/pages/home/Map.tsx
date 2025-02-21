@@ -197,9 +197,8 @@ const Map: React.FC<Props> = ({ mapStatus }) => {
 
   const uiInterFace = React.useMemo(() => {
     return {
-      isShowCurPosRing: !isRobotQuiet(dpStatus), // 当前点ring
+      isShowCurPosRing: isRobotQuiet(dpStatus), // 当前点ring
       isCustomizeMode: customizeModeSwitchState, // 是否显示房间属性折叠标签
-      isRobotQuiet: isRobotQuiet(dpStatus), // 当前地图是否安静
     };
   }, [dpMode, dpStatus]);
 

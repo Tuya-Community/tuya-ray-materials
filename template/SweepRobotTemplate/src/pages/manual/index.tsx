@@ -23,6 +23,7 @@ const Manual: FC = () => {
 
     onNavigationBarBack(async () => {
       try {
+        DialogInstance.close();
         await DialogInstance.confirm({
           context: this,
           title: Strings.getLang('dsc_tips'),

@@ -48,24 +48,6 @@ export const JsonUtil = {
 };
 
 /**
- * 获取DP信息
- * @param dpcode DP Code
- * @returns
- */
-export const getDpSchema = (dpCode: string) => {
-  return (getDevInfo().schema[dpCode] ?? {}) as DpSchema;
-};
-
-/**
- * 检测DP是否存在
- * @param dpCode DP Code
- * @returns
- */
-export const checkDpExist = (dpCode: string) => {
-  return dpCode in getDevInfo().schema;
-};
-
-/**
  * 根据dpCode获取dpId
  */
 export const getDpIdByCode = (dpCode: string) => getDevInfo().codeIds[dpCode];

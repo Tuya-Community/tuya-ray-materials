@@ -54,6 +54,7 @@ const Setting: FC = () => {
   };
 
   const handleResetMap = () => {
+    DialogInstance.close();
     DialogInstance.confirm({
       context: this,
       title: Strings.getLang('dsc_tips'),
@@ -68,6 +69,7 @@ const Setting: FC = () => {
       })
       .catch(() => {
         //
+        DialogInstance.close();
       });
   };
 

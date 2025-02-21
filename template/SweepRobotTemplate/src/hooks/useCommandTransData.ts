@@ -213,6 +213,7 @@ export default function useCommandTransData() {
         })
       );
       areaList.push(...sweepRegionData.map(item => getZoneCleanConfig(item.points)));
+
       if (appointData && appointData.length > 0) {
         areaList.push(getPoseCleanConfig(appointData));
       }

@@ -4,7 +4,6 @@
   "ownerType": "tuya-official",
   "i18n": false,
   "description": "",
-  "publicRoot": "./assets",
   "miniprogramRoot": "./dist/tuya",
   "dependencies": {
     "BaseKit": "3.0.0",
@@ -12,7 +11,7 @@
     "DeviceKit": "4.0.8",
     "BizKit": "4.2.0",
     "P2PKit": "2.1.1",
-    "IPCKit": "1.3.6"
+    "IPCKit": "6.0.1"
   },
   "compilerOptions": {
     "dangerouslyDisableRjsScope": true,
@@ -22,6 +21,6 @@
   "projectname": "激光扫地机",
   "compileType": "miniprogram",
   "webviewRoot": "webview",
-  "remoteDebug": "lan",
+  "remoteDebug": "mqtt",
   "devMode": "ray"
 }

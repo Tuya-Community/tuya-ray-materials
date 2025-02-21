@@ -16,7 +16,6 @@ export const tuya = {
       appid: 'tycryc71qaug8at6yt',
     },
   },
-  routers: ['camera_playback_panel', 'ipc_album_panel'],
 };
 
 const globalConfig: GlobalConfig = {

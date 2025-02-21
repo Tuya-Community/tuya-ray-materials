@@ -2,6 +2,35 @@
 
 All notable changes will be recorded in this file.
 
+## [0.0.12] - 2025-02-11
+
+### Fixed
+
+- Fixed the occasional issue where the map could not be updated
+
+## [2024-01-10]
+
+### Added
+
+- Support dynamically showing/hiding paths through `pathVisible`
+
+### Fixed
+
+- Fixed the issue of 'function is not defined' error occurring occasionally on some Android phones
+- Fixed an occasional issue on iOS15 where the map could not be loaded
+- Fixed the occasional issue where P2P could not connect after switching from the background to the foreground on mobile devices.
+- Fixed the method of obtaining the URL using the **Use Map** directive
+
+## [2024-12-10]
+
+### Added
+
+- Add IconFont component
+
+### Fixed
+
+- Fixed an issue where the Dynamic component might not update the real-time map.
+
 ## [2024-11-22]
 
 ### Added

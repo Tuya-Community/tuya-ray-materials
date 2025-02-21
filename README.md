@@ -48,17 +48,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="SweepRobotTemplate">2024/11</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SweepRobotTemplate">SweepRobotTemplate</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-SweepRobotTemplate.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="SphygmometerHealthTemplate">2024/11</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SphygmometerHealthTemplate">SphygmometerHealthTemplate</a></td>
   <td>
@@ -230,6 +219,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <img src="./qrCode/materials-LampBeadStrip.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="SweepRobotTemplate">2025/02</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SweepRobotTemplate">SweepRobotTemplate</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-SweepRobotTemplate.png" width="100" height="100">
   </details>
   </td>
 </tr>

@@ -7,6 +7,8 @@ import Loading from '../Loading';
 import styles from '../MapView/index.module.less';
 import { IProps } from '../MapView/type';
 
+const IS_DEV = process.env.NODE_ENV === 'development';
+
 const HistoryMapView: React.FC<IProps & { enableGesture?: boolean }> = props => {
   const {
     isFullScreen = false,
@@ -15,7 +17,6 @@ const HistoryMapView: React.FC<IProps & { enableGesture?: boolean }> = props => 
     history,
     snapshotImage,
     pathVisible,
-    logPrint = false,
     backgroundColor = '#f2f4f6',
   } = props;
 
@@ -71,11 +72,12 @@ const HistoryMapView: React.FC<IProps & { enableGesture?: boolean }> = props => 
     onClickRoom: data => {
       props.onClickRoom?.(data);
     },
-    onLoggerInfo: data => {
-      if (logPrint) {
-        console.log(data.info || '', data.theme || '', ...Object.values(data.args || {}));
-      }
-    },
+    onLoggerInfo:
+      IS_DEV && false
+        ? (data: any) => {
+            console.log(data.info || '', data.theme || '', ...Object.values(data.args || {}));
+          }
+        : undefined,
     onClickModel: data => {
       props.onClickModel?.(data);
     },

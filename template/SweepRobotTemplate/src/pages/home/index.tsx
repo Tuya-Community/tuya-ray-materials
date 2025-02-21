@@ -1,7 +1,7 @@
 import HomeTopBar from '@/components/HomeTopBar';
 import store from '@/redux';
 import { freezeMapUpdate, setLaserMapStateAndEdit } from '@/utils/openApi';
-import { View } from '@ray-js/ray';
+import { getDevInfo, View } from '@ray-js/ray';
 import { ENativeMapStatusEnum } from '@ray-js/robot-sdk-types';
 import React, { FC, useState } from 'react';
 
@@ -36,10 +36,10 @@ const Home: FC = () => {
     <View className={styles.container}>
       {/* Topbar */}
       <HomeTopBar />
-      {/* 实时地图 */}
-      <Map mapStatus={mapStatus} />
       {/* 操作栏 */}
       <ControllerBar mapStatus={mapStatus} setMapStatus={setMapStatusChange} />
+      {/* 实时地图 */}
+      <Map mapStatus={mapStatus} />
     </View>
   );
 };

@@ -12,7 +12,6 @@ export interface IProps extends EventProps {
     isShowPileRing?: boolean;
     isShowCurPosRing?: boolean;
     isCustomizeMode?: boolean;
-    isRobotQuiet?: boolean;
     isFoldable?: boolean;
   };
   mapId?: string;
@@ -29,6 +28,5 @@ export interface IProps extends EventProps {
   is3d?: boolean;
   snapshotImage?: { image: string; width: number; height: number };
   pathVisible?: boolean;
-  logPrint?: boolean;
   backgroundColor?: string;
 }

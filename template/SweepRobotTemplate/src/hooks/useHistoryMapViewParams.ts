@@ -25,7 +25,6 @@ type Props = {
     isShowPileRing?: boolean; // 是否显示禁区ring
     isShowCurPosRing?: boolean; // 当前点ring
     isCustomizeMode?: boolean;
-    isRobotQuiet?: boolean;
     isFoldable?: boolean; // 房间属性是否折叠
   };
   pathVisible?: boolean;

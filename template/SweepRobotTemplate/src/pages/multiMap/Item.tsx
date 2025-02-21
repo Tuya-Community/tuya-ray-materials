@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useMemo, useRef } from 'react';
-import { Text, View, hideLoading, showLoading } from '@ray-js/ray';
+import { Text, View, getSystemInfoSync, hideLoading, showLoading } from '@ray-js/ray';
 import HistoryMapView from '@/components/HistoryMapView';
 import { Button, ToastInstance } from '@ray-js/smart-ui';
 import { useActions } from '@ray-js/panel-sdk';
@@ -24,6 +24,7 @@ import { emitter } from '@/utils';
 import { useDebounceFn } from 'ahooks';
 import { commandTransCode } from '@/constant/dpCodes';
 
+import ossApiInstance from '@/api/ossApi';
 import styles from './index.module.less';
 
 type Props = {
@@ -33,7 +34,7 @@ type Props = {
 const Item: FC<Props> = ({ data }) => {
   const dispatch = useDispatch();
   const actions = useActions();
-  const { mapId, id, bucket, snapshotImage, file, title, time, filePathKey } = data;
+  const { mapId, id, bucket, snapshotImage, file, title, time, robotUseFile, filePathKey } = data;
   const timerRef = useRef<NodeJS.Timeout>(null);
   const mapIdRef = useRef<string>(null);
 
@@ -55,12 +56,26 @@ const Item: FC<Props> = ({ data }) => {
     }, 10 * 1000);
   };
 
-  const handleUseMap = () => {
+  const handleUseMap = async () => {
+    if (getSystemInfoSync().brand === 'devtools') {
+      ToastInstance(
+        'IDE上暂时无法获得完整的url，所以无法正常下发正确的[使用地图]指令，请在真机上调试该功能'
+      );
+      return;
+    }
+
     showLoading({ title: '' });
+
+    /**
+     * IDE上暂时无法获得完整的url，所以无法正常下发正确的[使用地图]指令，请在真机上调试该功能
+     */
+
+    const { data: url } = await ossApiInstance.getCloudFileUrl(bucket, robotUseFile);
+
     actions[commandTransCode].set(
       encodeUseMap0x2e({
         mapId,
-        url: file,
+        url,
       })
     );
 

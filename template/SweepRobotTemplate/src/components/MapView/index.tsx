@@ -11,6 +11,8 @@ import Loading from '../Loading';
 import { IProps } from './type';
 import EmptyMap from '../EmptyMap';
 
+const IS_DEV = process.env.NODE_ENV === 'development';
+
 const MapView: React.FC<IProps> = React.memo(props => {
   const [mapLoadEnd, setMapLoadEnd] = useState(false);
 
@@ -20,7 +22,6 @@ const MapView: React.FC<IProps> = React.memo(props => {
     preCustomConfig,
     pathVisible,
     areaInfoList,
-    logPrint = false,
     backgroundColor = '#f2f4f6',
     style = {},
   } = props;
@@ -185,11 +186,13 @@ const MapView: React.FC<IProps> = React.memo(props => {
     onClickRoom: (data: any) => {
       events.current.onClickRoom?.(data);
     },
-    onLoggerInfo: (data: any) => {
-      if (logPrint) {
-        console.log(data.info || '', data.theme || '', ...Object.values(data.args || {}));
-      }
-    },
+    // 调试有必要的话，可开启日志打印，注意这会增加通道数据量
+    onLoggerInfo:
+      IS_DEV && false
+        ? (data: any) => {
+            console.log(data.info || '', data.theme || '', ...Object.values(data.args || {}));
+          }
+        : undefined,
     onClickModel: (data: any) => {
       events.current.onClickModel?.(data);
     },
@@ -265,10 +268,6 @@ const MapView: React.FC<IProps> = React.memo(props => {
         ...style,
       }}
     >
-      {isEmpty && <EmptyMap />}
-
-      <Loading isLoading={isLoading} />
-
       {isFullScreen && (
         <IndoorMap.Full
           {...eventCallbacks.current}
@@ -294,6 +293,10 @@ const MapView: React.FC<IProps> = React.memo(props => {
           onDecodePathData={handleDecodePathData}
         />
       )}
+
+      {isEmpty && <EmptyMap />}
+
+      <Loading isLoading={isLoading} />
     </View>
   );
 });

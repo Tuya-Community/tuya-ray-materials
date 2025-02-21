@@ -5,7 +5,6 @@ import base64Imgs from '@/res/base64Imgs';
 import { UiInterFace } from '@ray-js/robot-map-component/lib/types/uiInterFace';
 import { convertColorToArgbHex } from '@ray-js/robot-protocol';
 import { IAnimationTypeEnum } from '@ray-js/robot-sdk-types';
-import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 type Props = {
@@ -42,12 +41,6 @@ export default function useMiddlewareMapViewParams({
     isScale: false,
     scale: 0.015,
   };
-
-  const areaInfoListForThisMap = useMemo(() => {
-    if (areaInfoList) return areaInfoList;
-
-    return RCTAreaList;
-  }, [areaInfoList, RCTAreaList]);
 
   const pilePositionParams = isShowPileRing
     ? {
@@ -233,7 +226,7 @@ export default function useMiddlewareMapViewParams({
       pathVisible,
       preCustomRoomConfig: preCustomConfig,
       customRoomConfig: customConfig,
-      areaInfoList: JSON.stringify(areaInfoListForThisMap),
+      areaInfoList: JSON.stringify(areaInfoList ?? RCTAreaList),
       materialObject,
     },
     // 地图的Hex数据
