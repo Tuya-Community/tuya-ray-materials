@@ -94,6 +94,13 @@ If you have any questions, please visit the link and submit a post for feedback:
 
 ## Changelog
 
+### [0.0.13] - 2025-2-27
+
+#### Changed
+
+- **@ray-js/robot-map-component** updated to v0.1.0-beta-17.
+- **copy-script** script updated.
+
 ### [0.0.12] - 2025-02-21
 
 #### Added

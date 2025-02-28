@@ -20,7 +20,7 @@
     "@ray-js/ray": "^1.6.20",
     "@ray-js/ray-error-catch": "^0.0.23",
     "@ray-js/robot-data-stream": "0.0.10-beta-17",
-    "@ray-js/robot-map-component": "^0.1.0-beta-16",
+    "@ray-js/robot-map-component": "0.1.0-beta-17",
     "@ray-js/robot-protocol": "^0.10.6",
     "@ray-js/robot-sdk-types": "^0.0.6",
     "@ray-js/smart-ui": "^2.1.4",

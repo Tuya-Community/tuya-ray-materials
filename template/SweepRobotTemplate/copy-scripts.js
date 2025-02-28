@@ -6,4 +6,4 @@ if (!shell.test('-d', 'webview')) {
 } else {
   console.log('【copy-scripts】: Directory already exists.');
 }
-shell.cp('-R', 'node_modules/@ray-js/robot-map-component/lib/webview/index.html', 'webview');
+shell.cp('-R', 'node_modules/@ray-js/robot-middleware/lib/robot-middleware/index.html', 'webview');

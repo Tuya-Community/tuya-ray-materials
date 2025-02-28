@@ -224,23 +224,23 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="SweepRobotTemplate">2025/02</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SweepRobotTemplate">SweepRobotTemplate</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-SweepRobotTemplate.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="AIAudioTranscriptionAndSummary">2025/02</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/AIAudioTranscriptionAndSummary">AIAudioTranscriptionAndSummary</a></td>
   <td>
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=AIAudioTranscriptionAndSummary" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="SweepRobotTemplate">2025/02</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SweepRobotTemplate">SweepRobotTemplate</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-SweepRobotTemplate.png" width="100" height="100">
   </details>
   </td>
 </tr>

@@ -94,6 +94,13 @@
 
 ## Changelog
 
+### [0.0.13] - 2025-2-27
+
+#### Changed
+
+- **@ray-js/robot-map-component** 更新到 **v0.1.0-beta-17**。
+- **copy-script** 脚本更新。
+
 ### [0.0.12] - 2025-02-21
 
 #### Added
