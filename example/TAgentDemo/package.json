@@ -1,0 +1,24 @@
+{
+  "name": "t-agent-demo",
+  "version": "1.0.0",
+  "description": "TAgent Demo",
+  "private": true,
+  "author": "Tuya.inc",
+  "license": "MIT",
+  "scripts": {
+    "start": "ray start --target tuya",
+    "build": "ray build --target tuya"
+  },
+  "dependencies": {
+    "@ray-js/ray": ">=1.6.21",
+    "@ray-js/t-agent": "^0.0.7",
+    "@ray-js/t-agent-plugin-assistant": "^0.0.7",
+    "@ray-js/t-agent-ui-ray": "^0.0.7"
+  },
+  "devDependencies": {
+    "@ray-js/cli": ">=1.6.21",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "core-js": "^3.29.1"
+  }
+}
