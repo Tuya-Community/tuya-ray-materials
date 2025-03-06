@@ -94,6 +94,19 @@ If you have any questions, please visit the link and submit a post for feedback:
 
 ## Changelog
 
+### [0.0.14] - 2025-3-6
+
+#### Changed
+
+- **@ray-js/robot-map-component** update to **1.0.0-beta-2**.
+- **@ray-js/robot-map-middleware** update to **1.0.0-beta-2**.
+
+#### Added
+
+- Support custom room bubble pop-ups.
+- Expose room default color configuration.
+- Support special room background color configuration.
+
 ### [0.0.13] - 2025-2-27
 
 #### Changed

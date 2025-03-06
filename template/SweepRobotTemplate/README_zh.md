@@ -94,6 +94,19 @@
 
 ## Changelog
 
+### [0.0.14] - 2025-3-6
+
+#### Changed
+
+- **@ray-js/robot-map-component** 更新到 **1.0.0-beta-2**。
+- **@ray-js/robot-map-middleware** 更新到 **1.0.0-beta-2**。
+
+#### Added
+
+- 支持自定义房间气泡弹窗。
+- 暴露房间常态颜色配置。
+- 支持特殊房间背景颜色配置。
+
 ### [0.0.13] - 2025-2-27
 
 #### Changed

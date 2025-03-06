@@ -2492,23 +2492,22 @@
     react "^17.0.2"
     react-dom "^17.0.2"
 
-"@ray-js/robot-map-component@0.1.0-beta-17":
-  version "0.1.0-beta-17"
-  resolved "https://registry.yarnpkg.com/@ray-js/robot-map-component/-/robot-map-component-0.1.0-beta-17.tgz#3ca7d3ac2c1685af862eaa7e1f4c326bc4c52281"
-  integrity sha512-J8czDjVqNfUAUSe1KIkV3+3p46gGa21WxPjV3Q13W0Lwyyc1DyY61U1RdFjyqGGFgIN97LGzlpCwQ6PIPB9Xcw==
+"@ray-js/robot-map-component@1.0.0-beta-2":
+  version "1.0.0-beta-2"
+  resolved "https://registry.yarnpkg.com/@ray-js/robot-map-component/-/robot-map-component-1.0.0-beta-2.tgz#9239b03ff8ef8e7471d8a24dbd51f8bf4b553a40"
+  integrity sha512-ujwUzS4L+Qs+WUTrm8frSm+N5jMPBx2g45QcFRiCVwxU8kV198BJWi5EATZhtEhlNhp+Vs+NBA85bGbtnTf2Ow==
   dependencies:
     "@ray-js/hybrid-robot-map" "0.0.5-beta-24"
-    "@ray-js/robot-middleware" "0.1.0-beta-19"
     "@ray-js/robot-sdk-types" "0.0.6"
     "@ray-js/webview-invoke" "^0.0.3"
     clsx "^1.2.1"
     lodash-es "^4.17.21"
     tinycolor2 "^1.6.0"
 
-"@ray-js/robot-middleware@0.1.0-beta-19":
-  version "0.1.0-beta-19"
-  resolved "https://registry.yarnpkg.com/@ray-js/robot-middleware/-/robot-middleware-0.1.0-beta-19.tgz#a5f7a18fffb7af815eada8e783200cdb0bf0d042"
-  integrity sha512-4LQHYOYsS/bLO88uNMXfslpXXZuyThMCfYtOt1qAoedFi+SaYdonPzRCxJZLfAEXCOkvRueTIU0UH3/+juozSg==
+"@ray-js/robot-middleware@1.0.0-beta-2":
+  version "1.0.0-beta-2"
+  resolved "https://registry.yarnpkg.com/@ray-js/robot-middleware/-/robot-middleware-1.0.0-beta-2.tgz#50e51c1b01238c5adf95070f8ca645119fe16fbc"
+  integrity sha512-+vtge84tL1eVdZSr2Mv+fZzvNumEmHddhirOsaRA35K/2JwH/yTwkqGEfGh5r10ZEMruwuVjnMZn+lTztLq4aw==
   dependencies:
     reconnecting-websocket "^4.4.0"
 
