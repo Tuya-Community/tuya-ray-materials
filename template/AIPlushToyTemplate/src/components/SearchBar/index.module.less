@@ -1,0 +1,59 @@
+@import '../../global.less';
+@import '../../app.less';
+@import '../../variables.less';
+
+@width: 100%;
+
+.container {
+  width: 690rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 24rpx;
+  padding-right: 12rpx;
+  background-color: #ffffff;
+}
+
+.searchIcon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.input:extend(.flex-row) {
+  height: 80rpx;
+  width: 460rpx;
+  background-color: #ffffff;
+  color: #000;
+  font-size: 28rpx;
+  padding-left: 32rpx;
+  text-align: left;
+  justify-content: center;
+}
+
+.searchText {
+  font-size: 28rpx;
+  height: 48rpx;
+  line-height: 48rpx;
+  color: #408cff;
+  text-align: center;
+}
+
+.searchBtn:extend(.flex-column) {
+  width: 120rpx;
+  height: 48rpx;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.verticalLine {
+  width: 2rpx;
+  height: 32rpx;
+  background-color: #408cff;
+  position: absolute;
+  top: 8rpx;
+  left: 0;
+}

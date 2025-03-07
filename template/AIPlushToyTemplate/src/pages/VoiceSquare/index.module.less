@@ -1,0 +1,53 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(180deg, #daecf6 0%, #eff0f0 100%);
+
+  .tagBar {
+    padding-bottom: 34rpx;
+    padding-right: 32rpx;
+    width: 100vw;
+    margin: 17rpx auto 0 auto;
+  }
+
+  .btn {
+    width: 400rpx;
+    padding: 32rpx;
+    height: 'auto';
+    border-radius: 54rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: calc(50% - 200rpx);
+    bottom: 62rpx;
+
+    .btnText {
+      max-width: 580rpx;
+      height: 40rpx;
+      line-height: 40rpx;
+      text-align: center;
+      font-size: 32rpx;
+      font-weight: 500;
+    }
+  }
+
+  .tagBarBox {
+    display: inline-block;
+  }
+
+  .recycleView {
+    width: 100vw;
+    height: auto;
+    padding-left: 32rpx;
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,40 @@
+@import '../../../global.less';
+@import '../../../variables.less';
+
+.container:extend(.flex-column) {
+  width: 620rpx;
+  height: 164rpx;
+  background-color: #ffffff;
+  border-radius: 32rpx;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 24rpx;
+
+  .textBox:extend(.flex-row) {
+    width: 620rpx;
+    height: 92rpx;
+    justify-content: flex-start;
+    padding-top: 32rpx;
+    padding-left: 32rpx;
+    background-color: #ffffff;
+    margin-bottom: 4rpx;
+
+    .title:extend(.ellipsis) {
+      font-size: 28rpx;
+      max-width: 240rpx;
+      height: 40rpx;
+      line-height: 40rpx;
+      font-weight: 500;
+      color: #000000;
+      margin-right: 12rpx;
+    }
+
+    .value {
+      font-size: 28rpx;
+      height: 40rpx;
+      line-height: 40rpx;
+      color: @theme-color;
+    }
+  }
+}

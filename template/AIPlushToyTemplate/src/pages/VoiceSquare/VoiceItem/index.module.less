@@ -1,0 +1,118 @@
+@import '../../../variables.less';
+@import '../../../mixins.less';
+@import '../../../app.less';
+
+.container {
+  width: 686rpx;
+  padding: 32rpx 32rpx 32rpx 24rpx;
+  border-radius: 32rpx;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+  transition: border-color 0.5s ease; /* 添加过渡效果 */
+
+  .icon {
+    width: 96rpx;
+    height: 96rpx;
+    margin-right: 24rpx;
+  }
+
+  .textBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    .voiceName:extend(.ellipsis) {
+      color: #3d3d3d;
+      font-size: 32rpx;
+      font-weight: 500;
+      max-width: 300rpx;
+      height: 44rpx;
+      line-height: 44rpx;
+    }
+
+    .createTime:extend(.ellipsis) {
+      color: #999999;
+      font-size: 28rpx;
+      max-width: 300rpx;
+      height: 40rpx;
+      line-height: 40rpx;
+      margin-top: 4rpx;
+    }
+  }
+
+  .tagBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 350rpx;
+    flex-wrap: wrap;
+
+    .singleTag {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 32rpx;
+      padding: 5rpx 10rpx;
+      border-radius: 16rpx;
+      background-color: rgba(64, 140, 255, 0.1);
+      max-width: 150rpx;
+      margin-right: 8rpx;
+      margin-top: 8rpx;
+
+      .tabText:extend(.ellipsis) {
+        font-weight: 500;
+        color: @theme-color;
+        font-size: 18rpx;
+      }
+    }
+  }
+
+  .remainingTimes {
+    height: 32rpx;
+    border-radius: 16rpx;
+    background-color: @theme-color;
+    padding: 5rpx 10rpx;
+    margin-top: 8rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .remainingText {
+      font-size: 18rpx;
+      font-weight: 500;
+      color: #ffffff;
+      height: 22rpx;
+      line-height: 22rpx;
+    }
+  }
+
+  .editBtn {
+    padding: 12rpx 24rpx;
+    border-radius: 26rpx;
+    height: 52rpx;
+    background-color: @theme-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 10;
+
+    .editText {
+      font-size: 20rpx;
+      font-weight: 500;
+      color: #ffffff;
+    }
+  }
+
+  .rightBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}

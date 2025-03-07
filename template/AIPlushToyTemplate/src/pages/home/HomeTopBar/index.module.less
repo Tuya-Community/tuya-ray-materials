@@ -1,0 +1,57 @@
+.topbarWrap {
+  background-color: #fff;
+  z-index: 100;
+
+  .statusBar {
+    height: 20px;
+  }
+
+  .topbar {
+    display: flex;
+    width: 100vw;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 22px;
+    padding-right: 24px;
+    font-size: 17px;
+    font-weight: 600;
+    height: 44px;
+
+    .left,
+    .right {
+      flex: 1;
+    }
+
+    .right {
+      justify-content: flex-end;
+      display: flex;
+    }
+
+    .title {
+      flex: auto;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+    }
+
+    .back {
+      display: flex;
+      align-items: center;
+      margin-right: 16px;
+      padding: 6px 0;
+      cursor: pointer;
+      .arrow {
+        font-size: 24px;
+        margin-right: 4px;
+      }
+    }
+  }
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: var(--panel-font-normal);
+}
