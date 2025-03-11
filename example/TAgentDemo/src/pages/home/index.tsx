@@ -23,7 +23,7 @@ const createAgent = () => {
       channel: '[your_agent_id]', // Please replace [your_agent_id] with your agent id
     }),
     withDebug(),
-    withAssistantCopyHistory(),
+    // withAssistantCopyHistory(),
     withBuildIn()
   );
 
