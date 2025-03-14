@@ -26,8 +26,6 @@ const Setting: FC = () => {
   const isEmptyMap = useSelector(selectMapStateByKey('isEmptyMap'));
 
   useEffect(() => {
-    dispatch(fetchMultiMaps());
-
     ty.setNavigationBarTitle({
       title: Strings.getLang('dsc_settings'),
     });
@@ -75,7 +73,9 @@ const Setting: FC = () => {
 
   useInterval(
     () => {
-      ossApiInstance.updateAuthentication();
+      ossApiInstance.updateAuthentication().then(() => {
+        dispatch(fetchMultiMaps());
+      });
     },
     60 * 60 * 1000,
     {

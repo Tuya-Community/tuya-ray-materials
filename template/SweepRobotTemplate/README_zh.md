@@ -94,18 +94,30 @@
 
 ## Changelog
 
-### [0.0.14] - 2025-3-6
+### [0.0.15] - 2025-3-14
+
+#### Added
+
+- 新增地图离屏截图的能力，重构了多地图逻辑，提升多地图加载性能。
 
 #### Changed
 
-- **@ray-js/robot-map-component** 更新到 **1.0.0-beta-2**。
-- **@ray-js/robot-map-middleware** 更新到 **1.0.0-beta-2**。
+- **@ray-js/robot-map-component** 更新到 **1.0.0**。
+- **@ray-js/robot-map-middleware** 更新到 **1.0.0**。
+- **@ray-js/robot-protocol** 更新到 **0.10.7**。
+
+### [0.0.14] - 2025-3-6
 
 #### Added
 
 - 支持自定义房间气泡弹窗。
 - 暴露房间常态颜色配置。
 - 支持特殊房间背景颜色配置。
+
+#### Changed
+
+- **@ray-js/robot-map-component** 更新到 **1.0.0-beta-2**。
+- **@ray-js/robot-map-middleware** 更新到 **1.0.0-beta-2**。
 
 ### [0.0.13] - 2025-2-27
 

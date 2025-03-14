@@ -94,6 +94,18 @@ If you have any questions, please visit the link and submit a post for feedback:
 
 ## Changelog
 
+### [0.0.15] - 2025-3-14
+
+#### Added
+
+- Added the capability for off-screen screenshots of maps, restructured the logic for multiple maps, and improved the loading performance of multiple maps.
+
+#### Changed
+
+- **@ray-js/robot-map-component** update to **1.0.0**
+- **@ray-js/robot-map-middleware** update to **1.0.0**
+- **@ray-js/robot-protocol** update to **0.10.7**
+
 ### [0.0.14] - 2025-3-6
 
 #### Changed

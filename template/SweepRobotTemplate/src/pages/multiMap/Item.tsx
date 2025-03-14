@@ -1,15 +1,9 @@
-import React, { FC, useEffect, useMemo, useRef } from 'react';
-import { Text, View, getSystemInfoSync, hideLoading, showLoading } from '@ray-js/ray';
-import HistoryMapView from '@/components/HistoryMapView';
+import React, { FC, useEffect, useRef } from 'react';
+import { Image, Text, View, getSystemInfoSync, hideLoading, showLoading } from '@ray-js/ray';
 import { Button, ToastInstance } from '@ray-js/smart-ui';
 import { useActions } from '@ray-js/panel-sdk';
-import { useDispatch } from 'react-redux';
-import {
-  fetchMultiMaps,
-  saveJsonFile,
-  translateFileName,
-  updateMultiMap,
-} from '@/redux/modules/multiMapsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMultiMaps } from '@/redux/modules/multiMapsSlice';
 import {
   DELETE_MAP_CMD_ROBOT_V1,
   USE_MAP_CMD_ROBOT_V1,
@@ -19,10 +13,10 @@ import {
   encodeUseMap0x2e,
 } from '@ray-js/robot-protocol';
 import Strings from '@/i18n';
-import { snapshot } from '@/utils/openApi';
 import { emitter } from '@/utils';
-import { useDebounceFn } from 'ahooks';
 import { commandTransCode } from '@/constant/dpCodes';
+import Loading from '@/components/Loading';
+import { ReduxState } from '@/redux';
 
 import ossApiInstance from '@/api/ossApi';
 import styles from './index.module.less';
@@ -34,16 +28,13 @@ type Props = {
 const Item: FC<Props> = ({ data }) => {
   const dispatch = useDispatch();
   const actions = useActions();
-  const { mapId, id, bucket, snapshotImage, file, title, time, robotUseFile, filePathKey } = data;
-  const timerRef = useRef<NodeJS.Timeout>(null);
-  const mapIdRef = useRef<string>(null);
+  const { mapId, id, bucket, title, time, robotUseFile, filePathKey } = data;
 
-  const history = useMemo(() => {
-    return {
-      bucket,
-      file,
-    };
-  }, [bucket, file]);
+  const snapshotImage = useSelector(
+    (state: ReduxState) => state.multiMaps.snapshotImageMap[filePathKey]
+  );
+
+  const timerRef = useRef<NodeJS.Timeout>(null);
 
   const handleDelete = () => {
     showLoading({ title: '' });
@@ -85,37 +76,6 @@ const Item: FC<Props> = ({ data }) => {
       });
     }, 10 * 1000);
   };
-
-  const onVirtualInfoRendered = useDebounceFn(
-    (data: { rendered: boolean; data: { areaInfoList: any[] } }) => {
-      const { rendered } = data;
-      if (rendered && mapIdRef.current) {
-        setTimeout(() => {
-          snapshot(mapIdRef.current)
-            .then(snapshotImage => {
-              if (snapshotImage && snapshotImage.image) {
-                const fileName = translateFileName(filePathKey);
-
-                dispatch(
-                  updateMultiMap({
-                    id: filePathKey,
-                    changes: {
-                      snapshotImage,
-                    },
-                  })
-                );
-
-                saveJsonFile(snapshotImage, fileName);
-              }
-            })
-            .catch(e => {
-              console.log('onVirtualInfoRendered error', e);
-            });
-        }, 1000);
-      }
-    },
-    { wait: 1000 }
-  ).run;
 
   useEffect(() => {
     const handleUseOrDeleteResponse = ({ cmd, command }) => {
@@ -185,16 +145,11 @@ const Item: FC<Props> = ({ data }) => {
         </View>
       </View>
       <View className={styles.mapWrapper}>
-        <HistoryMapView
-          history={history}
-          onMapId={(data: any) => {
-            mapIdRef.current = data.mapId;
-          }}
-          pathVisible
-          enableGesture={false}
-          snapshotImage={snapshotImage}
-          onVirtualInfoRendered={onVirtualInfoRendered}
-        />
+        {snapshotImage?.image && (
+          <Image className={styles.mapImage} src={snapshotImage.image} mode="aspectFill" />
+        )}
+
+        <Loading isLoading={!snapshotImage} />
       </View>
     </View>
   );

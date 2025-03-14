@@ -1,20 +1,17 @@
 import log4js from '@ray-js/log4js';
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { useDevice } from '@ray-js/panel-sdk';
 import { updateMapData } from '@/redux/modules/mapStateSlice';
-import { setStorageSync } from '@ray-js/ray';
+import { getDevInfo, setStorageSync } from '@ray-js/ray';
 /**
  * 接收路径数据并解析
  * @returns
  */
 export default function usePathData() {
   const pathDataCache = useRef('');
-  const { devId } = useDevice(device => device.devInfo);
-
   const dispatch = useDispatch();
 
-  const onPathData = (pathDataStr: string) => {
+  const onPathData = useCallback((pathDataStr: string) => {
     if (pathDataStr !== pathDataCache.current) {
       log4js.info('路径数据', pathDataStr);
 
@@ -23,11 +20,11 @@ export default function usePathData() {
       dispatch(updateMapData({ originPath: pathDataStr }));
 
       setStorageSync({
-        key: `path_${devId}`,
+        key: `path_${getDevInfo().devId}`,
         data: pathDataStr,
       });
     }
-  };
+  }, []);
 
   return { onPathData };
 }

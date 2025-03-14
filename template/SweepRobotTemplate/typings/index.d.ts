@@ -154,3 +154,19 @@ type IMaterialMaterials = Array<{
   y: number;
   extends: { x: number; y: number; type: number } | string;
 }>;
+
+type OSSMapData = {
+  originMap: string;
+  originPath?: string;
+  virtualState: {
+    virtualWallData?: Point[][];
+    virtualAreaData?: any[];
+    virtualMopAreaData?: any[];
+  };
+};
+
+type SnapshotImage = {
+  image: string;
+  width: number;
+  height: number;
+};

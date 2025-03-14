@@ -1,7 +1,11 @@
 // 虚拟墙
-import { ALL_ZONE_MUN_MAX } from '@/constant';
+import {
+  ALL_ZONE_MUN_MAX,
+  DEFAULT_VIRTUAL_WALL_CONFIG,
+  DEFAULT_VIRTUAL_WALL_LINE_COLOR,
+  DEFAULT_VIRTUAL_WALL_LINE_WIDTH,
+} from '@/constant';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
-import base64Imgs from '@/res/base64Imgs';
 import { checkMapPointNumber, createLimitByNum, getFirNum } from '@/utils';
 import { addLaserMapArea, getMapPointsInfo } from '@/utils/openApi';
 import { convertColorToArgbHex } from '@ray-js/robot-protocol';
@@ -16,8 +20,8 @@ export const useCreateVirtualWall = () => {
   const origin = useSelector(selectMapStateByKey('origin'));
   const lastTempAreaRef = useRef<{ points: Point[] }>();
   const { width: mapWidth, height: mapHeight } = mapSize;
-  const [lineColor, setLineColor] = useState('#FF4444');
-  const [lineWidth, setLineWidth] = useState(2);
+  const [lineColor, setLineColor] = useState(DEFAULT_VIRTUAL_WALL_LINE_COLOR);
+  const [lineWidth, setLineWidth] = useState(DEFAULT_VIRTUAL_WALL_LINE_WIDTH);
   const [maxLength, setMaxLength] = useState(5);
   const createNewWallPoints = (mapId: string): Promise<{ points: Point[] }> => {
     return new Promise((resolve, reject) => {
@@ -65,6 +69,7 @@ export const useCreateVirtualWall = () => {
 
   const getVirtualWallConfig = (points: Point[]) => {
     const areaZone = {
+      ...DEFAULT_VIRTUAL_WALL_CONFIG,
       line: {
         bgColor: lineColor,
         lineWidth,
@@ -76,23 +81,7 @@ export const useCreateVirtualWall = () => {
         radius: 3,
         vertexExtendTimes: 3,
       },
-      sideVertex: {
-        showSideVertex: true,
-        showSideVertexImage: true,
-        sideVertexImage: base64Imgs.rDeleteBase64Img,
-        sideVertexColor: '#ffffffff',
-        radius: 4,
-      },
-      unit: {
-        textColor: '#00ffffff',
-      },
-      viewType: '',
       points,
-      type: ENativeMapStatusEnum.virtualWall,
-      extend: JSON.stringify({
-        forbidType: 'sweep',
-        isWall: true,
-      }),
     };
     return areaZone;
   };

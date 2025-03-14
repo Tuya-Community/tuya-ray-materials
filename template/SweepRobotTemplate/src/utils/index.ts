@@ -1,6 +1,5 @@
 import { devices } from '@/devices';
 import Strings from '@/i18n';
-import { DpSchema } from '@ray-js/panel-sdk';
 import { getDevInfo } from '@ray-js/ray';
 import {
   SPOT_CLEAN_CMD_ROBOT_V1,

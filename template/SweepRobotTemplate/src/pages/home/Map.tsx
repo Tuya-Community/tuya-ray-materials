@@ -4,7 +4,6 @@ import Strings from '@/i18n';
 import store from '@/redux';
 import { updateMapData } from '@/redux/modules/mapStateSlice';
 import { foldableSingleRoomInfo } from '@/utils/openApi';
-import { isRobotQuiet } from '@/utils/robotStatus';
 import { useProps } from '@ray-js/panel-sdk';
 import { getDevInfo, getStorageSync, getSystemInfoSync, showToast } from '@ray-js/ray';
 import { StreamDataNotificationCenter, useP2PDataStream } from '@ray-js/robot-data-stream';
@@ -197,7 +196,6 @@ const Map: React.FC<Props> = ({ mapStatus }) => {
 
   const uiInterFace = React.useMemo(() => {
     return {
-      isShowCurPosRing: isRobotQuiet(dpStatus), // 当前点ring
       isCustomizeMode: customizeModeSwitchState, // 是否显示房间属性折叠标签
     };
   }, [dpMode, dpStatus]);

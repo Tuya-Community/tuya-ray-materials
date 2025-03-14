@@ -30,6 +30,8 @@ export class OssApi {
       });
 
       this.modelConfig = response;
+
+      return response;
     } catch (err) {
       if (err instanceof TypeError) {
         console.warn('暂不支持ty.getSweeperStorageConfig，请将基础库升级到2.23.0或以上');
@@ -37,13 +39,21 @@ export class OssApi {
         /**
          * @deprecated 暂时兼容旧版本，后续将移除
          */
-        ty.apiRequestByAtop({
-          api: decode('dHV5YS5tLmRldi5zdG9yYWdlLmNvbmZpZy5nZXQ='),
-          postData: { type: 'Common', devId: getDevInfo().devId },
-          version: '1.0',
-          success: response => {
-            this.modelConfig = response;
-          },
+        return new Promise((resolve, reject) => {
+          ty.apiRequestByAtop({
+            api: decode('dHV5YS5tLmRldi5zdG9yYWdlLmNvbmZpZy5nZXQ='),
+            postData: { type: 'Common', devId: getDevInfo().devId },
+            version: '1.0',
+            success: response => {
+              this.modelConfig = response;
+
+              resolve(response);
+            },
+
+            fail: err => {
+              reject(err);
+            },
+          });
         });
       }
     }

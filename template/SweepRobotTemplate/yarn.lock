@@ -2333,10 +2333,10 @@
     slash "^5.1.0"
     tiny-invariant "^1.3.3"
 
-"@ray-js/hybrid-robot-map@0.0.5-beta-24":
-  version "0.0.5-beta-24"
-  resolved "https://registry.npmjs.org/@ray-js/hybrid-robot-map/-/hybrid-robot-map-0.0.5-beta-24.tgz#7bfd7731ad6ad7cc7135263cde831e90e54cd8f9"
-  integrity sha512-ufABKhOVm0L/m+bBZ5uQ5vG01B/8cqmb8f/DiP3dlsimzxWYWwWyvj0tQz04lQxZ50KgX24qgMk835SIq09Pdw==
+"@ray-js/hybrid-robot-map@0.1.0-beta-7":
+  version "0.1.0-beta-7"
+  resolved "https://registry.npmjs.org/@ray-js/hybrid-robot-map/-/hybrid-robot-map-0.1.0-beta-7.tgz#fd1862745e0581a22d5365af5833bbb0821ffc4a"
+  integrity sha512-v6VD5M9/KEok+VD4nUFwPq3NAnQmSma36gxAjMwr3nmyBf9/qlgeUxsH2QZ+MESrOzdXaAqU22oFZnpkigReiQ==
   dependencies:
     "@ray-js/webview-invoke" "0.0.3-beta-1"
     "@tweenjs/tween.js" "^18.6.4"
@@ -2479,10 +2479,10 @@
   resolved "https://registry.npmjs.org/@ray-js/rjs-for-wechat/-/rjs-for-wechat-0.0.3.tgz#262539b346ffd6c090239dac455225c1a4339a95"
   integrity sha512-YgOzZB3Gtvp5UncWtUxmn81F8LVfhUO8qec29Aj8f2HolhxMCKnJSMJcUooWqpKWX4Au7CUHLPH/hvordWGaiw==
 
-"@ray-js/robot-data-stream@0.0.10-beta-17":
-  version "0.0.10-beta-17"
-  resolved "https://registry.npmjs.org/@ray-js/robot-data-stream/-/robot-data-stream-0.0.10-beta-17.tgz#2c6e171598a2d1ce7864db37e584a94c8f376f2e"
-  integrity sha512-xnoMTAS0bRkBkmjDJ06PH8kkmfAJfNzYTXqv0xA1V0ApFacU1dvhKevUvjmkYV8TADTlEMn1bCqeBjmA4ciFzA==
+"@ray-js/robot-data-stream@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.npmjs.org/@ray-js/robot-data-stream/-/robot-data-stream-0.0.11.tgz#92d482f9490a0810cc0a1870e780e6836ab36c66"
+  integrity sha512-i/6iFDY+6KlU0YQQ81VqN3UyMN5NFR7m2KbscYgmmmAym9Hiz6+yJMwRHWs2ogayccquTOJDcDTzAtGN3tVnTA==
   dependencies:
     clsx "^1.2.1"
     crypto-js "^4.2.0"
@@ -2492,29 +2492,29 @@
     react "^17.0.2"
     react-dom "^17.0.2"
 
-"@ray-js/robot-map-component@1.0.0-beta-2":
-  version "1.0.0-beta-2"
-  resolved "https://registry.yarnpkg.com/@ray-js/robot-map-component/-/robot-map-component-1.0.0-beta-2.tgz#9239b03ff8ef8e7471d8a24dbd51f8bf4b553a40"
-  integrity sha512-ujwUzS4L+Qs+WUTrm8frSm+N5jMPBx2g45QcFRiCVwxU8kV198BJWi5EATZhtEhlNhp+Vs+NBA85bGbtnTf2Ow==
+"@ray-js/robot-map-component@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@ray-js/robot-map-component/-/robot-map-component-1.0.0.tgz#e9d6d99ba93ed62d3948ab9ae6a80f12025ed53f"
+  integrity sha512-dZQY/Qeb5Bb2n6rF9kKGgcuy8xlyz61M1L80juDjI4CxoFQuzj+2xOPtZknwsXGW8UuEgPqercf0O6S46D9miA==
   dependencies:
-    "@ray-js/hybrid-robot-map" "0.0.5-beta-24"
+    "@ray-js/hybrid-robot-map" "0.1.0-beta-7"
     "@ray-js/robot-sdk-types" "0.0.6"
     "@ray-js/webview-invoke" "^0.0.3"
     clsx "^1.2.1"
     lodash-es "^4.17.21"
     tinycolor2 "^1.6.0"
 
-"@ray-js/robot-middleware@1.0.0-beta-2":
-  version "1.0.0-beta-2"
-  resolved "https://registry.yarnpkg.com/@ray-js/robot-middleware/-/robot-middleware-1.0.0-beta-2.tgz#50e51c1b01238c5adf95070f8ca645119fe16fbc"
-  integrity sha512-+vtge84tL1eVdZSr2Mv+fZzvNumEmHddhirOsaRA35K/2JwH/yTwkqGEfGh5r10ZEMruwuVjnMZn+lTztLq4aw==
+"@ray-js/robot-middleware@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@ray-js/robot-middleware/-/robot-middleware-1.0.0.tgz#8a3e27edebcdb4313a2aad22413598634a6322cc"
+  integrity sha512-Hl/NGYI5cqn4/dboAUy//5U3SuEhhtTZ0stswOIotjYp1byDcKsTA6rl2tVlL9KaqXdEPqvrkBFeLUFelNzZnw==
   dependencies:
     reconnecting-websocket "^4.4.0"
 
-"@ray-js/robot-protocol@^0.10.6":
-  version "0.10.6"
-  resolved "https://registry.npmjs.org/@ray-js/robot-protocol/-/robot-protocol-0.10.6.tgz#429e0d2cc41b49d6f2fbd4ac92fd138b06940670"
-  integrity sha512-DkBxnGn0U/qf8KqCGooI686s3Pq4ZxvcD1Y0YYU59hBeSRaUP6UfHhK+CsWDsUShQpVDG40QKzAfQtslY56ZPQ==
+"@ray-js/robot-protocol@^0.10.7":
+  version "0.10.7"
+  resolved "https://registry.npmjs.org/@ray-js/robot-protocol/-/robot-protocol-0.10.7.tgz#afc2fc4b7a217e4dcca0de0fdbaabc4dc32b0e0f"
+  integrity sha512-rs5/1c97oFPTFBDYXlC4Z2ckgLT8aORHJJqz64St0ls2dWVFKeDsg9nEVSopo5mNPOaA8fyassl1P9IqG/vKfg==
   dependencies:
     buffer "^6.0.3"
     lodash-es "^4.17.21"
@@ -2581,13 +2581,13 @@
     npmlog "^7.0.1"
     slash "^3.0.0"
 
-"@ray-js/smart-ui@^2.1.4":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@ray-js/smart-ui/-/smart-ui-2.2.0.tgz#c126a3bd7381feddb089695541ddf2fed7e6efc3"
-  integrity sha512-tFSORKmHzhMQTcWplNjvicPQurHP88SmW2zwH8+9eEc1y+Gbkqo8XQmRPqH3loUD0mBf3A/NpFqG2gXQd64a5g==
+"@ray-js/smart-ui@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.npmjs.org/@ray-js/smart-ui/-/smart-ui-2.3.2.tgz#d688e8189d717613d859519c20b2edc628a85f8c"
+  integrity sha512-eGvlrpaowZhBYPBh37404FlJT3FNCXmLXmaa1zeXWRYwMh3zs2cqhaWk+TJZiUlldc+pltxUGldWSdAIXgOnXQ==
   dependencies:
     "@ray-js/components-ty-slider" "^0.3.1"
-    "@tuya-miniapp/smart-ui" "^2.2.0"
+    "@tuya-miniapp/smart-ui" "^2.3.2"
     lodash-es "^4.17.21"
 
 "@ray-js/tuya-dp-transform@^0.0.2":
@@ -2809,10 +2809,10 @@
   resolved "https://registry.yarnpkg.com/@tuya-miniapp/icons/-/icons-2.1.7.tgz#0e3df6f4dd441222a3548c8c6cf957d004b3789b"
   integrity sha512-XlphVShwI6v1W7ZFAucrsut+iILIM3S2AxqywjDNUMx1/l1yzgCCZoHFWeMOqWox2HmPQfjbT6Nn20BO6/I0CA==
 
-"@tuya-miniapp/smart-ui@^2.2.0":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@tuya-miniapp/smart-ui/-/smart-ui-2.2.1.tgz#8f08cb4b11724e755f6d7ee89c09c0a85ea69dc5"
-  integrity sha512-wSgAjMOnlO+SttjN5dgBaN9vYvvfoLGrbPWRv7uXVfYXGBgN/uFhteaKXVaABALyq+4vjaSTvSA2hF3BwXeGyw==
+"@tuya-miniapp/smart-ui@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.npmjs.org/@tuya-miniapp/smart-ui/-/smart-ui-2.3.2.tgz#f5b34ffc765161ebc5a0ad5cb19cc5e26165ee5f"
+  integrity sha512-TK2wetF1HGN95N1E6wiAb9Bytz/6mZWFsFjkWeHfPNqYWdt7XXcUpfgAMZ/+Ur/l+sGa8vFEv7GwzLk2dZXhVg==
   dependencies:
     "@ray-js/components-ty-slider" "^0.3.1"
     "@tuya-miniapp/icons" "^2.1.7"
@@ -12115,16 +12115,7 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0":
-  version "4.2.3"
-  resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
-
-"string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.0.0, string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.2, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0", "string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.0.0, string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.2, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -12237,7 +12228,7 @@ stringify-object@^3.3.0:
     is-obj "^1.0.1"
     is-regexp "^1.0.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -12257,13 +12248,6 @@ strip-ansi@^5.0.0, strip-ansi@^5.1.0, strip-ansi@^5.2.0:
   integrity sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==
   dependencies:
     ansi-regex "^4.1.0"
-
-strip-ansi@^6.0.0, strip-ansi@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
-  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
-  dependencies:
-    ansi-regex "^5.0.1"
 
 strip-ansi@^7.0.1:
   version "7.1.0"
@@ -13409,7 +13393,7 @@ word-wrap@^1.2.5:
   resolved "https://registry.npmjs.org/word-wrap/-/word-wrap-1.2.5.tgz#d2c45c6dd4fbce621a66f136cbe328afd0410b34"
   integrity sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -13431,15 +13415,6 @@ wrap-ansi@^6.0.1, wrap-ansi@^6.2.0:
   version "6.2.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-6.2.0.tgz#e9393ba07102e6c91a3b221478f0257cd2856e53"
   integrity sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"

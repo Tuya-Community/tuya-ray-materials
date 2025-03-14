@@ -43,8 +43,8 @@ const MapEdit: FC = () => {
   const isWallRef = useRef(false);
   const timerRef = useRef<NodeJS.Timeout>(null);
   const { drawOneVirtualWall } = useCreateVirtualWall();
-  const { drawOneForbiddenNoGo } = useForbiddenNoGo();
-  const { drawOneForbiddenNoMop } = useForbiddenNoMop();
+  const { drawOneForbiddenNoGo, clearLastForbiddenNoGo } = useForbiddenNoGo();
+  const { drawOneForbiddenNoMop, clearLastForbiddenNoMop } = useForbiddenNoMop();
 
   const { sendDP, getTimer, clearTimer } = useSendDp(undefined, () => {
     setMapStatus(status, true);
@@ -194,6 +194,9 @@ const MapEdit: FC = () => {
     setMapStatus(ENativeMapStatusEnum.normal, false);
     setShowVirtualBar(false);
     setShowMenuBar(true);
+
+    clearLastForbiddenNoGo();
+    clearLastForbiddenNoMop();
   };
 
   /**

@@ -1,4 +1,3 @@
-import OssApi from '@/api/ossApi';
 import {
   useCreateVirtualWall,
   useForbiddenNoGo,
@@ -6,14 +5,9 @@ import {
   useSelectorMemoized,
 } from '@/hooks';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
+import { getMapInfoFromCloudFile } from '@/redux/modules/multiMapsSlice';
 import { default as base64Imgs, default as res } from '@/res/base64Imgs';
-import { decodeAreas, fetchMapFile } from '@/utils';
-import { base64ToRaw } from '@ray-js/panel-sdk/lib/utils';
-import {
-  convertColorToArgbHex,
-  decodeMap,
-  getFeatureProtocolVersion,
-} from '@ray-js/robot-protocol';
+import { convertColorToArgbHex } from '@ray-js/robot-protocol';
 import { IAnimationTypeEnum } from '@ray-js/robot-sdk-types';
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -36,18 +30,6 @@ type Props = {
   };
   mapId: string | number;
   backgroundColor?: string;
-};
-
-const getAreasFromMixedCommand = (command: string) => {
-  const protocolVersion = getFeatureProtocolVersion(command);
-  const wallLength =
-    protocolVersion === '1'
-      ? parseInt(command.slice(4, 12), 16) * 2 + 14
-      : parseInt(command.slice(4, 6), 16) * 2 + 8;
-  const wallCommand = command.slice(0, wallLength);
-  const areaCommand = command.slice(wallLength);
-
-  return { ...decodeAreas(areaCommand), ...decodeAreas(wallCommand) };
 };
 
 export default function useHistoryMapViewParams({
@@ -81,64 +63,10 @@ export default function useHistoryMapViewParams({
   useEffect(() => {
     const fetchHistoryMap = async () => {
       if (history) {
-        const { bucket, file, mapLen, pathLen } = history;
-
-        const getMapData = (data: string) => {
-          if (mapLen || pathLen) {
-            const mapStrLength = mapLen * 2;
-            const pathStrLength = pathLen * 2;
-            const mapData = data.slice(0, mapStrLength);
-            const pathData = data.slice(mapStrLength, mapStrLength + pathStrLength);
-            const virtualData = data.slice(mapStrLength + pathStrLength);
-
-            return {
-              originMap: mapData,
-              originPath: pathData,
-              virtualState: getAreasFromMixedCommand(virtualData),
-            };
-          }
-
-          const mapState = decodeMap(data);
-          const {
-            mapHeader: { dataLengthBeforeCompress, dataLengthAfterCompress, mapHeaderStr },
-          } = mapState;
-          let mapLength = 0;
-          if (dataLengthAfterCompress) {
-            mapLength = mapHeaderStr.length + dataLengthAfterCompress * 2;
-          } else {
-            mapLength = mapHeaderStr.length + dataLengthBeforeCompress * 2;
-          }
-          const virtualData = data.slice(mapLength);
-
-          return {
-            originMap: data,
-            originPath: '',
-            virtualState: getAreasFromMixedCommand(virtualData),
-          };
-        };
-
-        const { type, data } = await OssApi.getCloudFileUrl(bucket, file);
-
-        let mapData = null;
-
-        if (type === 'url') {
-          // 真机环境下载地图文件url得到数据
-          const res = await fetchMapFile(data, {
-            method: 'GET',
-          });
-
-          if (res.status === 200) {
-            mapData = getMapData(base64ToRaw(res.data));
-          }
-        }
-
-        if (type === 'data') {
-          // IDE环境直接获取到数据
-          mapData = getMapData(data);
-        }
+        const mapData = await getMapInfoFromCloudFile(history);
 
         if (mapData) {
-          const { originMap, virtualState, originPath } = mapData;
+          const { originMap, virtualState, originPath } = mapData as OSSMapData;
 
           setHistoryMap(originMap);
           originPath && setHistoryPath(originPath);

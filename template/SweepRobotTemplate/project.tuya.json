@@ -17,7 +17,7 @@
     "dangerouslyDisableRjsScope": true,
     "enableHtmlIframe": true
   },
-  "baseversion": "2.19.2",
+  "baseversion": "2.26.7",
   "projectname": "激光扫地机",
   "compileType": "miniprogram",
   "webviewRoot": "webview",

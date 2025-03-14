@@ -1,8 +1,13 @@
 // 扫拖禁区
 
-import { ALL_ZONE_MUN_MAX } from '@/constant';
+import {
+  ALL_ZONE_MUN_MAX,
+  DEFAULT_VIRTUAL_AREA_NO_GO_BG_COLOR,
+  DEFAULT_VIRTUAL_AREA_NO_GO_BORDER_COLOR,
+  DEFAULT_VIRTUAL_AREA_NO_GO_CONFIG,
+  DEFAULT_VIRTUAL_AREA_NO_GO_MIN_AREA_WIDTH,
+} from '@/constant';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
-import base64Imgs from '@/res/base64Imgs';
 import { checkMapPointNumber, createLimitByNum, getFirNum } from '@/utils';
 import { addLaserMapArea, getMapPointsInfo } from '@/utils/openApi';
 import { convertColorToArgbHex } from '@ray-js/robot-protocol';
@@ -11,16 +16,15 @@ import { isUndefined } from 'lodash-es';
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-const { rDeleteBase64Img, rResizeBase64Img, rRotateBase64Img } = base64Imgs;
 export const useForbiddenNoGo = () => {
   const lastTempAreaRef = useRef<{ points: Point[] }>();
   const mapSize = useSelector(selectMapStateByKey('mapSize'));
   const curPos = useSelector(selectMapStateByKey('curPos'));
   const origin = useSelector(selectMapStateByKey('origin'));
   const { width: mapWidth, height: mapHeight } = mapSize;
-  const [minAreaWidth, setMinAreaWidth] = useState(10);
-  const [bgColor, setBgColor] = useState('rgba(255, 68, 68, 0.05)');
-  const [borderColor, setBorderColor] = useState('rgba(255, 68, 68, 1)');
+  const [minAreaWidth, setMinAreaWidth] = useState(DEFAULT_VIRTUAL_AREA_NO_GO_MIN_AREA_WIDTH);
+  const [bgColor, setBgColor] = useState(DEFAULT_VIRTUAL_AREA_NO_GO_BG_COLOR);
+  const [borderColor, setBorderColor] = useState(DEFAULT_VIRTUAL_AREA_NO_GO_BORDER_COLOR);
   const [maxLength, setMaxLength] = useState(5);
 
   const createAreaPoints: (mapId: string) => Promise<{ points: Point[] }> = (mapId: string) => {
@@ -94,34 +98,18 @@ export const useForbiddenNoGo = () => {
 
   const getForbiddenNoGoConfig = (points: Point[]) => {
     const config = {
+      ...DEFAULT_VIRTUAL_AREA_NO_GO_CONFIG,
       box: {
         bgColor: convertColorToArgbHex(bgColor),
         borderColor: convertColorToArgbHex(borderColor),
         isDash: false,
         minAreaWidth,
       },
-      content: {
-        text: '',
-        textColor: convertColorToArgbHex('#fff'),
-        textSize: 10,
-        renameEnable: false,
-        rotateEnable: true,
-      },
-      vertex: {
-        showVertexImages: true,
-        vertexImages: [rDeleteBase64Img, rRotateBase64Img, rResizeBase64Img],
-      },
       unit: {
         // 如果不支持单位显示，就设置为透明色字号
         textColor: borderColor,
       },
-      type: ENativeMapStatusEnum.virtualArea,
-      viewType: 'dashEdit',
       points,
-      extend:
-        JSON.stringify({
-          forbidType: 'sweep',
-        }) || '',
     };
     return config;
   };
@@ -132,6 +120,7 @@ export const useForbiddenNoGo = () => {
       const { points: newPoints } = await createAreaPoints(mapId);
       renderPoints = newPoints;
     }
+
     const { data } = (await getMapPointsInfo(mapId)) as any;
 
     // @ts-ignore
@@ -147,10 +136,15 @@ export const useForbiddenNoGo = () => {
     return { area: { ...config, type: ENativeMapStatusEnum.areaSet } };
   };
 
+  const clearLastForbiddenNoGo = () => {
+    lastTempAreaRef.current = undefined;
+  };
+
   return {
     drawOneForbiddenNoGo,
     updateConfig,
     createAreaPoints,
     getForbiddenNoGoConfig,
+    clearLastForbiddenNoGo,
   };
 };

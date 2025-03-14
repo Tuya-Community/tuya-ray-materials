@@ -1,6 +1,6 @@
 // 禁拖
 
-import { ALL_ZONE_MUN_MAX } from '@/constant';
+import { ALL_ZONE_MUN_MAX, DEFAULT_VIRTUAL_AREA_NO_MOP_CONFIG } from '@/constant';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
 import base64Imgs from '@/res/base64Imgs';
 import { checkMapPointNumber, createLimitByNum, getFirNum } from '@/utils';
@@ -11,7 +11,6 @@ import { convertColorToArgbHex } from '@ray-js/robot-protocol';
 import { useSelector } from 'react-redux';
 import { isUndefined } from 'lodash-es';
 
-const { oDeleteBase64Img, oRotateBase64Img, oResizeBase64Img } = base64Imgs;
 export const useForbiddenNoMop = () => {
   const lastTempAreaRef = useRef<{ points: Point[] }>();
   const mapSize = useSelector(selectMapStateByKey('mapSize'));
@@ -94,6 +93,7 @@ export const useForbiddenNoMop = () => {
 
   const getForbiddenNoMopConfig = (points: Point[]) => {
     const config = {
+      ...DEFAULT_VIRTUAL_AREA_NO_MOP_CONFIG,
       box: {
         bgColor: convertColorToArgbHex(bgColor),
         borderColor: convertColorToArgbHex(borderColor),
@@ -107,21 +107,11 @@ export const useForbiddenNoMop = () => {
         renameEnable: false,
         rotateEnable: true,
       },
-      vertex: {
-        showVertexImages: true,
-        vertexImages: [oDeleteBase64Img, oRotateBase64Img, oResizeBase64Img],
-      },
       unit: {
         // 如果不支持单位显示，就设置为透明色字号
         textColor: borderColor,
       },
-      type: ENativeMapStatusEnum.virtualArea,
-      viewType: 'dashEdit',
       points,
-      extend:
-        JSON.stringify({
-          forbidType: 'mop',
-        }) || '',
     };
     return config;
   };
@@ -143,10 +133,15 @@ export const useForbiddenNoMop = () => {
     return { area: { ...config, type: ENativeMapStatusEnum.areaSet } };
   };
 
+  const clearLastForbiddenNoMop = () => {
+    lastTempAreaRef.current = undefined;
+  };
+
   return {
     drawOneForbiddenNoMop,
     updateConfig,
     createAreaPoints,
     getForbiddenNoMopConfig,
+    clearLastForbiddenNoMop,
   };
 };
