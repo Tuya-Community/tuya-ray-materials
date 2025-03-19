@@ -1847,19 +1847,19 @@
     npmlog "^7.0.1"
     slash "^3.0.0"
 
-"@ray-js/t-agent-plugin-assistant@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.npmmirror.com/@ray-js/t-agent-plugin-assistant/-/t-agent-plugin-assistant-0.0.8.tgz#88bf56230301f0b6038c63de9ac34128f465cfd6"
-  integrity sha512-0Y3led6mf9MnL0JGFRuxL/2CdDaHxBjFLLairbYhk+DH7CWwuTORDE3KiPmEACRCRzZEw6tWBH076BRzbACUEg==
+"@ray-js/t-agent-plugin-assistant@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.npmmirror.com/@ray-js/t-agent-plugin-assistant/-/t-agent-plugin-assistant-0.0.9.tgz#6c90d589e969470b35fa49a429df1b8d89ba0683"
+  integrity sha512-lZe9via1AEZzH6O4bGzUKsVeloBwfIa+cScxi6jqF9ndU6CMye/tN45a8C3RJooMnBWTQcs7VZzEMEqJ6Oimpw==
   dependencies:
     dayjs "^1.10.4"
     url-parse "^1.5.10"
     web-streams-polyfill "^4.0.0"
 
-"@ray-js/t-agent-ui-ray@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.npmmirror.com/@ray-js/t-agent-ui-ray/-/t-agent-ui-ray-0.0.8.tgz#ad0469edc524f84e274fa9cb8c77e758fe11aa2d"
-  integrity sha512-qhjS298ZRBiHILofEfbef1GzJOzbZaRkbW6L42kTAsocI5EmaOMogHnTrQxqEzQWItk9q1gBDyETN2L9HrgAfQ==
+"@ray-js/t-agent-ui-ray@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.npmmirror.com/@ray-js/t-agent-ui-ray/-/t-agent-ui-ray-0.0.9.tgz#4d74ae2434c9829bfbb9603c4f6dfd4daabd2a53"
+  integrity sha512-v07thCnVpB+z9PLY0OXmigmz2yPvSa3mamlpo32MyMjNVAUCcbSJ/Y2/uGY4jVG3U3vGsH0wYDIIQu04sT+dsw==
   dependencies:
     clsx "^1.2.1"
     dayjs "^1.10.4"
@@ -1868,10 +1868,10 @@
     markdown-it-emoji "^3.0.0"
     markdown-it-footnote "^4.0.0"
 
-"@ray-js/t-agent@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.npmmirror.com/@ray-js/t-agent/-/t-agent-0.0.8.tgz#f70da083807276acc84ce74d6703071ccc821526"
-  integrity sha512-e8zm3lOGchj8JjWAiul05/U6mJuJSUlWGD946TneOpChdpEfXUp7oQgVk81pAzoS9MyNEUB6/kUjtowTc2Y4/w==
+"@ray-js/t-agent@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.npmmirror.com/@ray-js/t-agent/-/t-agent-0.0.9.tgz#174b925ed77f001cc6faa786abcd797bfaf68dba"
+  integrity sha512-rs80VNV1uEU8rhz+3cCcpbNEO+Hkc6A1UbbjjFNXzux7FxdO0QYar1lBnhh58CT48CZeSajmTP2sgunZBijxHA==
   dependencies:
     hookable "^5.5.3"
 

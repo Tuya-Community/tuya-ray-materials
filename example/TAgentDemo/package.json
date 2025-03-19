@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@ray-js/ray": ">=1.6.21",
-    "@ray-js/t-agent": "^0.0.8",
-    "@ray-js/t-agent-plugin-assistant": "^0.0.8",
-    "@ray-js/t-agent-ui-ray": "^0.0.8"
+    "@ray-js/t-agent": "^0.0.9",
+    "@ray-js/t-agent-plugin-assistant": "^0.0.9",
+    "@ray-js/t-agent-ui-ray": "^0.0.9"
   },
   "devDependencies": {
     "@ray-js/cli": ">=1.6.21",
