@@ -16,7 +16,7 @@ import { ColorPickers } from '@/containers';
 import { LIGHT_COLOR_DATA } from '@/constant';
 import { E_WOKE_MODE } from '@/types';
 import { devices } from '@/devices';
-import getCdnImgUrl from '@/utils/getCdnImgUrl';
+import { useCdnImgUrl } from '@/utils/getCdnImgUrl';
 import { convertRange } from '@/utils';
 
 import {
@@ -234,6 +234,11 @@ const Dimmer = (props: TProps) => {
       });
     },
   };
+  const icon_smear_all = useCdnImgUrl('icon_smear_all.png');
+  const icon_smear_single = useCdnImgUrl('icon_smear_single.png');
+  const icon_smear_eraser = useCdnImgUrl('icon_smear_eraser.png');
+  const icon_smear_gradient = useCdnImgUrl('icon_smear_gradient.png');
+
   const dimmerTabList = useMemo(() => {
     const isCombination = dimmerType === DimmerMode.combination;
     const isColor = dimmerType === DimmerMode.colour || dimmerType === DimmerMode.colourCard;
@@ -241,7 +246,7 @@ const Dimmer = (props: TProps) => {
       {
         title: Strings.getLang('smearAll'),
         key: SmearMode.all,
-        icon: getCdnImgUrl('icon_smear_all.png'),
+        icon: icon_smear_all,
         visible: smearType === SmearMode.all && isColor,
         disabled: false,
       },
@@ -249,26 +254,34 @@ const Dimmer = (props: TProps) => {
         title: Strings.getLang('smearSingle'),
         key: SmearMode.single,
         visible: smearType === SmearMode.single && !isCombination,
-        icon: getCdnImgUrl('icon_smear_single.png'),
+        icon: icon_smear_single,
         disabled: false,
       },
       {
         title: Strings.getLang('smearEraser'),
-        icon: getCdnImgUrl('icon_smear_eraser.png'),
+        icon: icon_smear_eraser,
         key: SmearMode.clear,
         visible: isColor,
         disabled: false,
       },
       {
         title: Strings.getLang('smearGradient'),
-        icon: getCdnImgUrl('icon_smear_gradient.png'),
+        icon: icon_smear_gradient,
         key: SmearModeAll.gradient,
         visible: true,
         disabled: isCombination ? false : isAll,
       },
     ];
     return _defaultDimmerTabList.filter(item => item.visible);
-  }, [smearType, dimmerType]);
+  }, [
+    smearType,
+    dimmerType,
+    icon_smear_all,
+    icon_smear_single,
+    icon_smear_eraser,
+    icon_smear_gradient,
+  ]);
+
   const isHandling = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout>>();
   const putPaintColorDataWithCloud = (dpRes = {}, _checkedMapColor?) => {

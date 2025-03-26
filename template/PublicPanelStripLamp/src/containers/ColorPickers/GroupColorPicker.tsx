@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Image, Text } from '@ray-js/ray';
 import { isEqual } from 'lodash-es';
 import Strings from '@/i18n';
-import getCdnImgUrl from '@/utils/getCdnImgUrl';
+import { useCdnImgUrl } from '@/utils/getCdnImgUrl';
 import { useDebugPerf } from '@/hooks';
 
 import './GroupColorPicker.less';
@@ -217,13 +217,14 @@ const GroupColorPicker = (props: TProps) => {
     );
   };
 
+  const url = useCdnImgUrl('disable_move.png');
   const renderMask = () => {
     if (!disable) {
       return null;
     }
     return (
       <View className="maskWrapper">
-        <Image src={getCdnImgUrl('disable_move.png')} className="maskIcon" />
+        {url && <Image src={url} className="maskIcon" />}
         <Text className="maskTip">{Strings.getLang('disableCheck')}</Text>
       </View>
     );

@@ -1,5 +1,6 @@
 export default {
   zh: {
+    coolBarTip: '一起酷玩吧！',
     smearAll: '全选',
     smearSingle: '点选',
     smearEraser: '橡皮擦',
@@ -80,6 +81,7 @@ export default {
     jumpToSlice: '如果您的灯带在使用过程中被裁剪过，您可以调整实际长度以更好的设置灯带',
   },
   en: {
+    coolBarTip: "Let's Cool Play!",
     smearAll: 'All',
     smearSingle: 'Single',
     smearEraser: 'Eraser',

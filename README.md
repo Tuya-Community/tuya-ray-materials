@@ -4,17 +4,6 @@ Tuya Ray Materials
 <!-- txp-asset-qrcode-start -->
 <table>
 <tr>
-  <td id="PublicPanelStripLamp">2024/10</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelStripLamp">PublicPanelStripLamp</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-PublicPanelStripLamp.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="PanelOutdoorCycle">2024/10</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PanelOutdoorCycle">PanelOutdoorCycle</a></td>
   <td>
@@ -263,6 +252,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <img src="./qrCode/example-TAgentDemo.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="PublicPanelStripLamp">2025/03</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelStripLamp">PublicPanelStripLamp</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-PublicPanelStripLamp.png" width="100" height="100">
   </details>
   </td>
 </tr>

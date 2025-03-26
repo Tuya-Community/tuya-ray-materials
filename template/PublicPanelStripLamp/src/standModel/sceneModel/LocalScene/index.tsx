@@ -9,6 +9,7 @@ import {
   useProps,
 } from '@ray-js/panel-sdk';
 import { useDebugPerf } from '@/hooks';
+import { CoolBarCard } from '@/components/CoolBarCard';
 import SceneCard from './components/SceneCard';
 import { getSceneData } from './sceneData';
 import { TSceneData } from './types';
@@ -54,6 +55,7 @@ const LocalScene = () => {
   const sceneData = getSceneData(device?.devInfo);
   return (
     <View className="local-scene-container">
+      <CoolBarCard />
       {sceneData.map(item => {
         const type = item.sceneIconDisplayType;
         const isActive = isSceneMode && sceneParser?.formatter(_curSceneData) === item.sceneData;

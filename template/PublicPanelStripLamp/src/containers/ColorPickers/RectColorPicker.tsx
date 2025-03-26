@@ -5,7 +5,7 @@ import { View, Image, Text } from '@ray-js/ray';
 import LampTouchSlider from '@ray-js/lamp-touch-slider';
 import LampRectPickerColor from '@ray-js/lamp-rect-picker-color';
 import Strings from '@/i18n';
-import getCdnImgUrl from '@/utils/getCdnImgUrl';
+import { useCdnImgUrl } from '@/utils/getCdnImgUrl';
 import { useDebugPerf } from '@/hooks';
 
 import './RectColorPicker.less';
@@ -34,6 +34,7 @@ type TProps = {
 const ColorPicker = (props: TProps) => {
   const { hsv, disable, isShow, closed, onChange } = props;
   useDebugPerf(ColorPicker, props);
+  const url = useCdnImgUrl('disable_move.png');
   const handleColorTouchEnd = hs => {
     const hsvList = [
       {
@@ -64,7 +65,7 @@ const ColorPicker = (props: TProps) => {
           display: disable ? 'flex' : 'none',
         }}
       >
-        <Image src={getCdnImgUrl('disable_move.png')} className="maskIcon" />
+        {url && <Image src={url} className="maskIcon" />}
         <Text className="maskTip">{Strings.getLang('disableCheck')}</Text>
       </View>
     );

@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
 /* eslint-disable no-shadow */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View } from '@ray-js/ray';
 import LampMusicCard from '@ray-js/lamp-music-card';
 import {
@@ -12,17 +13,33 @@ import {
 import { E_WOKE_MODE } from '@/types';
 import { useDebugPerf } from '@/hooks';
 
-import { getLocalMusicList, TMusicItem } from './config';
+import { getLocalMusicListAsync, TMusicItem } from './config';
 import styles from './index.module.less';
 
 const { hsv2rgbString } = utils;
-const defaultList = getLocalMusicList();
+
 const LocalMusic = () => {
-  const [musicList, setMusicList] = useState(defaultList);
+  const defaultListLoadedRef = useRef(false);
+  const [musicList, setMusicList] = useState([]);
+
+  useEffect(() => {
+    getLocalMusicListAsync()
+      .then(list => {
+        defaultListLoadedRef.current = true;
+        setMusicList(list);
+      })
+      .catch(() => {
+        console.warn('获取本地音乐列表失败');
+      });
+  }, []);
+
   const micMusicData = useStructuredProps(props => props.dreamlightmic_music_data);
   useDebugPerf(LocalMusic);
   useEffect(() => {
-    if (!micMusicData && !musicList) {
+    if (!defaultListLoadedRef.current) {
+      return;
+    }
+    if (!micMusicData || !musicList) {
       return;
     }
     const { power, id } = micMusicData;
@@ -41,7 +58,7 @@ const LocalMusic = () => {
     };
     _musicList[id] = _currentItem;
     setMusicList([..._musicList]);
-  }, [micMusicData]);
+  }, [micMusicData, defaultListLoadedRef.current]);
 
   const structuredAction = useStructuredActions();
   const action = useActions();

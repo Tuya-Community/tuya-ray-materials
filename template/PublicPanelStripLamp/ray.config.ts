@@ -1,4 +1,4 @@
 const config = {
-  resolveAlias: {},
+  plugins: [],
 };
 module.exports = config;

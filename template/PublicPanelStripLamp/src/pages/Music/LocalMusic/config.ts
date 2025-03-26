@@ -1,5 +1,5 @@
 import Strings from '@/i18n';
-import getCdnImgUrl from '@/utils/getCdnImgUrl';
+import getCdnImgUrlAsync from '@/utils/getCdnImgUrl';
 
 export type TMusic = {
   v: number; // 版本
@@ -158,14 +158,27 @@ const localMusicList: TMusic[] = [
 
 export type TMusicItem = TMusic & { title: string; icon: string };
 
-export const getLocalMusicList = (): TMusicItem[] => {
-  return localMusicList.map(i => {
-    return {
-      ...i,
-      icon: getCdnImgUrl(`local_music_${i.id}.png`),
-      title: Strings.getLang(`local_music_${i.id}` as 'local_music_0'),
-    };
+export const getLocalMusicListAsync = (): Promise<TMusicItem[]> => {
+  const promiseList = localMusicList.map(i => {
+    return getCdnImgUrlAsync(`local_music_${i.id}.png`);
+  });
+  const newList = [];
+  return new Promise(resolve => {
+    Promise.all(promiseList)
+      .then(resList => {
+        resList.forEach((url, index) => {
+          newList.push({
+            ...localMusicList[index],
+            icon: url,
+            title: Strings.getLang(`local_music_${index}` as 'local_music_0'),
+          });
+        });
+        resolve(newList);
+      })
+      .catch(() => {
+        resolve([]);
+      });
   });
 };
 
-export default getLocalMusicList;
+export default getLocalMusicListAsync;

@@ -8,7 +8,7 @@ import {
   setNavigationBarTitle,
 } from '@ray-js/ray';
 import Strings from '@/i18n';
-import getCdnImgUrl from '@/utils/getCdnImgUrl';
+import { useCdnImgUrl } from '@/utils/getCdnImgUrl';
 import { useDebugPerf } from '@/hooks';
 
 import { lampSchemaMap } from '@/devices/schema';
@@ -23,6 +23,9 @@ const More = () => {
   }, []);
 
   useDebugPerf(More);
+  const icon_schedule_active = useCdnImgUrl('icon_schedule_active.png');
+  const icon_clip_active = useCdnImgUrl('icon_clip_active.png');
+  const icon_right = useCdnImgUrl('icon_right.png');
 
   const listData = useMemo(() => {
     const isGroup = devices.lamp.model.abilities.support.isGroupDevice();
@@ -36,7 +39,7 @@ const More = () => {
     const list = [
       {
         key: 'schedule',
-        icon: getCdnImgUrl('icon_schedule_active.png'),
+        icon: icon_schedule_active,
         title: Strings.getLang('scheduleTitle'),
         visible: isShowSchedule,
         callback() {
@@ -51,7 +54,7 @@ const More = () => {
       },
       {
         key: 'stripLength',
-        icon: getCdnImgUrl('icon_clip_active.png'),
+        icon: icon_clip_active,
         title: Strings.getLang('stripLengthTitleText'),
         visible: !isGroup,
         callback() {
@@ -65,7 +68,7 @@ const More = () => {
       },
     ];
     return list.filter(item => item.visible);
-  }, []);
+  }, [icon_schedule_active, icon_clip_active]);
 
   return (
     <View className={styles.moreWrapper}>
@@ -81,7 +84,7 @@ const More = () => {
               <Image src={item.icon} className={styles.iconItem} />
               <Text className={styles.moreTitle}>{item.title}</Text>
             </View>
-            <Image src={getCdnImgUrl('icon_right.png')} className={styles.iconRight} />
+            <Image src={icon_right} className={styles.iconRight} />
           </View>
         );
       })}
