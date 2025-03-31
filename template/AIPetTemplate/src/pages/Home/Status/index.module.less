@@ -1,0 +1,33 @@
+@import 'src/variables.less';
+
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 120rpx;
+  z-index: 9;
+  opacity: 1;
+  transition: opacity 1s @ease-in-out;
+  margin-bottom: 16rpx;
+}
+
+.status-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 16rpx;
+  margin-right: 16rpx;
+
+  .title {
+    font-weight: 500;
+    font-size: 24rpx;
+    color: var(--panel-font-normal);
+  }
+
+  .divider {
+    height: 1px;
+    width: 130rpx;
+    margin: 4rpx 0;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}

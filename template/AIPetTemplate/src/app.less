@@ -1,0 +1,50 @@
+:root {
+  --app-M1: #ffb53e !important;
+  --panel-theme-color: #ffb53e;
+  --panel-info-color: #4c81eb;
+  --panel-theme-color-rgb: 255, 181, 62;
+  --panel-font-normal: rgba(0, 0, 0, 0.9);
+  --panel-font-light: rgba(0, 0, 0, 0.7);
+  --panel-font-lighter: rgba(0, 0, 0, 0.5);
+
+  --panel-hover-color: #5583f5; // 按钮点击颜色
+
+  --record-tip-font-color: rgba(0, 0, 0, 0.9); // 录制定时组件文字颜色
+  --record-tip-bg-color: #fff; // 录制定时组件背景色
+
+  --popup-round-border-radius: 32rpx;
+
+  // --switch-height: 60rpx;
+  // --switch-width: 100rpx;
+  // --switch-node-size: 52rpx;
+}
+
+page {
+  overflow-y: hidden;
+
+  cover-view {
+    z-index: 9;
+  }
+
+  .switch__smart-switch {
+    border: none;
+  }
+
+  .switch__smart-switch__node {
+    box-shadow: none;
+  }
+}
+
+text {
+  line-height: normal;
+}
+
+.touchable {
+  opacity: 0.7;
+}
+
+.hide {
+  opacity: 0 !important;
+  transition: none !important;
+  pointer-events: none !important;
+}

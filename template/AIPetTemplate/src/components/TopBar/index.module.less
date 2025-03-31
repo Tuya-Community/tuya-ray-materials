@@ -1,0 +1,32 @@
+@import 'src/variables.less';
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  padding-right: 144rpx;
+  height: 78rpx;
+  width: 100vw;
+  z-index: 99;
+  opacity: 1;
+  transition: opacity 1s @ease-out;
+
+  &.sub {
+    padding: 0 32rpx;
+    width: calc(100vw - 64rpx);
+    box-sizing: content-box;
+
+    justify-content: space-between;
+  }
+}
+
+.title {
+  font-size: 44rpx;
+  font-weight: 600;
+  color: var(--panel-font-normal);
+}
+
+.sub-title {
+  font-weight: 600;
+  font-size: 32rpx;
+  color: var(--panel-font-normal);
+}

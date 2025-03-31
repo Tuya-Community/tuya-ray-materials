@@ -1,0 +1,438 @@
+@import 'src/variables.less';
+
+.cover {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  perspective: 10rem;
+}
+
+.container {
+  position: relative;
+  height: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  perspective: 20rem;
+  perspective-origin: top;
+  overflow: visible;
+  pointer-events: none;
+
+  &.anim {
+    pointer-events: all;
+    // transition: transform 0.4s ease-in;
+
+    .table {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) rotateX(0deg);
+    }
+
+    .btn-top {
+      opacity: 1;
+      transform: translateY(0);
+      transition-duration: 300ms;
+    }
+
+    .btn-right {
+      opacity: 1;
+      transform: translateX(0);
+      transition-duration: 300ms;
+    }
+
+    .btn-bottom {
+      opacity: 1;
+      transform: translateY(0);
+      transition-duration: 300ms;
+    }
+
+    .btn-left {
+      opacity: 1;
+      transform: translateX(0);
+      transition-duration: 300ms;
+    }
+
+    .btn-play {
+      opacity: 1;
+      transform: translateY(0);
+      transition-duration: 300ms;
+    }
+  }
+}
+
+.table {
+  height: 2.12rem;
+  width: 11.44rem;
+  opacity: 0;
+  transform: translate3d(0, 0.8rem, -4rem) rotateX(60deg);
+  transition: transform 0.2s @ease-out, opacity 0.2s @ease-in-out; /* 动画效果 */
+}
+
+.btn-top {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 3.16rem;
+  opacity: 0;
+  transform: translateY(-0.2rem);
+  transition: all 0.1s @ease-out; /* 动画效果 */
+
+  .img {
+    height: 1.24rem;
+    width: 1.62rem;
+  }
+
+  .hotspot {
+    position: absolute;
+    top: 0.06rem;
+    left: 0.25rem;
+    height: 1.08rem;
+    width: 1.12rem;
+  }
+}
+
+.btn-right {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 4.26rem;
+  opacity: 0;
+  transform: translateX(0.2rem);
+  transition: all 0.1s @ease-out; /* 动画效果 */
+
+  .img {
+    height: 1.64rem;
+    width: 1.62rem;
+  }
+
+  .hotspot {
+    position: absolute;
+    top: 0.24rem;
+    left: 0.28rem;
+    height: 1.12rem;
+    width: 1.12rem;
+  }
+}
+
+.btn-bottom {
+  position: absolute;
+  bottom: 0.26rem;
+  left: 3.16rem;
+  opacity: 0;
+  transform: translateY(0.2rem);
+  transition: all 0.1s @ease-out; /* 动画效果 */
+
+  .img {
+    height: 1.16rem;
+    width: 1.62rem;
+  }
+
+  .hotspot {
+    position: absolute;
+    top: 0.04rem;
+    left: 0.26rem;
+    height: 1.12rem;
+    width: 1.12rem;
+  }
+}
+
+.btn-left {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 2.06rem;
+  opacity: 0;
+  transform: translateX(-0.2rem);
+  transition: all 0.1s @ease-out; /* 动画效果 */
+
+  .img {
+    height: 1.64rem;
+    width: 1.62rem;
+  }
+
+  .hotspot {
+    position: absolute;
+    top: 0.24rem;
+    left: 0.24rem;
+    height: 1.12rem;
+    width: 1.12rem;
+  }
+}
+
+.btn-play {
+  position: absolute;
+  bottom: 0.24rem;
+  left: 5.84rem;
+  opacity: 0;
+  transform: translateY(-0.2rem);
+  transition: all 0.1s @ease-out; /* 动画效果 */
+
+  .img {
+    height: 2.26rem;
+    width: 3.72rem;
+  }
+
+  .hotspot {
+    position: absolute;
+    top: 0.02rem;
+    left: 0.72rem;
+    height: 2.16rem;
+    width: 2.28rem;
+  }
+}
+
+.play-count-wrapper {
+  position: absolute;
+  right: 1.08rem;
+  bottom: 2.12rem;
+  transform: rotate(-17.1deg);
+  font-family: Urbanist;
+  font-style: italic;
+  line-height: normal;
+  letter-spacing: 0;
+  font-weight: 900;
+  opacity: 0;
+  pointer-events: none;
+
+  &.anim {
+    animation: flyout 1.1s forwards cubic-bezier(0.2, 0.8, 0.4, 1);
+  }
+
+  .text-stroke {
+    font-size: 0.72rem;
+    font-feature-settings: 'kern' on;
+    -webkit-text-stroke: 8px #ff512e;
+  }
+  .text {
+    position: absolute;
+    font-size: 0.72rem;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(180deg, #ffffff 0%, #ffdda6 100%);
+    background-clip: text;
+    color: #fff;
+    text-shadow: 0px 0.08rem 0.4rem #ffd080;
+    -webkit-text-stroke: 0;
+  }
+}
+
+.fire {
+  position: absolute;
+  left: 5rem;
+  bottom: 1.7rem;
+  height: 1.4rem;
+  width: 1.4rem;
+  background-size: 9.8rem 1.4rem; /* 精灵图的总宽度和高度 */
+  opacity: 0;
+  z-index: 999;
+
+  &.anim {
+    opacity: 1;
+    animation: fire 0.4667s steps(7) 1 forwards; /* 0.4667s 是 (7帧 / 15帧每秒) */
+  }
+}
+
+.foodWrapper {
+  position: absolute;
+  left: 5.4rem;
+  bottom: 1.1rem;
+  pointer-events: none;
+  display: none;
+  &.anim {
+    display: flex;
+    animation: launch 1.1s forwards cubic-bezier(0.2, 0.8, 0.4, 1);
+
+    .food {
+      animation: food 1.1s forwards linear;
+    }
+
+    .tail {
+      animation: tail 1.1s forwards linear;
+    }
+  }
+
+  .food {
+    position: absolute;
+    top: -0.2rem;
+    left: -0.28rem;
+    height: 1.08rem;
+    width: 1.08rem;
+    z-index: 99;
+  }
+
+  .tail {
+    height: 1.82rem;
+    width: 0.58rem;
+  }
+}
+
+.chargingHalo {
+  position: absolute;
+  right: 2.16rem;
+  bottom: 0.32rem;
+  height: 2.4rem;
+  width: 3.16rem;
+  pointer-events: none;
+  display: none;
+
+  &.anim {
+    display: flex;
+    animation: halo 900ms @ease-in-out infinite;
+  }
+}
+
+.chargeCountWrapper {
+  position: absolute;
+  right: 3.16rem;
+  bottom: 3rem;
+  font-family: Urbanist;
+  line-height: normal;
+  letter-spacing: 0;
+  font-weight: 900;
+  display: none;
+  pointer-events: none;
+
+  &.anim {
+    display: flex;
+    animation: shake 0.6s infinite;
+  }
+
+  .text-stroke {
+    font-size: 0.8rem;
+    font-feature-settings: 'kern' on;
+    -webkit-text-stroke: 10px #ffb237;
+  }
+  .text {
+    position: absolute;
+    font-size: 0.8rem;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(180deg, #ffffff 0%, #fff 100%);
+    background-clip: text;
+    color: #fff;
+    text-shadow: 0px 0.08rem 0.4rem #ffd080;
+    -webkit-text-stroke: 0;
+  }
+}
+
+@keyframes flyout {
+  0% {
+    opacity: 0;
+    transform: translate(-0.64rem, 0.32rem) rotate(-17.1deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(-17.1deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(-17.1deg);
+  }
+}
+
+@keyframes fire {
+  0% {
+    background-position: 0 0;
+    visibility: visible;
+  }
+  100% {
+    background-position: -9.8rem 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes launch {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  60% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -3.2rem, -8rem) scale(0.48);
+  }
+}
+
+@keyframes food {
+  0% {
+    transform: rotateZ(0deg);
+  }
+
+  50% {
+    transform: rotateZ(160deg);
+  }
+
+  100% {
+    transform: rotateZ(320deg);
+  }
+}
+
+@keyframes tail {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes halo {
+  0% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+
+  19.9% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+
+  20% {
+    transform: scale(1.6);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  5% {
+    transform: translate(calc(var(--shake-amplitude) * -1), calc(var(--shake-amplitude) * -1))
+      rotate(calc(var(--shake-rotate) * -1)) scale(1.08);
+  }
+  20% {
+    transform: translate(calc(var(--shake-amplitude)), calc(var(--shake-amplitude) * 0.5))
+      rotate(calc(var(--shake-rotate) * 0.8)) scale(0.9);
+  }
+  35% {
+    transform: translate(calc(var(--shake-amplitude) * -0.5), calc(var(--shake-amplitude) * -1))
+      rotate(calc(var(--shake-rotate) * -0.5)) scale(1.12);
+  }
+  50% {
+    transform: translate(calc(var(--shake-amplitude) * 0.5), calc(var(--shake-amplitude) * 0.5))
+      rotate(calc(var(--shake-rotate) * 1)) scale(0.88);
+  }
+  65% {
+    transform: translate(calc(var(--shake-amplitude)), calc(var(--shake-amplitude) * -0.5))
+      rotate(calc(var(--shake-rotate) * -0.6)) scale(1.05);
+  }
+}

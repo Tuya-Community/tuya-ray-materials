@@ -1,0 +1,26 @@
+@import "src/variables.less";
+@import "src/mixins.less";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: #fff;
+  padding-bottom: 320rpx;
+}
+
+.index-bar-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  background-color: #fff;
+  z-index: 9;
+}

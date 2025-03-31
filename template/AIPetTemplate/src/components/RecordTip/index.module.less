@@ -1,0 +1,54 @@
+.container {
+  width: 622rpx;
+  background-color: var(--record-tip-bg-color);
+  border-radius: 0.06rem;
+  padding: 0.12rem 0.24rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--record-tip-font-color);
+  font-size: 0.24rem;
+
+  &.isFull {
+    width: 9.6rem;
+  }
+
+  .left {
+    display: flex;
+    align-items: center;
+  }
+
+  .image-wrap {
+    display: flex;
+    margin-right: 0.32rem;
+  }
+
+  .image {
+    width: 1.2rem;
+    height: 0.64rem;
+    margin-right: 2px;
+    position: relative;
+    background-color: #ccc;
+  }
+
+  .play {
+    position: absolute;
+    width: 1.2rem;
+    height: 0.64rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    z-index: 9;
+  }
+
+  .pic {
+    width: 1.2rem;
+    height: 0.64rem;
+  }
+
+  .go-album {
+    color: var(--panel-hover-color);
+    font-size: 0.24rem;
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "AI宠物喂食器模版",
+  "type": "panel-app",
+  "ownerType": "tuya-official",
+  "i18n": false,
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.0",
+    "MiniKit": "3.1.0",
+    "DeviceKit": "4.6.0",
+    "BizKit": "4.5.1",
+    "IPCKit": "5.18.0",
+    "HomeKit": "3.1.4"
+  },
+  "baseversion": "2.19.0",
+  "devMode": "ray",
+  "compileType": "miniprogram",
+  "projectname": "AI宠物喂食器模版",
+  "description": ""
+}
