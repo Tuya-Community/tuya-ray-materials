@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "CommonJS",
+    "lib": ["ESNext", "DOM"],
+    "declaration": false,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "noEmitOnError": false,
+    "jsx": "react",
+    "baseUrl": "./",
+    "paths": {
+      "react": ["./node_modules/@types/react"],
+      "ray": ["./node_modules/@ray-js/ray"],
+      "@/*": ["./src/*", "./typings/sdm.d.ts", "./typings/index.d.ts"]
+    },
+    "typeRoots": ["./node_modules/@types", "./typings"]
+  },
+  "include": ["src/**/*.*", "ray/**/*.*", "typings"],
+  "exclude": ["node_modules", "dist"]
+}

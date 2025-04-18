@@ -277,5 +277,16 @@ Tuya Ray Materials
   </details>
   </td>
 </tr>
+
+<tr>
+  <td id="RayAlarmAbilityDemo">2025/04</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=example/RayAlarmAbilityDemo">RayAlarmAbilityDemo</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/example-RayAlarmAbilityDemo.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
 </table>
 <!-- txp-asset-qrcode-end -->
