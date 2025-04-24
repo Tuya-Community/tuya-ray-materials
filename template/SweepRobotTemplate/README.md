@@ -94,6 +94,27 @@ If you have any questions, please visit the link and submit a post for feedback:
 
 ## Changelog
 
+### [0.0.16] - 2025-4-11
+
+#### Added
+
+- Support for charging pile warning circle radius configuration
+
+#### Changed
+
+- **@ray-js/robot-map-component** upgrade to **1.0.3**。
+- **@ray-js/robot-map-middleware** upgrade to **1.0.3**。
+- **@ray-js/robot-protocol** upgrade to **0.11.1**。
+
+#### Fixed
+
+- Fix the issue of possible path drift
+- Fix the issue where off-screen screenshots might be affected by the `runtimeData` from the homepage map
+- Fix the issue where two-finger zoom on the map may cause the map to disappear and zoom to fail
+- Fixed issue where room properties were not visible in room editing functionality
+- Fix the issue where the restricted area & virtual wall buttons are displayed too small on the large map
+- Fixed the issue where multiple map screenshots may cause unlimited growth of App cache
+
 ### [0.0.15] - 2025-3-14
 
 #### Added

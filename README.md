@@ -235,17 +235,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="SweepRobotTemplate">2025/03</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SweepRobotTemplate">SweepRobotTemplate</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-SweepRobotTemplate.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="TAgentDemo">2025/03</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=example/TAgentDemo">TAgentDemo</a></td>
   <td>
@@ -285,6 +274,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <img src="./qrCode/example-RayAlarmAbilityDemo.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="SweepRobotTemplate">2025/04</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SweepRobotTemplate">SweepRobotTemplate</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=SweepRobotTemplate" target="_blank">View Details</a>
   </details>
   </td>
 </tr>

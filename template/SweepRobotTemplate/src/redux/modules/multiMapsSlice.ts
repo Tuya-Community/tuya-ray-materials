@@ -178,13 +178,25 @@ export const fetchMultiMaps = createAsyncThunk<MultiMap[], void, { state: ReduxS
       ? JSON.parse(storagedMultiMapsJSONString)
       : {};
 
-    if (Object.keys(storagedMultiMaps).length > 0) {
-      dispatch(setSnapshotImageMap(storagedMultiMaps));
-    }
-
     const { datas } = await getMultipleMapFiles({
       devId: getDevInfo().devId,
     });
+
+    if (Object.keys(storagedMultiMaps).length > 0) {
+      Object.keys(storagedMultiMaps).forEach(key => {
+        const isExist = datas.some(item => {
+          const { file, time } = item;
+          const [_, appUseFile] = file.split(',');
+          const filePathKey = `${time}_${appUseFile}`;
+          return key === filePathKey;
+        });
+        if (!isExist) {
+          delete storagedMultiMaps[key];
+        }
+      });
+
+      dispatch(setSnapshotImageMap(storagedMultiMaps));
+    }
 
     const { mapId: realTimeMapId } = getState().mapState;
 
@@ -220,11 +232,6 @@ export const fetchMultiMaps = createAsyncThunk<MultiMap[], void, { state: ReduxS
         mapId,
       });
     }
-
-    setStorageSync({
-      key: 'multiMaps',
-      data: JSON.stringify(storagedMultiMaps),
-    });
 
     return newMultiMaps;
   }

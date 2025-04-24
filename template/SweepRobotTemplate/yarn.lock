@@ -2333,10 +2333,10 @@
     slash "^5.1.0"
     tiny-invariant "^1.3.3"
 
-"@ray-js/hybrid-robot-map@0.1.0-beta-7":
-  version "0.1.0-beta-7"
-  resolved "https://registry.npmjs.org/@ray-js/hybrid-robot-map/-/hybrid-robot-map-0.1.0-beta-7.tgz#fd1862745e0581a22d5365af5833bbb0821ffc4a"
-  integrity sha512-v6VD5M9/KEok+VD4nUFwPq3NAnQmSma36gxAjMwr3nmyBf9/qlgeUxsH2QZ+MESrOzdXaAqU22oFZnpkigReiQ==
+"@ray-js/hybrid-robot-map@0.1.0-beta-19":
+  version "0.1.0-beta-19"
+  resolved "https://registry.npmjs.org/@ray-js/hybrid-robot-map/-/hybrid-robot-map-0.1.0-beta-19.tgz#78a1710e137b02e853460f714cd10f565fb2f16c"
+  integrity sha512-KGEa7HR62Ikd09ObgWpGe8khU+qp4nf7SSmqgQ1l5F1hEuwgJASnmIdZRkc+A7hgvE0WRjphFQpwUlq+R1yREQ==
   dependencies:
     "@ray-js/webview-invoke" "0.0.3-beta-1"
     "@tweenjs/tween.js" "^18.6.4"
@@ -2492,29 +2492,29 @@
     react "^17.0.2"
     react-dom "^17.0.2"
 
-"@ray-js/robot-map-component@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@ray-js/robot-map-component/-/robot-map-component-1.0.0.tgz#e9d6d99ba93ed62d3948ab9ae6a80f12025ed53f"
-  integrity sha512-dZQY/Qeb5Bb2n6rF9kKGgcuy8xlyz61M1L80juDjI4CxoFQuzj+2xOPtZknwsXGW8UuEgPqercf0O6S46D9miA==
+"@ray-js/robot-map-component@1.0.4-beta-1":
+  version "1.0.4-beta-1"
+  resolved "https://registry.npmjs.org/@ray-js/robot-map-component/-/robot-map-component-1.0.4-beta-1.tgz#72c08a7066a77a9ce7fa257ad10b95e79d0d7626"
+  integrity sha512-Zb1tn3u4RpSS7xP0uo3n6EoYBuseFm7b1FPGlq5cL6sG5nkalH2RnrmnlJOWPULEQDEBUkAXzoiM5WZXbY2J2g==
   dependencies:
-    "@ray-js/hybrid-robot-map" "0.1.0-beta-7"
+    "@ray-js/hybrid-robot-map" "0.1.0-beta-19"
     "@ray-js/robot-sdk-types" "0.0.6"
     "@ray-js/webview-invoke" "^0.0.3"
     clsx "^1.2.1"
     lodash-es "^4.17.21"
     tinycolor2 "^1.6.0"
 
-"@ray-js/robot-middleware@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@ray-js/robot-middleware/-/robot-middleware-1.0.0.tgz#8a3e27edebcdb4313a2aad22413598634a6322cc"
-  integrity sha512-Hl/NGYI5cqn4/dboAUy//5U3SuEhhtTZ0stswOIotjYp1byDcKsTA6rl2tVlL9KaqXdEPqvrkBFeLUFelNzZnw==
+"@ray-js/robot-middleware@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@ray-js/robot-middleware/-/robot-middleware-1.0.3.tgz#4c2d17bd110be950dc55a909566c65f6e9d09d99"
+  integrity sha512-vkPm+lkFUtvNquSjVv4ahmL6YLYc/GRN++l29jYyRBSCYW5QbnUwxjMdXAn+liQPBPSUOIYX3QkVcQeNwyNGyQ==
   dependencies:
     reconnecting-websocket "^4.4.0"
 
-"@ray-js/robot-protocol@^0.10.7":
-  version "0.10.7"
-  resolved "https://registry.npmjs.org/@ray-js/robot-protocol/-/robot-protocol-0.10.7.tgz#afc2fc4b7a217e4dcca0de0fdbaabc4dc32b0e0f"
-  integrity sha512-rs5/1c97oFPTFBDYXlC4Z2ckgLT8aORHJJqz64St0ls2dWVFKeDsg9nEVSopo5mNPOaA8fyassl1P9IqG/vKfg==
+"@ray-js/robot-protocol@^0.11.1":
+  version "0.11.1"
+  resolved "https://registry.npmjs.org/@ray-js/robot-protocol/-/robot-protocol-0.11.1.tgz#de0aaf8fc09a78c61b09de950c6b5ccef8b3be0c"
+  integrity sha512-KzdUSPFpzkgW0SzNj3/NQ3nEQDPqo+PWSBOXuwJAETdyen1eMcNKN+/fjK5GtqYZNb2QtMJUa5aqPFaxCNg23A==
   dependencies:
     buffer "^6.0.3"
     lodash-es "^4.17.21"

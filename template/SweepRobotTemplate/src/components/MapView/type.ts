@@ -29,4 +29,5 @@ export interface IProps extends EventProps {
   snapshotImage?: { image: string; width: number; height: number };
   pathVisible?: boolean;
   backgroundColor?: string;
+  roomPropertyStyle?: string;
 }

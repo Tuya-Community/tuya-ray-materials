@@ -24,6 +24,7 @@ const MapView: React.FC<IProps> = React.memo(props => {
     areaInfoList,
     backgroundColor = '#f2f4f6',
     style = {},
+    roomPropertyStyle,
   } = props;
 
   const idRef = useRef(String(new Date().getTime()));
@@ -52,6 +53,7 @@ const MapView: React.FC<IProps> = React.memo(props => {
     areaInfoList,
     preCustomConfig,
     mapId: idRef.current,
+    roomPropertyStyle,
     backgroundColor,
   });
 

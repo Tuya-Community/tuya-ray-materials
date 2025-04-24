@@ -7,7 +7,11 @@ import Strings from '@/i18n';
 import store from '@/redux';
 import Res from '@/res';
 import { emitter, isForbiddenZonePointsInCurPos, isForbiddenZonePointsInPile } from '@/utils';
-import { getMapPointsInfo, setLaserMapStateAndEdit } from '@/utils/openApi';
+import {
+  getCurrentRobotNDCPosition,
+  getMapPointsInfo,
+  setLaserMapStateAndEdit,
+} from '@/utils/openApi';
 import { CoverView, Image, showToast, Text, View } from '@ray-js/ray';
 import {
   encodeSetRoomFloorMaterial0x52,
@@ -106,12 +110,17 @@ const MapEdit: FC = () => {
   };
 
   const { run: onLaserMapPoints } = useThrottleFn(
-    ({ data }) => {
-      const { mapResolution, curPos, origin, pilePosition } = store.getState().mapState;
+    async ({ data }) => {
+      const { mapResolution, origin, pilePosition } = store.getState().mapState;
       try {
+        const robotPos = (await getCurrentRobotNDCPosition(mapId.current)) as {
+          x: number;
+          y: number;
+        };
+
         isForbiddenZonePointsInCurPos(data, {
           resolution: mapResolution / 100 || 0.05,
-          curPos,
+          curPos: robotPos || { x: 0, y: 0 },
           origin,
           mapId: mapId.current,
         }).then(res => {

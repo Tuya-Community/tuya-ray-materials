@@ -14,6 +14,7 @@ type Props = {
   areaInfoList?: any[];
   mapId: string;
   backgroundColor?: string;
+  roomPropertyStyle?: string;
 };
 
 export default function useMiddlewareMapViewParams({
@@ -22,6 +23,7 @@ export default function useMiddlewareMapViewParams({
   preCustomConfig,
   areaInfoList,
   mapId,
+  roomPropertyStyle,
   backgroundColor,
 }: Props) {
   const { isShowPileRing = false } = uiInterFace;
@@ -72,6 +74,7 @@ export default function useMiddlewareMapViewParams({
       mapId,
       asynchronousLoadMap: false,
       bgColor: convertColorToArgbHex(backgroundColor),
+      roomPropertyStyle: roomPropertyStyle || 'foldable',
       highlightMapColor: [
         '#FDE4CF',
         '#8EECF5',

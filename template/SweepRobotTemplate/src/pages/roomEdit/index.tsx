@@ -651,6 +651,7 @@ const RoomEdit: FC = () => {
         isFullScreen
         // 房间信息临时数据
         preCustomConfig={previewCustom}
+        roomPropertyStyle="unfolding"
         onMapId={onMapId}
         onClickSplitArea={onClickSplitArea}
         onSplitLine={onSplitLine}
