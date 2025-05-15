@@ -1,0 +1,21 @@
+{
+  "projectname": "灯带裁剪功能页",
+  "i18n": true,
+  "description": "照明灯带裁剪功能页",
+  "miniprogramRoot": "dist/tuya/miniprogram",
+  "functionalRoot": "dist/tuya/functional",
+  "dependencies": {
+    "BaseKit": "3.3.13",
+    "MiniKit": "3.1.0",
+    "BizKit": "3.3.1",
+    "DeviceKit": "3.4.0"
+  },
+  "compilerOptions": {
+    "compatible": [
+      "wx"
+    ]
+  },
+  "devMode": "ray",
+  "baseversion": "2.12.18",
+  "compileType": "miniprogram"
+}

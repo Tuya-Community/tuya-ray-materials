@@ -1,0 +1,38 @@
+{
+  "name": "ray-lamp-strip-clip-functional",
+  "version": "1.1.10",
+  "private": true,
+  "scripts": {
+    "build:tuya": "ray build --target=tuya",
+    "build:wechat": "ray build --target=wechat",
+    "build:web": "ray build --target=web",
+    "build:native": "ray build --target=native",
+    "start:tuya": "ray start --target=tuya",
+    "start:wechat": "ray start --target=wechat",
+    "start:web": "ray start --target=web",
+    "start:native": "ray start --target=native"
+  },
+  "devDependencies": {
+    "@ray-js/cli": "^1.5.27",
+    "@ray-js/types": "^1.5.27",
+    "@swc/core": "^1.3.62",
+    "@tuya-miniapp/api-types": "^1.1.13",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "swc-loader": "^0.2.3",
+    "webpack-chain": "^6.5.1"
+  },
+  "dependencies": {
+    "@ray-js/panel-sdk": "^1.8.0",
+    "@ray-js/ray": "^1.5.27",
+    "@ray-js/ray-error-catch": "^0.0.25",
+    "@ray-js/smart-ui": "^2.1.10"
+  },
+  "resolutions": {
+    "follow-redirects": "1.15.6",
+    "@ray-js/components-ty-slider": "0.3.3-beta-5"
+  },
+  "author": "罗丘（黄辉）"
+}
