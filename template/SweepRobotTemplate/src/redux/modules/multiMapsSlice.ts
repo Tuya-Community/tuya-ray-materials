@@ -7,13 +7,7 @@ import {
 import moment from 'moment';
 import Strings from '@/i18n';
 import store, { ReduxState } from '..';
-import {
-  getDevInfo,
-  getMultipleMapFiles,
-  getStorageSync,
-  setStorage,
-  setStorageSync,
-} from '@ray-js/ray';
+import { getDevInfo, getMultipleMapFiles, getStorageSync, setStorage } from '@ray-js/ray';
 import { decodeAreas, fetchMapFile } from '@/utils';
 import ossApiInstance from '@/api/ossApi';
 import { decodeMapHeader, getFeatureProtocolVersion } from '@ray-js/robot-protocol';
@@ -152,7 +146,7 @@ export const getMapInfoFromCloudFile = async (history: {
 
   if (type === 'url') {
     // 真机环境下载地图文件url得到数据
-    const res = await fetchMapFile(data, {
+    const res = await fetchMapFile(data, file, {
       method: 'GET',
     });
 

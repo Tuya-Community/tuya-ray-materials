@@ -34,6 +34,8 @@ import {
   getCmdStrFromStandardFeatureCommand,
   requestVirtualArea0x39,
   requestVirtualWall0x13,
+  AI_OBJECT_CMD_ROBOT_V1,
+  decodeAIObject0x37,
 } from '@ray-js/robot-protocol';
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
@@ -41,6 +43,7 @@ import { useSelector } from '@/redux';
 import { devices } from '@/devices';
 import { usePageEvent } from '@ray-js/ray';
 import { parseRoomHexId } from '@ray-js/robot-protocol';
+import { StreamDataNotificationCenter } from '@ray-js/robot-data-stream';
 
 /**
  * 接收指令数据并解析
@@ -162,6 +165,16 @@ export default function useCommandTransData() {
       ) {
         emitter.emit('receiveRoomEditResponse', { command, cmd });
         return;
+      }
+
+      if (cmd === AI_OBJECT_CMD_ROBOT_V1) {
+        // AI识别
+        const aiObjects = decodeAIObject0x37({
+          command,
+          version: PROTOCOL_VERSION,
+        });
+
+        StreamDataNotificationCenter.emit('receiveAIPicDataFromDp', aiObjects);
       }
 
       const data = decodeAreas(command);

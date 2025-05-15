@@ -4,6 +4,7 @@ import {
   useForbiddenNoMop,
   useSelectorMemoized,
 } from '@/hooks';
+import Strings from '@/i18n';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
 import { getMapInfoFromCloudFile } from '@/redux/modules/multiMapsSlice';
 import { default as base64Imgs, default as res } from '@/res/base64Imgs';

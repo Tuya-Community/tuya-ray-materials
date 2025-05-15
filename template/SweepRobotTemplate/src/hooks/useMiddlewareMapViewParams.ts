@@ -1,4 +1,5 @@
 import { useSelectorMemoized } from '@/hooks';
+import Strings from '@/i18n';
 import { selectCustomConfig } from '@/redux/modules/customConfigSlice';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
 import base64Imgs from '@/res/base64Imgs';
@@ -71,10 +72,14 @@ export default function useMiddlewareMapViewParams({
   return {
     // 静态配置数据,数据只会在初始化的时候传入一次
     configurationData: {
+      defaultRoomName: Strings.getLang('dsc_default_room_name'),
       mapId,
       asynchronousLoadMap: false,
       bgColor: convertColorToArgbHex(backgroundColor),
       roomPropertyStyle: roomPropertyStyle || 'foldable',
+      /**
+       * 配置房间高亮的颜色
+       */
       highlightMapColor: [
         '#FDE4CF',
         '#8EECF5',
@@ -93,6 +98,9 @@ export default function useMiddlewareMapViewParams({
         '#AEE6F8',
         '#90C2F4',
       ],
+      /**
+       * 配置房间未选中的颜色
+       */
       // normalMapColor: [
       //   '#ea9a62',
       //   '#a47345',
@@ -103,16 +111,19 @@ export default function useMiddlewareMapViewParams({
       //   '#ffecda',
       //   '#ffd9b5',
       // ],
-      specialRoomColorMap: {
-        60: '#11D0D0',
-        61: '#82D0D1',
-        62: '#98D0D2',
-        63: '#87D0D3',
-        28: '#11D0D0',
-        29: '#82D0D1',
-        30: '#98D0D2',
-        31: '#87D0D3',
-      },
+      /**
+       * 配置特殊房间的颜色
+       */
+      // specialRoomColorMap: {
+      //   60: '#11D0D0',
+      //   61: '#82D0D1',
+      //   62: '#98D0D2',
+      //   63: '#87D0D3',
+      //   28: '#11D0D0',
+      //   29: '#82D0D1',
+      //   30: '#98D0D2',
+      //   31: '#87D0D3',
+      // },
       factorInfo: {
         factor,
         font: 12,

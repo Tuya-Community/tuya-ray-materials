@@ -5,7 +5,7 @@ import { useDevice } from '@ray-js/panel-sdk';
 import { updateMapData } from '@/redux/modules/mapStateSlice';
 import { StreamDataNotificationCenter } from '@ray-js/robot-data-stream';
 import { setStorageSync } from '@ray-js/ray';
-import { AiPicInfo, decodeAiPicData } from '@ray-js/robot-protocol';
+import { AIObject, AiPicInfo, decodeAiPicData } from '@ray-js/robot-protocol';
 import base64Imgs from '@/res/base64Imgs';
 
 // 0x00 到 0x07 为默认协议数据，若需要新增，则对应增加枚举值和配套的图片
@@ -26,6 +26,7 @@ const materialObjEnum = [
 export default function useVisionData() {
   const visionDataCache = useRef('');
   const { devId } = useDevice(device => device.devInfo);
+  const aiObjectsCache = useRef<AIObject[]>([]);
 
   const dispatch = useDispatch();
 
@@ -93,10 +94,69 @@ export default function useVisionData() {
       }
     };
 
+    const handleAIVisionDataFromDp = (aiObjects: AIObject[]) => {
+      if (aiObjects !== aiObjectsCache.current) {
+        log4js.info('AI Vision Data', visionDataCache);
+
+        aiObjectsCache.current = aiObjects;
+
+        let materialObject: {
+          materialMaps: { [key: string]: IMaterialMaterialMaps };
+          materials: IMaterialMaterials;
+        } = {
+          materialMaps: {},
+          materials: [],
+        };
+
+        const materialMaps = {};
+
+        // 宽高需要保持一致
+        const materialObjWidth = 76;
+        const materialObjHeight = 86;
+
+        if (aiObjects?.length > 0) {
+          materialObjEnum.forEach((item: string, index: number) => {
+            materialMaps[`obj${index}`] = {
+              uri: item,
+              width: materialObjWidth,
+              height: materialObjHeight,
+              scale: 0.04,
+            };
+          });
+
+          const materials = aiObjects.map(({ point, type }, index: number) => ({
+            id: `materialObjData${index}`,
+            type: `obj${type}`,
+            x: point.x,
+            y: point.y,
+            extends: JSON.stringify({
+              type,
+              x: point.x,
+              y: point.y,
+            }),
+          }));
+          materialObject = {
+            materialMaps,
+            materials,
+          };
+        }
+
+        log4js.info('vision materialObject', materialObject);
+        dispatch(updateMapData({ materialObject }));
+
+        setStorageSync({
+          key: `vision_${devId}`,
+          data: JSON.stringify(aiObjects),
+        });
+      }
+    };
+
     StreamDataNotificationCenter.on('receiveAIPicData', handleAIVisionData);
+    StreamDataNotificationCenter.on('receiveAIPicDataFromDp', handleAIVisionDataFromDp);
 
     return () => {
       StreamDataNotificationCenter.off('receiveAIPicData');
+      StreamDataNotificationCenter.off('receiveAIPicDataFromDp');
     };
   }, []);
   return {};

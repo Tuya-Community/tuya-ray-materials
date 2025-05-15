@@ -12,6 +12,8 @@ import { encodeSetRoomProperty0x22 } from '@ray-js/robot-protocol';
 import { onClickSplitArea as onClickSplitAreaFun } from '@ray-js/robot-sdk-types';
 import { Toast, ToastInstance } from '@ray-js/smart-ui';
 import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
+import { PROTOCOL_VERSION } from '@/constant';
+
 import styles from './index.module.less';
 
 export const cleanWorkModeEnum = {
@@ -171,7 +173,7 @@ const CleanPreference: FC = () => {
           yMop: 0,
         });
       });
-      const res = encodeSetRoomProperty0x22({ rooms: data });
+      const res = encodeSetRoomProperty0x22({ rooms: data, version: PROTOCOL_VERSION });
       dpActions[commandTransCode].set(res);
     } catch (error) {
       console.warn('save room properties error\n', error);

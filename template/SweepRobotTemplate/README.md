@@ -94,6 +94,27 @@ If you have any questions, please visit the link and submit a post for feedback:
 
 ## Changelog
 
+### [0.0.17] - 2025-5-15
+
+#### Added
+
+- Added an example of integrating AI object recognition functionality through dp points (36/37 protocol)
+- Add support for configuring default room name
+- Added support for configuring width and height for offline screenshots of multiple maps
+
+#### Changed
+
+- **@ray-js/robot-map-component** upgrade to **1.0.4**。
+- **@ray-js/robot-map-middleware** upgrade to **1.0.5**。
+- **@ray-js/robot-protocol** upgrade to **0.11.2**。
+
+#### Fixed
+
+- Fixed the issue of occasional download failure of cloud maps on Android (causing cleaning records/multiple maps, etc. to not display properly)
+- Fixed the issue where AI object icons could not be cleared
+- Fixed the issue where AI object icon became abnormally scaled when configured to follow map zooming
+- Fix the issue where the font size of the region length unit cannot be set
+
 ### [0.0.16] - 2025-4-11
 
 #### Added

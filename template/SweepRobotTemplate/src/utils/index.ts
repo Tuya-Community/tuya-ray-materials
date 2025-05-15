@@ -20,7 +20,10 @@ import { ENativeMapStatusEnum } from '@ray-js/robot-sdk-types';
 import { isNaN, isNumber, isUndefined } from 'lodash-es';
 import mitt from 'mitt';
 import moment from 'moment';
+import { APP_MULTIPLE_MAP_CACHE_DIR } from '@/constant';
+
 import { getLaserMapPoints, getMapPointsInfo } from './openApi';
+import log4js from '@ray-js/log4js';
 
 export const emitter = mitt();
 
@@ -350,15 +353,20 @@ export const createLimitByNum = (data: Array<any>, num = 5, tip: string) => {
  * @param rest 其他参数
  * @returns
  */
-export const fetchMapFile = async (url, ...rest) => {
+export const fetchMapFile = async (url, file, ...rest) => {
   return new Promise<{ data: string; status: number }>((resolve, reject) => {
+    const fileName = file.split('/').pop();
+    const realFilePath = APP_MULTIPLE_MAP_CACHE_DIR + fileName;
+    log4js.info('fetchMapFile url, file, realFilePath', url, file, realFilePath);
+
     ty.downloadFile({
       url,
+      filePath: realFilePath,
       ...rest,
       success: res => {
-        const { tempFilePath } = res;
+        const { filePath } = res;
         ty.getFileSystemManager().readFile({
-          filePath: tempFilePath,
+          filePath,
           encoding: 'base64',
           position: 0,
           success: ({ data }) => {

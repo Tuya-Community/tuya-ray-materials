@@ -1,5 +1,6 @@
 export default {
   en: {
+    dsc_default_room_name: 'Untitled',
     dsc_square_meter: 'm²',
     dsc_minute: 'mins',
     dsc_exit_manual_tips: 'Confirm exit from manual control mode?',
@@ -215,6 +216,7 @@ export default {
     ipc_feature_record: 'Record',
   },
   zh: {
+    dsc_default_room_name: '未命名',
     dsc_square_meter: '平方米',
     dsc_minute: '分钟',
     dsc_exit_manual_tips: '确认退出手动控制模式?',

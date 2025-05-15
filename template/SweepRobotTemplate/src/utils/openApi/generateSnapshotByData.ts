@@ -7,7 +7,11 @@ export default function generateSnapshotByData(
   mapData: {
     originMap: any;
     areaInfoList: string;
+  },
+  opts?: {
+    height: number;
+    width: number;
   }
 ) {
-  return IndoorMapApi.generateSnapshotByData(IndoorMapUtils.getMapInstance(mapId), mapData);
+  return IndoorMapApi.generateSnapshotByData(IndoorMapUtils.getMapInstance(mapId), mapData, opts);
 }
