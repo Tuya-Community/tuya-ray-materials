@@ -321,5 +321,16 @@ Tuya Ray Materials
   </details>
   </td>
 </tr>
+
+<tr>
+  <td id="ImageAreaPicker">2025/05</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/ImageAreaPicker">ImageAreaPicker</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/materials-ImageAreaPicker.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
 </table>
 <!-- txp-asset-qrcode-end -->

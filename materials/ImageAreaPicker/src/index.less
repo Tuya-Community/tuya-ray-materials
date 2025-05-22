@@ -1,0 +1,65 @@
+@class-prefix: rayImageAreaPicker;
+
+.@{class-prefix} {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  .@{class-prefix}__editImgPreviewWrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    .@{class-prefix}__movableArea {
+      width: 600rpx;
+      height: 600rpx;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      background-color: rgba(255, 255, 255, 0.4);
+      user-select: none;
+      .@{class-prefix}__movableView {
+        width: 800rpx;
+        height: 800rpx;
+        display: block;
+        user-select: none;
+        .rayImageAreaPicker__editImg {
+          width: 100%;
+          height: 100%;
+          user-select: none;
+        }
+      }
+    }
+    .@{class-prefix}__editImgMask {
+      box-sizing: content-box;
+      border: 10000rpx solid rgba(0, 0, 0, 0.7);
+      width: 600rpx;
+      height: 600rpx;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      user-select: none;
+      pointer-events: none; /* 允许事件穿透 */
+      .@{class-prefix}__unionTop {
+        width: 600rpx;
+        height: 56rpx;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .@{class-prefix}__unionBottom {
+        width: 600rpx;
+        height: 56rpx;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+    }
+  }
+}
