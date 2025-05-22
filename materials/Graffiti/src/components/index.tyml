@@ -1,0 +1,6 @@
+<canvas
+  canvasClassName
+  type="2d"
+  canvas-id="{{`${canvasIdPrefix}-sourceCanvas`}}"
+  style="width: {{realWidth}}px; height: {{realHeight}}px"
+/>

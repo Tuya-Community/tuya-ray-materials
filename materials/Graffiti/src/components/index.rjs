@@ -1,0 +1,165 @@
+const pixelRatio = Math.floor(getSystemInfo().pixelRatio) || 1; // 分辨率, 整数
+
+export default Render({
+  async initPanel({
+    canvasIdPrefix,
+    width,
+    height,
+    mode,
+    gridSizeX,
+    gridSizeY,
+    pixelSizeX,
+    pixelSizeY,
+    pixelGap,
+    pixelShape,
+    pixelColor,
+    penColor,
+  }) {
+    let canvas = await getCanvasById(`${canvasIdPrefix}-sourceCanvas`);
+
+    // 根据屏幕分辨率动态计算canvas尺寸
+    if (mode === 'grid') {
+      const gridModeSizeX = (pixelSizeX + pixelGap) * gridSizeX + pixelGap;
+      const gridModeSizeY = (pixelSizeY + pixelGap) * gridSizeY + pixelGap;
+      canvas.width = gridModeSizeX * pixelRatio;
+      canvas.height = gridModeSizeY * pixelRatio;
+      canvas.style.width = gridModeSizeX + 'px';
+      canvas.style.height = gridModeSizeY + 'px';
+    } else {
+      canvas.width = width * pixelRatio;
+      canvas.height = height * pixelRatio;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+    }
+
+    const ctx = canvas.getContext('2d');
+    ctx.scale(pixelRatio, pixelRatio);
+    this.canvas = canvas;
+    this.ctx = ctx;
+
+    this.mode = mode;
+    this.width = width;
+    this.height = height;
+    this.gridSizeX = gridSizeX;
+    this.gridSizeY = gridSizeY;
+    this.pixelSizeX = pixelSizeX;
+    this.pixelSizeY = pixelSizeY;
+    this.pixelGap = pixelGap;
+    this.pixelShape = pixelShape;
+    this.pixelColor = pixelColor;
+    this.penColor = penColor;
+    this.canvasIdPrefix = canvasIdPrefix;
+    // 用于存储触摸开始到结束经过的方格坐标数组集合
+    this.touchedSquaresSet = new Set();
+    // 记录触摸是否开始
+    this.isTouchStarted = false;
+
+    // 初始化画布, 绘制像素点
+    this.createPixel(pixelColor);
+
+    canvas.addEventListener('touchstart', this.handleTouchstart, false);
+    canvas.addEventListener('touchmove', this.handleTouchmove, false);
+    canvas.addEventListener('touchend', this.handleTouchend, false);
+
+    ctx.imageSmoothingEnabled = true; // 开启抗锯齿
+    ctx.imageSmoothingQuality = 'high'; // 高质量抗锯齿
+  },
+  handleTouchstart(e) {
+    const { canvas, pixelGap, pixelSizeX, pixelSizeY } = this;
+    this.touchedSquaresSet.clear();
+    this.isTouchStarted = true;
+    const touch = e.changedTouches[0];
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor((touch.pageX - rect.left - pixelGap) / (pixelSizeX + pixelGap));
+    const y = Math.floor((touch.pageY - rect.top - pixelGap) / (pixelSizeY + pixelGap));
+    const coordinate = `${x},${y}`;
+    if (!this.touchedSquaresSet.has(coordinate)) {
+      this.touchedSquaresSet.add(coordinate);
+      this.fillPixel(x, y, this.penColor);
+    }
+  },
+  handleTouchmove(e) {
+    const { canvas, pixelGap, pixelSizeX, pixelSizeY } = this;
+    e.preventDefault();
+    if (this.isTouchStarted) {
+      const touch = e.changedTouches[0];
+      const rect = canvas.getBoundingClientRect();
+      const x = Math.floor((touch.pageX - rect.left - pixelGap) / (pixelSizeX + pixelGap));
+      const y = Math.floor((touch.pageY - rect.top - pixelGap) / (pixelSizeY + pixelGap));
+      const coordinate = `${x},${y}`;
+      if (!this.touchedSquaresSet.has(coordinate)) {
+        this.touchedSquaresSet.add(coordinate);
+        this.fillPixel(x, y, this.penColor);
+      }
+    }
+  },
+  handleTouchend() {
+    this.isTouchStarted = false;
+    const touchedSquares = [];
+    for (const coordinateStr of this.touchedSquaresSet) {
+      const [x, y] = coordinateStr.split(',');
+      touchedSquares.push({ x: Number(x), y: Number(y) });
+    }
+    this.callMethod('touchend', { points: touchedSquares });
+  },
+  createPixel(pixelColor) {
+    const { gridSizeX, gridSizeY, pixelSizeX, pixelSizeY, pixelGap } = this;
+    let realGridSizeX = gridSizeX;
+    let realGridSizeY = gridSizeY;
+    if (this.mode !== 'grid') {
+      realGridSizeX = (this.width - pixelGap) / (pixelSizeX + pixelGap);
+      realGridSizeY = (this.height - pixelGap) / (pixelSizeY + pixelGap);
+    }
+    for (let x = 0; x < realGridSizeX; x++) {
+      for (let y = 0; y < realGridSizeY; y++) {
+        this.fillPixel(x, y, pixelColor);
+      }
+    }
+  },
+  fillPixel(x, y, color) {
+    const { ctx, pixelSizeX, pixelSizeY, pixelGap, pixelShape } = this;
+    const offsetX = pixelGap + x * (pixelSizeX + pixelGap);
+    const offsetY = pixelGap + y * (pixelSizeY + pixelGap);
+    // 清除原有填充颜色
+    ctx.clearRect(offsetX, offsetY, pixelSizeX, pixelSizeY);
+    ctx.fillStyle = color; // 填充颜色
+    if (pixelShape === 'square') {
+      ctx.fillRect(offsetX, offsetY, pixelSizeX, pixelSizeY);
+    } else {
+      const radiusX = pixelSizeX / 2;
+      const radiusY = pixelSizeY / 2;
+      // 开始绘制路径
+      ctx.beginPath();
+      // 使用arc方法绘制圆形，传入圆心x坐标、圆心y坐标、半径、起始角度（弧度制）、结束角度（弧度制）
+      if (radiusX === radiusY) {
+        ctx.arc(offsetX + radiusX, offsetY + radiusY, radiusX, 0, Math.PI * 2);
+      } else {
+        ctx.ellipse(offsetX + radiusX, offsetY + radiusY, radiusX, radiusY, 0, 0, Math.PI * 2);
+        // ctx.arc(offsetX + radiusX, (offsetY + radiusY) / (radiusY / radiusX), radiusX, 0, Math.PI * 2);
+      }
+      // 关闭路径
+      ctx.closePath();
+
+      // 执行填充操作，将圆形内部填充为设定的颜色
+      ctx.fill();
+    }
+  },
+  // 改变画笔颜色
+  updateColor(color) {
+    this.penColor = color;
+  },
+  // 油漆桶
+  changeBg(color) {
+    this.penColor = color;
+    this.createPixel(color);
+  },
+  // 清除画布
+  clear() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.createPixel(this.pixelColor);
+  },
+  save() {
+    const base64 = this.canvas.toDataURL('image/png');
+    this.callMethod('genImageData', { base64 });
+  },
+});
