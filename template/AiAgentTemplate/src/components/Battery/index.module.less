@@ -1,0 +1,33 @@
+.batteryBox {
+  display: flex;
+  min-height: 48rpx;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 48rpx;
+  top: -8rpx;
+  z-index: 10;
+
+  .batteryText {
+    font-size: 24rpx;
+    font-weight: 500;
+    height: 48rpx;
+    line-height: 48rpx;
+    margin-left: 10rpx;
+  }
+}
+
+.battery {
+  display: 'inline-block';
+  position: relative;
+}
+
+.chargingIconBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 4rpx;
+  z-index: 9999;
+}

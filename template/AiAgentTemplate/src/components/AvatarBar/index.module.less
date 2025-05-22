@@ -1,0 +1,56 @@
+.scroll {
+  height: auto;
+  white-space: nowrap;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.none {
+  width: 276rpx;
+  height: 180rpx;
+  overflow: hidden;
+  margin-bottom: 48rpx;
+  display: inline-block;
+  background-color: transparent;
+}
+
+.avatarBox {
+  width: 180rpx;
+  height: 180rpx;
+  // border-radius: 100rpx;
+  overflow: hidden;
+  // margin-bottom: 48rpx;
+  display: inline-block;
+}
+
+.avatar {
+  width: 144rpx;
+  height: 144rpx;
+  border-radius: 72rpx;
+  margin: 28rpx;
+  object-fit: cover;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.8);
+
+  &Checked {
+    width: 180rpx;
+    height: 180rpx;
+    border-radius: 90rpx;
+    background-color: #ffffff;
+  }
+
+  &Plus {
+    width: 56rpx;
+    height: 56rpx;
+    border-radius: 28rpx;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 0;
+    bottom: 0;
+  }
+}

@@ -1,0 +1,68 @@
+.topbarWrap {
+  background-color: #F6F7FB;
+  &.fixed {
+    height: 64px;
+  }
+
+
+  .statusBar {
+    height: 20px;
+  }
+
+  .topbar {
+    display: flex;
+    width: 100vw;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 24px;
+    padding-right: 24px;
+    font-size: 17px;
+    font-weight: 600;
+    height: 44px;
+
+    .left,
+    .right {
+      flex: 1;
+    }
+
+    .right {
+      justify-content: flex-end;
+      display: flex;
+      font-size: 16px;
+      color: var(--primary-color);
+      font-weight: 400;
+    }
+
+    .title {
+      flex: auto;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .back {
+      display: flex;
+      align-items: center;
+      margin-right: 16px;
+      padding: 6px 0;
+      cursor: pointer;
+      .arrow {
+        font-size: 24px;
+        margin-right: 4px;
+      }
+    }
+  }
+}
+.fixedContent {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.title {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: var(--panel-font-normal);
+}

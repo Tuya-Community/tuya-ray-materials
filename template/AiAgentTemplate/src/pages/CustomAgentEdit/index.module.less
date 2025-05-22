@@ -1,0 +1,202 @@
+@import '../../variables.less';
+@import '../../mixins.less';
+@import '../../global.less';
+
+.view {
+  display: flex;
+  position: relative; // 添加 relative，确保 absolute 参考它
+  flex-direction: column;
+  // align-items: center;
+  width: 100%;
+  height: 100vh;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, #daecf6 0%, #eff0f0 100%);
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    // height: 100vh;
+    padding: 32rpx;
+    overflow-y: scroll;
+  }
+
+  .bottomBtn {
+    display: flex;
+    width: 686rpx;
+    margin: 24rpx 0 36rpx 0;
+    left: 50%;
+    transform: translateX(-50%); // 居中
+    z-index: 10;
+  }
+}
+
+.avatarBox {
+  width: 180rpx;
+  height: 180rpx;
+  min-height: 180rpx;
+  // overflow: hidden;
+  margin-bottom: 48rpx;
+  position: relative;
+  display: flex;
+
+  .avatar {
+    width: 180rpx;
+    height: 180rpx;
+    border-radius: 90rpx;
+    object-fit: cover;
+    background-color: #FFFFFF;
+    position: relative;
+    &Plus {
+      width: 56rpx;
+      height: 56rpx;
+      border-radius: 28rpx;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}
+
+.avatarBarBox {
+  display: flex;
+  min-height: 280rpx;
+  height: 280rpx;
+  justify-content: center;
+}
+
+.formItemCommon {
+  width: 100%;
+  margin-bottom: 32rpx;
+}
+
+.formItemPicker {
+  width: 100%;
+}
+
+.label {
+  font-size: 28rpx;
+  color: rgba(0, 0, 0, 0.9);
+  margin-bottom: 16rpx;
+  font-weight: bold;
+}
+
+.inputLabel {
+  font-weight: 500;
+}
+
+.input {
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  margin-top: 16rpx;
+  :global(.field__smart-field) {
+    width: 100%;
+  }
+
+  :global(.cell__smart-cell) {
+    padding: 0 !important;
+  }
+}
+
+// .input {
+//   width: 100%;
+//   height: 88rpx;
+//   background: #FFFFFF;
+//   border-radius: 16rpx;
+//   padding: 0 32rpx;
+//   display: flex;
+//   align-items: center;
+//   margin-top: 16rpx;
+// }
+
+.inputText {
+  font-size: 28rpx;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.saveText {
+  font-size: 32rpx;
+  color: @theme-color;
+  font-weight: 500;
+}
+
+// .textArea {
+//   width: 100%;
+//   height: 400rpx;
+//   padding: 32rpx;
+//   background-color: #fff;
+//   border-radius: 16rpx;
+//   font-size: 28rpx;
+//   // overflow-y: scroll;
+// } 
+.textArea {
+  // width: 100%;
+  min-height: 400rpx;
+  max-height: 520rpx;
+  padding: 32rpx 0;
+  background-color: #fff;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  // overflow-y: scroll;
+
+  :global(.field__smart-field--textarea) {
+    // padding: 0;
+
+  }
+
+  // &Rendering {
+  //   min-height: 360rpx;
+  //   :global(.skeleton__smart-skeleton__row) {
+  //     height: 360rpx !important;
+  //     border-radius: 32rpx;
+  //   }
+  // }
+
+
+
+  :global(.field__smart-field__control--textarea) {
+    padding: 0 !important;
+    overflow: hidden;
+  }
+}
+
+.setting {
+  display: flex;
+  justify-content: space-between;
+  .optimize {
+    font-size: 28rpx;
+    color: #4e6ef2;
+  }
+}
+
+.bottomContent {
+  position: fixed;
+  width: 686rpx;
+  bottom: 32rpx; // 调整位置
+  left: 50%;
+  transform: translateX(-50%); // 居中
+  z-index: 10;
+}
+
+.btn {
+  width: 686rpx;
+  height: 104rpx;
+  border-radius: 16rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .btnText {
+    font-size: 32rpx;
+    font-weight: 500;
+  }
+}
+

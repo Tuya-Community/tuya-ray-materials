@@ -1,0 +1,18 @@
+{
+  "name": "通用 SDM 模板",
+  "type": "panel-app",
+  "ownerType": "tuya-official",
+  "i18n": false,
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.19.3",
+    "MiniKit": "3.16.1",
+    "DeviceKit": "4.14.0",
+    "BizKit": "4.15.2"
+  },
+  "baseversion": "2.10.29",
+  "devMode": "ray",
+  "compileType": "miniprogram",
+  "projectname": "AI 智能体",
+  "description": ""
+}

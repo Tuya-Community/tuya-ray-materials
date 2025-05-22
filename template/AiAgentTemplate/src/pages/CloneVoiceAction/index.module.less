@@ -1,0 +1,333 @@
+@import '../../global.less';
+
+.view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+
+  .singleWay {
+    width: 620rpx;
+    height: auto;
+    max-height: 700rpx;
+    padding: 48rpx;
+    border-radius: 32rpx;
+    background: #fff;
+    margin-top: 40rpx;
+    margin-bottom: 44rpx;
+
+    &.activeBox {
+      position: fixed;
+      top: 162rpx;
+      left: calc((100vw - 620rpx) / 2);
+      z-index: 5;
+    }
+
+    .singleText {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: normal;
+      letter-spacing: 0px;
+      color: rgba(0, 0, 0, 0.9);
+      margin-bottom: 24px;
+    }
+
+    .singleImage {
+      width: 100%;
+      height: 20px;
+    }
+  }
+
+  .recordingTextBox:extend(.flex-column) {
+    width: 620rpx;
+    height: auto;
+    max-height: 700rpx;
+    padding: 48rpx;
+    border-radius: 32rpx;
+    align-items: center;
+    box-shadow: 0px 16px 25px -10px rgba(246, 172, 83, 0.35);
+    background: linear-gradient(180deg, #3384ff 0%, #4d94ff 100%);
+    margin-top: 40rpx;
+    margin-bottom: 44rpx;
+    overflow-y: auto;
+
+    &.activeBox {
+      position: fixed;
+      top: 162rpx;
+      left: calc((100vw - 620rpx) / 2);
+      z-index: 5;
+    }
+
+    .recordingTips {
+      white-space: normal;
+      width: 524rpx;
+      font-size: 32rpx;
+      line-height: 44rpx;
+      color: #ffffff;
+      opacity: 0.5;
+      font-weight: 500;
+      margin-bottom: 48rpx;
+      text-align: left;
+    }
+
+    .recordingText {
+      white-space: normal;
+      width: 524rpx;
+      font-size: 36rpx;
+      line-height: 56rpx;
+      color: #ffffff;
+      font-weight: 600;
+      text-align: left;
+    }
+  }
+
+  .resTextBox:extend(.flex-row) {
+    width: 620rpx;
+    height: auto;
+    margin-top: 80rpx;
+    min-height: 80rpx;
+    border-radius: 24rpx;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(241, 94, 94, 0.1);
+    margin-bottom: 24rpx;
+    padding: 32rpx;
+
+    .iconImage {
+      width: 48rpx;
+      height: 48rpx;
+      margin-right: 16rpx;
+    }
+
+    .resText {
+      width: calc(100% - 48rpx - 16rpx);
+      font-size: 32rpx;
+      line-height: 48rpx;
+      height: auto;
+      white-space: normal;
+      color: #f04c4c;
+    }
+  }
+
+  .successTextBox:extend(.flex-row) {
+    width: 620rpx;
+    height: auto;
+    margin-top: 80rpx;
+    min-height: 80rpx;
+    border-radius: 24rpx;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(136, 241, 94, 0.1);
+    margin-bottom: 24rpx;
+    padding: 32rpx;
+
+    .iconImage {
+      width: 48rpx;
+      height: 48rpx;
+      margin-right: 16rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #68ca22;
+      border-radius: 50%;
+    }
+
+    .resText {
+      width: calc(100% - 48rpx - 16rpx);
+      font-size: 32rpx;
+      line-height: 48rpx;
+      height: auto;
+      white-space: normal;
+      color: #68ca22;
+    }
+  }
+}
+
+.btn {
+  transition: transform 1s; /* 设置旋转的过渡效果 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .btnImage {
+    display: block;
+    width: 160rpx;
+    height: 160rpx;
+  }
+
+  .cloneTipText {
+    text-align: center;
+    font-size: 12px;
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(0, 0, 0, 0.5);
+    margin-top: 8px;
+  }
+}
+
+.touchArea {
+  position: fixed;
+  bottom: 64rpx;
+  left: 0;
+  // margin-left: -80rpx;
+  width: 100%;
+  height: 200rpx;
+  z-index: 3;
+
+  &.active {
+    left: 0;
+    bottom: 0;
+    margin: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75);
+    .activeWrapper {
+      display: block;
+    }
+    .btn {
+      display: none;
+    }
+  }
+
+  .activeWrapper {
+    display: none;
+  }
+
+  .maskTip {
+    display: flex;
+    margin: 760rpx auto 460rpx;
+    width: 300rpx;
+    border-radius: 32rpx;
+    background-color: rgba(64, 140, 255, 1);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 24rpx 32rpx;
+    transition: width 0.2s;
+    &.maskTipCancel {
+      background-color: rgb(248, 75, 95);
+    }
+  }
+
+  .voicePlayingText {
+    text-align: center;
+    font-size: 28rpx;
+    line-height: 36rpx;
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .voicePlayingIcon {
+    width: 100%;
+    height: 140rpx;
+    margin: -40rpx auto;
+    filter: brightness(0) invert(1);
+    mix-blend-mode: lighten;
+  }
+
+  .bottomTip {
+    width: 100%;
+    text-align: center;
+    font-size: 32rpx;
+    line-height: 64rpx;
+    color: #fff;
+    position: absolute;
+    bottom: 260rpx;
+    left: 0;
+    font-weight: 500;
+  }
+
+  .bottomBtn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 250rpx;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: height 0.2s;
+
+    &.bottomBtnCancel {
+      height: 230rpx;
+      .bottomBg {
+        background: rgba(0, 0, 0, 0.4);
+      }
+    }
+  }
+
+  .bottomIcon {
+    position: absolute;
+    top: 64rpx;
+    left: 50%;
+    margin-left: -32rpx;
+    width: 64rpx;
+    height: 64rpx;
+    z-index: 2;
+  }
+
+  .bottomBg {
+    width: 500vw;
+    height: 500vw;
+    margin-left: -250vw;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 1;
+    transition: 0.2s;
+    background: linear-gradient(
+      to bottom,
+      rgba(64, 140, 255, 1) 0%,
+      rgba(80, 156, 255, 1) 4%); /* 灰色渐变，上浅下深 */
+  }
+}
+
+.asrTextBox {
+  position: absolute;
+  top: 600rpx;
+  left: calc((100vw - 620rpx) / 2);
+  width: 620rpx;
+  height: auto;
+  max-height: 256rpx;
+  min-height: 80rpx;
+  border-radius: 24rpx;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 1);
+  padding: 24rpx 32rpx 32rpx;
+  overflow: hidden;
+
+  .resText {
+    font-size: 28rpx;
+    line-height: 32rpx;
+    height: auto;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+    white-space: normal;
+    color: #4d94ff;
+  }
+}
+
+.resultBtnWrap {
+  position: fixed;
+  bottom: 64rpx;
+  width: 100%;
+  padding: 0 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resultBtn {
+  // margin: 0 48rpx;
+  width: 100%;
+
+  &.errorBtn {
+    background: none;
+  }
+}

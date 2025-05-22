@@ -1,0 +1,73 @@
+page {
+  overflow-y: hidden;
+ // dark主题全部使用light主题的变量
+ // 变量名从 @变量名 格式统一改成 CSS 变量（--app-变量名
+ --app-M1: #3678e3;
+ --app-M2: #f04c4c;
+ --app-M3: #2dda86;
+ --app-M4: #1989fa;
+ --app-M5: #ffa000;
+ --app-B1: #f6f7fb;
+ --app-B2: #ffffff;
+ --app-B3: #ffffff;
+ --app-B4: #ffffff;
+ --app-B5: #f6f7fb;
+ --app-B6: #fff;
+ --app-B1-N1: rgba(0, 0, 0, 1);
+ --app-B1-N2: rgba(0, 0, 0, 0.7);
+ --app-B1-N3: rgba(0, 0, 0, 0.5);
+ --app-B1-N4: rgba(0, 0, 0, 0.4);
+ --app-B1-N5: rgba(0, 0, 0, 0.3);
+ --app-B1-N6: rgba(0, 0, 0, 0.2);
+ --app-B1-N7: rgba(0, 0, 0, 0.1);
+ --app-B1-N8: rgba(0, 0, 0, 0.4);
+ --app-B1-N9: rgba(0, 0, 0, 0.05);
+ --app-B2-N1: rgba(0, 0, 0, 1);
+ --app-B2-N2: rgba(0, 0, 0, 0.7);
+ --app-B2-N3: rgba(0, 0, 0, 0.5);
+ --app-B2-N4: rgba(0, 0, 0, 0.4);
+ --app-B2-N5: rgba(0, 0, 0, 0.3);
+ --app-B2-N6: rgba(0, 0, 0, 0.2);
+ --app-B2-N7: rgba(0, 0, 0, 0.1);
+ --app-B2-N8: rgba(0, 0, 0, 0.4);
+ --app-B2-N9: rgba(0, 0, 0, 0.05);
+ --app-B4-N1: rgba(0, 0, 0, 1);
+ --app-B4-N2: rgba(0, 0, 0, 0.7);
+ --app-B4-N3: rgba(0, 0, 0, 0.5);
+ --app-B4-N4: rgba(0, 0, 0, 0.4);
+ --app-B4-N5: rgba(0, 0, 0, 0.3);
+ --app-B4-N6: rgba(0, 0, 0, 0.2);
+ --app-B4-N7: rgba(0, 0, 0, 0.1);
+ --app-B4-N8: rgba(0, 0, 0, 0.4);
+ --app-B4-N9: rgba(0, 0, 0, 0.05);
+ --app-B6-N1: rgba(0, 0, 0, 1);
+ --app-B6-N2: rgba(0, 0, 0, 0.7);
+ --app-B6-N3: rgba(0, 0, 0, 0.5);
+ --app-B6-N4: rgba(0, 0, 0, 0.4);
+ --app-B6-N5: rgba(0, 0, 0, 0.3);
+ --app-B6-N6: rgba(0, 0, 0, 0.2);
+ --app-B6-N7: rgba(0, 0, 0, 0.1);
+ --app-B6-N8: rgba(0, 0, 0, 0.4);
+ --app-B6-N9: rgba(0, 0, 0, 0.05); 
+}
+
+.smart-loading {
+  flex: 1;
+  display: flex;
+  width: 100vw;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.smart-nav-bar {
+  --nav-bar-background-color: transparent;
+  --hairline-bottom-width: 0px;
+
+  &__text--home {
+    max-width: 80vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

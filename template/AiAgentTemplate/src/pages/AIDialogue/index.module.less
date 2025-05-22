@@ -1,0 +1,114 @@
+.view {
+  display: flex;
+  position: relative; // 添加 relative，确保 absolute 参考它
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  align-items: center;
+  background: linear-gradient(180deg, #daecf6 0%, #eff0f0 100%);
+
+
+  .rolesBox {
+    flex: 1;
+    width: 100vw;
+    // height: 100vh;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    z-index: 5;
+
+    .singleItem {
+      width: 100vw;
+      height: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 4;
+    }
+  }
+
+  .bottomBtn {
+    display: flex;
+    width: 686rpx;
+    margin: 24rpx 0 36rpx 0;
+    z-index: 10;
+    justify-content: center;
+  }
+
+  .bottomCreate {
+    width: 574rpx;
+    z-index: 10;
+  }
+
+  .bottomVolume {
+    width: 96rpx;
+    z-index: 10;
+    margin-left: 16rpx;
+    border-width: 0rem;
+    & > view {
+      display: flex;
+    }
+  }
+
+  .noDataBox {
+    flex: 1;
+    overflow-y: auto;
+    width: 100vw;
+  }
+}
+
+.sliderVolume {
+  display: flex;
+  width: 686rpx;
+  height: 244rpx;
+  padding: 0 16rpx 0 16rpx;
+  flex-direction: column;
+  position: relative; // 添加 relative，确保 absolute 参考它
+  
+  .textContainer {
+    display: flex;
+    margin-top: 32rpx;
+    margin-bottom: 62rpx;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .text {
+    font-size: 28rpx;
+    color: black;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0px;
+    margin-right: 12rpx;
+  }
+
+  .textPencent {
+    font-size: 28rpx;
+    color: #408CFF;
+    font-weight: 600;
+    line-height: normal;
+    // letter-spacing: 0px;
+    text-align: center;
+  }
+}
+
+
+.imgDeleteBtn {
+  display: flex;
+  width: 120rpx;
+  height: 100%;
+  color: #fff;
+  background-color: #fff;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  margin-left: 20rpx;
+  margin-left: 10rpx;
+  .imgDeleteIcon {
+    width: 40rpx;
+    height: 40rpx;
+  }
+}
