@@ -7,10 +7,9 @@ import Styles from './index.module.less';
 
 const PtzPanel = () => {
   const devInfo = useDevice(device => device.devInfo);
-  const selectDevDp = devInfo?.dpCodes || {};
-
-  const isPtz = selectDevDp && 'ptz_control' in selectDevDp;
-  const isZoom = selectDevDp && 'zoom_control' in selectDevDp;
+  const { schema } = devInfo;
+  const isPtz = schema.findIndex(item => item.code === 'ptz_control') !== -1;
+  const isZoom = schema.findIndex(item => item.code === 'zoom_control') !== -1;
 
   return (
     <View className={Styles.PtzPanel}>

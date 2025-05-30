@@ -125,17 +125,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="PublicPanelIpc">2024/12</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelIpc">PublicPanelIpc</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-PublicPanelIpc.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="RecycleView">2024/12</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/RecycleView">RecycleView</a></td>
   <td>
@@ -329,6 +318,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <img src="./qrCode/materials-ImageAreaPicker.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="PublicPanelIpc">2025/05</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelIpc">PublicPanelIpc</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=PublicPanelIpc" target="_blank">View Details</a>
   </details>
   </td>
 </tr>

@@ -56,7 +56,7 @@ const CameraPlayer = (props: CameraPlayerProps) => {
 
   const showPtz = useMemo(() => {
     if (isFull) {
-      return hasPtz(devInfo.dpCodes);
+      return devInfo?.schema.findIndex(item => item.code === 'ptz_control') !== -1;
     }
 
     return false;
@@ -64,7 +64,7 @@ const CameraPlayer = (props: CameraPlayerProps) => {
 
   const showZoom = useMemo(() => {
     if (isFull) {
-      return hasZoom(devInfo.dpCodes);
+      return devInfo?.schema.findIndex(item => item.code === 'zoom_control') !== -1;
     }
 
     return false;

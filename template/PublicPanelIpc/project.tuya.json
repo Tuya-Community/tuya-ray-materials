@@ -1,7 +1,7 @@
 {
   "projectname": "panel-ipc(mini)",
   "i18n": false,
-  "description": "ray ipc模板",
+  "description": "",
   "miniprogramRoot": "./dist/tuya",
   "devMode": "ray",
   "dependencies": {

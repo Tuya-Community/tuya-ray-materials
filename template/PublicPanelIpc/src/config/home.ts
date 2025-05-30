@@ -101,6 +101,7 @@ export const getTabTopConfig = (prop: tabTopProps) => {
   const { switchType } = prop;
 
   const devInfo = devices.ipc.getDevInfo();
+  const dpSchema = devices.ipc.getDpSchema();
 
   const arr = tabTopConfig
     .filter(item => {
@@ -113,7 +114,7 @@ export const getTabTopConfig = (prop: tabTopProps) => {
       }
 
       if (devInfo && isDpShow) {
-        if (hasZoom(devInfo.dpCodes) || hasPtz(devInfo.dpCodes)) {
+        if (hasZoom(dpSchema) || hasPtz(dpSchema)) {
           return subDevDpShow;
         }
         return !subDevDpShow;
@@ -147,12 +148,14 @@ export const getTabTopConfig = (prop: tabTopProps) => {
   return arr;
 };
 
-export const hasPtz = dp => {
-  return dp && 'ptz_control' in dp;
+export const hasPtz = dpSchema => {
+  const arrayFromKeys = Object.keys(dpSchema);
+  return arrayFromKeys.includes('ptz_control');
 };
 
-export const hasZoom = dp => {
-  return dp && 'zoom_control' in dp;
+export const hasZoom = dpSchema => {
+  const arrayFromKeys = Object.keys(dpSchema);
+  return arrayFromKeys.includes('zoom_control');
 };
 
 type tabConfig = {

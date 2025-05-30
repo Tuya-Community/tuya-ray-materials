@@ -69,8 +69,8 @@ export default () => {
             showMore && !isFull
               ? Styles.indexTabContentShow
               : !showMore && !isFull
-                ? Styles.indexTabContentOpen
-                : Styles.indexTabContent
+              ? Styles.indexTabContentOpen
+              : Styles.indexTabContent
           }
         >
           <View className={Styles.tabPanel}>
