@@ -28,7 +28,6 @@ export const tuya = {
       appid: 'tycryc71qaug8at6yt',
     },
   },
-  webviewRoot: 'webview',
   routers: ['camera_playback_panel', 'ipc_album_panel'],
 };
 

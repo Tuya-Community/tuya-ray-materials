@@ -12,9 +12,9 @@
     "IPCKit": "5.18.0",
     "HomeKit": "3.1.4"
   },
-  "baseversion": "2.19.0",
+  "baseversion": "2.28.3",
   "devMode": "ray",
   "compileType": "miniprogram",
   "projectname": "AI宠物喂食器模版",
-  "description": ""
+  "description": "AI宠物模版"
 }

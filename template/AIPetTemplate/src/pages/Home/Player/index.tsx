@@ -12,6 +12,8 @@ import {
   setRecord,
   snapshot,
   subStatusToMain,
+  setTalk,
+  showToast,
 } from '@/utils/ipc';
 import clsx from 'clsx';
 import { selectSystemInfoByKey } from '@/redux/modules/systemInfoSlice';
@@ -25,7 +27,6 @@ import {
   imgSpeakerOn,
 } from '@/res';
 import RecordTip from '@/components/RecordTip';
-import dpCodes from '@/config/dpCodes';
 import Timer from '@/components/Timer';
 import { Icon } from '@ray-js/smart-ui';
 import { iconAngleLeft, iconExitFullScreen } from '@/res/iconsvg';
@@ -43,6 +44,7 @@ const Player: FC = () => {
   const recordSuccess = useSelector(selectIpcCommonValue('recordSuccess'));
   const isFull = useSelector(selectIpcCommonValue('isFull'));
   const fullPlayer = useSelector(selectIpcCommonValue('fullPlayer'));
+  const isTwoTalking = useSelector(selectIpcCommonValue('isTwoTalking'));
   const isMute = useSelector(selectIpcCommonValue('isMute'));
   const isPreview = useSelector(selectIpcCommonValue('isPreview'));
   const mainDeviceCameraConfig = useSelector(selectIpcCommonValue('mainDeviceCameraConfig'));
@@ -121,6 +123,21 @@ const Player: FC = () => {
         setTimeout(() => {
           setBtnDisabled(false);
         }, 3000);
+      }
+    });
+  };
+
+  const handleTalk = e => {
+    e.origin.stopPropagation();
+    setTalk(!isTwoTalking).then(() => {
+      if (!isTwoTalking) {
+        setBtnDisabled(true);
+      }
+
+      dispatch(updateIpcCommon({ isTwoTalking: !isTwoTalking }));
+
+      if (isTwoTalking) {
+        showToast('ipc_inter_end_call', 'none');
       }
     });
   };
@@ -213,7 +230,11 @@ const Player: FC = () => {
                 <Image src={imgRecordVideo} className={styles.icon} />
               )}
             </View>
-            <View className={styles['icon-wrapper']} hoverClassName="touchable">
+            <View
+              className={styles['icon-wrapper']}
+              hoverClassName="touchable"
+              onClick={handleTalk}
+            >
               <Image src={imgMic} className={styles.icon} />
             </View>
             <View
@@ -294,7 +315,11 @@ const Player: FC = () => {
                 <Image src={imgRecordVideo} className={styles.icon} />
               )}
             </View>
-            <View className={styles['icon-wrapper']} hoverClassName="touchable">
+            <View
+              className={styles['icon-wrapper']}
+              hoverClassName="touchable"
+              onClick={handleTalk}
+            >
               <Image src={imgMic} className={styles.icon} />
             </View>
             <View

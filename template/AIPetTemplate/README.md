@@ -49,4 +49,9 @@ If you have any questions, please visit the link and submit post feedback: https
 
 ## 8. Changelog
 
-None.
+### [1.0.3] - 2024-6-4
+
+#### Changed
+
+- Updated file upload link
+- Added user-defined audio upload feature

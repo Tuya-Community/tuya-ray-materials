@@ -11,6 +11,7 @@ import petBreedReducer from './modules/petBreedSlice';
 import globalReducer from './modules/globalSlice';
 import accountInfoReducer from './modules/accountInfoSlice';
 import uploadFileReducer from './modules/uploadFileSlice';
+import audiosReducer from './modules/audiosSlice';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -33,6 +34,7 @@ const store = configureStore({
     global: globalReducer,
     accountInfo: accountInfoReducer,
     uploadFile: uploadFileReducer,
+    audios: audiosReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({ serializableCheck: false }).concat(middlewares),

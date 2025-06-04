@@ -10,7 +10,6 @@ import { Dialog, Toast } from '@ray-js/smart-ui';
 import clsx from 'clsx';
 import BgBones from '@/components/BgBones';
 import TopBar from '@/components/TopBar';
-import UploadWebView from '@/components/UploadWebView';
 import { imgArrowRight } from '@/res';
 import { emitter } from '@/utils';
 import Strings from '@/i18n';
@@ -172,7 +171,6 @@ const AddPet: FC = () => {
       </View>
       <Toast id="smart-toast" />
       <Dialog id="smart-dialog" />
-      <UploadWebView componentId="add-component-id" />
     </View>
   );
 };

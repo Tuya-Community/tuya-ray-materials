@@ -22,7 +22,6 @@ import Strings from '@/i18n';
 import styles from './index.module.less';
 
 type Props = {
-  componentId: string;
   onBack?: () => void;
   goNext?: () => void;
 };
@@ -33,7 +32,7 @@ enum AnalysType {
   MatchPet = '2',
 }
 
-const PetAnalytics: FC<Props> = ({ componentId, onBack, goNext }) => {
+const PetAnalytics: FC<Props> = ({ onBack, goNext }) => {
   const homeId = useSelector(selectHomeId());
   const miniAppId = useSelector(selectMiniAppId());
 
@@ -182,11 +181,9 @@ const PetAnalytics: FC<Props> = ({ componentId, onBack, goNext }) => {
 
     let images: Array<{ objectKey: string }> = [];
     try {
-      images = (await Promise.all(paths.map(p => uploadImage(p, 'petFeature', componentId)))).map(
-        d => ({
-          objectKey: d.cloudKey,
-        })
-      );
+      images = (await Promise.all(paths.map(p => uploadImage(p, 'petFeature')))).map(d => ({
+        objectKey: d.cloudKey,
+      }));
       if (controller.signal.aborted) {
         return;
       }
@@ -319,7 +316,11 @@ const PetAnalytics: FC<Props> = ({ componentId, onBack, goNext }) => {
             {Strings.getLang('add_pet_analytics_retry')}
           </Button>
           {goNext && (
-            <Button round customStyle={{ background: '#E2E2E2' }} onClick={goNext}>
+            <Button
+              round
+              customStyle={{ background: '#E2E2E2', marginTop: '40rpx', border: 'none' }}
+              onClick={goNext}
+            >
               {Strings.getLang('add_pet_analytics_not_upload')}
             </Button>
           )}

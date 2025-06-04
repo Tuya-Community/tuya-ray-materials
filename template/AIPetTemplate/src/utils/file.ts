@@ -1,16 +1,10 @@
 import {
   chooseImage as originChooseImage,
   chooseCropImage as originChooseCropImage,
-  uploadImage as originUploadImage,
   uploadFile as originUploadFile,
-  getFileSystemManager,
   getPetUploadSign,
 } from '@ray-js/ray';
-import {
-  getUploadIsReady,
-  getUploadInstance,
-  UPLOAD_COMPONENT_ID,
-} from '@/components/UploadWebView/utils';
+
 export interface UploadFile {
   id: string;
   type: 'image' | 'video' | 'loading';
@@ -28,34 +22,7 @@ export function generateId(length = 16) {
   return result;
 }
 
-/**
- * 自定义查询
- */
-const customFileUpload = async <T>({
-  url,
-  file,
-  componentId = UPLOAD_COMPONENT_ID,
-}): Promise<T> => {
-  try {
-    let uploadInstance = getUploadInstance(componentId);
-    if (!uploadInstance) {
-      uploadInstance = await getUploadIsReady(componentId);
-    }
-
-    const customMiddleFunc = uploadInstance.invoke.bind('uploadFile');
-    if (!customMiddleFunc) {
-      throw new Error('customMiddleFunc is null');
-    }
-
-    const res = await customMiddleFunc(url, file);
-    return res;
-  } catch (error) {
-    console.warn('uploadFile fail', error);
-    throw new Error(error);
-  }
-};
-
-function parseFileName(fileUrl: string) {
+export const parseFileName = (fileUrl: string) => {
   try {
     // 确保协议是 file
     if (!fileUrl.startsWith('thingfile://')) {
@@ -71,51 +38,20 @@ function parseFileName(fileUrl: string) {
     console.error(e);
     return null;
   }
-}
+};
 
-const cloudKeyCache = new Map<string, string>();
-
-export async function uploadMedia(type: 'video' | 'image', filePath: string, bizType: string) {
-  const filename = parseFileName(filePath);
-  const name = `${generateId()}-${filename}`;
-  console.log('[uploadMedia]', { name });
-
-  let ext = `${name.split('.').pop()}`;
-  if (ext === 'jpg') {
-    ext = 'jpeg';
-  }
-
-  const miniType = `${type}/${ext}`;
-
-  const result = await new Promise<{
-    cloudKey: string;
-    publicUrl: string;
-  }>((resolve, reject) => {
-    originUploadImage({
-      bizType,
-      filePath,
-      contentType: miniType,
-      success(res) {
-        const data = JSON.parse(res.result);
-        cloudKeyCache.set(data.bizUrl, data.publicUrl);
-        resolve({ cloudKey: data.bizUrl, publicUrl: data.publicUrl });
-      },
-      fail(err) {
-        console.error('[uploadMedia] fail', err);
-        reject(err);
-      },
-    });
-  });
-
-  return result;
-}
-
-export async function uploadFile(url: string, filePath: string, fileName: string, header: any) {
+export async function uploadFile(
+  url: string,
+  filePath: string,
+  fileName: string,
+  header?: { 'content-type': string }
+) {
   const result = await new Promise((resolve, reject) => {
     originUploadFile({
       url,
       filePath,
       name: fileName,
+      method: 'PUT',
       header,
       success: res => {
         console.log('[uploadFile] success', res);
@@ -127,25 +63,15 @@ export async function uploadFile(url: string, filePath: string, fileName: string
       },
     });
   });
-
   return result;
 }
 
-export async function uploadImage(
-  filePath: string,
-  bizType: UploadFileBizType,
-  componentId: string
-) {
+export async function uploadImage(filePath: string, bizType: UploadFileBizType) {
   const fileName = parseFileName(filePath);
   const signInfo = await getPetUploadSign({ bizType, fileName });
-  const manager = await getFileSystemManager();
-  const data = manager.readFileSync({
-    filePath,
-    encoding: 'base64',
-  });
   const { url, objectKey } = signInfo;
 
-  await customFileUpload({ url, file: data?.data, componentId });
+  await uploadFile(url, filePath, fileName);
 
   return { cloudKey: objectKey };
 }

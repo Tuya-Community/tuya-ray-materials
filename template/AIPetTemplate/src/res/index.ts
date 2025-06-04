@@ -24,7 +24,7 @@ export { default as imgGameBtnRight } from './gameBtnRight.png';
 export { default as imgGameBtnRightPressed } from './gameBtnRightPressed.png';
 export { default as imgGameBtnTop } from './gameBtnTop.png';
 export { default as imgGameBtnTopPressed } from './gameBtnTopPressed.png';
-
+export { default as imgVoicePlaceholder } from './voicePlaceholder.png';
 export { default as imgDefaultPet } from './defaultPet.png';
 export { default as imgArrowLeft } from './arrowLeft.png';
 export { default as imgArrowRight } from './arrowRight.png';

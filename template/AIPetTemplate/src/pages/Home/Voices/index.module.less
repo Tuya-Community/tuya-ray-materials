@@ -1,0 +1,225 @@
+.container {
+  height: calc(100vh - 108rpx);
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  border-radius: 32rpx 32rpx 0 0;
+  padding-bottom: 68rpx;
+  background-color: #f8f8f8;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 112rpx;
+  padding: 0 48rpx;
+  .title {
+    font-weight: 500;
+    font-size: 32rpx;
+    color: var(--panel-font-normal);
+  }
+
+  .done {
+    font-size: 32rpx;
+    color: #007aff;
+  }
+}
+
+.empty {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .img {
+    height: 340rpx;
+    width: 340rpx;
+  }
+}
+
+.addBtn {
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 96rpx;
+  width: 686rpx;
+  border-radius: 602rpx;
+  background-color: var(--panel-theme-color);
+
+  .text {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: #fff;
+  }
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 32rpx;
+  overflow-y: auto;
+}
+
+.volumeWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.volumeHeader {
+  margin-bottom: 40rpx;
+  .title {
+    margin-right: 24rpx;
+    font-size: 28rpx;
+    font-weight: 500;
+    color: var(--panel-font-normal);
+  }
+
+  .value {
+    font-size: 28rpx;
+    font-weight: 500;
+    color: var(--panel-theme-color);
+  }
+}
+
+.list {
+  margin-top: 48rpx;
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+
+  .item {
+    display: flex;
+    align-items: center;
+    height: 140rpx;
+    width: 686rpx;
+    border-radius: 28rpx;
+    margin-bottom: 20rpx;
+    padding: 0 40rpx;
+    background-color: #fff;
+
+    .btnLeft {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80rpx;
+      width: 80rpx;
+      border-radius: 80rpx;
+      margin-right: 24rpx;
+      background-color: rgba(var(--panel-theme-color-rgb), 0.08);
+    }
+
+    .iconStop {
+      height: 24rpx;
+      width: 24rpx;
+      border-radius: 4rpx;
+      background-color: var(--panel-theme-color);
+    }
+
+    .middle {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        margin-bottom: 16rpx;
+        font-size: 28rpx;
+        font-weight: 500;
+        color: var(--panel-font-normal);
+      }
+
+      .middleBottom {
+        display: flex;
+        align-items: center;
+      }
+
+      .desc {
+        font-size: 24rpx;
+        font-weight: 500;
+        color: var(--panel-font-lighter);
+      }
+    }
+
+    .btnRight {
+      display: flex;
+      align-items: center;
+      height: 80rpx;
+      padding: 0 28rpx;
+      border-radius: 58rpx;
+      background-color: rgba(var(--panel-theme-color-rgb), 0.08);
+      transition: all 0.2s ease-in-out;
+
+      &.active {
+        background-color: var(--panel-theme-color);
+
+        .text {
+          color: #fff;
+        }
+      }
+
+      .text {
+        font-size: 24rpx;
+        font-weight: 500;
+        color: var(--panel-theme-color);
+        transition: color 0.2s ease-in-out;
+      }
+
+      .loading {
+        margin-right: 20rpx;
+      }
+    }
+  }
+}
+
+.checkbox {
+  :global(.checkbox__smart-checkbox__icon) {
+    height: 36rpx;
+    width: 36rpx;
+    border-radius: 8rpx;
+  }
+}
+
+.volumeSliderWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.addModal {
+  display: flex;
+  flex-direction: column;
+
+  .addModalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 120rpx;
+    padding: 0 32rpx;
+    .title {
+      font-weight: 600;
+      font-size: 34rpx;
+      color: var(--panel-font-normal);
+    }
+
+    .text {
+      font-size: 32rpx;
+      color: var(--panel-font-normal);
+    }
+  }
+}
+
+.delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 100%;
+  border-radius: 28rpx;
+  margin-left: 4px;
+  background-color: #ff4444;
+}

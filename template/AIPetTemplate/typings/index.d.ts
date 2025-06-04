@@ -68,6 +68,12 @@ type HomeInfo = {
   admin: boolean;
 };
 
+type Audio = {
+  fileNo: string;
+  fileName: string;
+  publicUrl?: string;
+};
+
 type PetType = 'cat' | 'dog';
 
 type PetBreed = {
@@ -204,4 +210,4 @@ type IEatingRecord = {
 };
 
 // 文件上传业务类型，pet-宠物头像，petFront-宠物特征，temp-临时文件，分析食物成分
-type UploadFileBizType = 'pet' | 'petFeature' | 'temp';
+type UploadFileBizType = 'pet' | 'petFeature' | 'temp' | 'pet_media-device';

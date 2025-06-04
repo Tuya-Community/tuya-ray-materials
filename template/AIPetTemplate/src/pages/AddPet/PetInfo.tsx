@@ -106,7 +106,7 @@ const PetInfo: FC<Props> = ({ petType, breed, sex, activeness, profile }) => {
   };
 
   const handleBindProfile = () => {
-    routerPush(`/addProfile?componentId=add-component-id`);
+    routerPush('/addProfile');
   };
 
   const handleAvatar = async () => {
@@ -118,7 +118,7 @@ const PetInfo: FC<Props> = ({ petType, breed, sex, activeness, profile }) => {
       mask: true,
     });
     try {
-      const res = await uploadImage(path, 'pet', 'add-component-id');
+      const res = await uploadImage(path, 'pet');
       const { cloudKey } = res;
       bizUrlRef.current = cloudKey;
       setAvatar(path);

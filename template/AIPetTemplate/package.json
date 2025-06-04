@@ -15,7 +15,7 @@
     "@ray-js/components-ty-ipc": "^2.2.4",
     "@ray-js/icons": "^1.6.23",
     "@ray-js/panel-sdk": "^1.13.1",
-    "@ray-js/ray": "^1.6.27",
+    "@ray-js/ray": "^1.7.12",
     "@ray-js/ray-error-catch": "^0.0.25",
     "@ray-js/smart-ui": "^2.1.5",
     "@ray-js/webview-invoke": "^0.0.3",
@@ -28,7 +28,7 @@
   "devDependencies": {
     "@commitlint/cli": "^7.2.1",
     "@commitlint/config-conventional": "^9.0.1",
-    "@ray-js/cli": "^1.6.27",
+    "@ray-js/cli": "^1.7.12",
     "@types/lodash-es": "^4.17.6",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",

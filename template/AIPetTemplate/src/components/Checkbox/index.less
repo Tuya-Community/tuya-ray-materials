@@ -1,0 +1,28 @@
+@import '@/variables.less';
+
+@alert-prefix-cls: ~'rayui-checkbox';
+
+.@{alert-prefix-cls} {
+  display: grid;
+  place-items: center;
+  height: 36rpx;
+  width: 36rpx;
+  border-radius: 8rpx;
+  background-color: transparent;
+  border: 1px solid #c7c7c7;
+  transition: all 0.3s ease-in-out;
+
+  &-tick {
+    opacity: 0;
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+  }
+
+  &.checked {
+    border-color: var(--panel-theme-color);
+    background-color: var(--panel-theme-color);
+    .@{alert-prefix-cls}-tick {
+      opacity: 1;
+    }
+  }
+}

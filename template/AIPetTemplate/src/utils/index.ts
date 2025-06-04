@@ -1,9 +1,17 @@
-import { authorize, showToast, router } from '@ray-js/ray';
+import {
+  authorize,
+  showToast,
+  router,
+  fetchDeviceFileSign,
+  fetchDeviceFileUploadState,
+  fetchBigPublicFileUploadState,
+} from '@ray-js/ray';
 import mitt from 'mitt';
 import { throttle } from 'lodash-es';
 import dayjs from 'dayjs';
 import Strings from '@/i18n';
 import { imgCat, imgDog } from '@/res';
+import { parseFileName, uploadFile } from './file';
 
 export const emitter = mitt();
 
@@ -112,4 +120,74 @@ export const formatTimeDifference = (timestamp: number) => {
       : Strings.formatValue('age_format_months_days', String(diffInMonths), String(diffInDays));
   }
   return Strings.formatValue('age_format_days', String(diffInDays));
+};
+
+export const authorizeRecord = () => {
+  return new Promise((resolve, reject) => {
+    authorize({
+      scope: 'scope.record',
+      success: () => {
+        resolve(true);
+      },
+      fail: err => {
+        reject(err);
+      },
+    });
+  });
+};
+
+function pollUntilTargetValue(fetchFunction, pollingToken, interval = 2500) {
+  let intervalTimer: NodeJS.Timeout; // 定义 timer，以便能够使用 clearInterval
+  return new Promise((resolve, reject) => {
+    function poll() {
+      fetchFunction(pollingToken)
+        .then(data => {
+          console.log('===data', data);
+
+          if (data?.end) {
+            console.log('');
+            clearInterval(intervalTimer); // 停止轮询
+            resolve(data); // 返回获取到的数据
+          } else {
+            console.log(`继续轮询...`);
+          }
+        })
+        .catch(error => {
+          console.error('请求失败:', error);
+          clearInterval(intervalTimer); // 出现错误时停止轮询
+          reject(error); // 将异常传递给 Promise
+        });
+    }
+
+    // 启动轮询
+    intervalTimer = setInterval(poll, interval);
+  });
+}
+
+export const uploadAudio = async (
+  filePath: string,
+  bizType: UploadFileBizType,
+  contentType?: string
+) => {
+  const fileName = parseFileName(filePath);
+  const signInfo = await fetchDeviceFileSign(bizType, fileName, contentType);
+  const { action, token, headers } = signInfo;
+
+  // 上传文件到指定云服务
+  await uploadFile(action, filePath, fileName, headers);
+
+  // 获取文件时上传状态
+  const uploadFileRes = (await fetchDeviceFileUploadState(token)) as {
+    bizUrl?: string;
+    pollingToken?: string;
+  };
+
+  const { bizUrl, pollingToken } = uploadFileRes;
+
+  if (bizUrl) {
+    return { cloudKey: bizUrl };
+  }
+  const uploadState = await pollUntilTargetValue(fetchBigPublicFileUploadState, pollingToken);
+  const { bizUrl: pollingBizUrl } = uploadState;
+  return { cloudKey: pollingBizUrl ?? '' };
 };

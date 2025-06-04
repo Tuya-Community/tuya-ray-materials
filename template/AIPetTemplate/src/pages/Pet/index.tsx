@@ -20,7 +20,6 @@ import { imgAngleRight, imgCamera, imgCat, imgDog } from '@/res';
 import Strings from '@/i18n';
 import { AppDispatch, ReduxState, getHomeId } from '@/redux';
 import { deletePet, selectPetById, updatePet, fetchPetDetail } from '@/redux/modules/petsSlice';
-import UploadWebView from '@/components/UploadWebView';
 import {
   authorizeAlbum,
   authorizeCamera,
@@ -66,6 +65,8 @@ const PetEdit: FC<{
   const [showActivenessActionSheet, setShowActivenessActionSheet] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showWeightPicker, setShowWeightPicker] = useState(false);
+  const [popDomShow, setPopDomShow] = useState(false);
+  const [weightPopDomShow, setWeightPopDomShow] = useState(false);
 
   const weights = weight.toFixed(1).split('.');
 
@@ -108,7 +109,7 @@ const PetEdit: FC<{
   }, []);
 
   const handleBindProfile = () => {
-    routerPush('/addProfile?componentId=edit-component-id');
+    routerPush('/addProfile');
   };
 
   const handleDelete = async () => {
@@ -190,7 +191,7 @@ const PetEdit: FC<{
       mask: true,
     });
     try {
-      const res = await uploadImage(path, 'pet', 'edit-component-id');
+      const res = await uploadImage(path, 'pet');
       const { cloudKey } = res;
       bizUrlRef.current = cloudKey;
       setAvatar(path);
@@ -246,6 +247,7 @@ const PetEdit: FC<{
   const handleAge = () => {
     tempBirthday.current = birthday;
     setShowDatePicker(true);
+    setPopDomShow(true);
   };
 
   const handleDateChange = e => {
@@ -260,6 +262,7 @@ const PetEdit: FC<{
   const handleWeight = () => {
     tempBirthday.current = weight;
     setShowWeightPicker(true);
+    setWeightPopDomShow(true);
   };
 
   const handleWeightChange = e => {
@@ -396,14 +399,14 @@ const PetEdit: FC<{
           confirmText={Strings.getLang('confirm')}
           onCancel={() => setShowDatePicker(false)}
           onConfirm={handleDatePickerConfirm}
+          onAfterLeave={() => setPopDomShow(false)}
         >
           <DateTimePicker
-            key={String(showDatePicker)}
             showToolbar={false}
             type="date"
             minDate={MIN_BIRTH_DAY}
             maxDate={MAX_BIRTH_DAY}
-            value={birthday}
+            value={popDomShow ? birthday : -1}
             onInput={handleDateChange}
           />
         </ActionSheet>
@@ -415,23 +418,27 @@ const PetEdit: FC<{
           confirmText={Strings.getLang('confirm')}
           onCancel={() => setShowWeightPicker(false)}
           onConfirm={handleWeightPickerConfirm}
+          onAfterLeave={() => setWeightPopDomShow(false)}
         >
           <Picker
-            key={String(showWeightPicker)}
-            columns={[
-              {
-                values: WEIGHT_COLUMN_0,
-                defaultIndex: weights[0],
-              },
-              {
-                values: ['.'],
-              },
-              {
-                values: WEIGHT_COLUMN_1,
-                defaultIndex: weights[1],
-                unit: Strings.getLang('kg'),
-              },
-            ]}
+            columns={
+              weightPopDomShow
+                ? [
+                    {
+                      values: WEIGHT_COLUMN_0,
+                      defaultIndex: weights[0],
+                    },
+                    {
+                      values: ['.'],
+                    },
+                    {
+                      values: WEIGHT_COLUMN_1,
+                      defaultIndex: weights[1],
+                      unit: Strings.getLang('kg'),
+                    },
+                  ]
+                : []
+            }
             onChange={handleWeightChange}
             customClass={styles['weight-picker']}
           />
@@ -440,7 +447,6 @@ const PetEdit: FC<{
         <Toast id="smart-toast" />
         <Dialog id="smart-dialog" />
       </View>
-      <UploadWebView componentId="edit-component-id" />
     </View>
   );
 };

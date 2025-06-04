@@ -297,6 +297,79 @@ export const stopTalk = (showErrorToast = true) => {
   });
 };
 
+/**
+ * 是否静音
+ */
+export const isMuting = () => {
+  return new Promise((resolve, reject) => {
+    const { playerCtx } = store.getState().ipcCommon;
+    playerCtx.ctx.isMuted({
+      success: val => {
+        resolve(val);
+      },
+      fail: () => {
+        reject();
+      },
+    });
+  });
+};
+
+/**
+ * 开启对讲
+ */
+export const startTalk = async () => {
+  const { isTwoTalking } = store.getState().ipcCommon;
+  // 开启对讲
+  return new Promise((resolve, reject) => {
+    const { playerCtx } = store.getState().ipcCommon;
+
+    playerCtx.ctx.startTalk({
+      success: () => {
+        if (isTwoTalking) showToast('ipc_3s_can_not_donging', 'none');
+        resolve(true);
+      },
+      fail: () => {
+        showToast();
+        reject();
+      },
+    });
+  });
+};
+
+/**
+ * 双向对讲操作
+ * @param enable 开启对讲：true 关闭对讲：false
+ * @param show 是否需判断在录制中
+ */
+export const setTalk = async (enable: boolean, show = true) => {
+  if (show) {
+    // 判断是否在录制中
+    if (isRecordingFun()) return Promise.reject();
+  }
+
+  const { devStreamStatus } = store.getState().ipcCommon;
+
+  if (devStreamStatus === 1002) {
+    if (enable) {
+      // 双向对讲在获取到权限后可自动进行后续操作
+      await setRecordAuthorize();
+
+      showToast('ipc_click_to_call', 'none');
+      const isMute = await isMuting();
+
+      // 静音先打开扬声器
+      if (isMute) {
+        await setMute(false);
+      }
+
+      return startTalk();
+    }
+    return stopTalk();
+  }
+
+  return Promise.reject();
+};
+
 // 自动断开双向对讲，若失败不提示
 export const autoStopTwoTalk = () => {
   const { isTwoTalking } = store.getState().ipcCommon;
