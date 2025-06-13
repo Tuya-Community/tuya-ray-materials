@@ -1,98 +1,104 @@
 :root {
-  --switch-thumb-tint-color: #fff; // switch组件滑块颜色
-  --switch-bg-color: #e5e5e5; // switch组件背景色
-
-  --hover-color: #5583F5; // 按钮点击颜色
-
-  --ptz-circle-size: 4rem; // ptz组件圆盘宽高
-  --ptz-arrow-size: 2rem; // ptz箭头宽高
-  --ptz-circle-inner-size: 1.1rem; // ptz组件内部圆盘宽高
-  --ptz-bg-color: rgba(0, 0, 0, 0.05); // ptz组件背景色
-  --ptz-border-color: rgba(0, 0, 0, 0.1); // ptz组件边框颜色
-
-  --record-tip-font-color: rgba(0, 0, 0, 0.9); // 录制定时组件文字颜色
-  --record-tip-bg-color: #fff; // 录制定时组件背景色
-
   /* 首页样式 */
-  --index-main-bg: #FFFFFF; // 页面底色
-  --index-title-bg: #FFFFFF; // title背景
-  --index-title-color: #000000E5; // title字体色
-  --index-footer-bar-bg: #FFFFFF; // 底部操作栏底色
-  --index-icon-color: rgba(0, 0, 0, 0.5); // 图标颜色
-  --index-ptz-bg: rgb(243, 242, 242); // ptz方向操作背景
-  --index-tab-icon-color: rgba(0, 0, 0, 0.3); // ptz箭头以及回放相册摇杆icon
-  --index-ptz-circle-bg: rgb(230, 230, 230); // ptz中心圆
-  --index-tab-bottom-text-color: rgb(198, 198, 198); // 操作栏底部字体色
-  --index-zoom-circle-bg: rgba(0, 0, 0, 0.05); // 放大缩小按钮底色
-  --index-zoom-icon-color: rgba(0, 0, 0, 0.3); // 放大缩小图标
+  --page-main-bg: #f6f7fb; // 页面背景色
+  --page-main-content: #ffffff; // 页面区域内容背景色
+  --header-bg: #ffffff; // 标题背景色
+  --page-color: #000000; // 页面标准字体颜色
+  --page-main-content-hover: #fbfbfb; // 页面区域内容hover背景色
+  --page-main-content-active: #f1f1f1; // 页面区域内容active背景色
+  --page-main-icon-bg: rgba(0, 0, 0, 0.05); // icon背景圆背景色
+  --page-main-icon-border: rgba(0, 0, 0, 0.05); // icon边框颜色
+  --page-main-icon-color: #000000; // icon色
+  --divide-line: #f5f5f5; // 分割线
+  --page-bottom-menu-bg: #ffffff;
+  --page-second-icon-color: #aaaaaa; // 二级页icon色
+  --popup-com-desc-color: rgba(0, 0, 0, 0.5); // popup组件描述文字颜色
+  --popup-com-title-color: #000000; // popup组件描述标题颜色
+  --feature-switch-circle-bg: #e5e5e5; // 圆开关背景色
+  --feature-switch-circle-icon-color: #1a1a1a; // 圆开关icon色
+  --card-item-bg-n9: rgba(0, 0, 0, 0.05);
+  --tab-menu-item-active-bg: #ffffff; // tab菜单项active背景色
+  --tab-menu-bg: #eeeeee; // tab背景色
+  --collect-point-empty-tip-color: #b2b2b2; // 收藏点空提示文字颜色
+  --collect-point-empty-icon-color: #b2b2b2; // 收藏点空图标颜色
+  --card-item-bg-n8: rgba(0, 0, 0, 0.1);
+  --card-txt-n1: #000000;
+  --card-txt-n2: rgba(0, 0, 0, 0.7);
+  --card-txt-n3: rgba(0, 0, 0, 0.5);
+  --card-txt-n6: rgba(0, 0, 0, 0.2);
+  --danger-color: #FF3838;
+
+  // smart-ui css 变量修改
+  --cell-font-size: 32rpx;
+  --button-small-height: 78rpx;
+  --button-small-font-size: 28rpx;
+  --empty-title-margin-top: 32rpx;
+  --empty-title-font-size: 28rpx;
+  --empty-title-font-weight: 600;
+  --empty-description-font-size: 24rpx;
+  --empty-description-margin-top: 14rpx;
+
+
 
   // 字体图标
   .iconfont {
     margin: 0 !important;
   }
-
-  // ptz组件全屏样式
-  .fullPtz {
-    --ptz-bg-color: rgba(0, 0, 0, 0.05);
-    --index-ptz-bg: rgba(0, 0, 0, 0.05);
-    --ptz-border-color: rgba(255, 255, 255, 0.5);
-    --ptz-circle-size: 3rem;
-    --ptz-arrow-size: 1.5rem;
-    --ptz-circle-inner-size: 0.7rem;
-  }
-
-  --zoom-circle-size: 1.1rem; // 焦距组件外圆宽高
-  --zoom-inner-circle-size: 0.48rem; // 焦距组件内圆宽高
-
-  // tab组件全屏样式
-  .fullTabTopButton {
-    --index-icon-color: #fff;
-  }
-
-  button {
-    line-height: normal;
-    background-color: transparent;
-    padding: 0 !important;
-    border-radius: 0;
-  }
-
-  button[disabled] {
-    --index-icon-color: rgba(0, 0, 0, 0.2);
-    color: var(--index-icon-color);
-  }
 }
 
 :root[theme='dark'] {
-  --switch-thumb-tint-color: #fff;
-  --switch-bg-color: rgba(255, 255, 255, 0.3);
-
-  --ptz-bg-color: rgba(255, 255, 255, 0.05);
-  --ptz-border-color: rgba(255, 255, 255, 0.1);
-
-  --record-tip-font-color: rgba(255, 255, 255, 0.9);
-  --record-tip-bg-color: rgba(255, 255, 255, 0.1);
-
   /* 首页样式 */
-  --index-main-bg: #000000; // 页面底色
-  --index-title-bg: #000000; // title背景
-  --index-title-color: #FFFFFF; // title字体色
-  --index-footer-bar-bg: rgb(26, 25, 25); // 底部操作栏底色
-  --index-icon-color: rgba(255, 255, 255, 0.5); // 图标颜色
-  --index-ptz-bg: rgb(38, 37, 37); // ptz方向操作背景
-  --index-tab-icon-color: rgba(255, 255, 255, 0.3); // ptz箭头以及回放相册摇杆icon
-  --index-ptz-circle-bg: rgb(48, 48, 48); // ptz中心圆
-  --index-tab-bottom-text-color: rgb(68, 68, 68); // 操作栏底部字体色
-  --index-zoom-circle-bg: rgba(255, 255, 255, 0.05); // 放大缩小按钮底色
-  --index-zoom-icon-color: rgba(255, 255, 255, 0.3); // 放大缩小图标
+  --page-main-bg: #000000; // 页面背景色
+  --page-main-content: #1a1a1a; // 页面区域内容背景色
+  --header-bg: #1a1a1a; // 标题背景色
+  --page-color: #ffffff; // 页面标准字体颜色
+  --page-main-content-hover: #201f1f; // 页面区域内容hover背景色
+  --page-main-content-active: #222020; // 页面区域内容active背景色
+  --page-main-icon-bg: rgba(255, 255, 255, 0.05);
+  --page-main-icon-border: rgba(255, 255, 255, 0.1); // icon边框颜色
+  --page-main-icon-color: #ffffff; // icon色
+  --divide-line: #262626; // 分割线
+  --page-bottom-menu-bg: #262626;
+  --page-second-icon-color: #8d8d8d; // 二级页icon色
+  --popup-com-desc-color: rgba(255, 255, 255, 0.5); // popup组件描述文字颜色
+  --popup-com-title-color: #ffffff; // popup组件描述标题颜色
+  --feature-switch-circle-bg: #5f5f5f; // 圆开关背景色
+  --feature-switch-circle-icon-color: #ffffff; // 圆开关背景色
+  --card-item-bg-n9: rgba(255, 255, 255, 0.05);
+  --tab-menu-item-active-bg: #191919; // tab菜单项active背景色
+  --tab-menu-bg: #000000; // tab背景色
+  --collect-point-empty-tip-color: rgba(255, 255, 255, 0.5); // 收藏点空提示文字颜色
+  --collect-point-empty-icon-color: #5f5f5f; // 收藏点空图标颜色
+  --card-item-bg-n8: rgba(255, 255, 255, 0.1);
+  --card-txt-n1: #ffffff;
+  --card-txt-n2: rgba(255, 255, 255, 0.7);
+  --card-txt-n3: rgba(255, 255, 255, 0.5);
+  --card-txt-n6: rgba(0, 0, 0, 0.2);
+  --danger-color: #FF3838;
+}
 
-  .fullPtz {
-    --ptz-bg-color: rgba(0, 0, 0, 0.05);
-    --ptz-border-color: rgba(255, 255, 255, 0.5);
-    --index-ptz-bg: rgba(0, 0, 0, 0.05);
-  }
+.marginBottom0 {
+  margin-bottom: 0 !important;
+}
 
-  button[disabled] {
-    --index-icon-color: rgba(255, 255, 255, 0.2);
-    color: var(--index-icon-color);
-  }
+.marginTop0 {
+  margin-top: 0 !important;
+}
+
+.padding-right-29 {
+  padding-right: 58rpx !important;
+}
+
+.padding-left-29 {
+  padding-left: 58rpx !important;
+}
+
+.ellipsis {
+  white-space: nowrap; /* 防止文本换行 */
+  overflow: hidden;    /* 隐藏溢出文本 */
+  text-overflow: ellipsis; /* 在溢出时显示省略号 */
+}
+
+.smart-empty__description {
+  text-align: center;
 }

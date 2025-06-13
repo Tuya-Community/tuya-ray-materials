@@ -1,0 +1,46 @@
+.comContainer {
+  height: 88rpx;
+  display: flex;
+  flex-direction: row;
+
+  &_title {
+    height: 88rpx;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    padding: 0 130rpx;
+    .title {
+      font-size: 32rpx;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &_leftBtn {
+    left: 32rpx;
+    top: 0;
+    position: absolute;
+    height: 88rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .popIcon {
+      font-size: 48rpx;
+    }
+  }
+
+  &_rightBtn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 180rpx;
+    height: 88rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+ 
+}

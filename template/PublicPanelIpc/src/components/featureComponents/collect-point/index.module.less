@@ -1,0 +1,50 @@
+.comContainer {
+  color: var(--index-title-color);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+
+  .contentWrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding: 32rpx;
+    .emptyContainer {
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      .emptyAddIcon {
+        font-size: 110rpx;
+        color: var(--collect-point-empty-icon-color);
+      }
+      .emptyAddTip {
+        margin-top: 10rpx;
+        color: var(--collect-point-empty-tip-color);
+        font-size: 28rpx;
+        font-weight: 600;
+      }
+    }
+    .disableEmptyAdd {
+      opacity: 0.5;
+    }
+  }
+}
+
+.CollectImg {
+  .addBoxClass {
+    font-size: 24rpx;
+  }
+}
+
+.loading_text {
+  color: var(--index-title-color);
+  font-size: 28rpx;
+  margin-top: 32rpx;
+}

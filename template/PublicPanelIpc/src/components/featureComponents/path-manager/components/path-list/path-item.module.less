@@ -1,0 +1,85 @@
+.content {
+  margin-bottom: 16rpx;
+  border-radius: 32rpx;
+  background-color: var(--card-item-bg-n9);
+  display: flex;
+  align-items: stretch;
+  border: 1px solid transparent;
+  &.playing {
+    border: 1px solid var(--brandColor);
+  }
+  .left {
+    flex: 1;
+    padding: 30rpx;
+    display: flex;
+    align-items: center;
+    .img {
+      width: 162rpx;
+      height: 92rpx;
+      border-radius: 8rpx;
+      background-color: var(--card-item-bg-n9);
+      display: block;
+      &.emptyBox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .emptyImg {
+        width: 32rpx;
+        height: 32rpx;
+        display: block;
+      }
+    }
+    .info {
+      flex: 1;
+      margin-left: 16rpx;
+      .name {
+        width: 320rpx;
+        color: var(--card-txt-n1);
+        font-size: 28rpx;
+        font-weight: 500;
+      }
+      .desc {
+        font-size: 24rpx;
+        line-height: 24rpx;
+        color: var(--card-txt-n3);
+        margin-top: 8rpx;
+        display: flex;
+        align-items: center;
+      }
+      .rightArrow {
+        display: block;
+        font-size: 28rpx;
+      }
+    }
+  }
+  .buttonBox {
+    width: 164rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .playButton {
+      width: 72rpx;
+      height: 72rpx;
+      border-radius: 72rpx;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .playButtonBg {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        background-color: var(--brandColor);
+        opacity: 0.1;
+      }
+      .playIcon {
+        font-size: 40rpx;
+        color: var(--brandColor);
+      }
+    }
+  }
+}

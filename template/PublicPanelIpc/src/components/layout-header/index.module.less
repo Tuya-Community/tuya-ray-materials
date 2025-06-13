@@ -1,0 +1,42 @@
+.comContainer{
+  background-color: var(--header-bg);
+  
+  .topBar {
+    height: 88rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 34rpx;
+    flex-direction: row;
+    font-weight: bold;
+    width: 100vw;
+    padding: 0 40rpx;
+    position: relative;
+    .leftBack {
+      position: absolute;
+      left: 10rpx;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      width: 80rpx;
+      justify-content: center;
+      align-items: center;
+      .leftArrow {
+        font-size: 32rpx;
+      }
+    }
+    .title {
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: 34rpx;
+      font-weight: 600;
+      text-overflow: ellipsis;
+    }
+  }
+  .topBarTitleLeft {
+    padding: 0 200rpx 0 40rpx;
+  }
+  .statusBar{
+    height: 40rpx;
+  }
+}

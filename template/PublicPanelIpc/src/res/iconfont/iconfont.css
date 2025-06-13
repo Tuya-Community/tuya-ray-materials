@@ -1,0 +1,278 @@
+@font-face {
+  font-family: "icon-panel"; /* Project id 4727767 */
+  src: url('iconfont.woff2?t=1744603309686') format('woff2'),
+       url('iconfont.woff?t=1744603309686') format('woff'),
+       url('iconfont.ttf?t=1744603309686') format('truetype');
+}
+
+.icon-panel {
+  font-family: "icon-panel" !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-panel-ptz_collect_add:before {
+  content: "\e65f";
+}
+
+.icon-panel-ptz-collect:before {
+  content: "\e65e";
+}
+
+.icon-panel-success:before {
+  content: "\e65d";
+}
+
+.icon-panel-failure:before {
+  content: "\e65c";
+}
+
+.icon-panel-pause:before {
+  content: "\e65b";
+}
+
+.icon-panel-recharge-1:before {
+  content: "\e659";
+}
+
+.icon-panel-playing:before {
+  content: "\e65a";
+}
+
+.icon-panel-charging:before {
+  content: "\e657";
+}
+
+.icon-panel-record:before {
+  content: "\e658";
+}
+
+.icon-panel-switch:before {
+  content: "\e656";
+}
+
+.icon-panel-tab-remote-control:before {
+  content: "\e654";
+}
+
+.icon-panel-tab-path:before {
+  content: "\e655";
+}
+
+.icon-panel-feature-playback:before {
+  content: "\e653";
+}
+
+.icon-panel-feature-message:before {
+  content: "\e64d";
+}
+
+.icon-panel-laser-pointer:before {
+  content: "\e652";
+}
+
+.icon-panel-close:before {
+  content: "\e646";
+}
+
+.icon-panel-move-control-interactive:before {
+  content: "\e645";
+}
+
+.icon-panel-move-control-waltz:before {
+  content: "\e642";
+}
+
+.icon-panel-move-control-8:before {
+  content: "\e648";
+}
+
+.icon-panel-move-control-p-steering:before {
+  content: "\e649";
+}
+
+.icon-panel-move-control-straight-line:before {
+  content: "\e64a";
+}
+
+.icon-panel-move-control-rotate-place:before {
+  content: "\e64b";
+}
+
+.icon-panel-move-control-chacha:before {
+  content: "\e64c";
+}
+
+.icon-panel-tange1:before {
+  content: "\e64e";
+}
+
+.icon-panel-move-control-big-rotation:before {
+  content: "\e64f";
+}
+
+.icon-panel-move-control-wave:before {
+  content: "\e650";
+}
+
+.icon-panel-move-control-z:before {
+  content: "\e651";
+}
+
+.icon-panel-move-control-rotation:before {
+  content: "\e647";
+}
+
+.icon-panel-yuyin:before {
+  content: "\e63c";
+}
+
+.icon-panel-cloud-storage:before {
+  content: "\e63b";
+}
+
+.icon-panel-talking:before {
+  content: "\e63a";
+}
+
+.icon-panel-record-play:before {
+  content: "\e637";
+}
+
+.icon-panel-auto-follow:before {
+  content: "\e636";
+}
+
+.icon-panel-auto-recharge:before {
+  content: "\e635";
+}
+
+.icon-panel-add-collect:before {
+  content: "\e62f";
+}
+
+.icon-panel-edit:before {
+  content: "\e630";
+}
+
+.icon-panel-record-stop:before {
+  content: "\e62e";
+}
+
+.icon-panel-ptz-arrow:before {
+  content: "\e62d";
+}
+
+.icon-panel-zoom-out:before {
+  content: "\e62c";
+}
+
+.icon-panel-zoom-in:before {
+  content: "\e62b";
+}
+
+.icon-panel-cross-add:before {
+  content: "\e62a";
+}
+
+.icon-panel-siren:before {
+  content: "\e629";
+}
+
+.icon-panel-lullaby:before {
+  content: "\e628";
+}
+
+.icon-panel-cruise:before {
+  content: "\e627";
+}
+
+.icon-panel-wdr:before {
+  content: "\e623";
+}
+
+.icon-panel-lock:before {
+  content: "\e624";
+}
+
+.icon-panel-floodlight:before {
+  content: "\e625";
+}
+
+.icon-panel-private:before {
+  content: "\e626";
+}
+
+.icon-panel-list-checked:before {
+  content: "\e639";
+}
+
+.icon-panel-right-arrow:before {
+  content: "\e61a";
+}
+
+.icon-panel-voice-change:before {
+  content: "\e621";
+}
+
+.icon-panel-more:before {
+  content: "\e620";
+}
+
+.icon-panel-collect-point:before {
+  content: "\e61e";
+}
+
+.icon-panel-album:before {
+  content: "\e61c";
+}
+
+.icon-panel-mute-off:before {
+  content: "\e618";
+}
+
+.icon-panel-left-arrow:before {
+  content: "\e61f";
+}
+
+.icon-panel-delete:before {
+  content: "\e614";
+}
+
+.icon-panel-ptz:before {
+  content: "\e612";
+}
+
+.icon-panel-playback:before {
+  content: "\e610";
+}
+
+.icon-panel-message:before {
+  content: "\e60f";
+}
+
+.icon-panel-feature-settings:before {
+  content: "\e60d";
+}
+
+.icon-panel-humidity:before {
+  content: "\e60a";
+}
+
+.icon-panel-temperature:before {
+  content: "\e60b";
+}
+
+.icon-panel-screenshot:before {
+  content: "\e608";
+}
+
+.icon-panel-mute-on:before {
+  content: "\e606";
+}
+
+.icon-panel-landscape:before {
+  content: "\e609";
+}
+

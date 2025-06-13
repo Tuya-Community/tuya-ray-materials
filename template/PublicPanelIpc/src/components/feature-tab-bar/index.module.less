@@ -1,0 +1,81 @@
+.comContainer{
+  color: var(--index-title-color);
+  width: 100%;
+  height: 100%;
+  padding: 16rpx 0 0 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  box-shadow: 0 -6rpx 20rpx rgba(0, 0, 0, 0.1);
+  border-radius: 32rpx 32rpx 0 0;
+  .tabItem {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .centerTabItem {
+    width: 200rpx;
+    flex: none;
+  }
+  .tabItemContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .disableTabItem {
+    opacity: 0.5;
+  }
+  .disableGridItm:active {
+    opacity: 0.5;
+    pointer-events: none !important;
+  }
+  .tabItemCenterContent {
+    position: absolute;
+    top: -40rpx;
+    width: 148rpx;
+    height: 148rpx;
+    border-radius: 74rpx;
+    background-color: var(--page-main-content);
+  }
+  .tabCenterInterComWrap {
+    width: 116rpx;
+    height: 116rpx;
+  }
+  .tabItemIconContainer {
+    width: 60rpx;
+    height: 60rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tabItemIconCenterContainer {
+    width: 116rpx;
+    height: 116rpx;
+    border-radius: 58rpx;
+  }
+  .tabLabel {
+    margin-top: 6rpx;
+    font-size: 24rpx;
+  }  
+  .tabIcon {
+    font-size: 48rpx;
+  }
+  .tabCenterIcon {
+    font-size: 48rpx;
+    color: #ffffff;
+  }
+  .intercomContainer {
+    background: var(--page-main-content) !important;
+    width: auto;
+    height: auto;
+    color: unset;
+  }
+  .intercomIcon {
+    color: var(--index-title-color);
+    font-size: 48rpx !important;
+  }
+}
+

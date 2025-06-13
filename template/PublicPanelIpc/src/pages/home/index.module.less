@@ -1,0 +1,24 @@
+.layoutContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  color: var(--page-color);
+
+  .layoutContent {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    flex: 1;
+    .noPlayerWrapper {
+      flex: 1;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--page-main-bg);
+    }
+  }
+
+  .titleStyle {
+    font-size: 44rpx !important;
+  }
+}

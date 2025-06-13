@@ -1,0 +1,53 @@
+.tabsContainer {
+    padding-top: 18rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    .tabMenuContainer {
+      margin: 0 100rpx 0 100rpx;
+      background-color: var(--tab-menu-bg);
+      border-radius: 16rpx;
+      overflow: hidden;
+      padding: 4rpx;
+      display: flex;
+      flex-direction: row;
+      .tabMenuItem {
+        height: 32px;
+        display: flex;
+        align-items: center;
+        min-width: 180rpx;
+        text-align: center;
+        justify-content: center;
+        font-weight: 400;
+        font-size: 28rpx;
+        transition: background-color 0.3s ease, font-weight 0.3s ease;
+      }
+      .singleTabItem {
+        height: 32px;
+        display: flex;
+        align-items: center;
+        min-width: 180rpx;
+        text-align: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 32rpx;
+      }
+      .activeTabMenuItem { 
+        background-color: var(--tab-menu-item-active-bg);
+        border-radius: 12rpx;
+        overflow: hidden;
+        font-weight: 600;
+       
+      }
+    }
+    .tabSingleMenuContainer {
+      background-color: transparent;
+      
+    }
+    .tabContentContainer {
+      flex: 1;
+      display: flex;
+      width: 100%;
+    }
+}

@@ -1,0 +1,104 @@
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  .tip {
+    text-align: center;
+    font-size: 24rpx;
+    color: var(--popup-com-desc-color);
+  }
+  .listWarp {
+    position: relative;
+    margin: 0 38rpx;
+    &::before {
+      content: ' ';
+      display: block;
+      position: absolute;
+      width: 4rpx;
+      background-color: var(--card-txt-n6);
+      left: 0;
+      top: 14rpx;
+      bottom: 14rpx;
+    }
+    .listItem {
+      margin-top: 32rpx;
+      border: 1px solid transparent;
+      &.playing {
+        border: 1px solid var(--brandColor);
+      }
+    }
+    .nodeHeader {
+      display: flex;
+      align-items: center;
+      margin-left: -6rpx;
+      font-size: 28rpx;
+      color: var( --card-txt-n1);
+      &::before {
+        position: relative;
+        z-index: 2;
+        content: ' ';
+        display: block;
+        width: 16rpx;
+        height: 16rpx;
+        border-radius: 16rpx;
+        background-color: var(--brandColor);
+        margin-right: 16rpx;
+      }
+    }
+    .item {
+      margin-left: 24rpx;
+      margin-top: 16rpx;
+    }
+  }
+  .buttonWarp {
+    display: flex;
+    padding: 16rpx 24rpx 0rpx 24rpx;
+    justify-content: space-between;
+    .button {
+      display: flex;
+      flex: 1;
+      height: 78rpx;
+      border-radius: 78rpx;
+      background-color: var(--card-item-bg-n8);
+      align-items: center;
+      justify-content: center;
+      font-size: 28rpx;
+      color: var(--card-txt-n1);
+      .btnTitle {
+        margin-left: 14rpx;
+      }
+      .btnIcon {
+        font-size: 34rpx;
+        font-weight: 400;
+        &.active {
+          color: var(--brandColor);
+        }
+      }
+      &.deleteBtn {
+        position: relative;
+        color: var(--danger-color);
+        overflow: hidden;
+        background-color: transparent;
+        .deleteBtnMask {
+          position: absolute;
+          width: 100%;
+          top: 0;
+          bottom: 0;
+          background-color: var(--danger-color);
+          opacity: 0.1;
+        }
+      }
+    }
+  }
+}
+
+.editBtn {
+  position: absolute;
+  top: 10rpx;
+  right: 8rpx;
+  padding: 10rpx 20rpx;
+  .editIcon {
+    font-size: 48rpx;
+  }
+}

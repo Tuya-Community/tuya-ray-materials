@@ -1,0 +1,111 @@
+.comContainer{
+  color: var(--index-title-color);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 70rpx;
+  .warp {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+  }
+  .contentWrapper {
+    display: flex;
+    // justify-content: center;
+    justify-content: space-between;
+    padding: 0 64rpx;
+    align-items: center;
+    flex-direction: row;
+    .menuContainer {
+      width: 132rpx;
+      // padding-right: 80rpx;
+      word-break: break-all;
+      box-sizing: content-box;
+      // margin-left: 64rpx;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      .menuItemContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .menuItemIconWrap {
+          width: 132rpx;
+          height: 132rpx;
+          line-height: 132rpx;
+          text-align: center;
+          border-radius: 66rpx;
+          color: var(--page-main-icon-color);
+          @media (prefers-color-scheme: dark) {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.2);
+          }
+          @media (prefers-color-scheme: light) {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.05);
+          }
+          .menuItemIcon {
+            font-size: 64rpx;
+          }
+        }
+        .menuItemTitle {
+          font-size: 24rpx;
+          line-height: 24rpx;
+          margin-top: 12rpx;
+          color: var(--popup-com-desc-color);
+        }
+      }
+    }
+  }
+  .sliderContainer {
+    margin-top: 102rpx;
+    padding: 0rpx 48rpx 0rpx 48rpx ;
+    .sliderTitleWrap {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 28rpx;
+      margin-bottom: 28rpx;
+      .titleLabel {
+        font-weight: 500;
+        color: var(--popup-com-title-color)
+      }
+      .circleDivider {
+        width: 8rpx;
+        height: 8rpx;
+        background-color: var(--popup-com-title-color);
+        border-radius: 6rpx;
+        overflow: hidden;
+        margin: 0 16rpx;
+      }
+      .titleValue {
+        font-weight: 500;
+      }
+    }
+    .sliderWrapper {
+      .sliderLabel {
+        margin-top: 24rpx;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: 12px;
+        .leftLabel {
+          color: var(--popup-com-desc-color);
+        }
+        .rightLabel {
+          color: var(--popup-com-desc-color);
+        }
+      }
+     
+    }
+
+  }
+}
+

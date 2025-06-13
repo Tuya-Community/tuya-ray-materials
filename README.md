@@ -312,23 +312,23 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="PublicPanelIpc">2025/05</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelIpc">PublicPanelIpc</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=PublicPanelIpc" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="AIPetTemplate">2025/06</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/AIPetTemplate">AIPetTemplate</a></td>
   <td>
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=AIPetTemplate" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="PublicPanelIpc">2025/06</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelIpc">PublicPanelIpc</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=PublicPanelIpc" target="_blank">View Details</a>
   </details>
   </td>
 </tr>

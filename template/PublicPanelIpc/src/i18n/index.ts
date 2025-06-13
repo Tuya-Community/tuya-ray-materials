@@ -1,5 +1,8 @@
 import { kit } from '@ray-js/panel-sdk';
-import Strings from './strings';
+import strings from './strings';
+
 const { I18N } = kit;
 
-export default new I18N(Strings);
+const Strings = new I18N(strings);
+
+export default Strings;

@@ -1,6 +1,6 @@
 [English](./README.md) | 简体中文
 
-## Ipc 小程序模板
+# Ipc 小程序模板
 
 ## 1. 使用须知
 
@@ -10,62 +10,102 @@
 
 - [创建产品](https://developer.tuya.com/cn/miniapp-codelabs/codelabs/panel-ipc/index.html#2)
 - [创建项目并在 IDE 中导入项目代码](https://developer.tuya.com/cn/miniapp-codelabs/codelabs/panel-ipc/index.html#3)
-- 更多详细内容可参考 [IPC 通用模板](https://developer.tuya.com/cn/miniapp-codelabs/codelabs/panel-ipc/index.html#0)
+- 相关 IPC 品类开发信息 [IPC 垂直解决方案 ](https://developer.tuya.com/cn/miniapp-codelabs/codelabs/panel-ipc/index.html#0)
+- 更多模版信息请参考 [IPC 通用模板](https://developer.tuya.com/cn/miniapp-codelabs/codelabs/panel-ipc/index.html#0)
+
 
 ## 3. 能力依赖
 
-- @ray-js/components-ty-ipc 播放器
+### 插件依赖
+
+- `@ray-js/ipc-player-integration`：融合播放器组件，内置录制、对讲、截图、电量、温湿度、云台、信号强度、横屏等 widget 功能
+- `@ray-js/ray-ipc-half-horizontal-drag`：半屏 Banner 运营组件
+- `@ray-js/ipc-ptz-zoom`：云台控制与变焦组件
+- `@ray-js/ray-ipc-decrypt-image`：AES 加密图片解密组件
+- `@ray-js/ray-ipc-collect-edit`：收藏点编辑组件
+- `@ray-js/delay-loading`：Loading 阈值组件
+- `@ray-js/ray-ipc-utils`：工具库（跳转相册、获取信号强度、判断对讲能力等）
 
 ### 小程序 Kit 依赖（以下依赖是 Kit 最低版本）
 
-- TTT 依赖
-
-  - BaseKit: 3.0.0
-  - MiniKit: 3.0.0
-  - DeviceKit: 3.0.0
-  - BizKit: 3.0.1
-  - baseversion: 2.10.1
-
-- 功能页依赖
-  - 设备详情功能页：settings => 'tycryc71qaug8at6yt'
+- BaseKit：3.0.0  
+- MiniKit：3.0.1  
+- DeviceKit：4.11.8  
+- BizKit：4.12.1  
+- IPCKit：6.4.11（必须 ≥ 此版本）
 
 ### App 版本支持
 
-- 智能生活 v4.5.0 及以上版本
+- 智能生活 v6.5.0 及以上版本
 
 ## 4. 面板功能
 
-- 主题：支持明、暗两种主题（跟随 App）
-- 基础功能：预览、录制、截屏、对讲
-- 扩展功能：回放、相册
-- 其他功能：摄像头设置、云台、变焦
+- **主题切换**：支持明暗主题，自动跟随 App
+- **融合播放器**：支持预览、录制、截屏、对讲、音频、电量、温湿度、云台控制、码率、信号强度、横屏等
+- **运营推广**：可配置服务营销信息与产品运营内容
+- **功能入口**：如相册、云台与收藏点、激光灯开关等
+- **更多功能**：隐私模式、WDR、巡航、灯开关等
+- **快捷操作栏**：如回放、对讲、消息等高频功能
 
-## 5. 功能实现
+## 5.设计理念
 
-### 接口
+- **界面清爽，重点突出**  
+  将画面窗口和功能分区展示，告别杂乱。画面上方是摄像头画面，下方为运营窗口及功能入口，操作更顺手
+- **结构简洁，功能易找**
+  改变以往功能需多个 Tab 切换，现针核心功能集中展示，常用服务一键直达，云存储、消息提醒等高频内容触手可及。低频设置（如灯开关）统一收纳到二级菜单，操作更聚焦，不打扰。
+- **高效运营，直达服务**
+  您可以自主定义配置相关运营信息，首页直接展示，大幅提升产品转化率
 
-- ty.device.getCameraConfigInfo 摄像头配置信息
+
+## 6. 关键功能示例
+
 
 ### 播放器引入
 
 ```tsx
-import { IpcPlayer as Player } from '@ray-js/components-ty-ipc';
+import { useEffect } from 'react';
+import { useCtx, Features, IPCPlayerIntegration } from '@ray-js/ipc-player-integration';
 
-<View className={Styles.playerWrap}>
-  {devInfo?.devId && ( // 获取到设备id之后再渲染播放器，避免无法出流情况
-    <Player
-      defaultMute={isMute} // 静音状态
-      devId={devInfo?.devId} // 设备id
-      onlineStatus={devInfo.isOnline} // 设备在线状态
-      updateLayout={`${playerLayout}`} // 更新播放器位置及大小时更新此值
-      onChangeStreamStatus={onChangeStreamStatus} // 流状态变化事件
-      onCtx={getIpcPlayer} // player组件实例
-      onPlayerTap={handlePlayerClick} // 点击组件事件
-      clarity={videoClarityObj[mainDeviceCameraConfig.videoClarity]} // 视频清晰度
-      privateState={dpState.basic_private || false} // 隐私模式
+const Home = props => {
+  // 通过 useCtx 获取播放器实例关联上下文信息
+  const instance = useCtx({
+      devId: props.location.query.deviceId, // 设备ID
+  });
+  // 初始化融合播放器内置功能， 若不调用此事件，内置控件则不展示 
+  useEffect(() => {
+    Features.initPlayerWidgets(instance, {
+      verticalResolutionCustomClick: false,
+      hideHorizontalMenu: false,
+    });
+  }, []);
+
+  <View className={Styles.playerContainer}>
+    <IPCPlayerIntegration
+      instance={instance} // 传入播放器实例
+      devId={devInfo.devId} // 设备ID
+      onPlayStatus={onPlayStatus} // 简化监听播放器状态 (0: 连接中 1: 预览中)
+      privateState={dpState.basic_private || false} // 是否开启隐私模式
+      deviceOnline={devInfo.isOnline} // 设备在线
+      brandColor={brandColor} // 品牌色
+      playerFit='contain' // 竖屏模式下，播放器填充模式 可选值：contain | cover
+      landscapeMode="standard" // 横屏模式下，播放器填充模式: standard | fill
+      extend={{
+        ptzControllable: true // 是否开启播放器云台控制
+      }}
     />
-  )}
-</View>;
+  </View>
+}
+
+export default Home;
+
+```
+
+```less
+  .playerContainer {
+     width: 100%;
+     height: calc(100vw * 9 / 16);
+  }
+  
 ```
 
 ## 6. 问题反馈
@@ -78,11 +118,6 @@ import { IpcPlayer as Player } from '@ray-js/components-ty-ipc';
 
 ## 8. 更新日志
 
-## [3.13.3] - 2024-12-05
+## [4.0.0] - 2025-06-30
 
-### Refactored
-
-- 更新 `@ray-js/ray` 版本至 `1.5.44`
-- 更新 `@ray-js/panel-sdk` 版本至 `1.13.1`
-- 更新 `@ray-js/smart-ui` 版本至 `2.0.0`
-- 使用 `@ray-js/smart-ui` 提供的 `NavBar` 组件替换项目内置的 `TopBar` 组件
+- 全新升级对外模版 UI 及架构

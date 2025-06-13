@@ -1,0 +1,115 @@
+.content {
+  flex: 1;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
+  padding: 0 30rpx;
+  .box {
+    // display: flex;
+    // flex-direction: column;
+    // height: 100%;
+  }
+  .tip {
+    margin: 0 auto 0;
+    font-size: 24rpx;
+    color: var(--popup-com-desc-color);
+    text-align: center;
+  }
+  .addPointButton {
+    width: 208rpx;
+    height: 108rpx;
+    border-radius: 4rpx;
+    background-color: var(--card-item-bg-n9);
+    border: 2rpx dashed var(--app-B4-N4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--app-B4-N4);
+    font-size: 34rpx;
+  }
+  .pointListWrap {
+    position: relative;
+    margin-top: 30rpx;
+    height: 108rpx;
+    width: 100%;
+    .imgBoxWrap {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+    .imgBox {
+      display: inline-block;
+      position: relative;
+      width: 208rpx;
+      height: 108rpx;
+      flex-shrink: 0;
+      border-radius: 8rpx;
+      background-color: var(--card-item-bg-n9);
+      margin-right: 32rpx;
+      &.emptyImgBox {
+        line-height: 108rpx;
+        text-align: center;
+        font-size: 34rpx;
+      }
+      @media (prefers-color-scheme: dark) {
+        border: 1px dashed rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.3);
+      }
+      @media (prefers-color-scheme: light) {
+        border: 1px dashed rgba(0, 0, 0, 0.3);
+        color: rgba(0, 0, 0, 0.3);
+      }
+      .deleteBtn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 36rpx;
+        height: 36rpx;
+        border-bottom-left-radius: 16rpx;
+        background-color: #FF3838;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .deleteIcon {
+          font-size: 24rpx;
+          color: #fff;
+        }
+      }
+      .img {
+        width: 162rpx;
+        height: 92rpx;
+        border-radius: 8rpx;
+        background-color: var(--card-item-bg-n9);
+        display: block;
+      }
+    }
+  }
+  .zoomWrapClassName {
+    margin: 0;
+    padding: 0;
+    display: none;
+  }
+  .ipcPtzWarp {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 94rpx;
+    margin-bottom: 92rpx;
+  }
+}
+.saveBtn {
+  position: absolute;
+  font-size: 32rpx;
+  color: var(--brandColor);
+  padding: 10rpx;
+  top: 10rpx;
+  right: 18rpx;
+}
+.addButtonBox {
+  margin: 20rpx 30rpx;
+  .addButton {
+    background-color: var(--app-B4);
+    --button-plain-background-color: var(--app-B4);
+    --button-border-radius: var(--button-small-height);
+  }
+}

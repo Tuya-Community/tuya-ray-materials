@@ -1,0 +1,86 @@
+.comContainer{
+  color: var(--index-title-color);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 70rpx;
+  .closeIconContainer {
+    left: 20rpx;
+    top: 18rpx;
+    position: absolute;
+    width: 64rpx;
+    height: 64rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .editIconContainer {
+    right: 20rpx;
+    top: 18rpx;
+    position: absolute;
+    width: 64rpx;
+    height: 64rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .contentWrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    position: relative;
+    .arrow-icon-wrapper {
+      font-size: 50rpx;
+    }
+  }
+  .footerMenuContainer {
+    padding: 0 160rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .footerItem  {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .footerItemIcon {
+        width: 116rpx;
+        height: 116rpx;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        .footerIcon {
+          color: #fff;
+          font-size: 48rpx;
+        }
+        .interComContainer {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .disableItem {
+        opacity: 0.5;
+      }
+      .footerItemText {
+        margin-top: 16rpx;
+        font-size: 24rpx;
+        font-weight: 400;
+        color: var(--app-B3-N3);
+      }
+    }
+  }
+  .popIcon {
+    font-size: 36rpx;
+  }
+}
+

@@ -1,0 +1,26 @@
+page {
+  overflow-y: hidden;
+  --ipc-player-size-scale: 1;
+}
+
+// 宽度大于 768px 的屏幕，设置播放器的字体、图标等缩放率
+@media (min-width: 768px) and (orientation: portrait) {
+  page {
+    --ipc-player-size-scale: 1.2;
+  }
+}
+
+.ellipsis-1 {
+  white-space: nowrap; /* 防止文本换行 */
+  overflow: hidden;    /* 隐藏溢出文本 */
+  text-overflow: ellipsis; /* 使用省略号表示溢出文本 */
+}
+
+.ellipsis-2-lines {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word; /* 可选：避免长单词或URL破坏布局 */
+}
