@@ -1,4 +1,3 @@
-import MapView from '@/components/MapView';
 import store from '@/redux';
 import {
   getLaserMapPoints,
@@ -9,7 +8,8 @@ import {
 import { View } from '@ray-js/ray';
 import { ENativeMapStatusEnum } from '@ray-js/robot-sdk-types';
 import { map, orderBy } from 'lodash';
-import React, { FC, useCallback, useRef, useState } from 'react';
+import React, { FC, useCallback, useRef } from 'react';
+import RjsMap from '@/components/MapView/RjsMap';
 
 import styles from '../index.module.less';
 
@@ -71,8 +71,7 @@ export const AddTimingMapView: FC<Props> = props => {
 
   return (
     <View className={styles.mapBox}>
-      <MapView
-        isFullScreen={false}
+      <RjsMap
         onMapId={onMapId}
         onClickSplitArea={onClickSplitArea}
         onClickRoom={onClickRoom}

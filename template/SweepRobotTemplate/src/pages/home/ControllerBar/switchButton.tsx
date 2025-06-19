@@ -23,7 +23,6 @@ import {
   robotIsSelectRoomPaused,
 } from '@/utils/robotStatus';
 import { useActions, useProps } from '@ray-js/panel-sdk';
-import { Utils } from '@ray-js/ray-error-catch';
 import {
   encodeRoomClean0x14,
   encodeSpotClean0x3e,
@@ -38,8 +37,6 @@ import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 
 import styles from './index.module.less';
-
-const { Logger } = Utils;
 
 type Props = {
   mapStatus: number;
@@ -157,7 +154,6 @@ const SwitchButton: FC<Props> = props => {
   const handleSelectRoomStart = async (cb?: () => any) => {
     const { version } = store.getState().mapState;
 
-    Logger.info({ message: `下发选区清扫,选择房间:${selectRoomData}` });
     const maxUnknownId = version === 1 ? 31 : 26;
 
     try {

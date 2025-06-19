@@ -1,5 +1,4 @@
 import DecisionBar from '@/components/DecisionBar';
-import MapView from '@/components/MapView';
 import RoomPreferencePopLayout from '@/components/RoomPreferencePopLayout';
 import { commandTransCode } from '@/constant/dpCodes';
 import Strings from '@/i18n';
@@ -13,6 +12,7 @@ import { onClickSplitArea as onClickSplitAreaFun } from '@ray-js/robot-sdk-types
 import { Toast, ToastInstance } from '@ray-js/smart-ui';
 import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { PROTOCOL_VERSION } from '@/constant';
+import WebViewMap from '@/components/MapView/WebViewMap';
 
 import styles from './index.module.less';
 
@@ -184,15 +184,13 @@ const CleanPreference: FC = () => {
 
   return (
     <View className={styles.container}>
-      <MapView
-        isFullScreen
+      <WebViewMap
         // 修改后存储的临时数据
         preCustomConfig={prevCustomRoomInfos}
         onMapId={onMapId}
         onClickSplitArea={onClickSplitArea}
         onMapLoadEnd={onMapLoadEnd}
         onClickRoomProperties={onClickRoomProperties}
-        mapLoadEnd={mapLoadEnd}
         selectRoomData={[]}
         areaInfoList={[]}
         pathVisible={false}

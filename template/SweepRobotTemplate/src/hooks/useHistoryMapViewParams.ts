@@ -242,7 +242,7 @@ export default function useHistoryMapViewParams({
           attributesOrderShow: true,
           attributesOrderSet: true,
         },
-      },
+      } as any,
       mapColorConfig: {
         cleaningColor: '#D0D0D0',
         barrierColor: 'rgba(0, 0, 0, 0.36)',

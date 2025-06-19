@@ -1,4 +1,3 @@
-import MapView from '@/components/MapView';
 import { useCommandTransData, useMapData, usePathData } from '@/hooks';
 import Strings from '@/i18n';
 import store from '@/redux';
@@ -16,6 +15,7 @@ import { ENativeMapStatusEnum } from '@ray-js/robot-sdk-types';
 import { APP_LOG_TAG } from '@/constant';
 import useVisionData from '@/hooks/useVisionData';
 import useImgDialog from '@/hooks/useImageDialog';
+import WebViewMap from '@/components/MapView/WebViewMap';
 
 type Props = {
   mapStatus: number;
@@ -168,7 +168,7 @@ const Map: React.FC<Props> = ({ mapStatus }) => {
    * 点击AI Vision 虚拟物体
    * @param data
    */
-  const onClickMaterial = ({ data }) => {
+  const onClickMaterial = ({ data }: any) => {
     if (getSystemInfoSync().brand === 'devtools') {
       log4js.warn(
         '【HomeMapView】==> appendDownloadStreamDuringTask in IDE mode is not supported yet'
@@ -227,8 +227,7 @@ const Map: React.FC<Props> = ({ mapStatus }) => {
 
   return (
     <>
-      <MapView
-        isFullScreen
+      <WebViewMap
         uiInterFace={uiInterFace}
         onMapId={onMapId}
         onClickSplitArea={onClickSplitArea}

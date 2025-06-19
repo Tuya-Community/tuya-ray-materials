@@ -7,7 +7,7 @@
     "declaration": false,
     "declarationMap": false,
     "emitDeclarationOnly": false,
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "esModuleInterop": true,
     "isolatedModules": true,
     "skipLibCheck": true,
@@ -17,7 +17,8 @@
     "baseUrl": "./",
     "paths": {
       "ray": ["./node_modules/@ray-js/ray"],
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@ray-js/robot-map-component/*": ["node_modules/@ray-js/robot-map-component/*"]
     },
     "typeRoots": [
       "./node_modules/@types",

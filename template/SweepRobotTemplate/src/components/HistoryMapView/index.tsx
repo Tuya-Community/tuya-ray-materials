@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Image, View } from '@ray-js/ray';
 import useHistoryMapViewParams from '@/hooks/useHistoryMapViewParams';
-import { IndoorMap } from '@ray-js/robot-map-component';
+import WebViewMapComponent from '@ray-js/robot-map-component/webview';
 
 import Loading from '../Loading';
 import styles from '../MapView/index.module.less';
@@ -11,7 +11,6 @@ const IS_DEV = process.env.NODE_ENV === 'development';
 
 const HistoryMapView: React.FC<IProps & { enableGesture?: boolean }> = props => {
   const {
-    isFullScreen = false,
     enableGesture = true,
     uiInterFace,
     history,
@@ -144,34 +143,16 @@ const HistoryMapView: React.FC<IProps & { enableGesture?: boolean }> = props => 
       <Loading isLoading={isLoading} />
 
       {!snapshotImageLoaded && (
-        <>
-          {isFullScreen && (
-            <IndoorMap.Full
-              {...eventCallbacks.current}
-              {...mapViewParams}
-              mapId={idRef.current}
-              componentId={idRef.current}
-              componentBackground={backgroundColor}
-              initUseThread={false}
-              resourceUsageLevel="high"
-              onDecodeMapData={handleDecodeMapData}
-              onDecodePathData={handleDecodePathData}
-            />
-          )}
-          {!isFullScreen && (
-            <IndoorMap.Dynamic
-              {...eventCallbacks.current}
-              {...mapViewParams}
-              mapId={idRef.current}
-              componentId={idRef.current}
-              componentBackground={backgroundColor}
-              initUseThread={false}
-              resourceUsageLevel="high"
-              onDecodeMapData={handleDecodeMapData}
-              onDecodePathData={handleDecodePathData}
-            />
-          )}
-        </>
+        <WebViewMapComponent
+          {...eventCallbacks.current}
+          {...mapViewParams}
+          mapId={idRef.current}
+          componentBackground={backgroundColor}
+          initUseThread={false}
+          resourceUsageLevel="high"
+          onDecodeMapData={handleDecodeMapData}
+          onDecodePathData={handleDecodePathData}
+        />
       )}
 
       {snapshotImage && (

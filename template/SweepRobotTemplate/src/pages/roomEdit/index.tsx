@@ -1,5 +1,4 @@
 import DecisionBar from '@/components/DecisionBar';
-import MapView from '@/components/MapView';
 import RoomNamePopLayout from '@/components/RoomNamePopLayout';
 import { PROTOCOL_VERSION } from '@/constant';
 import { commandTransCode } from '@/constant/dpCodes';
@@ -42,6 +41,7 @@ import {
 import { EMapSplitStateEnum } from '@ray-js/robot-sdk-types';
 import { Grid, GridItem, Toast, ToastInstance } from '@ray-js/smart-ui';
 import React, { FC, useEffect, useRef, useState } from 'react';
+import WebViewMap from '@/components/MapView/WebViewMap';
 
 import styles from './index.module.less';
 
@@ -647,8 +647,7 @@ const RoomEdit: FC = () => {
 
   return (
     <View className={styles.container}>
-      <MapView
-        isFullScreen
+      <WebViewMap
         // 房间信息临时数据
         preCustomConfig={previewCustom}
         roomPropertyStyle="unfolding"

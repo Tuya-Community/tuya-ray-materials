@@ -1,4 +1,3 @@
-import MapView from '@/components/MapView';
 import { PROTOCOL_VERSION, THEME_COLOR } from '@/constant';
 import { commandTransCode } from '@/constant/dpCodes';
 import { useCreateVirtualWall, useForbiddenNoGo, useForbiddenNoMop } from '@/hooks';
@@ -25,6 +24,7 @@ import { useThrottleFn } from 'ahooks';
 import { once } from 'lodash-es';
 import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
 import log4js from '@ray-js/log4js';
+import WebViewMap from '@/components/MapView/WebViewMap';
 
 import { setMapStatusClick, setMapStatusNormal } from '@/utils/openApi/mapStatus';
 import FloorMaterialPopLayout from '@/components/FloorMaterialPopLayout';
@@ -460,8 +460,7 @@ const MapEdit: FC = () => {
 
   return (
     <View className={styles.container}>
-      <MapView
-        isFullScreen
+      <WebViewMap
         // 房间信息临时数据
         preCustomConfig={previewCustom}
         uiInterFace={uiInterFace}

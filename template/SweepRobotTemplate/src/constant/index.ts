@@ -9,7 +9,7 @@ export const THEME_COLOR = '#3a9';
  */
 export const APP_LOG_TAG = 'ROBOT_PANEL';
 
-export const APP_MULTIPLE_MAP_CACHE_DIR = ty.env.USER_DATA_PATH + '/multiple_map_cache/';
+export const APP_MULTIPLE_MAP_CACHE_DIR = ty.env.USER_DATA_PATH + '/';
 
 /**
  * 指令协议版本 0 | 1

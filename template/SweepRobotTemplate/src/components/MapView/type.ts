@@ -1,4 +1,5 @@
-import { EventProps } from '@ray-js/robot-map-component/lib/types/event';
+import { EventProps } from '@ray-js/robot-map-component/lib/types';
+
 export interface IProps extends EventProps {
   style?: React.CSSProperties;
   history?: {
@@ -7,7 +8,6 @@ export interface IProps extends EventProps {
     mapLen?: number;
     pathLen?: number;
   };
-  isFullScreen?: boolean;
   uiInterFace?: {
     isShowPileRing?: boolean;
     isShowCurPosRing?: boolean;
@@ -29,5 +29,5 @@ export interface IProps extends EventProps {
   snapshotImage?: { image: string; width: number; height: number };
   pathVisible?: boolean;
   backgroundColor?: string;
-  roomPropertyStyle?: string;
+  roomPropertyStyle?: 'foldable' | 'unfolding'; // 房间属性样式
 }

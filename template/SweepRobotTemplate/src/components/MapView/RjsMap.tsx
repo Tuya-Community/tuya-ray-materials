@@ -1,11 +1,11 @@
 import { useMiddlewareMapViewParams } from '@/hooks';
 import { View, getSystemInfoSync } from '@ray-js/ray';
-import { IndoorMap } from '@ray-js/robot-map-component';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { freezeMapUpdate } from '@/utils/openApi';
 import { useSelector } from 'react-redux';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
 import { decodeMapHeader } from '@ray-js/robot-protocol';
+import RjsMapComponent from '@ray-js/robot-map-component/rjs';
 
 import Loading from '../Loading';
 import { IProps } from './type';
@@ -13,11 +13,10 @@ import EmptyMap from '../EmptyMap';
 
 const IS_DEV = process.env.NODE_ENV === 'development';
 
-const MapView: React.FC<IProps> = React.memo(props => {
+const RjsMap: React.FC<IProps> = React.memo(props => {
   const [mapLoadEnd, setMapLoadEnd] = useState(false);
 
   const {
-    isFullScreen = false,
     uiInterFace,
     preCustomConfig,
     pathVisible,
@@ -270,31 +269,16 @@ const MapView: React.FC<IProps> = React.memo(props => {
         ...style,
       }}
     >
-      {isFullScreen && (
-        <IndoorMap.Full
-          {...eventCallbacks.current}
-          {...mapViewParams}
-          mapId={idRef.current}
-          componentBackground={backgroundColor}
-          initUseThread={false}
-          resourceUsageLevel="high"
-          onDecodeMapData={handleDecodeMapData}
-          onDecodePathData={handleDecodePathData}
-          rootStyle={style as any}
-        />
-      )}
-      {!isFullScreen && (
-        <IndoorMap.Dynamic
-          {...eventCallbacks.current}
-          {...mapViewParams}
-          mapId={idRef.current}
-          componentBackground={backgroundColor}
-          initUseThread={false}
-          resourceUsageLevel="low"
-          onDecodeMapData={handleDecodeMapData}
-          onDecodePathData={handleDecodePathData}
-        />
-      )}
+      <RjsMapComponent
+        {...eventCallbacks.current}
+        {...mapViewParams}
+        mapId={idRef.current}
+        componentBackground={backgroundColor}
+        initUseThread={false}
+        resourceUsageLevel="low"
+        onDecodeMapData={handleDecodeMapData}
+        onDecodePathData={handleDecodePathData}
+      />
 
       {isEmpty && <EmptyMap />}
 
@@ -303,4 +287,4 @@ const MapView: React.FC<IProps> = React.memo(props => {
   );
 });
 
-export default MapView;
+export default RjsMap;

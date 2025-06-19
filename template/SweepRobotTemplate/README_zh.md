@@ -19,7 +19,6 @@
 
   该插件支持真实连接真实的扫地机设备，也可以自行模拟数据上报
 
-- IndoorMap.Dynamic 组件无法使用扫地机调试助手进行调试，需要使用真实设备真机调试
 - 如果您是新客户接入，请联系涂鸦的项目经理获取扫地机的协议文档
 
 ## 4、能力依赖
@@ -44,7 +43,7 @@
 
 为了能够让开发者更关注在 UI 层面的处理，而不需要过多关心一些其他的流程逻辑处理，我们将扫地机进行模块拆分，将底层实现与业务调用独立。目前扫地机面板主要依赖的包有以下几个
 
-- @ray-js/robot-map-component 业务层直接调用， 提供了全屏地图和动态地图组件 (可以参考逻辑 src/components/MapView/index.tsx)，并且暴露了地图操作的常用方法。
+- @ray-js/robot-map-component 业务层直接调用， 提供了 WebView 地图和 Rjs 地图组件 (可以参考逻辑 src/components/MapView/index.tsx)，并且暴露了地图操作的常用方法。
 - @ray-js/robot-data-stream 业务层直接调用，封装了面板与设备的 P2P 传输方法，开发者可以忽略 p2p 通信过程中的复杂过程，只需要关注业务本身逻辑
 - @ray-js/robot-protocol 业务层直接调用，提供完整协议解析标准能力，将扫地机协议中比较复杂的 raw 类型 dp 点的解析、编码过程进行了封装
 - @ray-js/webview-invoke 底层依赖，提供了小程序与底层 SDK 的通信能力，一般情况下不需要修改
@@ -57,13 +56,13 @@
 
 ## 6、 地图组件选择
 
-在地图组件的选用上，我们提供了 IndoorMap.Full 和 IndoorMap.Dynamic 两种模式的组件。
+在地图组件的选用上，我们提供了 WebViewMap 和 RjsMap 两种模式的组件。
 
-- IndoorMap.Full 组件以原生 Webview 形式引入做为异层结构，只能设置为全屏，无法动态调整大小，是独立于小程序逻辑层和视图层的双线程架构，拥有更好的交互性能体验。单个小程序页面限制只能使用一个。如若需要在 WebView 上叠加视图按钮，请结合[CoverView](https://developer.tuya.com/cn/miniapp/develop/ray/component/view-container/cover-view)使用。详细可查看模板中的示例。
+- WebViewMap 组件以原生 Webview 形式引入做为异层结构，默认铺满全屏，是独立于小程序逻辑层和视图层的双线程架构，拥有更好的交互性能体验。单个小程序页面限制只能使用一个。如若需要在 WebView 上叠加视图按钮，请结合[CoverView](https://developer.tuya.com/cn/miniapp/develop/ray/component/view-container/cover-view)使用。详细可查看模板中的示例。
 
-> **请注意：** **IndoorMap.Full 属于基于异层渲染的原生组件，请详细阅读[原生组件使用限制](https://developer.tuya.com/cn/miniapp/develop/miniapp/component/native-component/native-component)**
+> **请注意：** **WebViewMap 属于基于异层渲染的原生组件，请详细阅读[原生组件使用限制](https://developer.tuya.com/cn/miniapp/develop/miniapp/component/native-component/native-component)**
 
-- IndoorMap.Dynamic 组件以 RJS 组件形式作为视图层组件的扩充，拥有可以动态设置组件宽高的特性。IndoorMap.Dynamic 组件，运行与小程序的视图层，与页面元素位于同一层次结构，在频繁的地图数据交互中，可能对视图元素的交互响应产生影响。单个小程序页面可以引入多个。
+- RjsMap 组件以 RJS 组件形式作为视图层组件的扩充，拥有可以动态设置组件宽高的特性。RjsMap 组件，运行与小程序的视图层，与页面元素位于同一层次结构，在频繁的地图数据交互中，可能对视图元素的交互响应产生影响。单个小程序页面可以引入多个。
 
 ## 7、面板功能
 
@@ -93,6 +92,26 @@
 [许可详情](LICENSE)
 
 ## Changelog
+
+### [0.0.18] - 2025-6-19
+
+#### **BREAKING CHANGE**
+
+- **@ray-js/robot-map-component** 更新到 **2.0.0**，地图组件拆分为**WebViewComponent**和**RjsMapComponent**，升级后无法兼容原有模板，请参考模板 commit 进行业务上的改造
+
+#### Added
+
+- 升级了 Ray & Smart-UI 的版本，引入了**SmartUIAutoImport**提升页面加载速度
+
+#### Changed
+
+- **@ray-js/robot-map-middleware** 更新到 **1.0.7**
+- **@ray-js/ray-error-catch** 更新到 **0.0.25**
+- **@ray-js/robot-data-stream** 更新到 **0.0.12**
+
+#### Fixed
+
+- parseDataFromString 对于正则不匹配的情况修改为过滤这条数据
 
 ### [0.0.17] - 2025-5-15
 
@@ -192,7 +211,7 @@
 
 #### Fixed
 
-- 修复了 Dynamic 组件可能无法更新实时地图的问题
+- 修复了 RjsMap 组件可能无法更新实时地图的问题
 
 ### [2024-11-22]
 

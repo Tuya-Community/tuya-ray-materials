@@ -10,19 +10,13 @@ import { initializeSystemInfo } from './redux/modules/systemInfoSlice';
 import './styles/index.less';
 import { APP_LOG_TAG } from './constant';
 
-interface Props {
-  devInfo: DevInfo;
-  // eslint-disable-next-line react/require-default-props
-  extraInfo?: Record<string, any>;
-}
-
 interface State {
   devInfo: DevInfo;
 }
 
 const composeLayout = (SubComp: React.ComponentType<any>) => {
   const { dispatch } = store;
-  return class PanelComponent extends Component<Props, State> {
+  return class PanelComponent extends Component<Record<string, any>, State> {
     async onLaunch(object: any) {
       devices.common.init();
       support.init();
@@ -36,12 +30,10 @@ const composeLayout = (SubComp: React.ComponentType<any>) => {
     }
 
     render() {
-      const { extraInfo } = this.props;
-
       return (
         <Provider store={store}>
           {/* @ts-ignore */}
-          <SubComp extraInfo={extraInfo} {...this.props} />
+          <SubComp {...this.props} />
         </Provider>
       );
     }

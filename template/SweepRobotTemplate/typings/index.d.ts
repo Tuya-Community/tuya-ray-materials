@@ -64,6 +64,19 @@ type CleanRecord = {
   time: number;
   id: number; // 清扫记录的唯一ID
   fileType: string;
+  extendInfo: {
+    recordId: number;
+    timeStamp: number;
+    time: number;
+    area: number;
+    cleanMode?: number; // 可选属性
+    workMode: string;
+    cleaningResult: string;
+    startMethod: string;
+    mapLength: number;
+    pathLength: number;
+    virtualLength: number;
+  };
 };
 
 type Voice = {

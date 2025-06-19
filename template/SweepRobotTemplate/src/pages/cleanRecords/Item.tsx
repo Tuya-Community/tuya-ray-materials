@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { View, showLoading, hideLoading, router, deleteCleaningRecord } from '@ray-js/ray';
 import moment from 'moment';
 import { Cell, SwipeCell } from '@ray-js/smart-ui';
-import { parseDataFromString } from '@/utils';
 import Strings from '@/i18n';
 
 type Props = {
@@ -11,8 +10,8 @@ type Props = {
 };
 
 const Item: FC<Props> = ({ data, onDeleted }) => {
-  const { id, devId, extend } = data;
-  const { timeStamp, time, area } = parseDataFromString(extend);
+  const { id, devId, extendInfo } = data;
+  const { timeStamp, time, area } = extendInfo;
 
   const handleDetail = () => {
     router.push(`/cleanRecordDetail?id=${id}`);

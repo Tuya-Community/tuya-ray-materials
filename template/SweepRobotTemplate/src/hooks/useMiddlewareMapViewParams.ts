@@ -3,9 +3,9 @@ import Strings from '@/i18n';
 import { selectCustomConfig } from '@/redux/modules/customConfigSlice';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
 import base64Imgs from '@/res/base64Imgs';
-import { UiInterFace } from '@ray-js/robot-map-component/lib/types/uiInterFace';
 import { convertColorToArgbHex } from '@ray-js/robot-protocol';
 import { IAnimationTypeEnum } from '@ray-js/robot-sdk-types';
+import { UiInterFace } from '@ray-js/robot-map-component/lib/types/uiInterFace';
 import { useSelector } from 'react-redux';
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
   areaInfoList?: any[];
   mapId: string;
   backgroundColor?: string;
-  roomPropertyStyle?: string;
+  roomPropertyStyle?: 'unfolding' | 'foldable';
 };
 
 export default function useMiddlewareMapViewParams({
@@ -226,7 +226,7 @@ export default function useMiddlewareMapViewParams({
           attributesOrderShow: true,
           attributesOrderSet: true,
         },
-      },
+      } as any,
       // 地板材质的配置枚举
       roomFloorMaterialConfig: {
         floorMaterial2d: {

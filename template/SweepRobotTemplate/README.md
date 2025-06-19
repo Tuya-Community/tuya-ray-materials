@@ -19,7 +19,7 @@
 
   This plugin supports real connections to real sweeper devices and can also simulate data reporting by itself.
 
-- The IndoorMap.Dynamic component cannot be debugged with the Sweeper Debug Assistant. Real device debugging is required.
+- The RjsMap component cannot be debugged with the Sweeper Debug Assistant. Real device debugging is required.
 - If you are a new customer, please contact Tuya's project manager to obtain the protocol documentation for the sweeper.
 
 ## 4. Capability Dependencies
@@ -44,7 +44,7 @@
 
 To allow developers to focus more on UI handling rather than other process logic handling, we have split the sweeper into modules, separating the underlying implementation from business calls. The following are the main packages that the sweeper panel currently depends on:
 
-- @ray-js/robot-map-component: Directly called by the business layer, providing full-screen maps and dynamic map components [reference usage]src/components/MapView/index.tsx, and exposing common methods for map operations.
+- @ray-js/robot-map-component: Directly called by the business layer, providing full-screen maps and RjsMap components [reference usage]src/components/MapView/index.tsx, and exposing common methods for map operations.
 - @ray-js/robot-data-stream: Directly called by the business layer, encapsulating the P2P transmission methods between the panel and the device, allowing developers to ignore the complex process of P2P communication and focus only on the business logic itself.
 - @ray-js/robot-protocol: Directly called by the business layer, providing a complete protocol parsing standard capability, encapsulating the parsing and encoding process of the complex raw type DP points in the sweeper protocol.
 - @ray-js/webview-invoke: Underlying dependency, providing communication capabilities between the mini program and the underlying SDK, generally not requiring modification.
@@ -57,13 +57,13 @@ For general sweeper requirements, you basically only need to focus on the applic
 
 ## 6. Map Component Selection
 
-In terms of map component selection, we provide two modes of components, IndoorMap.Full and IndoorMap.Dynamic.
+In terms of map component selection, we provide two modes of components, WebViewMap and RjsMap.
 
-- The IndoorMap.Full component is introduced as a native WebView form as a different layer structure. It can only be set to full screen and cannot be dynamically resized. It is a dual-threaded structure independent of the logic layer and view layer of the mini program, providing a better interactive performance experience. Only one can be used in a single mini program page. If you need to overlay view buttons on the WebView, please use it in conjunction with [CoverView](https://developer.tuya.com/en/miniapp/develop/ray/component/view-container/cover-view). For details, you can refer to the examples in the template.
+- The WebViewMap component is introduced as a native WebView form as a different layer structure, fill Full Screen by Default. It is a dual-threaded structure independent of the logic layer and view layer of the mini program, providing a better interactive performance experience. Only one can be used in a single mini program page. If you need to overlay view buttons on the WebView, please use it in conjunction with [CoverView](https://developer.tuya.com/en/miniapp/develop/ray/component/view-container/cover-view). For details, you can refer to the examples in the template.
 
-> **Please Note:** **IndoorMap.Full is a native component based on cross-layer rendering. Please read the [Native Component Usage Restrictions](https://developer.tuya.com/en/miniapp/develop/miniapp/component/native-component/native-component) in detail.**
+> **Please Note:** **WebViewMap is a native component based on cross-layer rendering. Please read the [Native Component Usage Restrictions](https://developer.tuya.com/en/miniapp/develop/miniapp/component/native-component/native-component) in detail.**
 
-- The IndoorMap.Dynamic component is used as an extension of the view layer component in the form of an RJS component, allowing dynamic setting of the component’s width and height. The IndoorMap.Dynamic component runs on the same layer as the view element of the mini program. In the case of frequent map data interaction, it may affect the interactive response of view elements. Multiple IndoorMap.Dynamic components can be introduced on a single mini program page.
+- The RjsMap component is used as an extension of the view layer component in the form of an RJS component, allowing dynamic setting of the component’s width and height. The RjsMap component runs on the same layer as the view element of the mini program. In the case of frequent map data interaction, it may affect the interactive response of view elements. Multiple RjsMap components can be introduced on a single mini program page.
 
 ## 7. Panel Functions
 
@@ -93,6 +93,26 @@ If you have any questions, please visit the link and submit a post for feedback:
 [License Details](LICENSE)
 
 ## Changelog
+
+### [0.0.18] - 2025-6-19
+
+#### **BREAKING CHANGE**
+
+- **@ray-js/robot-map-component** upgrade to **2.0.0**. The map component has been split into **WebViewComponent** and **RjsMapComponent**. After the upgrade, it is not compatible with the original template. Please refer to the template commit for business adaptation.
+
+#### Added
+
+- Upgraded the versions of Ray & Smart-UI, introduced **SmartUIAutoImport** to improve page loading speed
+
+#### Changed
+
+- **@ray-js/robot-map-middleware** upgrade to **1.0.7**
+- **@ray-js/ray-error-catch** upgrade to **0.0.25**
+- **@ray-js/robot-data-stream** upgrade to **0.0.12**
+
+#### Fixed
+
+- parseDataFromString 对于正则不匹配的情况修改为过滤这条数据
 
 ### [0.0.17] - 2025-5-15
 
@@ -192,7 +212,7 @@ If you have any questions, please visit the link and submit a post for feedback:
 
 #### Fixed
 
-- Fixed an issue where the Dynamic component might not update the real-time map.
+- Fixed an issue where the RjsMap component might not update the real-time map.
 
 ### [2024-11-22]
 

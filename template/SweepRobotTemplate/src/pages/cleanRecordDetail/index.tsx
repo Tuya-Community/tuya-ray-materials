@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { selectCleanRecordById } from '@/redux/modules/cleanRecordsSlice';
 import { ReduxState } from '@/redux';
 import HistoryMapView from '@/components/HistoryMapView';
-import { parseDataFromString } from '@/utils';
 import { Grid, GridItem } from '@ray-js/smart-ui';
 import Strings from '@/i18n';
 import { MODE_VALUE_MAP } from '@/constant';
@@ -21,10 +20,10 @@ type Props = {
 
 const CleanRecordDetail: FC<Props> = ({ location }) => {
   const { id } = location.query ?? {};
-  const { extend, bucket, file } = useSelector((state: ReduxState) =>
+  const { bucket, file, extendInfo } = useSelector((state: ReduxState) =>
     selectCleanRecordById(state, Number(id))
   );
-  const { mapLength, pathLength, cleanMode, time, area } = parseDataFromString(extend);
+  const { mapLength, pathLength, cleanMode, time, area } = extendInfo;
 
   const history = useMemo(() => {
     return {
@@ -97,7 +96,7 @@ const CleanRecordDetail: FC<Props> = ({ location }) => {
       </Grid>
 
       <View className={styles.mapWrapper}>
-        <HistoryMapView isFullScreen history={history} pathVisible />
+        <HistoryMapView history={history} pathVisible />
       </View>
     </View>
   );

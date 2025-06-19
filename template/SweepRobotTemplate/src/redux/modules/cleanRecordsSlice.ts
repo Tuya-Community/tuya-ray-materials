@@ -7,6 +7,7 @@ import {
 import { ReduxState } from '..';
 import { getCleaningRecords, getDevInfo } from '@ray-js/ray';
 import moment from 'moment';
+import { parseDataFromString } from '@/utils';
 
 const cleanRecordsAdapter = createEntityAdapter<CleanRecord>({
   sortComparer: (a, b) => b.time - a.time,
@@ -23,7 +24,20 @@ export const fetchCleanRecords = createAsyncThunk<CleanRecord[], void, { state: 
       offset: 0,
     });
 
-    return datas;
+    if (datas) {
+      const result = datas
+        .map(item => {
+          return {
+            ...item,
+            extendInfo: parseDataFromString(item.extend),
+          };
+        })
+        .filter(item => item.extendInfo);
+
+      return result;
+    }
+
+    return [];
   }
 );
 
