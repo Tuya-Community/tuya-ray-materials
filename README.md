@@ -332,5 +332,16 @@ Tuya Ray Materials
   </details>
   </td>
 </tr>
+
+<tr>
+  <td id="GyroSweeperTemplate">2025/06</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/GyroSweeperTemplate">GyroSweeperTemplate</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=GyroSweeperTemplate" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
 </table>
 <!-- txp-asset-qrcode-end -->

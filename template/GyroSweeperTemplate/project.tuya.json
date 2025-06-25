@@ -1,0 +1,18 @@
+{
+  "name": "惯导型扫地机模板",
+  "type": "panel-app",
+  "ownerType": "tuya-official",
+  "i18n": false,
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.6",
+    "MiniKit": "3.0.7",
+    "DeviceKit": "4.0.8",
+    "BizKit": "4.2.0"
+  },
+  "baseversion": "2.28.6",
+  "devMode": "ray",
+  "compileType": "miniprogram",
+  "projectname": "惯导型扫地机",
+  "description": ""
+}

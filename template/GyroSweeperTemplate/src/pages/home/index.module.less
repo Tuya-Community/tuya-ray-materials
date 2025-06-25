@@ -1,0 +1,98 @@
+@import 'src/mixins.less';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--theme-bg-standby);
+  --nav-bar-background-color: rgba(0, 0, 0, 0);
+  --nav-bar-text-color: #fff;
+  --nav-bar-text-font-size: 42rpx;
+}
+
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  transition: opacity 0.2s ease;
+  z-index: 1;
+  background-image: var(--theme-bg);
+}
+
+.header {
+  position: relative;
+  flex: 1;
+  height: 0;
+  margin-bottom: 32rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 9;
+}
+
+.title {
+  font-size: 50rpx;
+  color: #ffffff;
+  margin-bottom: 50rpx;
+}
+
+.statusWrapper {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.standby {
+  width: 64rpx;
+  height: 64rpx;
+  margin-bottom: 24rpx;
+  border-radius: 64rpx;
+  background: rgba(255, 255, 255, 0.32);
+  border: 2px solid rgba(255, 255, 255, 0.48);
+}
+
+.statusText {
+  margin-top: 24rpx;
+  font-size: 28rpx;
+  color: #ffffff;
+}
+
+.summary {
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+
+  .valueWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .value {
+    font-size: 60rpx;
+    font-weight: bold;
+  }
+  .unit {
+    position: absolute;
+    left: calc(100% + 2rpx);
+    bottom: 10rpx;
+  }
+
+  .label {
+    font-size: 24rpx;
+    color: #fff;
+  }
+}

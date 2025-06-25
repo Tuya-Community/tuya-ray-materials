@@ -1,0 +1,152 @@
+@import 'src/mixins.less';
+
+.container {
+  position: relative;
+  padding: 48rpx 0 0rpx;
+  width: 100%;
+  // height: 53vh;
+  background-color: rgb(255, 255, 255);
+  border-radius: 30rpx 30rpx 0 0;
+  // position: fixed;
+  // bottom: 0;
+  z-index: 9;
+  .safe-area-padding-bottom();
+
+  @media screen and (max-height: 700px) {
+    padding-top: 24rpx;
+  }
+}
+.title {
+  font-size: 36rpx;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 48rpx;
+
+  .button {
+    width: 319rpx;
+    height: 104rpx;
+
+    &.charge {
+      border-width: 2px;
+
+      .buttonText {
+        color: var(--theme-color);
+      }
+    }
+  }
+
+  .buttonContent {
+    display: flex;
+    align-items: center;
+  }
+
+  .buttonText {
+    font-size: 28rpx;
+    font-weight: 500;
+    margin-left: 8rpx;
+    color: #fff;
+  }
+}
+
+.swiper,
+.swiper_disabled {
+  height: 196rpx !important;
+}
+.swiper_disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.footer {
+  margin: 0 36rpx;
+  background-color: #f6f8fa;
+  border-radius: 30rpx;
+}
+.cell {
+  background-color: #f6f8fa !important;
+}
+.title {
+  margin-left: 24rpx;
+  font-size: 28rpx;
+}
+
+.modeTitle {
+  display: flex;
+  margin: 24rpx 0 16rpx 36rpx;
+  font-size: 24rpx;
+  color: rgba(0, 0, 0, 0.9);
+
+  @media screen and (max-height: 700px) {
+    margin: 12rpx 0 8rpx 36rpx;
+  }
+}
+
+.modeWrapper {
+  display: flex;
+  overflow-y: hidden;
+  overflow-x: auto;
+  margin-bottom: 56rpx;
+
+  @media screen and (max-height: 700px) {
+    margin-bottom: 28rpx;
+  }
+
+  .modeItem {
+    flex-shrink: 0;
+    width: 168rpx;
+  }
+
+  &.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}
+
+.swiperItem {
+  display: flex;
+  align-items: flex-start;
+  padding: 0 16rpx;
+
+  .modeItem {
+    width: 20%;
+  }
+}
+
+.modeItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &.active {
+    .modeItemIconWrapper {
+      border-color: var(--theme-color);
+      background-color: var(--theme-color);
+    }
+  }
+}
+
+.modeItemIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96rpx;
+  width: 96rpx;
+  border-radius: 96rpx;
+  margin-bottom: 16rpx;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  // transition: all 0.2s ease-in-out;
+
+  @media screen and (max-height: 700px) {
+    margin-bottom: 8rpx;
+  }
+}
+
+.modeItemText {
+  text-align: center;
+  font-size: 24rpx;
+  color: rgba(0, 0, 0, 0.5);
+
+  .ellipsis(100%);
+}
