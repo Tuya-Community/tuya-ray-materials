@@ -1,0 +1,3 @@
+<view class="ray-drag-list" style="{{ customStyle }}">
+  <slot></slot>
+</view>

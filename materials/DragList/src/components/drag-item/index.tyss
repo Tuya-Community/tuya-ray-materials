@@ -1,0 +1,18 @@
+.ray-drag-list-item {
+  width: 100%;
+  transition: transform 0.3s;
+}
+
+.ray-drag-list-item-sort {
+  pointer-events: none;
+  position: relative;
+  width: 100%;
+}
+
+.ray-drag-list-item-point {
+  position: absolute; 
+  pointer-events: all; 
+  top: 50%;
+  right: 40rpx;
+  transform: translateY(-50%);
+}

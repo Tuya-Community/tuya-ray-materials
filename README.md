@@ -343,5 +343,16 @@ Tuya Ray Materials
   </details>
   </td>
 </tr>
+
+<tr>
+  <td id="DragList">2025/07</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/DragList">DragList</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/materials-DragList.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
 </table>
 <!-- txp-asset-qrcode-end -->
