@@ -7,6 +7,39 @@ function dispatchChannel(ownerInstance, eventName, data) {
   }
 }
 
+function rgb2hsv(r = 0, g = 0, b = 0) {
+  r = parseFloat(r);
+  g = parseFloat(g);
+  b = parseFloat(b);
+  if (r < 0) r = 0;
+  if (g < 0) g = 0;
+  if (b < 0) b = 0;
+  if (r > 255) r = 255;
+  if (g > 255) g = 255;
+  if (b > 255) b = 255;
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  const M = Math.max(r, g, b);
+  const m = Math.min(r, g, b);
+  const C = M - m;
+  let h;
+  let s;
+  let v;
+  if (C == 0) h = 0;
+  else if (M == r) h = ((g - b) / C) % 6;
+  else if (M == g) h = (b - r) / C + 2;
+  else h = (r - g) / C + 4;
+  h *= 60;
+  if (h < 0) h += 360;
+  v = M;
+  if (C == 0) s = 0;
+  else s = C / v;
+  s *= 100;
+  v *= 100;
+  return [h, s, v];
+}
+
 const isNumber = n => /\d+/.test(n);
 const getNumber = (n, def) => (isNumber(n) ? n : def);
 
@@ -57,6 +90,18 @@ const createPropObserver = prop => instanceId =>
     }
     if (prop === 'end') {
       const end = convertOutValueToValue(ownerInstance, instanceId, getNumber(newValue, null));
+
+      const min = getProps(ownerInstance, instanceId).minorigin || 0;
+      const max = getProps(ownerInstance, instanceId).max || 0;
+      const eventData = {
+        instanceId,
+        end: end + min,
+        value: end + min,
+        min,
+        max,
+      };
+      dispatchChannel(ownerInstance, getMoveEventName(ownerInstance, instanceId), eventData);
+
       setEnd(ownerInstance, instanceId, end);
     }
     if (prop === 'watchend' && isUpdate) {
@@ -90,9 +135,10 @@ const createPropObserver = prop => instanceId =>
   };
 
 // watch props
-const updateObserver = instanceId =>
+const updateObserver = (instanceId, isDepsChange, direction) =>
   function (newValue, oldValue, ownerInstance) {
-    updateSlider(ownerInstance, instanceId);
+    if (direction === 'vertical') return;
+    updateSlider(ownerInstance, instanceId, isDepsChange);
   };
 
 const getMin = (ownerInstance, instanceId) => {
@@ -207,6 +253,10 @@ const getProps = (ownerInstance, instanceId) => {
   return slider ? slider.getDataset() : {};
 };
 
+const getTrackBackgroundColorHueEventNameEnableItems = (ownerInstance, instanceId) => {
+  return getProps(ownerInstance, instanceId).trackbackgroundcolorhueeventnameenableitems;
+};
+
 const isRangeMode = (ownerInstance, instanceId) => {
   const props = getProps(ownerInstance, instanceId);
   const isRangeMode = props.mode === 'range';
@@ -289,6 +339,11 @@ const getTrackBgColor = (ownerInstance, instanceId) => {
   return props.trackbgcolor;
 };
 
+const getTrackBackgroundColorHueEventNameTemplate = (ownerInstance, instanceId) => {
+  const props = getProps(ownerInstance, instanceId);
+  return props.trackbackgroundcolorhueeventnametemplate;
+};
+
 const isReverseMode = (ownerInstance, instanceId) => {
   const props = getProps(ownerInstance, instanceId);
   return !!props.reverse && !isRangeMode(ownerInstance, instanceId);
@@ -302,6 +357,11 @@ const isParcel = (ownerInstance, instanceId) => {
 const getParcelMargin = (ownerInstance, instanceId) => {
   const props = getProps(ownerInstance, instanceId);
   return getNumber(props.parcelmargin, 0);
+};
+
+const isUseParcelPadding = (ownerInstance, instanceId) => {
+  const props = getProps(ownerInstance, instanceId);
+  return !!props.useparcelpadding;
 };
 
 const queryComponent = (ownerInstance, instanceId, selector) => {
@@ -362,7 +422,123 @@ function hideBarThumbs(ownerInstance, instanceId) {
   });
 }
 
-function updateSlider(ownerInstance, instanceId) {
+const setTrackBgColor = (ownerInstance, instanceId, background) => {
+  const track = queryComponent(ownerInstance, instanceId);
+  if (track) {
+    track.setStyle({
+      background,
+    });
+  }
+};
+const setBarBgColor = (ownerInstance, instanceId, background) => {
+  const trackbackgroundcolorrendermode = getProps(
+    ownerInstance,
+    instanceId
+  ).trackbackgroundcolorrendermode;
+  const isTrack = trackbackgroundcolorrendermode === 'track';
+
+  const bar = queryComponent(
+    ownerInstance,
+    instanceId,
+    isTrack ? '.rayui-slider-bar-bg' : '.rayui-slider-bar'
+  );
+  if (bar) {
+    bar.setStyle({
+      background,
+    });
+  }
+};
+
+const setBarBgWidth = (ownerInstance, instanceId, background) => {
+  const trackbackgroundcolorrendermode = getProps(
+    ownerInstance,
+    instanceId
+  ).trackbackgroundcolorrendermode;
+  const isTrack = trackbackgroundcolorrendermode === 'track';
+  if (!isTrack) return;
+
+  const bar = queryComponent(ownerInstance, instanceId, '.rayui-slider-bar-bg');
+  const ost = getOst(ownerInstance, instanceId);
+
+  const isVertical = isVerticalMode(ownerInstance, instanceId);
+
+  if (bar && ost.trackWidth) {
+    bar.setStyle({
+      [isVertical ? 'height' : 'width']: `${ost.trackWidth}px`,
+    });
+  }
+};
+
+const setThumbBgColor = (ownerInstance, instanceId, hue, end) => {
+  const max = getMax(ownerInstance, instanceId);
+  const min = getMin(ownerInstance, instanceId);
+
+  const formatterScale = getFormatterScale(ownerInstance, instanceId) || 1;
+  const formatterStart = getFormatterStart(ownerInstance, instanceId) || 0;
+  const formatterReverse = isFormatterValueReverse(ownerInstance, instanceId);
+  if (formatterReverse) {
+    end = max + min - end;
+  }
+
+  const satVal = parseInt(end * formatterScale + formatterStart);
+  const thumb = queryComponent(ownerInstance, instanceId, '.rayui-slider-thumb-end-render');
+  if (thumb) {
+    thumb.setStyle({
+      background: `hsl(${hue}deg 100% ${satVal}%)`,
+    });
+  }
+  setOstValue(ownerInstance, instanceId, 'hueValue', hue);
+};
+
+const map = {};
+const listenSingle = (ownerInstance, eventName, cb) => {
+  if (eventName && cb) {
+    if (map[eventName]) return;
+
+    if (ownerInstance && ownerInstance.eventChannel) {
+      ownerInstance.eventChannel.on(eventName, cb);
+      map[eventName] = true;
+    }
+  }
+};
+
+const readyMap = {};
+
+const initRects = (ownerInstance, instanceId) => {
+  const ost_slider = queryComponent(ownerInstance, instanceId);
+  setOstValue(ownerInstance, instanceId, 'slider', ost_slider);
+
+  const ost_sliderRange = queryComponent(ownerInstance, instanceId, '.rayui-slider-bar');
+  setOstValue(ownerInstance, instanceId, 'sliderRange', ost_sliderRange);
+
+  const isVertical = isVerticalMode(ownerInstance, instanceId);
+
+  const thumbWidth = isVertical
+    ? getThumbWidth(ownerInstance, instanceId, 'height')
+    : getThumbWidth(ownerInstance, instanceId, 'width');
+  const hideThumb = isHideThumb(ownerInstance, instanceId);
+
+  const ost_thumbWidth = hideThumb ? 0 : thumbWidth;
+  setOstValue(ownerInstance, instanceId, 'thumbWidth', ost_thumbWidth);
+
+  let ost_maxRange =
+    (isVertical
+      ? ost_slider.getBoundingClientRect().height
+      : ost_slider.getBoundingClientRect().width) - ost_thumbWidth;
+
+  const props = getProps(ownerInstance, instanceId);
+  ost_maxRange += getNumber(props.maxrangeoffset, 0);
+  const isParcelSlider = isParcel(ownerInstance, instanceId);
+  const parcelMargin = getParcelMargin(ownerInstance, instanceId);
+
+  if (isParcelSlider) {
+    ost_maxRange -= parcelMargin * 3;
+  }
+
+  setOstValue(ownerInstance, instanceId, 'maxRange', ost_maxRange);
+};
+
+function updateSlider(ownerInstance, instanceId, isDepsChange = false) {
   const ost = getOst(ownerInstance, instanceId);
 
   const ost_slider = queryComponent(ownerInstance, instanceId);
@@ -378,9 +554,41 @@ function updateSlider(ownerInstance, instanceId) {
     const isRerverse = isReverseMode(ownerInstance, instanceId);
     const enableTouchBar = isEnableTouchBar(ownerInstance, instanceId);
 
-    if (ownerInstance.eventChannel) {
-      ownerInstance.eventChannel.on(`slider-${instanceId}-steps-init`, () => {
-        setStepsStyle(ownerInstance, instanceId, isVertical);
+    listenSingle(ownerInstance, `slider-${instanceId}-steps-init`, () => {
+      setStepsStyle(ownerInstance, instanceId, isVertical);
+    });
+    const trackBackgroundColorHueEventName = getProps(
+      ownerInstance,
+      instanceId
+    ).trackbackgroundcolorhueeventname;
+    if (trackBackgroundColorHueEventName) {
+      const enableItems = getTrackBackgroundColorHueEventNameEnableItems(ownerInstance, instanceId);
+
+      listenSingle(ownerInstance, trackBackgroundColorHueEventName, res => {
+        let hue = res.value;
+        let sat = res.sat;
+        if (res.rgba) {
+          const hsv = rgb2hsv(res.rgba[0], res.rgba[1], res.rgba[2]);
+          hue = hsv[0];
+          sat = hsv[1];
+        }
+
+        const template =
+          getTrackBackgroundColorHueEventNameTemplate(ownerInstance, instanceId) ||
+          'linear-gradient(to right, #ffffff 0%, hsl($huedeg $sat% 50%) 100%)';
+
+        const finalColor = template.replace('$hue', hue).replace('$sat', Math.floor(sat));
+
+        if (/track/.test(enableItems)) {
+          setTrackBgColor(ownerInstance, instanceId, finalColor);
+        }
+        if (/bar/.test(enableItems)) {
+          setBarBgColor(ownerInstance, instanceId, finalColor);
+        }
+
+        if (/thumb/.test(enableItems)) {
+          setThumbBgColor(ownerInstance, instanceId, hue, getEnd(ownerInstance, instanceId));
+        }
       });
     }
 
@@ -439,6 +647,16 @@ function updateSlider(ownerInstance, instanceId) {
     const endValue = isRerverse
       ? convertValueToPixels(ownerInstance, instanceId, reverseRange)
       : _endValueInPixels;
+
+    const render_opacity = readyMap[instanceId] === '1' ? '1' : Number.isNaN(endValue) ? '0' : '1';
+
+    if (isDepsChange) {
+      // 首次有值的时候标记为1，同时设置透明度1
+      if (!Number.isNaN(endValue)) {
+        readyMap[instanceId] = '1';
+      }
+    }
+
     setThumb(
       ownerInstance,
       instanceId,
@@ -446,6 +664,7 @@ function updateSlider(ownerInstance, instanceId) {
       endValue,
       {
         display: hideThumb ? 'none' : 'block', // 单向隐藏左按钮
+        opacity: render_opacity,
       },
       _end
     );
@@ -459,7 +678,12 @@ function updateSlider(ownerInstance, instanceId) {
       ownerInstance,
       instanceId,
       _startValueInPixels,
-      isRerverse ? convertValueToPixels(ownerInstance, instanceId, reverseRange) : _endValueInPixels
+      isRerverse
+        ? convertValueToPixels(ownerInstance, instanceId, reverseRange)
+        : _endValueInPixels,
+      {
+        opacity: render_opacity,
+      }
     );
 
     const showSteps = isShowSteps(ownerInstance, instanceId);
@@ -486,6 +710,7 @@ function updateSlider(ownerInstance, instanceId) {
       : ost_slider.getBoundingClientRect().width;
 
     setOstValue(ownerInstance, instanceId, 'trackWidth', trackWidth);
+    setBarBgWidth(ownerInstance, instanceId);
   }
 }
 
@@ -543,7 +768,7 @@ function convertPixelsToValue(ownerInstance, instanceId, value, step = 1) {
 }
 
 function parseGradient(gradient, position) {
-  const gradientRegex = /linear-gradient\(to left, (.+?)\)/;
+  const gradientRegex = /linear-gradient\(to [a-z]+, (.+?)\)/;
   const match = gradient.match(gradientRegex);
   if (!match) return '';
 
@@ -596,6 +821,10 @@ function setThumb(ownerInstance, instanceId, thumbName, valueInPixels, style, ou
   const formatterReverse = isFormatterValueReverse(ownerInstance, instanceId);
   const thumbWrapStyle = getThumbWrapStyle(ownerInstance, instanceId);
   const isInferColor = getIsInferColor(ownerInstance, instanceId);
+  const trackBackgroundColorHueEventName = getProps(
+    ownerInstance,
+    instanceId
+  ).trackbackgroundcolorhueeventname;
 
   let thumbColor = undefined;
   if (isInferColor) {
@@ -630,6 +859,12 @@ function setThumb(ownerInstance, instanceId, thumbName, valueInPixels, style, ou
           const nextEnd = convertValueToPixels(ownerInstance, instanceId, reverseRange);
           const out = convertValueToOutValue(ownerInstance, instanceId, nextEnd, true);
           calcValue = out;
+        }
+        if (attr === 'background' && trackBackgroundColorHueEventName) {
+          const tpl = formatterTpl[attr];
+          const hueValue = getOst(ownerInstance, instanceId).hueValue;
+          const [str1, str2, str3] = tpl.split(' ');
+          formatterTpl[attr] = `hsl(${hueValue}deg ${str2} ${str3}`;
         }
         hsvStyle[attr] = formatterTpl[attr].replace(
           'value',
@@ -722,7 +957,7 @@ function setBarStepsWrap(ownerInstance, instanceId) {
   });
 }
 
-function setRange(ownerInstance, instanceId, start, end) {
+function setRange(ownerInstance, instanceId, start, end, cusStyle) {
   const ost = getOst(ownerInstance, instanceId);
   const isVertical = isVerticalMode(ownerInstance, instanceId);
   const isReverse = isReverseMode(ownerInstance, instanceId);
@@ -761,18 +996,31 @@ function setRange(ownerInstance, instanceId, start, end) {
     rangeWidth = ost.trackWidth - rangeWidth + (hideThumbButton ? thumbWidth : 0);
   }
 
+  let bottom = minThumb;
+  let height = rangeWidth;
+
+  const useParcelPadding = isUseParcelPadding(ownerInstance, instanceId);
+
+  if (isParcelSlider && isVertical && isReverse && !useParcelPadding) {
+    bottom = `-${parcelMargin}px`;
+    height = rangeWidth + parcelMargin;
+  }
+
+  const marginKey = isVertical
+    ? isReverse
+      ? 'marginBottom'
+      : 'marginTop'
+    : isReverse
+    ? 'marginRight'
+    : 'marginLeft';
+
   ost.sliderRange.setStyle({
-    [isVertical ? (isReverse ? 'bottom' : 'top') : isReverse ? 'right' : 'left']: `${minThumb}px`,
-    [isVertical ? 'height' : 'width']: `${rangeWidth}px`,
+    [isVertical ? (isReverse ? 'bottom' : 'top') : isReverse ? 'right' : 'left']: `${bottom}px`,
+    [isVertical ? 'height' : 'width']: `${height}px`,
     opacity: 1,
     display: 'block',
-    [isVertical
-      ? isReverse
-        ? 'marginBottom'
-        : 'marginTop'
-      : isReverse
-      ? 'marginRight'
-      : 'marginLeft']: isParcelSlider ? `${parcelMargin}px` : 0,
+    [marginKey]: marginKey === 'marginBottom' ? 0 : isParcelSlider ? `${parcelMargin}px` : 0,
+    ...(cusStyle || {}),
   });
 }
 
@@ -788,6 +1036,8 @@ function setBoundries(ownerInstance, instanceId, value) {
 }
 
 const handleMouseDown = instanceId => (event, ownerInstance) => {
+  initRects(ownerInstance, instanceId);
+
   const target = event.instance;
   const thumbId = target.getDataset().name;
   const isVertical = isVerticalMode(ownerInstance, instanceId);
@@ -1045,11 +1295,16 @@ const onChange = (ownerInstance, instanceId, position, skipDiff = false) => {
   setOstValue(ownerInstance, instanceId, '_last_end', nextEnd);
   setOstValue(ownerInstance, instanceId, '_last_range', nextRange);
 
+  const min = getProps(ownerInstance, instanceId).minorigin || 0;
+  const max = getProps(ownerInstance, instanceId).max || 0;
   const eventData = {
     instanceId,
-    end: out,
-    value: out,
+    end: out + min,
+    value: out + min,
+    min,
+    max,
   };
+
   // publish
   ownerInstance.triggerEvent('move', eventData);
   dispatchChannel(ownerInstance, getMoveEventName(ownerInstance, instanceId), eventData);
@@ -1072,11 +1327,17 @@ const onEnd = (event, ownerInstance, instanceId) => {
   setOstValue(ownerInstance, instanceId, '_last_end', null);
   setOstValue(ownerInstance, instanceId, '_last_range', null);
 
+  const min = getProps(ownerInstance, instanceId).minorigin || 0;
+  const max = getProps(ownerInstance, instanceId).max || 0;
+
   const eventData = {
     instanceId,
     end: out,
     value: out,
+    min,
+    max,
   };
+
   // publish
   ownerInstance.triggerEvent('end', eventData);
   dispatchChannel(ownerInstance, getEndEventName(ownerInstance, instanceId), eventData);
@@ -1090,10 +1351,15 @@ const onStart = (event, ownerInstance, instanceId) => {
   setOstValue(ownerInstance, instanceId, '__start_val', out);
   setOstValue(ownerInstance, instanceId, '__change__', false);
 
+  const min = getProps(ownerInstance, instanceId).minorigin || 0;
+  const max = getProps(ownerInstance, instanceId).max || 0;
+
   const eventData = {
     instanceId,
     end: out,
     value: out,
+    min,
+    max,
   };
   // publish
   ownerInstance.triggerEvent('start', eventData);

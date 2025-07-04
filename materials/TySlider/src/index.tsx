@@ -26,11 +26,13 @@ function Slider(props: IProps) {
       className={props.className}
       hotAreaStyle={toStyle(props.style)}
       direction={props.isVertical ? 'vertical' : 'horizontal'}
-      end={props.value}
-      min={props.min}
+      end={props.value - props.min}
+      forceStep={props.forceStep}
+      min={0}
+      // @ts-ignore
+      minOrigin={props.min}
       reverse={props.isVertical}
-      max={props.max}
-      hidden={props.hidden}
+      max={props.max - props.min}
       parcel={props.parcel}
       parcelMargin={props.parcelMargin}
       parcelThumbWidth={typeof props.thumbWidth === 'number' ? props.thumbWidth : 18}
@@ -44,10 +46,18 @@ function Slider(props: IProps) {
       startEventName={props.startEventName}
       moveEventName={props.moveEventName}
       endEventName={props.endEventName}
+      useParcelPadding={props.useParcelPadding}
       // @ts-ignore
       trackBgColor={props.maxTrackColor}
       inferThumbBgColorFromTrackBgColor={props.inferThumbBgColorFromTrackBgColor}
+      trackBackgroundColorHueEventName={props.trackBackgroundColorHueEventName}
+      trackBackgroundColorHueEventNameEnableItems={
+        props.trackBackgroundColorHueEventNameEnableItems
+      }
+      trackBackgroundColorHueEventNameTemplate={props.trackBackgroundColorHueEventNameTemplate}
       disable={props.disabled}
+      slot={props.slot}
+      trackBackgroundColorRenderMode={props.trackBackgroundColorRenderMode}
       bindmove={event => {
         if (props.onChange) {
           props.onChange(event.detail.end);
@@ -55,12 +65,12 @@ function Slider(props: IProps) {
       }}
       bindstart={event => {
         if (props.onBeforeChange) {
-          props.onBeforeChange(event.detail.end);
+          props.onBeforeChange(event.detail.end + props.min);
         }
       }}
       bindend={event => {
         if (props.onAfterChange) {
-          props.onAfterChange(event.detail.end);
+          props.onAfterChange(event.detail.end + props.min);
         }
       }}
       trackStyle={toStyle({
@@ -105,6 +115,7 @@ function Slider(props: IProps) {
         borderRadius: props.tickRadius,
         background: props.minTrackTickColor,
       })}
+      deps={props.deps}
     />
   );
 }

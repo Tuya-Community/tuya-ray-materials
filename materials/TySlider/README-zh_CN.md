@@ -187,3 +187,27 @@ import SjsSlider from '@ray-js/components-ty-slider/lib/slider';
   }}
 />
 ```
+
+### 常见问题
+
+Slider 拖动时会抖动卡顿，需要检查一下是否为非受控组件写法，尽量使用 `onAfterChange` 来更新 `value`，推荐写法如下：
+
+```tsx
+export default () => {
+  const [value, setValue] = useState(10) // onAfterChange 拖动结束后更新
+  const [showValue, setShowValue] = useState(10) // 只用作实时展示使用
+
+  return (
+    <>
+      <View>当前值：{showValue}</View>
+      <Slider
+        value={value}
+        onChange={(newValue) => {
+          setShowValue(newValue)
+        }}
+        onAfterChange={setValue} // 松开滑块时触发
+      />
+    </>
+  )
+}
+```

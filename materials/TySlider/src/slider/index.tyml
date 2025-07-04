@@ -26,12 +26,14 @@
     data-startmin="{{startMin}}"
     data-startmax="{{startMax}}"
     data-valuemin="{{min}}"
+    data-minorigin="{{minOrigin}}"
     
     data-endmin="{{endMin}}"
     data-endmax="{{endMax}}"
 
     data-parcel="{{parcel}}"
     data-parcelmargin="{{parcelMargin}}"
+    data-useparcelpadding="{{useParcelPadding}}"
     data-mode="{{mode}}"
     data-barpad="{{barPad}}"
     data-hidethumb="{{hideThumb}}"
@@ -57,7 +59,11 @@
     data-thumbstylerendervaluestart="{{thumbStyleRenderValueStart}}"
     data-thumbstylerendervaluereverse="{{thumbStyleRenderValueReverse}}"
     data-inferthumbbgcolorfromtrackbgcolor="{{inferThumbBgColorFromTrackBgColor}}"
+    data-trackbackgroundcolorhueeventname="{{trackBackgroundColorHueEventName}}"
+    data-trackbackgroundcolorhueeventnameenableitems="{{trackBackgroundColorHueEventNameEnableItems}}"
+    data-trackbackgroundcolorhueeventnametemplate="{{trackBackgroundColorHueEventNameTemplate}}"
     data-trackbgcolor="{{trackBgColor}}"
+    data-trackbackgroundcolorrendermode="{{trackBackgroundColorRenderMode}}"
 
     data-starteventname="{{startEventName}}"
     data-moveeventname="{{moveEventName}}"
@@ -71,8 +77,8 @@
     step="{{step}}"
     change:step="{{computed.updateObserver(instanceId)}}"
 
-    hidden="{{hidden}}"
-    change:hidden="{{computed.updateObserver(instanceId)}}"
+    rendertick="{{inited}}"
+    change:rendertick="{{computed.updateObserver(instanceId, depsShow, direction)}}"
     
     style="{{trackStyle}}"
   >
@@ -81,8 +87,10 @@
       </view>
     </view>
     <view class="rayui-slider-bar"
-      style="{{barStyle}}"
+      style="{{barStyle}};{{ trackBackgroundColorRenderMode === 'track' ? 'background:transparent;background-color:transparent;' : '' }}"
     >
+      <slot name="bar" />
+      <view ty:if="{{trackBackgroundColorRenderMode === 'track'}}" class="rayui-slider-bar-bg" style="{{barStyle}}"></view>
       <view ty:if="{{showText}}" class="rayui-slider-bar-text" style="{{textStyle}}">
         {{text}}
       </view>
@@ -113,8 +121,9 @@
     >
       <view 
         data-name="end"
-        class="rayui-slider-thumb-render rayui-slider-thumb-end-render" style="{{thumbStyle}};opacity:{{(hideThumbButton || parcel) ? 0 : 1}};"
+        class="rayui-slider-thumb-render rayui-slider-thumb-end-render" style="opacity:{{(hideThumbButton || parcel) ? 0 : 1}};{{thumbStyle}};"
       >
+        <slot name="thumb" />
       </view>
     </view>
   </view>

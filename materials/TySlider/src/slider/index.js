@@ -23,6 +23,11 @@ Component({
       type: Number,
       value: 0,
     },
+    // 最小值
+    minOrigin: {
+      type: Number,
+      value: 0,
+    },
     // 最大值
     max: {
       type: Number,
@@ -141,13 +146,16 @@ Component({
       type: Boolean,
       value: false,
     },
-    hidden: Boolean,
     parcel: Boolean,
     parcelThumbWidth: Number,
     parcelThumbHeight: Number,
     parcelMargin: {
       type: Number,
       value: 0,
+    },
+    useParcelPadding: {
+      type: Boolean,
+      value: true,
     },
     startEventName: {
       type: String,
@@ -158,11 +166,43 @@ Component({
     endEventName: {
       type: String,
     },
+    trackBackgroundColorHueEventName: {
+      type: String,
+    },
+    trackBackgroundColorHueEventNameEnableItems: {
+      type: String,
+      value: 'thumb,track',
+    },
+    trackBackgroundColorHueEventNameTemplate: {
+      type: String,
+      value: 'linear-gradient(to left, #ffffff 0%, hsl($huedeg 100% 50%) 100%)',
+    },
+    trackBackgroundColorRenderMode: {
+      type: String,
+      value: 'bar',
+    },
+    deps: {
+      type: null,
+      observer(val) {
+        if (Array.isArray(this.data.deps) && this.data.deps[0] !== 'default') {
+          this.setData({
+            inited: Array.isArray(val) ? val.map(v => String(v)).join('_') : Date.now(),
+            depsShow: this.data.deps.find(dep => typeof dep === 'boolean'),
+          });
+        } else {
+          this.setData({
+            inited: 1,
+          });
+        }
+      },
+    },
   },
   data: {
     steps: [],
     text: '',
     stepsInited: false,
+    inited: 0,
+    depsShow: false,
   },
   lifetimes: {
     /**
@@ -187,7 +227,7 @@ Component({
       const getNumber = (n, def) => (isNumber(n) ? n : def);
 
       if (!this.data.showSteps) return;
-      const stepCount = this.data.step || this.data.forceStep;
+      const stepCount = this.data.forceStep !== -1 ? this.data.forceStep : this.data.step;
       const max = getNumber(this.data.max, 100);
       const min = getNumber(this.data.min, 0);
       const steps = new Array(parseInt(String((max - min) / stepCount), 10))

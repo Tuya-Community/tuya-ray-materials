@@ -156,12 +156,6 @@ export interface SjsSliderProps {
    */
   thumbStyleRenderValueReverse?: boolean;
   /**
-   * @description.en hidden
-   * @description.zh 是否隐藏
-   * @default false
-   */
-  hidden?: boolean;
-  /**
    * @description.en parcel
    * @description.zh 包裹滑动条
    * @default false
@@ -173,6 +167,12 @@ export interface SjsSliderProps {
    * @default 0
    */
   parcelMargin?: number;
+  /**
+   * @description.en useParcelPadding
+   * @description.zh 是否包裹滑动条内边距
+   * @default null
+   */
+  useParcelPadding?: boolean;
   parcelThumbWidth?: number;
   parcelThumbHeight?: number;
   /**
@@ -181,6 +181,7 @@ export interface SjsSliderProps {
    * @default null
    */
   startEventName?: string;
+  trackBackgroundColorHueEventName?: string;
   /**
    * @description.en Incident name when dragging (eventChannel only)
    * @description.zh 正在拖动时的事件名 (eventChannel可用)
@@ -193,12 +194,41 @@ export interface SjsSliderProps {
    * @default null
    */
   endEventName?: string;
-   /**
-    * @description.en Map the color from the slide rail
-    * @description.zh 从滑轨映射取色
-    * @default false
-    */
-  inferThumbBgColorFromTrackBgColor?: boolean
+  /**
+   * @description.en Map the color from the slide rail
+   * @description.zh 从滑轨映射取色
+   * @default false
+   */
+  inferThumbBgColorFromTrackBgColor?: boolean;
+  forceStep?: number;
+  /**
+   * @description.en Element of response color， thumb, track, bar
+   * @description.zh 响应颜色的元素 thumb、track、bar 逗号连接
+   * @default "thumb,track"
+   */
+  trackBackgroundColorHueEventNameEnableItems?: string;
+  /**
+   * @description.en template
+   * @description.zh 颜色变化模版
+   * @default linear-gradient(to right, #ffffff 0%, hsl($huedeg 100% 50%) 100%)
+   */
+  trackBackgroundColorHueEventNameTemplate?: string;
+  /**
+   * @description.en slot
+   * @description.zh 插槽
+   * @default null
+   */
+  slot?: {
+    bar?: React.ReactNode;
+    thumb?: React.ReactNode;
+  };
+  /**
+   * @description.en trackBackgroundColorRenderMode
+   * @description.zh 渲染背景色的区域
+   * @default bar
+   */
+  trackBackgroundColorRenderMode?: 'track' | 'bar';
+  deps?: (string | number | boolean)[];
 }
 
 const SjsSlider: React.FC<SjsSliderProps>;

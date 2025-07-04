@@ -52,7 +52,6 @@ export interface IProps {
    * @description.zh 和 step 一致，用于滑块不跟随刻度时设置
    * @description.en same as step, set when the thumb does not follow the step
    * @default 1
-   * @deprecated
    */
   forceStep?: number;
   /**
@@ -261,12 +260,6 @@ export interface IProps {
    */
   enableTouch?: boolean;
   /**
-   * @description.en hidden
-   * @description.zh 是否隐藏
-   * @default false
-   */
-  hidden?: boolean;
-  /**
    * @description.en parcel
    * @description.zh 包裹滑动条
    * @default false
@@ -278,6 +271,12 @@ export interface IProps {
    * @default 0
    */
   parcelMargin?: number;
+  /**
+   * @description.en useParcelPadding
+   * @description.zh 是否包裹滑动条内边距
+   * @default null
+   */
+  useParcelPadding?: boolean;
   /**
    * @description.en The event name when it starts to drag (eventChannel only)
    * @description.zh 开始拖动时的事件名 (eventChannel可用)
@@ -297,11 +296,50 @@ export interface IProps {
    */
   endEventName?: string;
   /**
+   * @description.en track color contract
+   * @description.zh track颜色联动
+   * @default null
+   */
+  trackBackgroundColorHueEventName?: string;
+  /**
+   * @description.en Element of response color， thumb, track, bar
+   * @description.zh 响应颜色的元素 thumb、track、bar 逗号连接
+   * @default "thumb,track"
+   */
+  trackBackgroundColorHueEventNameEnableItems?: string;
+  /**
+   * @description.en The event name when the drag is ended (eventChannel only)
+   * @description.zh 结束拖动时的事件名 (eventChannel可用)
+   * @default null
+   */
+  /**
    * @description.en Map the color from the slide rail
    * @description.zh 从滑轨映射取色, 仅支持6位hex颜色，例如 maxTrackColor 为 linear-gradient(to left, #CEECFE 0%, #FFFFFF 50%, #FBCA5C 100%)
    * @default false
    */
   inferThumbBgColorFromTrackBgColor?: boolean;
+  /**
+   * @description.en template
+   * @description.zh 颜色变化模版
+   * @default linear-gradient(to right, #ffffff 0%, hsl($huedeg 100% 50%) 100%)
+   */
+  trackBackgroundColorHueEventNameTemplate?: string;
+  /**
+   * @description.en trackBackgroundColorRenderMode
+   * @description.zh 渲染背景色的区域
+   * @default bar
+   */
+  trackBackgroundColorRenderMode?: 'track' | 'bar';
+  /**
+   * @description.en slot
+   * @description.zh 插槽
+   * @default null
+   */
+  slot?: {
+    bar?: React.ReactNode;
+    thumb?: React.ReactNode;
+  };
+  deps?: (string | number | boolean)[];
 }
 
 export const defaultProps: IProps = {
@@ -315,7 +353,7 @@ export const defaultProps: IProps = {
   min: 0,
   max: 100,
   step: 1,
-  forceStep: 1,
+  forceStep: -1,
   onChange: null,
   onBeforeChange: null,
   onAfterChange: null,
@@ -348,11 +386,20 @@ export const defaultProps: IProps = {
   thumbStyleRenderValueStart: 0,
   thumbStyleRenderValueReverse: false,
   enableTouch: true,
-  hidden: false,
   parcelMargin: 0,
   parcel: false,
+  useParcelPadding: true,
   startEventName: null,
   moveEventName: null,
   endEventName: null,
   inferThumbBgColorFromTrackBgColor: false,
+  // @ts-ignore
+  minOrigin: 0,
+  trackBackgroundColorHueEventName: null,
+  trackBackgroundColorHueEventNameEnableItems: 'thumb,track',
+  trackBackgroundColorHueEventNameTemplate:
+    'linear-gradient(to left, #ffffff 0%, hsl($huedeg 100% 50%) 100%)',
+  slot: null,
+  trackBackgroundColorRenderMode: 'bar',
+  deps: ['default'],
 };

@@ -187,3 +187,28 @@ import SjsSlider from '@ray-js/components-ty-slider/lib/slider';
   }}
 />
 ```
+
+
+### Frequently Asked Questions
+
+When the slider is dragged, it stutters and shakes. Please check if it's written as an uncontrolled component. Try to use `onAfterChange` to update `value`. The recommended way to write it is as follows:
+
+```tsx
+export default () => {
+  const [value, setValue] = useState(10) // onAfterChange Update after dragging ends
+  const [showValue, setShowValue] = useState(10) // For real-time demonstration purposes only
+
+  return (
+    <>
+      <View>Current value:{showValue}</View>
+      <Slider
+        value={value}
+        onChange={(newValue) => {
+          setShowValue(newValue)
+        }}
+        onAfterChange={setValue} // Triggered when the slider is released
+      />
+    </>
+  )
+}
+```

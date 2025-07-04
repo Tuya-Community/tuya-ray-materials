@@ -1,5 +1,6 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
+import { View } from '@ray-js/ray';
 import type { SjsSliderProps } from './slider/index.d';
 import InnerSjsSlider from './slider';
 
@@ -13,17 +14,20 @@ export const SjsSlider: React.FC<SjsSliderProps> = props => (
     min={props.min}
     max={props.max}
     step={props.step}
+    forceStep={props.forceStep}
     thumbStyle={props.thumbStyle}
     thumbWrapStyle={props.thumbWrapStyle}
     enableTouch={props.enableTouch}
     trackStyle={props.trackStyle}
     barStyle={props.barStyle}
-    hidden={props.hidden}
     parcelMargin={props.parcelMargin}
     parcel={props.parcel}
+    useParcelPadding={props.useParcelPadding}
     parcelThumbHeight={props.parcelThumbHeight}
     parcelThumbWidth={props.parcelThumbWidth}
     stepStyle={props.stepStyle}
+    // @ts-ignore
+    minOrigin={props.minOrigin}
     activeStepStyle={props.activeStepStyle}
     showSteps={props.showSteps}
     direction={props.direction}
@@ -43,11 +47,19 @@ export const SjsSlider: React.FC<SjsSliderProps> = props => (
     // @ts-ignore
     trackBgColor={props.trackBgColor}
     inferThumbBgColorFromTrackBgColor={props.inferThumbBgColorFromTrackBgColor}
-  />
+    trackBackgroundColorHueEventName={props.trackBackgroundColorHueEventName}
+    trackBackgroundColorHueEventNameEnableItems={props.trackBackgroundColorHueEventNameEnableItems}
+    trackBackgroundColorHueEventNameTemplate={props.trackBackgroundColorHueEventNameTemplate}
+    trackBackgroundColorRenderMode={props.trackBackgroundColorRenderMode}
+    deps={props.deps}
+  >
+    {props.slot?.bar && <View slot="bar">{props.slot?.bar}</View>}
+    {props.slot?.thumb && <View slot="thumb">{props.slot?.thumb}</View>}
+  </InnerSjsSlider>
 );
 
 SjsSlider.defaultProps = {
-  instanceId: 'slider' + Math.random(),
+  instanceId: `slider${Math.random()}`,
   className: '',
   disable: false,
   end: 30,
@@ -77,12 +89,18 @@ SjsSlider.defaultProps = {
   endEventName: null,
   moveEventName: null,
   trackBgColor: null,
-  hidden: false,
   parcelMargin: 0,
   parcel: false,
+  useParcelPadding: true,
   parcelThumbWidth: null,
   parcelThumbHeight: null,
   inferThumbBgColorFromTrackBgColor: false,
+  trackBackgroundColorHueEventName: null,
+  minOrigin: 0,
+  trackBackgroundColorHueEventNameEnableItems: 'thumb,track',
+  trackBackgroundColorHueEventNameTemplate:
+    'linear-gradient(to left, #ffffff 0%, hsl($huedeg 100% 50%) 100%)',
+  slot: null,
 } as SjsSliderProps;
 
 export default SjsSlider;
