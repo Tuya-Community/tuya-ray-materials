@@ -1,0 +1,8 @@
+export default Render({
+  renderChannel() {
+    const eventChannelName = 'lampCirclePickerWhiteEventChannel222';
+    this.instance.eventChannel.on(eventChannelName, e => {
+      console.log('eventChannel get', e);
+    });
+  },
+});

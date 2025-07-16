@@ -1,0 +1,486 @@
+/* eslint-disable prettier/prettier */
+export default Render({
+  circleContext: null,
+  canvas: null, // 彩色画布
+  canvasThumb: null, // 按钮画布
+  thumbWidth: 12,
+  mode: null,
+  pixelRatio: 1,
+  minRange: 0,
+  bubbleProperty: {
+    triangleHeight: 6, // 三角形的高度
+    cornerRadius: 10,   // 圆角的半径
+    bubbleWidth: 63,
+    bubbleHeight: 40,
+    gap: 10,       
+  },
+  centerPos() {
+    return {
+      x: this.canvasSetRadius,
+      y: this.canvasSetRadius,
+    };
+  },
+  getDegreeByPosition(x, y) {
+    const center = this.centerPos();
+    const xDistance = x - center.x;
+    const yDistance = y - center.y;
+    const radian = Math.atan2(yDistance, xDistance);
+    const degree = (radian * 180) / Math.PI;
+    return degree >= 0 ? degree : 360 + degree;
+  },
+  _getValidMaxMinRes(x, y) {
+    const center = this.centerPos();
+    const degree = this.getDegreeByPosition(x, y);
+    const xDistance = Math.abs(x - center.x);
+    const yDistance = Math.abs(y - center.y);
+    const r = Math.max(
+      Math.min(
+        this.canvasSetRadius - (this.thumbWidth / 2) * 0.3,
+        Math.sqrt(xDistance * xDistance + yDistance * yDistance)
+      ),
+      this.canvasSetRadius * this.minRange
+    )
+    const realX = r * Math.cos(degree * (Math.PI / 180)) + center.x;
+    const realY = r * Math.sin(degree * (Math.PI / 180)) + center.y;
+    return {
+      x: realX,
+      y: realY,
+    };
+  },
+  getLeftX(x) {
+    const offset = (this.thumbWidth / 2) * 0.3;
+    const value = x - offset;
+    return {
+      value,
+      percent: +Number(value / (this.canvasSetRadius * 2 - offset * 2)).toFixed(3),
+    };
+  },
+  async renderWhiteCircleColor({ id, whiteRange, circleRadius, minRange }, options) {
+    let canvas = this.canvas;
+    if (!canvas) {
+      console.log(id, 'id canvas not found, will retry');
+      canvas = await getCanvasById(id);
+      canvas && console.log(id, 'retry got');
+      this.canvas = canvas;
+    }
+    const { radius, thumbBorderWidth, thumbRadius, pixelRatio, showPercent, bubbleTextStyles, useEventChannel, eventChannelName, percentValueMap, textStyles } = options;
+    this.useEventChannel = useEventChannel;
+    this.thumbRadius = thumbRadius;
+    this.minRange = minRange;
+    this.radius = radius;
+    this.thumbBorderWidth = thumbBorderWidth;
+    this.pixelRatio = pixelRatio;
+    this.eventChannelName = eventChannelName;
+    this.percentValueMap = percentValueMap
+    this.bubbleTextStyles = bubbleTextStyles;
+    this.textStyles = textStyles;
+    this.mode = 'white';
+    const ctx = canvas.getContext('2d');
+    this.circleContext = ctx;
+    canvas.width = circleRadius * 8;
+    canvas.height = circleRadius * 8;
+    this.canvasSetRadius = circleRadius;
+    const x = circleRadius * 2;
+    const y = circleRadius * 2;
+    const counterClockwise = false;
+    const _whiteRange = Math.max(Math.min(whiteRange, 0.5), 0.1);
+
+    ctx.arc(x, y, circleRadius * 2, 0, Math.PI * 2, false);
+    var gradient = ctx.createLinearGradient(0, y, x * 2, y);
+    gradient.addColorStop(0, 'rgba(255, 202, 92, 1)');
+    gradient.addColorStop(0.5, '#fff');
+    gradient.addColorStop(1, 'rgba(205, 236, 254, 1)');
+
+    ctx.fillStyle = gradient;
+    ctx.fill();
+
+    this.canvas.style.width = `${circleRadius * 4}px`;
+    this.canvas.style.height = `${circleRadius * 4}px`;
+    if (!this.canvasThumb) {
+      this.canvasThumb = await getCanvasById(id + '-thumb');
+      this.canvasThumbCtx = this.canvasThumb.getContext('2d');
+      this.detailThumbPixelRatio()
+      this.addEventListeners();
+    }
+    if (this.canvasThumb.width <= this.canvasSetRadius * 2) {
+      console.error(
+        '！！！设置异常， 请检查radius和thumbRadius属性值设置，使radius + thumbRadius >= 屏幕宽度'
+      );
+    }
+  },
+  handleCanvasStartEvent(evt) {
+    this.touchType = 'start';
+    const { changedTouches } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvas.getBoundingClientRect();
+    const { x, y } = this._getValidMaxMinRes(
+      point.clientX - left,
+      point.clientY - top,
+      this.canvasThumb.width
+    );
+    this.getRectImageData(x, y, true);
+  },
+  handleCanvasMoveEvent(evt) {
+    this.touchType = 'move';
+    const { changedTouches } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvas.getBoundingClientRect();
+    const { x, y } = this._getValidMaxMinRes(
+      point.clientX - left,
+      point.clientY - top,
+      this.canvasThumb.width
+    );
+    this.getRectImageData(x, y, true);
+  },
+  handleCanvasEndEvent(evt) {
+    this.touchType = 'end';
+    const { changedTouches } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvas.getBoundingClientRect();
+    const { x, y } = this._getValidMaxMinRes(
+      point.clientX - left,
+      point.clientY - top,
+      this.canvasThumb.width
+    );
+    this.getRectImageData(x, y, false);
+  },
+
+  addEventListeners() {
+    this.canvasThumb.addEventListener('touchstart', this.handleCanvasStartEvent, false);
+    this.canvasThumb.addEventListener('touchmove', this.handleCanvasMoveEvent, false);
+    this.canvasThumb.addEventListener('touchend', this.handleCanvasEndEvent, false);
+  },
+  removeEventListeners() {
+    this.canvasThumb.removeEventListener('touchstart', this.handleCanvasStartEvent);
+    this.canvasThumb.removeEventListener('touchmove', this.handleCanvasMoveEvent);
+    this.canvasThumb.removeEventListener('touchend', this.handleCanvasEndEvent);
+  },
+
+  _getPosByHs(h, s) {
+    if (!this.canvas) {
+      console.log('this.canvas not found');
+      return {
+        x: 0,
+        y: 0,
+      };
+    }
+    const circleWidth = this.canvasSetRadius * 2;
+    const hDegree = Math.round(h);
+    const sPercent = s;
+    const { x: centerX, y: centerY } = this.centerPos();
+    const offsetWid = ((circleWidth / 2) * Number(sPercent)) / 100;
+    const { PI } = Math;
+    const x = centerX + offsetWid * Math.cos((hDegree / 180) * PI);
+    const y = centerY + offsetWid * Math.sin((hDegree / 180) * PI);
+    return {
+      x,
+      y,
+    };
+  },
+  updateThumbPositionByTemp(temp, showPercent) {
+    if (!this.canvasThumb) {
+      console.log('this.canvasThumb not found');
+      return;
+    }
+    if (this.temp === temp && this.showPercent === showPercent) {
+      console.log('Duplicate updates');
+      return
+    }
+    const offset = (this.thumbWidth / 2) * 0.3;
+    const width = this.canvasSetRadius * 2 - offset;
+    const x = (temp / 1000) * width;
+    let y = this._y;
+    const { x: modifyX, y: modifyY } = this._getValidMaxMinRes(x, y);
+    const isInValidPost = Math.abs(modifyX - x) > 0.5 || Math.abs(modifyY - y) > 0.5;
+    this.temp = temp;
+    this.showPercent = showPercent;
+    const safeY = this.canvasSetRadius * (1 + this.minRange)
+    if (isInValidPost) {
+      this.updateThumbPosition(x + 3, safeY, undefined);
+      return;
+    }
+    this.updateThumbPosition(x, this._y ?? safeY, undefined);
+  },
+  updateThumbPosition(x, y, rgb, isMoving) {
+    if (!this.canvasThumb) {
+      console.error('canvasThumb not found');
+      return;
+    }
+    this._y = y;
+    let ctx = this.canvasThumbCtx;
+    ctx.clearRect(0, 0, this.canvasThumb.width, this.canvasThumb.height);
+    ctx.beginPath();
+    const border = this.thumbBorderWidth ?? 2
+    const radius = this.thumbWidth / 2 - border / 2; // 圆弧半径
+    const startAngle = 0; // 开始点
+    const endAngle = 2 * Math.PI; // 结束点
+    const offset = this.thumbWidth / 2;
+    ctx.arc(x + offset, y + offset, radius, startAngle, endAngle, true);
+    ctx.shadowBlur = 60;
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = border;
+    ctx.stroke();
+    
+    if (rgb) {
+      ctx.fillStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+      ctx.fill();
+    } else {
+      const { x: xRes, y: yRes } = this._getValidMaxMinRes(x, y, this.canvasThumb.width);
+      const { data = [] } = this.circleContext.getImageData(xRes * 2, yRes * 2, 1, 1);
+      const r = data[0];
+      const g = data[1];
+      const b = data[2];
+      if (r === 0 && g === 0 && b === 0) {
+        return;
+      }
+      ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+      ctx.fill();
+    }
+    ctx.closePath();
+    
+    if (this.showPercent) {
+      const percent = Math.round(this.temp / 10)
+      const text = this.percentValueMap ? `${this.percentValueMap[percent]}K` :  `${percent}%`
+      !isMoving && this.drawText(ctx, x + offset , y + offset + 1, text)
+      ctx.closePath();
+      isMoving && this.drawBubble(ctx, x + offset, y  + offset, text)
+    }
+
+  },
+
+  detailThumbPixelRatio() {
+    const canvasRadius = this.radius * 2 + this.thumbWidth * 2;
+    this.canvasThumb.width = canvasRadius * this.pixelRatio;
+    this.canvasThumb.height = canvasRadius * this.pixelRatio;
+    this.canvasThumb.style.width = `${canvasRadius}px`;
+    this.canvasThumb.style.height = `${canvasRadius}px`;
+    this.canvasThumbCtx.scale(this.pixelRatio, this.pixelRatio);
+  },
+
+  drawText(ctx, x, y, text, isBubble) {
+    const style = (isBubble ? this.bubbleTextStyles : this.textStyles) || {}
+    ctx.font = `${style.fontWeight} ${style.fontSize} Arial`;
+    ctx.fillStyle = style.color;    
+    ctx.textAlign = 'center';   
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, x, y);
+    ctx.closePath();
+  },
+
+  drawBubble(ctx, x, y, text) {
+    const position = this.getBubblePosition(x, y)
+    if (position === 'top') {
+      this.drawTopBubble(ctx, x, y ,text)
+    }
+    if (position === 'bottom') {
+      this.drawBottomBubble(ctx, x, y ,text)
+    }
+    if (position === 'left') {
+      this.drawLeftBubble(ctx, x, y ,text)
+    }
+    if (position === 'right') {
+      this.drawRightBubble(ctx, x, y ,text)
+    }
+  },
+
+  drawTopBubble(ctx, x, y, text) {
+    const offset = this.thumbWidth / 2;
+    y = y - offset
+    const { triangleHeight, cornerRadius, bubbleWidth, bubbleHeight, gap } = this.bubbleProperty
+    ctx.beginPath();
+    // 计算圆角矩形的起始点
+    const rectX = x - bubbleWidth / 2;
+    const rectY = y - bubbleHeight - triangleHeight - gap;
+    
+    // 从三角形底部开始绘制整个气泡
+    ctx.moveTo(x, y - gap); // 三角形底端的中心点
+
+    // 绷画三角形的顶部
+    ctx.lineTo(x - triangleHeight, y - gap- triangleHeight);
+    ctx.lineTo(x + triangleHeight, y - gap - triangleHeight);
+    ctx.lineTo(x, y - gap);
+    
+    // 绘制圆角矩形的部分
+    ctx.moveTo(rectX + bubbleWidth, rectY);
+    ctx.arcTo(rectX + bubbleWidth, rectY + bubbleHeight, rectX, rectY + bubbleHeight, cornerRadius);
+    ctx.arcTo(rectX, rectY + bubbleHeight, rectX, rectY, cornerRadius);
+    ctx.arcTo(rectX, rectY, rectX + bubbleWidth, rectY, cornerRadius);
+    ctx.arcTo(rectX + bubbleWidth, rectY, rectX + bubbleWidth, rectY + bubbleHeight, cornerRadius);
+    
+    ctx.closePath();
+    // 填充气泡
+    ctx.fillStyle = '#fff'; // 气泡颜色
+    ctx.fill();
+    this.drawText(ctx, x, y - bubbleHeight / 2 - triangleHeight - gap + 1, text, true)
+  },
+
+  drawBottomBubble(ctx, x, y, text) {
+    const offset = this.thumbWidth / 2;
+    y = y + offset
+    const { triangleHeight, cornerRadius, bubbleWidth, bubbleHeight, gap } = this.bubbleProperty
+    ctx.beginPath();
+    // 计算圆角矩形的起始点
+    const rectX = x - bubbleWidth / 2;
+    const rectY = y + bubbleHeight + triangleHeight + gap;
+    
+    // 从三角形底部开始绘制整个气泡
+    ctx.moveTo(x, y + gap); // 三角形底端的中心点
+
+    // 绷画三角形的顶部
+    ctx.lineTo(x - triangleHeight, y + gap + triangleHeight);
+    ctx.lineTo(x + triangleHeight, y + gap + triangleHeight);
+    ctx.lineTo(x, y + gap);
+    
+    // 绘制圆角矩形的部分
+    ctx.moveTo(rectX + bubbleWidth, rectY);
+    ctx.arcTo(rectX + bubbleWidth, rectY - bubbleHeight, rectX, rectY - bubbleHeight, cornerRadius);
+    ctx.arcTo(rectX, rectY - bubbleHeight, rectX, rectY, cornerRadius);
+    ctx.arcTo(rectX, rectY, rectX + bubbleWidth, rectY, cornerRadius);
+    ctx.arcTo(rectX + bubbleWidth, rectY, rectX + bubbleWidth, rectY - bubbleHeight, cornerRadius);
+    ctx.closePath();
+    // 填充气泡
+    ctx.fillStyle = '#fff'; // 气泡颜色
+    ctx.fill();
+    this.drawText(ctx, x, y + bubbleHeight / 2 + triangleHeight + gap + 1, text, true)
+  },
+
+  drawLeftBubble(ctx, x, y, text) {
+    const offset = this.thumbWidth / 2;
+    x = x - offset
+    const { triangleHeight, cornerRadius, bubbleWidth, bubbleHeight, gap } = this.bubbleProperty
+    ctx.beginPath();
+    // 计算圆角矩形的起始点
+    const rectX = x - bubbleWidth - gap - triangleHeight;
+    const rectY = y + bubbleHeight/2;
+    
+    // 从三角形底部开始绘制整个气泡
+    ctx.moveTo(x - gap, y); // 三角形底端的中心点
+
+    // 绷画三角形的顶部
+    ctx.lineTo(x - gap - triangleHeight, y - triangleHeight);
+    ctx.lineTo(x - gap - triangleHeight, y + triangleHeight);
+    ctx.lineTo(x - gap, y);
+    
+    // 绘制圆角矩形的部分
+    ctx.moveTo(rectX + bubbleWidth, rectY);
+    ctx.arcTo(rectX + bubbleWidth, rectY - bubbleHeight, rectX, rectY - bubbleHeight, cornerRadius);
+    ctx.arcTo(rectX, rectY - bubbleHeight, rectX, rectY, cornerRadius);
+    ctx.arcTo(rectX, rectY, rectX + bubbleWidth, rectY, cornerRadius);
+    ctx.arcTo(rectX + bubbleWidth, rectY, rectX + bubbleWidth, rectY - bubbleHeight, cornerRadius);
+    ctx.closePath();
+    // ctx.strokeStyle = '#000000'; // 边框颜色
+    // ctx.stroke();
+    // 填充气泡
+    ctx.fillStyle = '#fff'; // 气泡颜色
+    ctx.fill();
+    this.drawText(ctx, x - bubbleWidth/2 - triangleHeight - gap, y + 1, text, true)
+  },
+
+  drawRightBubble(ctx, x, y, text) {
+    const offset = this.thumbWidth / 2;
+    x = x + offset
+    const { triangleHeight, cornerRadius, bubbleWidth, bubbleHeight, gap } = this.bubbleProperty
+    ctx.beginPath();
+    // 计算圆角矩形的起始点
+    const rectX = x + gap + triangleHeight;
+    const rectY = y + bubbleHeight/2;
+    // 从三角形底部开始绘制整个气泡
+    ctx.moveTo(x + gap, y); // 三角形底端的中心点
+    // 绷画三角形的顶部
+    ctx.lineTo(x + gap + triangleHeight, y - triangleHeight);
+    ctx.lineTo(x + gap + triangleHeight, y + triangleHeight);
+    ctx.lineTo(x + gap, y);
+    // 绘制圆角矩形的部分
+    ctx.moveTo(rectX + bubbleWidth, rectY);
+    ctx.arcTo(rectX + bubbleWidth, rectY - bubbleHeight, rectX, rectY - bubbleHeight, cornerRadius);
+    ctx.arcTo(rectX, rectY - bubbleHeight, rectX, rectY, cornerRadius);
+    ctx.arcTo(rectX, rectY, rectX + bubbleWidth, rectY, cornerRadius);
+    ctx.arcTo(rectX + bubbleWidth, rectY, rectX + bubbleWidth, rectY - bubbleHeight, cornerRadius);
+    ctx.closePath();
+    // ctx.strokeStyle = '#000000'; // 边框颜色
+    // ctx.stroke();
+    // 填充气泡
+    ctx.fillStyle = '#fff'; // 气泡颜色
+    ctx.fill();
+    this.drawText(ctx, x + bubbleWidth/2 + triangleHeight + gap, y + 1, text, true)
+  },
+
+  getBubblePosition(x, y) {
+    const { triangleHeight, bubbleWidth, bubbleHeight, gap } = this.bubbleProperty
+    const offset = this.thumbWidth / 2;
+    const center = this.centerPos();
+    const rightX = center.x * 2 + offset - bubbleWidth / 2
+    const leftX = offset + bubbleWidth / 2
+    const topY = offset + bubbleHeight + triangleHeight + gap + offset
+    if (x > rightX) {
+      return 'left'
+    }
+    if (x < leftX) {
+      return 'right'
+    }
+    if (y < topY) {
+      return 'bottom'
+    }
+    return 'top'
+  },
+  _coorToValue(x, rectWidth, thumbWidth) {
+    let res =
+      x < rectWidth / 2 ? (x - thumbWidth / 2) / rectWidth : (x + thumbWidth / 2) / rectWidth;
+    res *= 1000;
+    res = Math.round(res);
+    return Math.max(res, 1);
+  },
+
+  calcTempFromPos(pos) {
+    return pos.percent * 1000;
+  },
+  getRectImageData(x, y, isMoving) {
+    const ctx = this.circleContext;
+    if (!ctx) {
+      console.error('circleContext not found');
+      return;
+    }
+    let dataRes = [];
+    const { data = [] } = ctx.getImageData(x * 2, y * 2, 1, 1);
+    const r = data[0];
+    const g = data[1];
+    const b = data[2];
+    const value = this._coorToValue(x, this.canvasSetRadius * 2, this.thumbWidth);
+    const pos = {
+      x,
+      y,
+      ...this.getLeftX(x),
+    }
+    const temp = this.calcTempFromPos(pos);
+    this.temp = temp
+    this.updateThumbPosition(x, y, { r, g, b }, isMoving);
+    const emitRes = {
+      rgba: data,
+      value,
+      rgbaTransform: dataRes,
+      touchType: this.touchType,
+      pos: pos,
+    };
+    if (this.useEventChannel) {
+      const { touchType, rgba } = emitRes;
+      try {
+        this.instance?.eventChannel.emit(this.eventChannelName, {
+          touchType,
+          rgba,
+          pos,
+          temp,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    this.callMethod('_getRectImageData', emitRes);
+  },
+  setThumbWidth(thumbWidth) {
+    this.thumbWidth = thumbWidth;
+  },
+  setThumbBorderWidth(thumbBorderWidth) {
+    this.thumbBorderWidth = thumbBorderWidth;
+  },
+});

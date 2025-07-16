@@ -1,0 +1,19 @@
+<view 
+    class="container"
+    style="position: relative; width: {{ radius * 2 + thumbRadius * 2 }}px; height:  {{ radius * 2 + thumbRadius * 2 }}px"
+>
+    <canvas
+        class="canvasWrapper"
+        type="2d"
+        canvas-id="{{ canvasId }}"
+        disable-scroll="true"
+        style="position: absolute; overflow: hidden; width: {{ radius * 2  }}px; height:  {{ radius * 2 }}px;z-index: 10;"
+    >
+    </canvas>
+    <canvas
+        canvas-id="{{ canvasId }}-thumb" 
+        type="2d"
+        disable-scroll="true"
+        style="width: {{ radius * 2 + thumbRadius * 2 }}px; height:  {{ radius * 2 + thumbRadius * 2 }}px; z-index: 12;"
+    ></canvas>
+</view>

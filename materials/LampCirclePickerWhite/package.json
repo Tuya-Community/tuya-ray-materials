@@ -1,0 +1,69 @@
+{
+  "name": "@ray-js/lamp-circle-picker-white",
+  "version": "0.0.4",
+  "description": "LampCirclePickerWhite",
+  "main": "lib/index",
+  "files": [
+    "lib"
+  ],
+  "license": "MIT",
+  "types": "lib/index.d.ts",
+  "maintainers": [
+    "tuya_npm",
+    {
+      "name": "tuyafe",
+      "email": "tuyafe@tuya.com"
+    }
+  ],
+  "scripts": {
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "build": "ray build --type=component",
+    "watch": "ray start --type=component",
+    "build:tuya": "ray build --bundler webpack ./example --target=tuya",
+    "build:wechat": "ray build ./example --target=wechat",
+    "build:web": "ray build ./example --target=web",
+    "build:native": "ray build ./example --target=native",
+    "start:native": "ray start ./example -t native --verbose",
+    "start:tuya": "ray start ./example",
+    "start:wechat": "ray start ./example -t wechat --verbose",
+    "start:web": "ray start ./example -t web",
+    "prepublishOnly": "yarn build",
+    "release-it": "standard-version"
+  },
+  "peerDependencies": {
+    "@ray-js/panel-sdk": "^1.1.4",
+    "@ray-js/ray": "^1.4.9"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "@ray-js/cli": "^1.4.9",
+    "@ray-js/ray": "^1.4.9",
+    "core-js": "^3.19.1",
+    "eslint-config-tuya-panel": "^0.4.2",
+    "husky": "^1.2.0",
+    "lint-staged": "^10.2.11",
+    "@ray-js/panel-sdk": "^1.1.4",
+    "standard-version": "9.3.2"
+  },
+  "resolutions": {
+    "follow-redirects": "~1.15.6"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS --config commitlint.config.js",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
