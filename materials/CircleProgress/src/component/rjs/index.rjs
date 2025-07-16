@@ -1,0 +1,767 @@
+// commonColor.rjs
+
+const scale = 2;
+
+export default Render({
+  rectContext: null,
+  touchCircleStrokeStyle: null,
+
+  // 判断是否是 hex color
+  isHexColor(color) {
+    const hex = /^#([0-9a-fA-F]{6})$/;
+    return hex.test(color);
+  },
+  // 判断是否是 rgb color
+  isRgbColor(color) {
+    const rgb = /^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/;
+    return rgb.test(color);
+  },
+  isRgbaColor(color) {
+    // rgba 示例 rgba(0, 0, 0, 0.5)
+    return color.includes('rgba');
+  },
+  colorToRgb(color) {
+    if (this.isHexColor(color)) {
+      return this.hexToRgb(color);
+    } else if (this.isRgbColor(color)) {
+      return this.rgbStringToRgb(color);
+    } else if (this.isRgbaColor(color)) {
+      return this.rgbaStringToRgb(color);
+    }
+    return {
+      r: 0,
+      g: 0,
+      b: 0,
+      a: 1,
+    };
+  },
+
+  // hex color to rgb
+  hexToRgb(hex) {
+    const rgb = /^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/;
+    const match = hex.match(rgb);
+    if (!match) {
+      console.warn(hex, '【ray-circle-progress】=> Invalid hex color');
+      return null;
+    }
+    return {
+      r: parseInt(match[1], 16),
+      g: parseInt(match[2], 16),
+      b: parseInt(match[3], 16),
+    };
+  },
+  rgbStringToRgb(rgbString) {
+    const rgb = rgbString.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    return rgb ? { r: parseInt(rgb[1]), g: parseInt(rgb[2]), b: parseInt(rgb[3]) } : null;
+  },
+  rgbaStringToRgb(rgbaStr) {
+    // 使用正则表达式匹配 RGBA 字符串中的数字（包括小数）
+    const matches = rgbaStr.match(/\d+(\.\d+)?/g);
+
+    if (!matches || matches.length < 4) {
+      throw new Error('Invalid RGBA format');
+    }
+
+    // 解析前三个参数为整数（RGB），第四个为浮点数（透明度）
+    return {
+      r: parseInt(matches[0], 10),
+      g: parseInt(matches[1], 10),
+      b: parseInt(matches[2], 10),
+      a: parseFloat(matches[3]),
+    };
+  },
+
+  getGradientColors(colorStops, steps) {
+    if (
+      !Array.isArray(colorStops) ||
+      colorStops.length < 2 ||
+      typeof steps !== 'number' ||
+      steps <= 0
+    ) {
+      console.error(
+        '【ray-circle-progress】=> Invalid input parameters. Color stops array must have at least two colors, and steps must be a positive number.'
+      );
+      return [];
+    }
+
+    // 检查颜色停止点格式(简化，只检查 offset)
+    for (const stop of colorStops) {
+      if (
+        typeof stop !== 'object' ||
+        typeof stop.offset !== 'number' ||
+        isNaN(stop.offset) ||
+        stop.offset < 0 ||
+        stop.offset > 1
+      ) {
+        console.warn(
+          '【ray-circle-progress】=> Invalid color stop format. Expected { offset: number (0-1), color: "rgb(r, g, b)" }.'
+        );
+        return [];
+      }
+    }
+
+    colorStops.sort((a, b) => a.offset - b.offset);
+
+    const gradientColors = [];
+    for (let i = 0; i <= steps; i++) {
+      const progress = i / steps;
+
+      let startStop, endStop;
+      for (let j = 0; j < colorStops.length - 1; j++) {
+        if (progress >= colorStops[j].offset && progress <= colorStops[j + 1].offset) {
+          startStop = colorStops[j];
+          endStop = colorStops[j + 1];
+          break;
+        }
+      }
+
+      if (!startStop) startStop = colorStops[0];
+      if (!endStop) endStop = colorStops[colorStops.length - 1];
+
+      const segmentProgress = (progress - startStop.offset) / (endStop.offset - startStop.offset);
+
+      const startColor = startStop.color; // 直接使用 parseRgb
+      const endColor = endStop.color;
+
+      const r = Math.round(startColor.r + (endColor.r - startColor.r) * segmentProgress);
+      const g = Math.round(startColor.g + (endColor.g - startColor.g) * segmentProgress);
+      const b = Math.round(startColor.b + (endColor.b - startColor.b) * segmentProgress);
+
+      // 范围检查和修正
+      const safeR = Math.max(0, Math.min(255, r));
+      const safeG = Math.max(0, Math.min(255, g));
+      const safeB = Math.max(0, Math.min(255, b));
+
+      gradientColors.push(`rgb(${safeR}, ${safeG}, ${safeB})`);
+    }
+
+    return gradientColors;
+  },
+  setDisable(disable) {
+    this.disable = disable;
+  },
+  drawRingWithConicGradient(params) {
+    let {
+      startAngle,
+      endAngle,
+      offsetDegree,
+      innerRadius,
+      outerRadius,
+      canvas,
+      colorList,
+      ctx,
+      centerX,
+      centerY,
+      ringBorderColor,
+    } = params;
+    // 检查 canvas 和 context
+    if (!canvas || !ctx) {
+      console.error('【ray-circle-progress】=> canvas or ctx not found');
+      return;
+    }
+    // 检查角度
+    if (
+      typeof startAngle !== 'number' ||
+      typeof endAngle !== 'number' ||
+      isNaN(startAngle) ||
+      isNaN(endAngle)
+    ) {
+      console.error('【ray-circle-progress】=> startAngle or endAngle is not a number');
+      console.log('【ray-circle-progress】=> startAngle:', startAngle, 'endAngle:', endAngle);
+      return;
+    }
+
+    // 检查半径
+    if (
+      typeof innerRadius !== 'number' ||
+      typeof outerRadius !== 'number' ||
+      isNaN(innerRadius) ||
+      isNaN(outerRadius) ||
+      innerRadius < 0 ||
+      outerRadius < 0 ||
+      innerRadius >= outerRadius
+    ) {
+      console.error('【ray-circle-progress】=> innerRadius or outerRadius is not a number');
+      return;
+    }
+
+    // 检查颜色数组
+    if (!Array.isArray(colorList) || colorList.length < 1) {
+      console.error('【ray-circle-progress】=> colors array must contain at least one color');
+      return;
+    }
+
+    const _colorList = colorList.map(item => item.color);
+    // 检查颜色对象格式
+    for (const color of _colorList) {
+      let { r, g, b } = color;
+      if (
+        typeof color !== 'object' ||
+        typeof r !== 'number' ||
+        typeof g !== 'number' ||
+        typeof b !== 'number' ||
+        isNaN(r) ||
+        isNaN(g) ||
+        isNaN(b) ||
+        r < 0 ||
+        r > 255 ||
+        g < 0 ||
+        g > 255 ||
+        b < 0 ||
+        b > 255
+      ) {
+        console.error(
+          '【ray-circle-progress】=> color object format is not correct. r, g, b values should be between 0-255'
+        );
+        return;
+      }
+    }
+    ctx.beginPath();
+    ctx.strokeStyle = ringBorderColor || 'rgba(0, 0, 0, 0)';
+    this.ringBorderColor = ringBorderColor;
+    const counterclockwise = true; // 逆时针绘制圆弧
+    ctx.arc(
+      centerX,
+      centerY,
+      outerRadius * scale,
+      (startAngle * Math.PI) / 180,
+      (endAngle * Math.PI) / 180
+    ); // 外弧
+    ctx.arc(
+      centerX,
+      centerY,
+      innerRadius * scale,
+      (endAngle * Math.PI) / 180,
+      (startAngle * Math.PI) / 180,
+      true
+    ); // 内弧（逆时针）
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.clip(); // 设置裁剪区域
+
+    const steps = Math.abs(offsetDegree);
+    if (steps === 0) return;
+    let modifyColorList = colorList;
+    // 说明是整圆环, 颜色需要修正偏移下
+    if (offsetDegree === 360) {
+      modifyColorList = colorList
+        .slice(0, -1)
+        .concat({
+          ...colorList[colorList.length - 1],
+          offset: 0.9,
+        })
+        .concat({
+          ...colorList[0],
+          offset: 1,
+        });
+    }
+    const gradientColors = this.getGradientColors(modifyColorList, steps);
+    for (let angle = 1; angle < steps; angle += 1) {
+      const startDegree = ((startAngle + angle - 1) * Math.PI) / 180;
+      const endDegree = ((startAngle + angle + 1) * Math.PI) / 180;
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY);
+      ctx.arc(centerX, centerY, outerRadius * scale, startDegree, endDegree, false);
+      const gradient = ctx.createRadialGradient(
+        centerX,
+        centerY,
+        innerRadius * scale,
+        centerX,
+        centerY,
+        outerRadius * scale
+      );
+
+      const currentColor = gradientColors[angle];
+      gradient.addColorStop(0, currentColor);
+      gradient.addColorStop(1, currentColor);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      ctx.closePath();
+    }
+    ctx.globalCompositeOperation = 'destination-out';
+  },
+
+  // 环形色盘
+  async renderAnnulusColor(id, radius, innerRingRadius, options = {}) {
+    let canvas = null;
+    const {
+      touchCircleStrokeStyle,
+      startDegree,
+      endDegree,
+      offsetDegree,
+      ringBorderColor,
+      thumbCanvasOffset,
+      thumbRadius,
+      disable,
+      disableThumbColor,
+      compatibleMode,
+    } = options;
+    this.touchCircleStrokeStyle = touchCircleStrokeStyle;
+    this.thumbCanvasOffset = thumbCanvasOffset;
+    this.compatibleMode = compatibleMode;
+    try {
+      canvas = await getCanvasById(id);
+    } catch (error) {
+      console.error(`【ray-circle-progress】=> ${error}`);
+      return;
+    }
+    if (!canvas) {
+      console.error('【ray-circle-progress】=> canvas not found');
+      return;
+    }
+
+    this.options = options || {};
+    this.radius = radius;
+    this.innerRingRadius = innerRingRadius;
+    this.thumbRadius = thumbRadius;
+    this.disableThumbColor = disableThumbColor;
+    const diameter = radius * 2;
+    canvas.width = diameter * scale;
+    canvas.height = diameter * scale;
+    const ctx = canvas.getContext('2d');
+    const poxCenterX = radius * scale;
+    const poxCenterY = radius * scale;
+    // 支持 径向渐变 并且不为兼容模式
+    if (ctx.createConicGradient && !compatibleMode) {
+      const startAngle = +((startDegree / 180) * Math.PI).toFixed(4);
+      const endAngle = +((endDegree / 180) * Math.PI).toFixed(4);
+      ctx.beginPath();
+      const arcRadius = innerRingRadius * 2 + (radius - innerRingRadius);
+      ctx.arc(poxCenterX, poxCenterY, arcRadius, startAngle, endAngle);
+
+      const offsetDegree = endDegree - startDegree;
+      // 修正圆弧色彩超出问题
+      const nilArc = 360 - offsetDegree;
+      const fixGradient = nilArc < 180 ? 0.05 * Math.PI : (0.03 / 24) * offsetDegree * Math.PI;
+      const grd = ctx.createConicGradient(+startAngle - +fixGradient, radius * 2, radius * 2);
+      let colorList = options.colorList;
+      if (offsetDegree > 360) {
+        throw new Error(
+          '【ray-circle-progress】=> startDegree + offsetDegree should not greater than 360, please check'
+        );
+      }
+      if (offsetDegree >= 355) {
+        const lastColor = options.colorList[options.colorList.length - 1];
+        lastColor.offset = 0.9;
+        colorList =
+          [
+            ...options.colorList,
+            {
+              offset: 1,
+              color: options.colorList[0].color,
+            },
+          ] || [];
+      }
+      const scaleDegree = offsetDegree / 360;
+      const scaleColorList = colorList.map(item => {
+        return {
+          offset: item.offset * scaleDegree,
+          color: item.color,
+        };
+      });
+      scaleColorList?.forEach(item => {
+        grd.addColorStop(item.offset, item.color);
+      });
+      //设定曲线粗细度
+      ctx.lineWidth = (radius - innerRingRadius) * scale;
+      //给曲线着色
+      ctx.strokeStyle = grd;
+      //连接处样式
+      ctx.lineCap = 'round'; // butt | round | square
+      //给环着色
+      ctx.stroke();
+      ctx.closePath();
+    } else {
+      // 使用 降级方案实现渐变
+      const colorList = options.colorList.map(item => {
+        return {
+          offset: item.offset,
+          color: this.colorToRgb(item.color),
+        };
+      });
+      // 颜色渲染时 按照逆时针渲染，需要按照顺时针渲染， 所以需要反转
+      this.drawRingWithConicGradient({
+        startAngle: +startDegree,
+        endAngle: +endDegree,
+        offsetDegree,
+        innerRadius: innerRingRadius,
+        outerRadius: radius,
+        colorList: colorList,
+        canvas,
+        ctx,
+        centerX: poxCenterX,
+        centerY: poxCenterY,
+        ringBorderColor,
+      });
+    }
+
+    ctx.scale(scale, scale);
+    canvas.style.width = `${diameter}px`;
+    canvas.style.height = `${diameter}px`;
+    this.annulusContext = ctx;
+    this.renderAnnulusColorThumb(id);
+    this.intiLayerCircle(id);
+    this.callMethod('initedCanvas', {});
+  },
+  async intiLayerCircle(id) {
+    if (!this.canvasLayer) {
+      this.canvasLayer = await getCanvasById(`${id}_layer`);
+      this.canvasLayCtx = this.canvasLayer.getContext('2d');
+    }
+  },
+  async renderAnnulusColorThumb(id) {
+    if (!this.canvasThumb) {
+      this.canvasThumb = await getCanvasById(`${id}_thumb`);
+      this.canvasThumbCtx = this.canvasThumb.getContext('2d');
+    }
+    this.removeEventListeners();
+    this.addEventListeners();
+  },
+  setCircles(radius, innerRingRadius) {
+    this.radius = radius;
+    this.innerRingRadius = innerRingRadius;
+  },
+  setTrackColor(_trackColor) {
+    this.trackColor = _trackColor;
+  },
+  setThumbColor(_thumbColor) {
+    this.thumbColor = _thumbColor;
+  },
+  getAnglePositionByValue(value) {
+    const { radius, innerRingRadius, trackColor, thumbColor } = this;
+    const { startDegree, endDegree } = this.options;
+    const ctx = this.annulusContext;
+    const _angle = startDegree + (value / 100) * (endDegree - startDegree);
+    const angle = _angle < 0 ? 360 + +_angle : _angle;
+    const isValidDegree = angle >= startDegree && angle <= endDegree;
+    if (!isValidDegree) {
+      return;
+    }
+    const offsetDis = (radius - innerRingRadius) / 2;
+    const x = Math.cos((angle / 180).toFixed(4) * Math.PI) * (radius - offsetDis) + radius;
+    const y = Math.sin((angle / 180).toFixed(4) * Math.PI) * (radius - offsetDis) + radius;
+    let colorData = null;
+    // 默认获取向右向下的像素值，这种极限情况下 可能获取不到颜色，所以需要获取向左向上的像素值
+    const { data } = ctx.getImageData((x * scale).toFixed(4), (y * scale).toFixed(4), 1, 1);
+    try {
+      const isSameToBorder =
+        (this.ringBorderColor || 'rgba(0, 0, 0, 0)').toLowerCase() ===
+        `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 128})`.toLowerCase();
+      colorData = data;
+      const isInValidColor = data[0] === 0 && data[1] === 0 && data[2] === 0;
+      if (isInValidColor || isSameToBorder) {
+        // 获取向左向上的像素值
+        const { data } = ctx.getImageData((x * scale).toFixed(4), (y * scale).toFixed(4), -1, -1);
+        colorData = data;
+      }
+    } catch (error) {
+      console.error('【ray-circle-progress】=> getImageData error', error);
+    }
+    const options = {
+      startDegree: this.options.startDegree,
+      endDegree: angle,
+    };
+    if (trackColor) {
+      trackColor && this.drawLayerCircle(options);
+      let trackColorRgb = this.colorToRgb(thumbColor || '#ffffff');
+      if (this.disable) {
+        trackColorRgb = this.colorToRgb(this.disableThumbColor);
+      }
+      trackColorRgb && this.updateThumbPosition(x, y, trackColorRgb);
+      return;
+    }
+
+    let trackColorRgb = thumbColor
+      ? this.colorToRgb(thumbColor)
+      : { r: colorData[0], g: colorData[1], b: colorData[2] };
+
+    if (this.disable) {
+      trackColorRgb = this.colorToRgb(this.disableThumbColor);
+    }
+    this.updateThumbPosition(x, y, trackColorRgb);
+  },
+
+  updateThumbPosition(_x, _y, rgba) {
+    const x = Number(+_x + this.thumbCanvasOffset).toFixed(4);
+    const y = Number(+_y + this.thumbCanvasOffset).toFixed(4);
+    if (!this.canvasThumb) {
+      console.error('【ray-circle-progress】=> canvasThumb not found');
+      return;
+    }
+    let ctx = this.canvasThumbCtx;
+    this.canvasThumb.width = (this.radius * 2 + this.thumbCanvasOffset * 2) * scale;
+    this.canvasThumb.height = (this.radius * 2 + this.thumbCanvasOffset * 2) * scale;
+    ctx.clearRect(0, 0, this.canvasThumb.width, this.canvasThumb.height);
+    ctx.beginPath();
+    const thumbRadius = this.thumbRadius;
+    const startAngle = 0; // 开始点
+    const endAngle = 2 * Math.PI; // 结束点
+    const posX = x * 2;
+    const posY = y * 2;
+    const counterclockwise = true; // 逆时针绘制圆弧
+    ctx.arc(posX, posY, thumbRadius, startAngle, endAngle, counterclockwise);
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = this.touchCircleStrokeStyle || 'rgba(0, 0, 0, 0.2)';
+    // 纯黑色不绘制，纯黑一般为异常色
+    if (!(rgba.r === 0 && rgba.g === 0 && rgba.b === 0)) {
+      ctx.fillStyle = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + (rgba.a ?? 1) + ')';
+      ctx.fill();
+    } else if (this.disableThumbColor) {
+      ctx.fillStyle = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + (rgba.a ?? 1) + ')';
+      ctx.fill();
+    }
+
+    const { thumbBorderColor, thumbBorderWidth } = this.options;
+    ctx.strokeStyle = thumbBorderColor;
+    ctx.lineWidth = thumbBorderWidth * 2;
+    ctx.stroke();
+    ctx.scale(scale, scale);
+    this.canvasThumb.style.width = `${(this.radius + this.thumbCanvasOffset) * 2}px`;
+    this.canvasThumb.style.height = `${(this.radius + this.thumbCanvasOffset) * 2}px`;
+  },
+  getAnnulusImageData(x, y) {
+    const { thumbColor, trackColor } = this;
+    const ctx = this.annulusContext;
+    if (!ctx) {
+      console.error('【ray-circle-progress】=> ctx not found');
+      return;
+    }
+    const { data } = ctx.getImageData(x * 2, y * 2, 1, 1);
+    const r = data[0];
+    const g = data[1];
+    const b = data[2];
+    let trackColorRgb = null;
+    if (this.disable) {
+      trackColorRgb = this.colorToRgb(this.disableThumbColor);
+    } else {
+      if (trackColor) {
+        trackColorRgb = this.colorToRgb(thumbColor || '#ffffff');
+      } else if (thumbColor) {
+        trackColorRgb = this.colorToRgb(thumbColor);
+      } else {
+        trackColorRgb = { r, g, b, a: 1 };
+      }
+    }
+    trackColorRgb && this.updateThumbPosition(x, y, trackColorRgb);
+    const emitRes = {
+      position: { x, y },
+      rgb: { r, g, b },
+      touchType: this.touchType,
+    };
+    this.callMethod('getAnnulusImageData', emitRes);
+  },
+  getRgb(x, y) {
+    if (x && y) {
+      this.getAnnulusImageData(x, y);
+    }
+  },
+  getValidMaxMinRes(x, y) {
+    const { radius, innerRingRadius, options } = this;
+    const radian = Math.atan2(y - radius, x - radius);
+    const _angle = (radian * (180 / Math.PI)).toFixed(4);
+
+    const { startDegree, offsetDegree } = options;
+    const endDegree = startDegree + offsetDegree;
+    const angle = _angle < 0 ? 360 + +_angle : _angle;
+    // 由于在极致情况下，获取当前位置颜色时 由于精度问题 可能获取不到颜色，所以限制掉
+    if (+angle === +startDegree) {
+      return;
+    }
+    if (+angle === +endDegree) {
+      return;
+    }
+    let isValidDegree = angle >= startDegree && angle <= endDegree;
+    if (endDegree > 360) {
+      const nilArcStart = endDegree - 360;
+      const nilArcEnd = startDegree;
+      isValidDegree = !(angle >= nilArcStart && angle <= nilArcEnd);
+    }
+    if (!isValidDegree) {
+      return;
+    }
+    const offsetDis = (radius - innerRingRadius) / 2;
+    const xx = Math.cos((angle / 180) * Math.PI) * (radius - offsetDis) + radius;
+    const yy = Math.sin((angle / 180) * Math.PI) * (radius - offsetDis) + radius;
+    const _x = xx.toFixed(4);
+    const _y = yy.toFixed(4);
+    return { x: _x, y: _y, degree: angle };
+  },
+  // 绘制划过区域覆盖层颜色
+  drawLayerCircle(options) {
+    const { trackColor, compatibleMode } = this;
+    const { startDegree, endDegree } = options;
+    const { touchCircleStrokeStyle, ringBorderColor, thumbCanvasOffset, thumbRadius } =
+      this.options;
+    const offsetDegree = endDegree - startDegree;
+    const canvas = this.canvasLayer;
+    const { radius, innerRingRadius } = this;
+
+    const diameter = radius * 2;
+    canvas.width = diameter * scale;
+    canvas.height = diameter * scale;
+    const ctx = canvas.getContext('2d');
+    const poxCenterX = radius * scale;
+    const poxCenterY = radius * scale;
+    
+    // 支持 径向渐变
+    if (ctx.createConicGradient && !compatibleMode) {
+      const startAngle = +((startDegree / 180) * Math.PI).toFixed(4);
+      const endAngle = +((endDegree / 180) * Math.PI).toFixed(4);
+      ctx.beginPath();
+      const arcRadius = innerRingRadius * 2 + (radius - innerRingRadius);
+      ctx.arc(poxCenterX, poxCenterY, arcRadius, startAngle, endAngle);
+
+      // 修正圆弧色彩超出问题
+      const nilArc = 360 - offsetDegree;
+      const fixGradient = nilArc < 180 ? 0.05 * Math.PI : (0.03 / 24) * offsetDegree * Math.PI;
+      const grd = ctx.createConicGradient(+startAngle - +fixGradient, radius * 2, radius * 2);
+      const trackColorList = [
+        {
+          color: trackColor,
+          offset: 0,
+        },
+        {
+          color: trackColor,
+          offset: 1,
+        },
+      ];
+      let colorList = trackColor ? trackColorList : this.options.colorList;
+      if (offsetDegree > 360) {
+        throw new Error(
+          '【ray-circle-progress】=> startDegree + offsetDegree should not greater than 360, please check'
+        );
+      }
+      if (offsetDegree >= 355) {
+        const lastColor = this.options.colorList[options.colorList.length - 1];
+        lastColor.offset = 0.9;
+        colorList =
+          [
+            ...this.options.colorList,
+            {
+              offset: 1,
+              color: trackColor || this.options.colorList[0].color,
+            },
+          ] || [];
+      }
+
+      const scaleDegree = offsetDegree / 360;
+      const scaleColorList = colorList.map(item => {
+        return {
+          offset: item.offset * scaleDegree,
+          color: item.color,
+        };
+      });
+      scaleColorList?.forEach(item => {
+        grd.addColorStop(item.offset, item.color);
+      });
+      //设定曲线粗细度
+      ctx.lineWidth = (radius - innerRingRadius) * scale;
+      //给曲线着色
+      ctx.strokeStyle = grd;
+      //连接处样式
+      ctx.lineCap = 'round'; // butt | round | square
+      //给环着色
+      ctx.stroke();
+      ctx.closePath();
+    } else {
+      // 使用 降级方案实现渐变
+      const colorList = this.options.colorList.map(item => {
+        return {
+          offset: item.offset,
+          color: this.colorToRgb(trackColor || item.color),
+        };
+      });
+      this.drawRingWithConicGradient({
+        startAngle: +startDegree,
+        endAngle: +endDegree,
+        offsetDegree,
+        innerRadius: innerRingRadius,
+        outerRadius: radius,
+        colorList: colorList,
+        canvas,
+        ctx,
+        centerX: poxCenterX,
+        centerY: poxCenterY,
+        ringBorderColor,
+      });
+    }
+
+    ctx.scale(scale, scale);
+    canvas.style.width = `${diameter}px`;
+    canvas.style.height = `${diameter}px`;
+    this.annulusContext = ctx;
+  },
+
+  handleCanvasStartEvent(evt) {
+    if (this.disable) {
+      return;
+    }
+    this.touchType = 'start';
+    this.callMethod('updateTouchType', this.touchType);
+    const { changedTouches } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvasThumb.getBoundingClientRect();
+    const validXY = this.getValidMaxMinRes(point.clientX - (left + this.thumbCanvasOffset), point.clientY - (top + this.thumbCanvasOffset));
+    if (!validXY) {
+      return;
+    }
+    const options = {
+      startDegree: this.options.startDegree,
+      endDegree: validXY.degree,
+    };
+    this.options.trackColor && this.drawLayerCircle(options);
+    this.getRgb(validXY.x, validXY.y);
+  },
+  handleCanvasEndEvent(evt) {
+    if (this.disable) {
+      return;
+    }
+    this.touchType = 'end';
+    this.callMethod('updateTouchType', this.touchType);
+    const { changedTouches } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvasThumb.getBoundingClientRect();
+
+    const validXY = this.getValidMaxMinRes(point.clientX - (left + this.thumbCanvasOffset), point.clientY - (top + this.thumbCanvasOffset));
+    if (!validXY) {
+      return;
+    }
+    const options = {
+      startDegree: this.options.startDegree,
+      endDegree: validXY.degree,
+    };
+    this.options.trackColor && this.drawLayerCircle(options);
+    this.getRgb(validXY.x, validXY.y);
+  },
+  handleCanvasMoveEvent(evt) {
+    if (this.disable) {
+      return;
+    }
+    this.touchType = 'move';
+    this.callMethod('updateTouchType', this.touchType);
+    const { changedTouches } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvasThumb.getBoundingClientRect();
+    const validXY = this.getValidMaxMinRes(point.clientX - (left + this.thumbCanvasOffset), point.clientY - (top + this.thumbCanvasOffset));
+    if (!validXY) {
+      return;
+    }
+    const options = {
+      startDegree: this.options.startDegree,
+      endDegree: validXY.degree,
+    };
+    this.options.trackColor && this.drawLayerCircle(options);
+    this.getRgb(validXY.x, validXY.y);
+  },
+  addEventListeners() {
+    this.canvasThumb.addEventListener('touchstart', this.handleCanvasStartEvent, false);
+    this.canvasThumb.addEventListener('touchmove', this.handleCanvasMoveEvent, false);
+    this.canvasThumb.addEventListener('touchend', this.handleCanvasEndEvent, false);
+  },
+  removeEventListeners() {
+    this.canvasThumb.removeEventListener('touchstart', this.handleCanvasStartEvent);
+    this.canvasThumb.removeEventListener('touchmove', this.handleCanvasMoveEvent);
+    this.canvasThumb.removeEventListener('touchend', this.handleCanvasEndEvent);
+  },
+});

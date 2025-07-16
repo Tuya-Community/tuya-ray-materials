@@ -1,0 +1,25 @@
+<view class="ray-circle-progress" style="{{ containerStyle }}">
+    <canvas
+        class="ray-circle-progress__outer"
+        type="2d"
+        canvas-id="{{ canvasId }}"
+        disable-scroll="true"
+        style="width: {{ radius * 2}}px; height:  {{ radius * 2}}px;"
+    >
+    </canvas>
+    <canvas
+        class="ray-circle-progress__layer"
+        type="2d"
+        canvas-id="{{ canvasId }}_layer"
+        disable-scroll="true"
+        style="width: {{ radius * 2}}px; height:  {{ radius * 2}}px;"
+    >
+    </canvas>
+    <canvas
+        class="ray-circle-progress__thumb"
+        type="2d"
+        canvas-id="{{ canvasId }}_thumb"
+        disable-scroll="true"
+        style="width: {{ radius * 2 + thumbCanvasOffset * 2}}px; height:  {{ radius * 2 + thumbCanvasOffset * 2}}px; top: {{-thumbCanvasOffset}}px; left: {{-thumbCanvasOffset}}px"
+    ></canvas>
+</view>

@@ -1,0 +1,18 @@
+.ray-circle-progress {
+  position: relative;
+}
+.ray-circle-progress__outer {
+  position: relative;
+}
+.ray-circle-progress__layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+.ray-circle-progress__thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 11;
+}

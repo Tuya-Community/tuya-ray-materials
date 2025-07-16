@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "BaseKit": "3.0.1",
+    "BizKit": "3.0.7",
+    "DeviceKit": "3.0.2",
+    "MiniKit": "3.0.2"
+  },
+  "baseversion": "2.10.4",
+  "compileType": "miniprogram",
+  "miniprogramRoot": "example/dist/tuya",
+  "remoteDebug": "mqtt",
+  "projectname": "CircleProgress",
+  "description": ""
+}
