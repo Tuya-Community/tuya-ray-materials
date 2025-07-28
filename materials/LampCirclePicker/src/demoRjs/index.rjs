@@ -1,0 +1,12 @@
+export default Render({
+  renderChannel() {
+    try {
+      const eventChannelName = 'lampCirclePickerEventChannel';
+      this.instance.eventChannel.on(eventChannelName, e => {
+        console.warn('eventChannel get', e);
+      });
+    } catch (e) {
+      console.warn(e);
+    }
+  },
+});

@@ -1,0 +1,17 @@
+<view class="container" style="{{ containerStyle }}">
+    <canvas
+        class="canvasWrapper"
+        type="2d"
+        canvas-id="{{ canvasId }}"
+        disable-scroll="true"
+        style="width: {{ radius * 2 }}px; height:  {{ radius * 2 }}px;"
+    >
+    </canvas>
+    <canvas
+        class="canvasThumbWrapper"
+        type="2d"
+        canvas-id="{{ canvasId }}_thumb"
+        disable-scroll="true"
+        style="position: absolute; top: 0; left: 0; width: {{ radius * 2 }}px; height:  {{ radius * 2 }}px;"
+    ></canvas>
+</view>
