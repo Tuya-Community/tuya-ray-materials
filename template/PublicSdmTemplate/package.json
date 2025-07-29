@@ -1,6 +1,6 @@
 {
   "name": "public-sdm-template",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Panel SDM Template",
   "main": "index.js",
   "private": true,
@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@ray-js/panel-sdk": "^1.13.1",
-    "@ray-js/ray": "^1.6.1",
+    "@ray-js/ray": "^1.7.24",
     "@ray-js/ray-error-catch": "^0.0.25",
-    "@ray-js/smart-ui": "^2.1.5",
+    "@ray-js/smart-ui": "^2.5.1",
     "@reduxjs/toolkit": "^1.9.3",
     "clsx": "^1.2.1",
     "react-redux": "^7.2.1",
@@ -24,7 +24,7 @@
   "devDependencies": {
     "@commitlint/cli": "^7.2.1",
     "@commitlint/config-conventional": "^9.0.1",
-    "@ray-js/cli": "^1.6.1",
+    "@ray-js/cli": "^1.7.24",
     "@types/lodash-es": "^4.17.6",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",

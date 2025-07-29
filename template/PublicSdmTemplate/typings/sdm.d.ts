@@ -1,7 +1,16 @@
 import '@ray-js/panel-sdk';
 import { GetStructuredDpState, GetStructuredActions } from '@ray-js/panel-sdk';
 
-type SmartDeviceSchema = typeof import('@/devices/schema').defaultSchema; // 注意变量名
+/**
+ * 注意 defaultSchema 变量名是否和 devices/schema.ts 中的导出一致
+ * Note whether the defaultSchema variable name matches the export in devices/schema.ts
+ */
+export type SmartDeviceSchema = typeof import('@/devices/schema').defaultSchema;
+/**
+ * 群组 Schema 默认使用单设备最全的功能点，若群组环境有不同的 Schema，可在 devices/schema.ts 中自定义并导出
+ * Group Schema defaults to the most comprehensive features of single-device, if there are different schemas for group environments, they can be customized and exported in devices/schema.ts
+ */
+export type SmartGroupSchema = typeof import('@/devices/schema').defaultSchema;
 type SmartDeviceProtocols = typeof import('@/devices/protocols').protocols;
 type SmartDevices = import('@ray-js/panel-sdk').SmartDeviceModel<SmartDeviceSchema>;
 

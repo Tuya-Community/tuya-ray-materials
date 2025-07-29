@@ -11,7 +11,7 @@ export const api = (url: string, params: any) => {
       success: ({ data }) => {
         resolve(data);
       },
-      failure: error => {
+      fail: error => {
         reject(error);
       },
     });

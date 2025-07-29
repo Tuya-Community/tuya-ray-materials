@@ -46,6 +46,12 @@ If you have any questions, please visit the link and submit post feedback: https
 
 ## 8. Changelog
 
+### [1.2.5] - 2025-07-29
+
+- Update `@ray-js/ray` version to `1.7.24`
+- Update `@ray-js/smart-ui` version to `2.5.1`
+- Rename `options` to `deviceOptions` and add `groupOptions` for clarity in device and group model configuration
+
 ### [1.2.4] - 2024-12-17
 
 - Remove some redundant code
