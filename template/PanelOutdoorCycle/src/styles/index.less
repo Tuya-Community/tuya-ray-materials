@@ -1,14 +1,30 @@
 :root {
   /* 首页样式 */
-  --index-main-bg: #FFFFFF; // 页面底色
-  --index-title-bg: #FFFFFF; // title背景
-  --index-title-color: #000000E5; // title字体色
-  --index-footer-bar-bg: #FFFFFF; // 底部操作栏底色
+  --index-main-bg: #ffffff; // 页面底色
+  --index-title-bg: #ffffff; // title背景
+  --index-title-color: #000000e5; // title字体色
+  --index-subTitle-color: rgba(0, 0, 0, 0.6); // subTitle字体色
+  --index-footer-bar-bg: #ffffff; // 底部操作栏底色
   --index-icon-color: rgba(0, 0, 0, 0.5); // 图标颜色
+  --index-border-color: rgba(0, 0, 0, 0.4); // 边框颜色
+  --index-card-color: #fff; // 卡片背景色
+  --index-card-text-color: rgba(14, 14, 14); // 卡片字体色
 
   // 字体图标
   .iconfont {
     margin: 0 !important;
+  }
+
+  button {
+    line-height: normal;
+    background-color: transparent;
+    /* padding: 0 !important; */
+    border-radius: 0;
+  }
+
+  button[disabled] {
+    --index-icon-color: rgba(0, 0, 0, 0.2);
+    color: var(--index-icon-color);
   }
 }
 
@@ -16,7 +32,16 @@
   /* 首页样式 */
   --index-main-bg: #000000; // 页面底色
   --index-title-bg: #000000; // title背景
-  --index-title-color: #FFFFFF; // title字体色
+  --index-title-color: #ffffff; // title字体色
+  --index-subTitle-color: rgba(255, 255, 255, 0.6); // subTitle字体色
   --index-footer-bar-bg: rgb(26, 25, 25); // 底部操作栏底色
   --index-icon-color: rgba(255, 255, 255, 0.5); // 图标颜色
+  --index-border-color: rgba(255, 255, 255, 0.4); // 边框颜色
+  --index-card-color: #202124; // 卡片背景色
+  --index-card-text-color: #f1f1f1; // 卡片字体色
+
+  button[disabled] {
+    --index-icon-color: rgba(255, 255, 255, 0.2);
+    color: var(--index-icon-color);
+  }
 }

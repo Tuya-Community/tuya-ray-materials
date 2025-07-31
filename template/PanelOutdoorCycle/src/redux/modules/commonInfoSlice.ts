@@ -1,17 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { ReduxState } from '..';
+
 /**
  * Slice
  */
 const commonInfoSlice = createSlice({
   name: 'commonInfo',
   initialState: {
+    isBleXDevice: false,
+    isActive: false,
     inService: true,
     commodityUrl: '',
     isPidHadVAS: false,
+    activeType: '',
+    interactionType: '',
+    assocaitedDps: [],
   },
   reducers: {
-    updateCommonInfo(state: IAbility, action: PayloadAction<any>) {
+    updateCommonInfo(state, action) {
       Object.assign(state, action.payload);
     },
   },

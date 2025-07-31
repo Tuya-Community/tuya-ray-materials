@@ -1,3 +1,20 @@
+declare module '*.less';
+declare global {
+  interface Window {
+    devToolsExtension?: () => any;
+    ty: Ty;
+  }
+}
+
+interface Ty {
+  [key]: any;
+}
+
+declare const ty: Ty;
+declare module '*.png' {
+  const value: string;
+  export default value;
+}
 interface ITrackSegmentItem {
   battery: number;
   bufferFlag: number;
@@ -36,8 +53,11 @@ interface IKey {
 }
 
 interface IAbility {
-  inService: boolean;
-  isPidHadVAS: boolean;
-  commodityUrl: string;
-  hadPopup: boolean;
+  inService?: boolean; // 是否在服务中
+  isPidHadVAS?: boolean; // 是否有增值服务
+  commodityUrl?: string; // 续费链接
+  hadPopup?: boolean; // 是否已弹出过提示
+  activeType?: string;
+  interactionType?: string;
+  assocaitedDps?: number[];
 }

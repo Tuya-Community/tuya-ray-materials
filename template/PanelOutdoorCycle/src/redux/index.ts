@@ -4,7 +4,9 @@ import { useDispatch } from 'react-redux';
 
 import systemInfoReducer from './modules/systemInfoSlice';
 import themeReducer from './modules/themeSlice';
+import supportReducer from './modules/supportSlice';
 import commonInfoReducer from './modules/commonInfoSlice';
+import carInfoReducer from './modules/carInfoSlice';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -20,7 +22,9 @@ const store = configureStore({
   reducer: {
     systemInfo: systemInfoReducer,
     theme: themeReducer,
+    support: supportReducer,
     commonInfo: commonInfoReducer,
+    carInfo: carInfoReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(middlewares),
 });

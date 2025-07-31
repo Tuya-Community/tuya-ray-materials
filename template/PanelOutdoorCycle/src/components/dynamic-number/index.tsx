@@ -7,14 +7,14 @@ export const DynamicNumber = ({ counts, time = 1000, point = 0, className = styl
   // counts：传入的数字，time: 默认1000毫秒之内整个动画完成
   const targetNumber = counts;
   // 显示小数点后几位
-  const pointNumber = 10 ** point;
+  // eslint-disable-next-line no-restricted-properties
+  const pointNumber = Math.pow(10, point);
   const [count, setCount] = useState(0);
   const [updateNum, setUpdate] = useState(0);
 
   usePageEvent('onShow', () => {
     setUpdate(updateNum + 1);
   });
-
   useEffect(() => {
     const startTime = Date.now();
     const duration = time;
@@ -33,7 +33,6 @@ export const DynamicNumber = ({ counts, time = 1000, point = 0, className = styl
     }, 16);
     return () => clearInterval(timer);
   }, [counts, updateNum]);
-
   const cls = clsx('icon-number', `${className}`);
   return <Text className={cls}>{count.toFixed(point)}</Text>;
 };

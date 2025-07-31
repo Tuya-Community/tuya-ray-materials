@@ -13,5 +13,6 @@ module.exports = {
     'react/require-default-props': 0,
     'no-param-reassign': 0,
     'no-bitwise': 0,
+    'import/no-cycle': 'off',
   },
 };

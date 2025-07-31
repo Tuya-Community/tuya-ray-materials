@@ -1,24 +1,28 @@
 .topBarWrap {
-  color: var(--index-title-color);
-  background-color: var(--index-title-bg);
+  // color: var(--index-title-color);
+  // background-color: var(--index-title-bg);
+  color: var(--app-B1-N1);
+  background-color: var(--app-B1);
 
   .topBar {
     height: 44px;
     display: flex;
-    margin-left: 32rpx;
+    justify-content: center;
     align-items: center;
-    font-size: 34rpx;
+    font-size: 32rpx;
+    flex-direction: row;
     font-weight: bold;
     width: 100vw;
-    text {
-      white-space: nowrap;
-      max-width: 460rpx;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    position: relative;
   }
-
+  .leftIcon {
+    position: absolute;
+    left: 20rpx;
+    width: 48rpx;
+    height: 48rpx;
+  }
   .statusBar {
     height: 20px;
+    // background-color: transparent;
   }
 }

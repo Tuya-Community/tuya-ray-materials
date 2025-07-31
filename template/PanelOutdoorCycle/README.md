@@ -20,9 +20,10 @@ Before using this template, you need to have a basic understanding of the Ray fr
   - "BaseKit": "3.0.0",
   - "MiniKit": "3.0.1",
   - "DeviceKit": "3.0.2",
-  - "BizKit": "3.0.6",
+  - "BizKit": "4.3.1",
+    "MapKit": "3.0.7",
   - "OutdoorKit": "1.1.7"
-  - "baseversion": "2.19.0",
+  - "baseversion": "2.27.1",
 - Component dependency
   - None
 - Function page dependency
@@ -31,8 +32,9 @@ Before using this template, you need to have a basic understanding of the Ray fr
 ## 4. Panel function
 
 - Vehicle unlocking and unlocking
-- View riding records, driving tracks, mileage, etc.
 - Vehicle positioning and physical examination
+- Vehicle lighting control, gear position, speed limit settings, etc.
+- View vehicle mileage, icon, battery level and other information
 
 ## 5. Specific function implementation
 
@@ -55,3 +57,11 @@ If you have any questions, please visit the link and submit post feedback: https
 - Updated `@ray-js/ray` version to `1.5.44`
 - Updated `@ray-js/smart-ui` version to `2.0.0`
 - Introducing `Device Details Function Page`
+
+### [2.0.0] - 2025-07-08
+
+#### Feature
+
+- Updated `@ray-js/ray` version to `1.7.23`
+- Updated `@ray-js/smart-ui` version to `2.5.0`
+- UI2.0 Functional Iteration
