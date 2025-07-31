@@ -1,0 +1,22 @@
+export const web = {
+  backgroundColor: '#f2f4f6',
+  navigationBarTitleText: '照明生物节律色环',
+};
+
+export const wechat = {
+  backgroundColor: '#f2f4f6',
+  navigationBarTitleText: '照明生物节律色环',
+};
+
+export const tuya = {
+  backgroundColor: '#f2f4f6',
+  navigationBarTitleText: '照明生物节律色环',
+  disableScroll: true,
+};
+
+export const native = {
+  backgroundColor: 'transparent',
+  isBleOfflineOverlay: false,
+  useSafeAreaView: true,
+  navigationBarTitleText: '照明生物节律色环',
+};

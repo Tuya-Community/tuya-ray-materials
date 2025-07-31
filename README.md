@@ -387,5 +387,16 @@ Tuya Ray Materials
   </details>
   </td>
 </tr>
+
+<tr>
+  <td id="LampRhythmCircle">2025/07</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampRhythmCircle">LampRhythmCircle</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampRhythmCircle" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
 </table>
 <!-- txp-asset-qrcode-end -->

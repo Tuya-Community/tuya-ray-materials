@@ -1,0 +1,39 @@
+.view {
+  width: 100%;
+  flex: 1;
+  padding-bottom: 48rpx;
+}
+
+.box {
+  // background: #1a1a1a;
+  background: #fff;
+  padding: 42rpx;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+}
+
+.demoBlock{
+  padding: 0 16px 20px;
+}
+
+.demoBlockTitle {
+  position: relative;
+  padding: 40rpx 32rpx 32rpx 0px;
+}
+
+.demoBlockTitleText {
+  color: #fff;
+  font-size: 28rpx;
+  padding-left: 16rpx;
+}
+
+.demoBlockTitleText::before {
+  position: absolute;
+  content: '';
+  top: calc(50% - 2rpx);
+  left: 0;
+  width: 4rpx;
+  height: 4rpx;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.45);
+}

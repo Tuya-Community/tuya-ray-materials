@@ -1,0 +1,32 @@
+<sjs src="./index.sjs" module="computed"></sjs>
+<view 
+ class="ray-rhythm-container"
+ instanceId="{{instanceId}}"
+ id="{{instanceId}}"
+ list="{{data}}"
+ data-disable="{{disable}}"
+ change:list="{{computed.changeList(instanceId)}}" 
+>
+  <view
+    class="ray-rhythm-row ray-rhythm-row-{{index}}"
+    wx:for="{{ data }}"
+    wx:for-item="item"
+    wx:key="index"
+    style="padding-bottom: {{padding * 2}}rpx;transform: translate(-50%, -50%) rotate({{item.time / 1440 * 360}}deg);"
+  >
+    <view 
+      class="ray-rhythm-circle ray-rhythm-circle-{{index}} {{isDarkTheme ? item.valid && !disable ? 'ray-rhythm-circle-dark' : 'ray-rhythm-circle-dark-disable' : item.valid && !disable ? 'ray-rhythm-circle-light' : 'ray-rhythm-circle-light-disable'}}" 
+      data-min="{{timeOffset}}"
+      data-index="{{index}}"
+      data-disable="{{!item.valid || disable}}"
+      data-dark="{{isDarkTheme}}"
+      style="height: {{radius * 2 - innerRingRadius * 2 - padding * 4}}rpx; width: {{radius * 2 - innerRingRadius * 2 - padding * 4}}rpx;transform: rotate({{0 - item.time / 1440 * 360}}deg);"
+      catch:touchstart="{{computed.touchStart(instanceId)}}"
+      catch:touchmove="{{computed.touchMove(instanceId)}}"
+      catch:touchend="{{computed.touchEnd(instanceId)}}"
+      catch:touchcancel="{{computed.touchEnd(instanceId)}}"
+    >
+      <image class="ray-rhythm-circle-icon ray-rhythm-circle-icon-{{index}}" wx:if="{{ iconList[index] }}" src="{{iconList[index]}}" style="height: {{iconSize * 2}}rpx;width: {{iconSize * 2}}rpx;" />
+    </view>
+  </view>
+</view>
