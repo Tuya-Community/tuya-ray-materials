@@ -398,5 +398,16 @@ Tuya Ray Materials
   </details>
   </td>
 </tr>
+
+<tr>
+  <td id="CommonCharts">2025/08</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/CommonCharts">CommonCharts</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=CommonCharts" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
 </table>
 <!-- txp-asset-qrcode-end -->
