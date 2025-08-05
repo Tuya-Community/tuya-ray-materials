@@ -1,0 +1,76 @@
+{
+  "name": "@ray-js/lamp-color-slider",
+  "version": "1.1.8-beta-3",
+  "description": "照明彩光Slider",
+  "main": "lib/index",
+  "files": [
+    "lib"
+  ],
+  "license": "MIT",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "build": "ray build --type=component",
+    "watch": "ray start --type=component",
+    "build:tuya": "ray build ./example",
+    "build:wechat": "ray build ./example --target=wechat",
+    "build:web": "ray build ./example --target=web",
+    "build:native": "ray build ./example --target=native",
+    "start:native": "ray start ./example -t native --verbose",
+    "start:tuya": "ray start ./example --verbose",
+    "start:wechat": "ray start ./example -t wechat --verbose",
+    "start:web": "ray start ./example -t web",
+    "prepublishOnly": "yarn build",
+    "release-it": "standard-version",
+    "copy": "sh copy.sh"
+  },
+  "peerDependencies": {
+    "@ray-js/panel-sdk": "^1.1.4"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "@ray-js/babel-preset-standard": "^0.6.14",
+    "@ray-js/cli": "^1.6.25",
+    "@ray-js/panel-sdk": "^1.1.4",
+    "@ray-js/ray": "^1.6.25",
+    "@ray-js/types": "^0.6.14",
+    "@types/node": "^17.0.43",
+    "core-js": "^3.19.1",
+    "eslint-config-tuya-panel": "^0.4.1",
+    "husky": "^1.2.0",
+    "lint-staged": "^10.2.11",
+    "standard-version": "9.3.2"
+  },
+  "resolutions": {
+    "follow-redirects": "1.15.6",
+    "shell-quote": "1.7.3",
+    "ip": "2.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS --config commitlint.config.js",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "@ray-js/components-ty-slider": "^0.2.52",
+    "ip": "^2.0.1"
+  },
+  "maintainers": [
+    {
+      "name": "tuyafe",
+      "email": "tuyafe@tuya.com"
+    }
+  ]
+}
