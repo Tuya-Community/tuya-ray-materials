@@ -1,0 +1,62 @@
+/*
+ * @Author: mjh
+ * @Date: 2024-09-02 11:42:04
+ * @LastEditors: mjh
+ * @LastEditTime: 2025-05-23 17:39:35
+ * @Description:
+ */
+import { extractColors } from './utils';
+
+export default Render({
+  ctx: null,
+  canvas: null,
+  preId: '',
+  /**
+   * @name: 渲染灯带动画
+   * @desc:
+   * @param {*} props
+   * @return {*}
+   */
+  async renderLight({ src, canvasId, pickNum, isPrimary }) {
+    if (!src) return;
+    // 初始化记录和缩放 canvas
+    if (!this.ctx || this.preId !== canvasId) {
+      console.log('🚀 get the Canvas ctx');
+      this.canvas = await getCanvasById(canvasId);
+      this.ctx = this.canvas.getContext('2d');
+      this.preId = canvasId
+    }
+    this.getImage(src, pickNum, isPrimary)
+    
+  },
+  getImage(src, pickNum, isPrimary) {
+    const img = this.canvas.createImage();
+
+    img.onload = () => {
+      const width = img.width;
+      const height = img.height;
+      this.canvas.width = width;
+      this.canvas.height = height;
+      this.ctx.drawImage(img, 0, 0, width, height);
+
+      const imageData = this.ctx.getImageData(0, 0, width, height);
+      const pixels = imageData.data;
+      
+      // 提取颜色
+      const colors = extractColors(pixels, pickNum, isPrimary);
+
+      this.callMethod('getColors', {
+        colors: colors,
+      });
+    };
+
+    img.onerror = e => {
+      this.callMethod('getColors', {
+        colors: [],
+      });
+      console.log('❌rjs img.onerror', e, e.message);
+    };
+
+    img.src = src;
+  }
+});

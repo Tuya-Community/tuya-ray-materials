@@ -1,0 +1,15 @@
+{
+  "projectname": "@ray-js/image-color-picking",
+  "i18n": false,
+  "description": "照明断电记忆功能页",
+  "baseversion": "2.25.0",
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.1",
+    "BizKit": "3.0.7",
+    "DeviceKit": "3.0.2",
+    "MiniKit": "3.0.2"
+  },
+  "devMode": "ray",
+  "compileType": "miniprogram"
+}

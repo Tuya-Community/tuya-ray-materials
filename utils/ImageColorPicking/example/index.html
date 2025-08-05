@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extract Colors with Optimized Performance</title>
+</head>
+<body>
+    <canvas id="canvas" style="display:none;"></canvas>
+    <script>
+        const base64Image = 'data:image/png;base64,...'; // 你的base64字符串
+
+        const img = new Image();
+        img.src = base64Image;
+
+        img.onload = function() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // 缩小到较小尺寸，例如100x100
+            const maxSize = 100; // 可根据情况调整
+            const ratio = Math.min(maxSize / img.width, maxSize / img.height, 1);
+            canvas.width = img.width * ratio;
+            canvas.height = img.height * ratio;
+
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imageData.data;
+
+            // 提取颜色
+            const colors = extractColors(pixels, 5, 5); // 跳过一些像素
+            console.log('Extracted Colors:', colors);
+        };
+
+        function extractColors(pixels, numColors, sampleFrequency) {
+            // 收集采样点
+            let data = [];
+            for (let i = 0; i < pixels.length; i += 4 * sampleFrequency) {
+                data.push({ r: pixels[i], g: pixels[i + 1], b: pixels[i + 2] });
+            }
+
+            // 使用kmeans
+            return kmeans(data, numColors);
+        }
+
+        function kmeans(data, k) {
+            const centroids = initializeCentroids(data, k);
+            let clusters = new Array(k);
+            let oldCentroids;
+            let changed = true;
+
+            while (changed) {
+                clusters = Array.from({ length: k }, () => []);
+                data.forEach(point => {
+                    let closestCentroidIndex = -1;
+                    let minDistance = Infinity;
+
+                    centroids.forEach((centroid, index) => {
+                        const distance = euclideanDistance(point, centroid);
+                        if (distance < minDistance) {
+                            closestCentroidIndex = index;
+                            minDistance = distance;
+                        }
+                    });
+
+                    clusters[closestCentroidIndex].push(point);
+                });
+
+                oldCentroids = centroids.slice();
+                centroids.forEach((centroid, index) => {
+                    if (clusters[index].length > 0) {
+                        const mean = calculateMean(clusters[index]);
+                        centroids[index] = mean;
+                    }
+                });
+                changed = !centroidsEqual(oldCentroids, centroids);
+            }
+
+            return centroids.map(centroid => `rgb(${centroid.r}, ${centroid.g}, ${centroid.b})`);
+        }
+
+        function initializeCentroids(data, k) {
+            const centroids = [];
+            for (let i = 0; i < k; i++) {
+                const randIndex = Math.floor(Math.random() * data.length);
+                centroids.push({ ...data[randIndex] });
+            }
+            return centroids;
+        }
+
+        function euclideanDistance(a, b) {
+            return Math.sqrt((a.r - b.r) ** 2 + (a.g - b.g) ** 2 + (a.b - b.b) ** 2);
+        }
+
+        function calculateMean(cluster) {
+            let r = 0, g = 0, b = 0;
+            cluster.forEach(point => {
+                r += point.r;
+                g += point.g;
+                b += point.b;
+            });
+            const length = cluster.length;
+            return { r: Math.round(r / length), g: Math.round(g / length), b: Math.round(b / length) };
+        }
+
+        function centroidsEqual(oldCentroids, newCentroids) {
+            for (let i = 0; i < oldCentroids.length; i++) {
+                if (oldCentroids[i].r !== newCentroids[i].r ||
+                    oldCentroids[i].g !== newCentroids[i].g ||
+                    oldCentroids[i].b !== newCentroids[i].b) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

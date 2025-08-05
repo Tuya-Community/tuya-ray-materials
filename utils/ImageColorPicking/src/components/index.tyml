@@ -1,0 +1,7 @@
+<view class="image-color-picking">
+  <canvas 
+    type="2d" 
+    class="image-color-picking"
+    canvas-id="{{ canvasId }}" 
+  ></canvas>
+</view>
