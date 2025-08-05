@@ -1,0 +1,13 @@
+{
+  "projectname": "饱和度slider",
+  "i18n": false,
+  "description": "",
+  "baseversion": "2.15.6",
+  "miniprogramRoot": "./example/dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.3",
+    "BizKit": "3.0.6",
+    "DeviceKit": "3.0.4",
+    "MiniKit": "3.0.3"
+  }
+}
