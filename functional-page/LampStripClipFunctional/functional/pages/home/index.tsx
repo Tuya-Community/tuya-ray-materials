@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, router, getDeviceInfo, Image } from '@ray-js/ray';
-import { DevInfo } from '@ray-js/panel-sdk';
-import { NavBar, ConfigProvider } from '@ray-js/smart-ui'
-import Slider from '@ray-js/components-ty-slider'
+import { DevInfo, useProps } from '@ray-js/panel-sdk';
+import { NavBar, ConfigProvider } from '@ray-js/smart-ui';
+import Slider from '@ray-js/components-ty-slider';
 import Button from '../../components/Button';
 import i18n from '../../i18n';
 import { getDpIdByCode } from '../../utils';
@@ -12,11 +12,25 @@ import { putDpData } from '../../utils';
 import { useHideMenuButton } from '../../hooks/useHideMenuButton';
 import bg from '../../res//bg.png';
 import './common.less';
+import { usePresetData } from '../../hooks/usePresetData';
 
 const Home = (props) => {
   const initLightPixel = useRef(0);
+  const hasChanged = useRef(false);
   const { query } = props?.location || {};
   const [devInfo, setDevInfo] = useState({} as DevInfo);
+  const presetData: {
+    theme?: 'light' | 'dark',
+    themeColor?: string,
+    hiddenBigIcon?: boolean,
+    backgroundStyle?: React.CSSProperties
+  } = usePresetData() || {};
+  const { themeColor = 'rgba(16, 130, 254, 1)', theme = 'dark' } = presetData
+  const isDark = theme === 'dark'
+  const fontColor = isDark ? '#fff' : '#000';
+  const hiddenBigIcon = isDark ? presetData.hiddenBigIcon : true;
+  const backgroundStyle = presetData.backgroundStyle || (isDark ? {} : { background: 'rgba(230, 238, 253)' });
+  const dpInfos = useProps();
 
   useHideMenuButton();
 
@@ -28,9 +42,13 @@ const Home = (props) => {
     getDeviceInfo({
       deviceId: query.deviceId,
       success: (res) => {
+        console.log('getDeviceInfo1', res);
         setDevInfo(res as any);
-      }
-    })
+      },
+      fail(err) {
+        console.error('getDeviceInfo2', err);
+      },
+    });
   }, []);
 
   useEffect(() => {
@@ -39,18 +57,14 @@ const Home = (props) => {
     }
     const strip_all_point = devInfo.panelConfig?.fun?.strip_all_point ? devInfo.panelConfig.fun.strip_all_point : 50;
     const strip_length = devInfo.panelConfig?.fun?.strip_length ? devInfo.panelConfig.fun.strip_length : 5;
-  
-    const lightLengthId = getDpIdByCode(dpCodes.lightLengthCode, devInfo);
-    const lightLength = devInfo.dps[lightLengthId] ?? strip_length; // 上报的长度单位是厘米
 
-    const numberSetId = getDpIdByCode(dpCodes.numberSetCode, devInfo);
-    const lightPixelNumberSet = +devInfo.dps[numberSetId];
+    const lightLength = dpInfos[dpCodes.lightLengthCode] ?? strip_length; // 上报的长度单位是厘米
 
-    const lightPixelId = getDpIdByCode(dpCodes.lightPixelCode, devInfo);
-    const lightPixel = devInfo.dps[lightPixelId] ?? strip_all_point;
-  
-    const workModeId = getDpIdByCode(dpCodes.workModeCode, devInfo);
-    const workMode = devInfo.dps[workModeId] as unknown as string;
+    const lightPixelNumberSet = +dpInfos[dpCodes.numberSetCode];
+
+    const lightPixel = dpInfos[dpCodes.lightPixelCode] ?? strip_all_point;
+
+    const workMode = dpInfos[dpCodes.workModeCode] as unknown as string;
     if (!initLightPixel.current) {
       initLightPixel.current = lightPixelNumberSet as any;
     }
@@ -61,9 +75,11 @@ const Home = (props) => {
       workMode,
     };
     setDps(res);
-  }, [devInfo]);
+  }, [devInfo, dpInfos]);
 
-  const [ dps, setDps ] = useState({} as { lightLength: number, lightPixelNumberSet: number, lightPixel: number, workMode: string });
+  const [dps, setDps] = useState(
+    {} as { lightLength: number; lightPixelNumberSet: number; lightPixel: number; workMode: string },
+  );
 
   const [lightLength, setLightLength] = useState(dps?.lightPixelNumberSet);
 
@@ -77,15 +93,26 @@ const Home = (props) => {
   }, [dps?.lightPixelNumberSet]);
 
   const handleBack = useCallback(() => {
-    putDpData({
-      [dpCodes.numberSetCode]: initLightPixel.current,
-    }, devInfo);
+    if(!hasChanged.current) {
+      console.log(`没有修改，跳过恢复下发`)
+      router.back();
+      return
+    }
+    putDpData(
+      {
+        [dpCodes.numberSetCode]: initLightPixel.current,
+      },
+      devInfo,
+    );
 
     setTimeout(() => {
-      putDpData({
-        // 退出时恢复workMode
-        [dpCodes.workModeCode]: dps.workMode
-      }, devInfo)
+      putDpData(
+        {
+          // 退出时恢复workMode
+          [dpCodes.workModeCode]: dps.workMode,
+        },
+        devInfo,
+      );
     }, 400);
     router.back();
   }, [initLightPixel.current, dps.workMode, devInfo]);
@@ -93,36 +120,37 @@ const Home = (props) => {
   const min = 10;
   const max = Math.max(dps?.lightPixel, min) || min;
   const handleConfirm = useCallback(() => {
-    putDpData({
-      // 退出时恢复workMode
-      [dpCodes.workModeCode]: dps.workMode
-    }, devInfo);
+    putDpData(
+      {
+        // 退出时恢复workMode
+        [dpCodes.workModeCode]: dps.workMode,
+      },
+      devInfo,
+    );
     router.back();
   }, [devInfo, dps]);
 
+  console.warn(devInfo?.dps, dpInfos, 'devInfodevInfo');
   const hasLength = useMemo(() => !!getDpIdByCode('light_length', devInfo), [devInfo]); // 如果没有总长度dp，面板显示点数
 
   const getValueText = useCallback(
-    v => {
+    (v) => {
       const text = hasLength ? (((dps?.lightLength / 100) * v) / max).toFixed(2) : v;
-      return text === 'NaN' ? '0.1' : (text || '0.1');
+      return text === 'NaN' ? '0.1' : text || '0.1';
     },
-    [hasLength, dps?.lightLength, max]
+    [hasLength, dps?.lightLength, max],
   );
   const maxText = useMemo(
     () => (hasLength ? `${getValueText(max)} ${i18n.getLang('lscf_unitMeter')}` : max),
-    [getValueText, hasLength, max]
+    [getValueText, hasLength, max],
   );
 
   const minText = useMemo(
     () => (hasLength ? `${getValueText(min)} ${i18n.getLang('lscf_unitMeter')}` : min),
-    [getValueText, hasLength, min]
+    [getValueText, hasLength, min],
   );
-  
-  const valueText = useMemo(
-    () => getValueText(lightLength),
-    [getValueText, lightLength]
-  );
+
+  const valueText = useMemo(() => getValueText(lightLength), [getValueText, lightLength]);
 
   const timer = useRef(+new Date());
   const handleChangeSlider = (v: number) => {
@@ -134,44 +162,70 @@ const Home = (props) => {
     timer.current = +new Date();
     const _v = Math.max(Math.min(v, max), min);
     setLightLength(_v);
+    hasChanged.current = true
   };
 
-  const handleReleaseSlider = useCallback((v: number) => {
-    const _v = Math.max(Math.min(v, max), min);
-    putDpData({
-      [dpCodes.numberSetCode]: _v
-    }, devInfo);
-    setLightLength(_v);
-  }, [devInfo, max, min]);
+  const handleReleaseSlider = useCallback(
+    (v: number) => {
+      const _v = Math.max(Math.min(v, max), min);
+      putDpData(
+        {
+          [dpCodes.numberSetCode]: _v,
+        },
+        devInfo,
+      );
+      hasChanged.current = true
+      setLightLength(_v);
+    },
+    [devInfo, max, min],
+  );
 
   const isVirtual = (query.deviceId || '').startsWith('vdevo');
 
   return (
     <ConfigProvider themeVars={{
-      navBarBackgroundColor: '#0b0909',
-      navBarTitleTextColor: 'white',
-      navBarArrowColor: 'white'
+      navBarBackgroundColor: 'transparent',
+      hairlineColor: 'transparent',
+      navBarTitleTextColor: fontColor,
+      navBarArrowColor: fontColor
     }}>
-      <View className={className.homeWrapper}>
+      <View className={className.homeWrapper} style={backgroundStyle}>
         <NavBar
           title={i18n.getLang('lscf_functionTitle')}
           leftArrow
           onClickLeft={handleBack}
         ></NavBar>
-        <Image src={bg} className={className.bg}></Image>
+        {!hiddenBigIcon && <Image src={bg} className={className.bg}></Image>}
         <View className={className.center}>
-          <View className={className.padding}></View>
-          {isVirtual ? <Text className={`${className.tips}`}>{i18n.getLang('lscf_virtualDeviceTips')}</Text> : <Text className={className.tips}>{i18n.getLang('lscf_tips')}</Text>}
-          <View className={className.cardWrapper} style={ isCanOperate ? {} : { height: '80px' }}>
+          {!hiddenBigIcon && <View className={className.padding}></View>}
+          <Text
+            className={className.tips}
+            style={{
+              marginTop: hiddenBigIcon ? 20 : '311px',
+              color: isDark ? '#fff' : 'rgba(0, 0, 0, 0.4)'
+            }}
+          >
+            {i18n.getLang(isVirtual ? 'lscf_virtualDeviceTips' : 'lscf_tips')}
+          </Text>
+          <View
+            className={className.cardWrapper}
+            style={isCanOperate ?
+              {
+                backgroundColor: isDark ? 'rgba(255,255,255,.05)' : '#fff'
+              } : {
+                height: '80px',
+                backgroundColor: isDark ? 'rgba(255,255,255,.05)' : '#fff'
+              }}
+          >
             <View className={className.cardTop}>
-              <Text style={{ color: 'rgba(255, 255, 255, 1)', fontSize: '28rpx' }}>
+              <Text style={{ color: fontColor, fontSize: '28rpx' }}>
                 {
                   i18n.getLang(hasLength ? 'lscf_cardTitle' : 'lscf_cardTitlePoints')
                 }
               </Text>
               <View>
-                <Text style={{ color: 'rgba(16, 130, 254, 1)', fontSize: '32rpx' }}>{isCanOperate ? valueText : dps?.lightPixel}</Text>
-                <Text style={{ color: '#fff', fontSize: '28rpx' }}>{`${isCanOperate ? i18n.getLang('lscf_unitMeter') : i18n.getLang('lscf_pointNum')}`}</Text>
+                <Text style={{ color: themeColor, fontSize: '32rpx' }}>{isCanOperate ? valueText : dps?.lightPixel}</Text>
+                <Text style={{ color: fontColor, fontSize: '28rpx' }}>{`${isCanOperate ? i18n.getLang('lscf_unitMeter') : i18n.getLang('lscf_pointNum')}`}</Text>
               </View>
             </View>
             {isCanOperate && (
@@ -179,8 +233,8 @@ const Home = (props) => {
                 <View className={className.cardContent}>
                   <Slider
                     isShowTicks
-                    tickWidth='2rpx'
-                    tickHeight='20rpx'
+                    tickWidth="2rpx"
+                    tickHeight="20rpx"
                     step={1}
                     forceStep={(max - min) / 10 || 1}
                     max={max}
@@ -192,15 +246,17 @@ const Home = (props) => {
                     maxTrackRadius="16rpx"
                     minTrackWidth="64rpx"
                     minTrackHeight="64rpx"
-                    maxTrackColor="rgba(255, 255, 255, 0.11)"
+                    minTrackColor={themeColor}
+                    maxTrackTickColor="#fff"
+                    maxTrackColor={isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}
                     hideThumbButton
                     onChange={handleChangeSlider}
                     onAfterChange={handleReleaseSlider}
                   />
                 </View>
                 <View className={`${className.cardBottom}`}>
-                  <Text style={{ color: 'rgba(255, 255, 255, 0.4)', fontSize: '24rpx' }}>{minText}</Text>
-                  <Text style={{ color: 'rgba(255, 255, 255, 0.4)', fontSize: '24rpx' }}>{maxText}</Text>
+                  <Text style={{ color: isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)', fontSize: '24rpx' }}>{minText}</Text>
+                  <Text style={{ color: isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)', fontSize: '24rpx' }}>{maxText}</Text>
                 </View>
               </>
             )}
@@ -208,13 +264,17 @@ const Home = (props) => {
         </View>
         {isCanOperate && (
           <View className={className.buttonWrapper}>
-            <Button onClick={handleBack} bgColor='rgba(255, 255, 255, .1)' fontSize={16}>{i18n.getLang('lscf_cancel')}</Button>
-            <Button onClick={handleConfirm} fontSize={16}>{i18n.getLang('lscf_confirm')}</Button>
+            <Button onClick={handleBack} bgColor={isDark ? 'rgba(255, 255, 255, .1)' : '#fff'} fontColor={fontColor} fontSize={16}>
+              {i18n.getLang('lscf_cancel')}
+            </Button>
+            <Button bgColor={themeColor} onClick={handleConfirm} fontSize={16}>
+              {i18n.getLang('lscf_confirm')}
+            </Button>
           </View>
         )}
       </View>
     </ConfigProvider>
   );
-}
+};
 
 export default Home;
