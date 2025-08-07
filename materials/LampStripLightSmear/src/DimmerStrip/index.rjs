@@ -1,0 +1,342 @@
+import pencilFlow, { init } from '@ray-js/pencil-flow';
+import { isEqual } from 'lodash-es';
+
+import { LastCircleLine, RoundLine, RightCircleLine, LeftCircleLine } from './shapes';
+
+const gradientPercent = 0.4;
+const { Stage, Rect } = pencilFlow;
+
+const typeMap = {
+  leftCircleLine: 'leftCircleLine',
+  rightCircleLine: 'rightCircleLine',
+  lastCircleLine: 'lastCircleLine',
+  horizontalLeftLine: 'horizontalLeftLine',
+  horizontalRightLine: 'horizontalRightLine',
+};
+
+const OFF_LIGHT_COLOR = '#e2e2e2';
+
+const TRIGGER_EVENT_END = 'touchend';
+const TRIGGER_EVENT_MOVE = 'touchmove';
+
+export default Render({
+  canvasContext: null,
+  canvasShadowContext: null,
+  canvas: null,
+  shadowCanvas: null,
+  canvasId: null,
+  hitCanvasId: null,
+  canvasWidth: 375,
+  canvasHeight: 330,
+  border: 1,
+  async render(id, data, rest) {
+    const { canvasWidth, canvasHeight, pixelRatio = 2, width = 8, gradient = false } = rest;
+    this.canvasId = id;
+    this.hitCanvasId = `${id}_hit`;
+    // 防止重复添加事件
+    if (!this.alreadyAddEvent) {
+      init(this.canvasId, this.hitCanvasId, {
+        pixelRatio,
+        canvasWidth,
+        canvasHeight,
+        throttle: 10,
+      }).then(({ stage, ctx }) => {
+        this.canvasContext = ctx;
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
+        this.canvasContext.imageSmoothingEnabled = true;
+        this.stage = stage;
+        this.ctx = ctx;
+        this.renderStrip(this.stage, this.ctx, data, gradient);
+        // stage 绑定事件防止重复绑定
+        this.stage.off(TRIGGER_EVENT_END, this.handleEnd, false);
+        this.stage.on(TRIGGER_EVENT_END, this.handleEnd, false);
+        this.alreadyAddEvent = true;
+        this.stage.update();
+      });
+    } else {
+      // 重新渲染
+      this.stage.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+      this.renderStrip(this.stage, this.ctx, data, gradient);
+      this.stage.update();
+    }
+  },
+  handleEnd(e) {
+    this.callMethod('touchend', {
+      index: -1,
+    });
+  },
+  renderStrip(stage, ctx, data, gradient) {
+    if (gradient) {
+      this.renderStripGradient(stage, ctx, data, gradient);
+      return;
+    }
+    this.renderStripNoGradient(stage, ctx, data);
+  },
+  touchmove(idx) {
+    if (idx <= -1) {
+      return;
+    }
+    if (this.preMoveIndex === idx) {
+      return;
+    }
+    this.preMoveIndex = idx;
+    this.callMethod('touchmove', {
+      index: idx,
+    });
+  },
+
+  touchend(idx) {
+    if (this.preEndIndex === idx) {
+      if (this.timer) {
+        clearTimeout(this.timer);
+      }
+
+      this.timer = setTimeout(() => {
+        this.preEndIndex = -1;
+      }, 500);
+      return;
+    }
+    this.preEndIndex = idx;
+    this.callMethod('touchend', {
+      index: idx,
+    });
+  },
+
+  shapeTouchEnd(e) {
+    const value = e.target.data;
+    this.touchend(value.idx);
+  },
+
+  shapeTouchMove(e) {
+    const value = e.target.data;
+    this.touchmove(value.idx);
+  },
+  addIdxShapeIns(idx, shapeType, _data, isGradient) {
+    // 防止重复生成相同的shape
+    if (this[idx]) {
+      return this[idx];
+    }
+    const preDataKey = `preData_${idx}`;
+    const preData = this[preDataKey];
+    let shape = null;
+    switch (shapeType) {
+      case 'LeftCircleLine':
+        if (preData) {
+          const isEqualObj = isEqual(preData, _data);
+          if (!isEqualObj) {
+            shape = new LeftCircleLine(_data, isGradient);
+            this[preDataKey] = _data;
+          }
+        } else {
+          shape = new LeftCircleLine(_data, isGradient);
+          this[preDataKey] = _data;
+        }
+        break;
+      case 'RightCircleLine':
+        if (preData) {
+          const isEqualObj = isEqual(preData, _data);
+          if (!isEqualObj) {
+            shape = new RightCircleLine(_data, isGradient);
+            this[preDataKey] = _data;
+          }
+        } else {
+          shape = new RightCircleLine(_data, isGradient);
+          this[preDataKey] = _data;
+        }
+        break;
+      case 'LastCircleLine':
+        if (preData) {
+          const isEqualObj = isEqual(preData, _data);
+          if (!isEqualObj) {
+            shape = new LastCircleLine(_data, isGradient);
+            this[preDataKey] = _data;
+          }
+        } else {
+          shape = new LastCircleLine(_data, isGradient);
+          this[preDataKey] = _data;
+        }
+        break;
+      case 'HorizontalLeftLine':
+        if (preData) {
+          const isEqualObj = isEqual(preData, _data);
+          if (!isEqualObj) {
+            shape = new RoundLine(_data, isGradient);
+            this[preDataKey] = _data;
+          }
+        } else {
+          shape = new RoundLine(_data, isGradient);
+          this[preDataKey] = _data;
+        }
+        break;
+      case 'HorizontalRightLine':
+        if (preData) {
+          const isEqualObj = isEqual(preData, _data);
+          if (!isEqualObj) {
+            shape = new RoundLine(_data, isGradient);
+            this[preDataKey] = _data;
+          }
+        } else {
+          shape = new RoundLine(_data, isGradient);
+          this[preDataKey] = _data;
+        }
+        break;
+      default:
+        break;
+    }
+    if (!shape) {
+      return;
+    }
+    this[idx] = shape;
+    shape.on(TRIGGER_EVENT_MOVE, this.shapeTouchMove);
+    shape.on(TRIGGER_EVENT_END, this.shapeTouchEnd);
+    this.stage.add(shape);
+  },
+
+  // canvas图形渲染 start
+  renderLeftCircleLine(stage, ctx, _data, isGradient = false) {
+    if (!_data) {
+      return;
+    }
+
+    const preDataKey = `preData_${_data.idx}`;
+    const preData = this[preDataKey];
+    if (preData) {
+      const isEqualObj = isEqual(preData, _data);
+      if (isEqualObj) {
+        return;
+      }
+    }
+
+    const type = 'LeftCircleLine';
+    const leftCircleLine = this.addIdxShapeIns(_data.idx, type, _data, isGradient);
+    if (!leftCircleLine) {
+      return;
+    }
+    this[preDataKey] = _data;
+    leftCircleLine.data = _data;
+    leftCircleLine.isGradient = isGradient;
+  },
+  renderRightCircleLine(stage, ctx, _data, isGradient = false) {
+    const type = 'RightCircleLine';
+    const preDataKey = `preData_${_data.idx}`;
+    const preData = this[preDataKey];
+    if (preData) {
+      const isEqualObj = isEqual(preData, _data);
+      if (isEqualObj) {
+        return;
+      }
+    }
+    const rightCircleLine = this.addIdxShapeIns(_data.idx, type, _data, isGradient);
+    if (!rightCircleLine) {
+      return;
+    }
+    this[preDataKey] = _data;
+    rightCircleLine.data = _data;
+    rightCircleLine.isGradient = isGradient;
+  },
+  renderLastCircleLine(stage, ctx, _data, isGradient = false) {
+    const type = 'LastCircleLine';
+    const preDataKey = `preData_${_data.idx}`;
+    const preData = this[preDataKey];
+    if (preData) {
+      const isEqualObj = isEqual(preData, _data);
+      if (isEqualObj) {
+        return;
+      }
+    }
+    const lastCircleLine = this.addIdxShapeIns(_data.idx, type, _data, isGradient);
+    if (!lastCircleLine) {
+      return;
+    }
+    this[preDataKey] = _data;
+    lastCircleLine.data = _data;
+    lastCircleLine.isGradient = isGradient;
+  },
+  renderHorizontalLeftLine(stage, ctx, _data, isGradient = false) {
+    if (!_data) {
+      return;
+    }
+    const type = 'HorizontalLeftLine';
+    const preDataKey = `preData_${_data.idx}`;
+    const preData = this[preDataKey];
+    if (preData) {
+      const isEqualObj = isEqual(preData, _data);
+      if (isEqualObj) {
+        return;
+      }
+    }
+    const leftRoundLine = this.addIdxShapeIns(_data.idx, type, _data, isGradient);
+    if (!leftRoundLine) {
+      return;
+    }
+    this[preDataKey] = _data;
+    leftRoundLine.data = _data;
+    leftRoundLine.isGradient = isGradient;
+  },
+  renderHorizontalRightLine(stage, ctx, _data, isGradient = false) {
+    if (!_data) {
+      return;
+    }
+    const type = 'HorizontalRightLine';
+    const preDataKey = `preData_${_data.idx}`;
+    const preData = this[preDataKey];
+    if (preData) {
+      const isEqualObj = isEqual(preData, _data);
+      if (isEqualObj) {
+        return;
+      }
+    }
+    const rightRoundLine = this.addIdxShapeIns(_data.idx, type, _data, isGradient);
+    if (!rightRoundLine) {
+      return;
+    }
+    this[preDataKey] = _data;
+    rightRoundLine.data = _data;
+    rightRoundLine.isGradient = isGradient;
+  },
+  // canvas图形渲染 end
+
+  renderStripNoGradient(stage, ctx, data) {
+    const isGradient = false;
+    data.forEach((element, idx) => {
+      const { type } = element;
+      if (type === typeMap.leftCircleLine) {
+        this.renderLeftCircleLine(stage, ctx, element, isGradient);
+      }
+      if (type === typeMap.rightCircleLine) {
+        this.renderRightCircleLine(stage, ctx, element, isGradient);
+      }
+      if (type === typeMap.lastCircleLine) {
+        this.renderLastCircleLine(stage, ctx, element, isGradient);
+      }
+      if (type === typeMap.horizontalLeftLine) {
+        this.renderHorizontalLeftLine(stage, ctx, element, isGradient);
+      }
+      if (type === typeMap.horizontalRightLine) {
+        this.renderHorizontalRightLine(stage, ctx, element, isGradient);
+      }
+    });
+  },
+  renderStripGradient(stage, ctx, data, isGradient = true) {
+    ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    data.forEach((element, idx) => {
+      const { type } = element;
+      if (type === typeMap.leftCircleLine) {
+        this.renderLeftCircleLine(stage, ctx, element, isGradient);
+      }
+      if (type === typeMap.rightCircleLine) {
+        this.renderRightCircleLine(stage, ctx, element, isGradient);
+      }
+      if (type === typeMap.lastCircleLine) {
+        this.renderLastCircleLine(stage, ctx, element, isGradient);
+      }
+      if (type === typeMap.horizontalLeftLine) {
+        this.renderHorizontalLeftLine(stage, ctx, element, isGradient);
+      }
+      if (type === typeMap.horizontalRightLine) {
+        this.renderHorizontalRightLine(stage, ctx, element, isGradient);
+      }
+    });
+  },
+});

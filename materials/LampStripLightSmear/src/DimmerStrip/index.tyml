@@ -1,0 +1,16 @@
+<view style="overflow: hidden; position: relative;">
+  <canvas
+    canvas-id="{{canvasId}}"
+    id="{{canvasId}}"
+    disable-scroll="true"
+    style="width:{{ width }}px; height:{{ height }}px;"
+    type="2d"
+  />
+  <canvas
+    canvas-id="{{canvasId}}_hit"
+    id="{{canvasId}}_hit"
+    disable-scroll="true"
+    style="width:{{ width }}px; height:{{ height }}px; position: absolute; left: 10000px;"
+    type="2d"
+  />
+</view>

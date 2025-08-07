@@ -1,0 +1,49 @@
+.view {
+  width: 100%;
+  padding-bottom: 48rpx;
+  display: flex;
+  flex-direction: column;
+}
+.demoBlock{
+  padding: 0 0 20px;
+}
+.demoBlockTitle {
+  position: relative;
+  padding: 40rpx 32rpx 32rpx 0px;
+  .demoBlockTitleText {
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 28rpx;
+    padding-left: 16rpx;
+  }
+  .demoBlockTitleText::before {
+    position: absolute;
+    content: '';
+    top: calc(50% - 2rpx);
+    left: 0;
+    width: 4rpx;
+    height: 4rpx;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.45);
+  }
+}
+
+.btnRandom {
+  width: 180px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 15px;
+  background-color: #ff592a;
+  color: #fff;
+  align-self: center;
+}
+.btnType {
+  width: 180px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 15px;
+  background-color: #ff592a;
+  color: #fff;
+  align-self: center;
+}
