@@ -1,0 +1,96 @@
+<sjs src="./index.sjs" module="computed"></sjs>
+
+<view class="rayui-vertical-touch-slider_wrap {{direction === 'vertical' ? 'vertical': 'horizontal'}}"
+  
+  style="{{hotAreaStyle}}"
+>
+  <view 
+    id="{{instanceId}}"
+    class="rayui-vertical-touch-slider {{direction === 'vertical' ? 'vertical': 'horizontal'}} {{reverse ? 'reverse': 'no-reverse'}} {{disable ? 'disabled': ''}} {{className}}"
+    disable="{{disable}}"
+    
+    change:start="{{computed.startPropObserver(instanceId)}}"
+    change:end="{{computed.endPropObserver(instanceId)}}"
+    change:watchstart="{{computed.watchstartPropObserver(instanceId)}}"
+    change:watchend="{{computed.watchenddPropObserver(instanceId)}}"
+    start="{{start}}"
+    end="{{end}}"
+    watchstart="{{watchStart}}"
+    watchend="{{watchEnd}}"
+
+    bind:touchstart="{{computed.handleTrackMouseDown(instanceId)}}"
+    bind:touchmove="{{computed.onMouseMove(instanceId)}}"
+    bind:touchend="{{computed.onTrackMouseUp(instanceId)}}"
+
+    data-min="{{min}}"
+    data-valuemin="{{valueMin}}"
+    data-max="{{max}}"
+
+    data-step="{{step}}"
+
+    data-startmin="{{startMin}}"
+    data-startmax="{{startMax}}"
+    
+    data-endmin="{{endMin}}"
+    data-endmax="{{endMax}}"
+
+    data-mode="{{mode}}"
+    data-barpad="{{barPad}}"
+    data-hidethumb="{{hideThumb}}"
+    data-showthumb="{{showThumb}}"
+    data-thumbimage="{{thumbImage}}"
+    data-showsteps="{{showSteps}}"
+    data-direction="{{direction}}"
+    data-reverse="{{reverse}}"
+    data-enabletouch="{{enableTouch}}"
+    data-enabletouchbar="{{enableTouchBar}}"
+    data-maxrangeoffset="{{maxRangeOffset}}"
+    data-texttemplate="{{textTemplate}}"
+    data-showtext="{{showText}}"
+    data-thumbstylecalc="{{thumbStyleCalc}}"
+    data-hidebaronfirstrender="{{hideBarOnFirstRender}}"
+
+    style="background:{{trackColor}};border-color:{{borderColor}};border-radius:{{borderRadius}};width:{{width}};height:{{height}};{{trackStyle}};"
+  >
+    <view ty:if="{{showSteps}}" class="rayui-vertical-touch-slider-steps">
+      <view class="rayui-vertical-touch-slider-steps-dot" ty:for="{{steps}}" style="{{stepStyle}}" ty:for-item="step">
+      </view>
+    </view>
+    <view class="rayui-vertical-touch-slider-bar"
+      style="background: {{barColor}};border-radius:{{borderRadius}};width:{{width}};height:{{height}};{{barStyle}};"
+    >
+      <view class="rayui-vertical-touch-slider-bar-steps_wrap">
+        <view ty:if="{{showSteps}}" class="rayui-vertical-touch-slider-steps">
+          <view class="rayui-vertical-touch-slider-steps-dot" ty:for="{{steps}}" style="{{activeStepStyle}}" ty:for-item="step">
+          </view>
+        </view>  
+      </view>
+    </view>
+    <view
+      class="rayui-vertical-touch-slider-thumb rayui-vertical-touch-slider-thumb-start"
+      data-name="start"
+      bind:touchstart="{{computed.handleMouseDown(instanceId)}}"
+      bind:touchend="{{computed.onMouseUp(instanceId)}}"
+    >
+      <view 
+        data-name="start"
+        class="rayui-vertical-touch-slider-thumb-render rayui-vertical-touch-slider-thumb-start-render" style="{{thumbStartStyle}}"
+      ></view>
+    </view>
+    <view
+      class="rayui-vertical-touch-slider-thumb rayui-vertical-touch-slider-thumb-end"
+      data-name="end"
+      bind:touchstart="{{computed.handleMouseDown(instanceId)}}"
+      bind:touchend="{{computed.onMouseUp(instanceId)}}"
+    >
+      <view 
+        data-name="end"
+        class="rayui-vertical-touch-slider-thumb-render rayui-vertical-touch-slider-thumb-end-render" style="{{thumbEndStyle}};background-image:url({{thumbImage}});border-radius:{{thumbBorderRadius}};width:{{thumbWidth}};height:{{thumbHeight}};"
+      ></view>
+    </view>
+  </view>
+  <view class="rayui-vertical-touch-slider_wrap-left" >
+    <view class="rayui-vertical-touch-slider_wrap-left-icon" ty:if="{{showIcon}}" style="background-image: {{iconSrc}}" />
+    <view class="rayui-vertical-touch-slider_wrap-left-text" ty:if="{{showText}}" style="color: {{textColor}};">{{text}}%</view>
+  </view>
+</view>
