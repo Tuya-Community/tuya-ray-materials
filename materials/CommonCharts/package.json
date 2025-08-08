@@ -1,24 +1,72 @@
 {
-  "name": "@tuya-miniapp/common-charts",
-  "version": "0.3.6",
-  "main": "lib/core/index.js",
-  "scripts": {
-    "dev": "NODE_OPTIONS=--no-experimental-fetch node build/dev.mjs",
-    "build": "echo 'ok'"
-  },
-  "dependencies": {
-    "dayjs": "^1.11.13",
-    "eval5": "^1.4.8",
-    "lodash-es": "^4.17.21"
-  },
-  "devDependencies": {
-    "echarts": "^5.5.1",
-    "gulp": "^4.0.2"
-  },
+  "name": "@ray-js/common-charts",
+  "version": "0.1.6",
+  "description": "ray 通用统计图表组件",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "example"
+  ],
+  "author": "Tuya.inc",
+  "license": "MIT",
+  "types": "lib/index.d.ts",
   "maintainers": [
+    "tuya_npm",
     {
       "name": "tuyafe",
       "email": "tuyafe@tuya.com"
     }
-  ]
+  ],
+  "scripts": {
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "build": "ray build --type=component",
+    "watch": "ray start --type=component --output ./example/src/lib",
+    "build:tuya": "yarn build && ray build ./example -t tuya",
+    "dev": "ray start --type=component",
+    "build:wechat": "ray build ./example --target=wechat",
+    "build:web": "ray build ./example --target=web",
+    "build:native": "ray build ./example --target=native",
+    "start:native": "ray start ./example -t native --verbose",
+    "start:tuya": "ray start -t tuya ./example",
+    "start:wechat": "ray start ./example -t wechat --verbose",
+    "start:web": "ray start ./example -t web",
+    "prepublishOnly": "yarn build",
+    "release-it": "standard-version"
+  },
+  "peerDependencies": {
+    "@ray-js/ray": "^1.4.9"
+  },
+  "dependencies": {
+    "@tuya-miniapp/common-charts": "^0.3.6"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "@ray-js/cli": "^1.6.24",
+    "@ray-js/panel-sdk": "^1.13.2",
+    "@ray-js/ray": "^1.6.24",
+    "core-js": "^3.19.1",
+    "echarts": "5.5.1",
+    "eslint-config-tuya-panel": "^0.4.2",
+    "husky": "^1.2.0",
+    "lint-staged": "^10.2.11",
+    "patch-package": "^8.0.0",
+    "standard-version": "9.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS --config commitlint.config.js",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
 }
