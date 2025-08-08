@@ -1,0 +1,8 @@
+<view >
+    <common-charts key="a" customClass="my-chart" option="{{lineOption}}" opts="{{{notMerge: true}}}" unit="{{['px', 'rpx']}}" style="background-color:white;width: 100%;height: 200px;" />
+    <common-charts key="b" option="{{lineAreaOption}}"  unit="px" style="background-color:white;width: 100%;height: 200px;" supportFullScreen="{{true}}"/>
+    <common-charts  key="c" option="{{gaugeOption}}"  style="background-color:white;" unit="px" />
+    <common-charts option="{{pieOption}}" unit="Lux" style="background-color:white;width: 100%;height: 300px;" supportFullScreen="{{true}}"/>
+    <common-charts bind:Init="onInit" option="{{barOption}}" getEchartsProxy="{{getEchartsProxy}}" opts="{{{notMerge: true}}}" unit="px" style="background-color:white;width: 100%;height: 200px;"  supportFullScreen="{{true}}"/>
+    <common-charts option="{{functionalOption}}" customStyle="height: 500px" getEchartsProxy="{{getEchartsProxy}}" notMerge="{{true}}" usingPlugin="{{true}}" opts="{{{notMerge: true}}}" />
+</view>

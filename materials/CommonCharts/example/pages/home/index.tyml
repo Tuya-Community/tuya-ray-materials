@@ -1,0 +1,15 @@
+<view >
+    <common-charts 
+        option="{{option}}"
+        opts="{{ {notMerge: true} }}"
+        injectVars="{{injectVars}}"
+        on="{{bindEvent}}"
+        bind:focus="onFocus"
+        bind:blur="onBlur"
+        blurAutoHideTooltip="{{true}}"
+        bind:Init="onInit"
+    >
+    </common-charts>
+    <button bindtap="navTo" data-path="/pages/echarts_types/index">echarts图表类型</button>
+    <button bindtap="navTo" data-path="/pages/echarts_api/index">echarts api</button>
+</view>

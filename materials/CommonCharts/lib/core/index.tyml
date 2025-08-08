@@ -1,0 +1,26 @@
+<view class="chart-wrapper {{theme}} {{customClass}}" style="{{customStyle}}">
+  <view class="chart-container {{isFullScreen ? 'fullscreen' : ''}}" >
+    <canvas 
+      ty:if="{{canvasId}}" class="chart" canvas-id="{{canvasId}}" 
+      id="{{canvasId}}"
+    ></canvas>
+    <view ty:if="{{(isLoading || loading) && !errMsg}}" class="placeholder">
+      <view class="icon loading" style="background-image: url('{{iconLoading || defaultIcons['loading']}}')"></view>
+      <text>{{loadingText}}</text>
+    </view>
+    <view ty:if="{{errMsg}}" class="placeholder">
+      <view class="icon error" style="background-image: url('{{iconError || defaultIcons['error']}}')"></view>
+      <text>{{errMsg}}</text>
+    </view>
+    <view ty:if="{{supportFullScreen}}">
+      <view class="fullscreen-icon" ty:if="{{isFullScreen}}" bind:touchstart="exitFullScreen">
+        <view class="icon fullscreen-exit" style="background-image: url('{{iconExitFullScreen || defaultIcons['exitFullscreen']}}')"></view>
+      </view>
+      <view class="fullscreen-icon" ty:else  bind:touchstart="requestFullScreen">
+        <view class="icon fullscreen-exit" style="background-image: url('{{iconFullScreen || defaultIcons['fullscreen']}}')"></view>
+      </view>
+    </view>
+  </view>
+  
+</view>
+
