@@ -1,0 +1,15 @@
+{
+  "projectname": "@ray-js/lamp-touch-slider",
+  "i18n": false,
+  "description": "",
+  "baseversion": "2.14.1",
+  "miniprogramRoot": "./example/dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.1",
+    "BizKit": "3.0.7",
+    "DeviceKit": "3.0.2",
+    "MiniKit": "3.0.2"
+  },
+  "projectId": "ty53odnmk2cxnzcxm6",
+  "compileType": "miniprogram"
+}

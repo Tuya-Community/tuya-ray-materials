@@ -486,5 +486,16 @@ Tuya Ray Materials
   </details>
   </td>
 </tr>
+
+<tr>
+  <td id="LampTouchSlider">2025/08</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampTouchSlider">LampTouchSlider</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampTouchSlider" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
 </table>
 <!-- txp-asset-qrcode-end -->

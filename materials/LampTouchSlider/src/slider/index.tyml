@@ -1,0 +1,106 @@
+<sjs src="./index.sjs" module="computed"></sjs>
+
+<view class="rayui-touch-slider_wrap {{direction === 'vertical' ? 'vertical': 'horizontal'}}"
+  
+  style="{{hotAreaStyle}};display: {{ hide ? 'none' : 'flex' }}"
+>
+  <view ty:if="{{debug}}" class="rayui-touch-slider_wrap-debug">{{instanceId}}</view>
+  <view class="rayui-touch-slider_wrap-leftbtn" bind:tap="{{computed.onSub(instanceId)}}" ty:if="{{showButtons}}" style="background-image: {{iconSubSrc}}"></view>
+  <view 
+    id="{{instanceId}}"
+    class="rayui-touch-slider {{direction === 'vertical' ? 'vertical': 'horizontal'}} {{reverse ? 'reverse': 'no-reverse'}} {{disable ? 'disabled': ''}} {{className}}"
+    disable="{{disable}}"
+    
+    change:start="{{computed.startPropObserver(instanceId)}}"
+    change:end="{{computed.endPropObserver(instanceId)}}"
+    change:watchstart="{{computed.watchstartPropObserver(instanceId)}}"
+    change:watchend="{{computed.watchenddPropObserver(instanceId)}}"
+    start="{{start}}"
+    end="{{end}}"
+    watchstart="{{watchStart}}"
+    watchend="{{watchEnd}}"
+    watchend="{{watchEnd}}"
+
+    hidden="{{hidden}}"
+    change:hidden="{{computed.updateObserver(instanceId)}}"
+
+    bind:touchstart="{{computed.handleTrackMouseDown(instanceId)}}"
+    bind:touchmove="{{computed.onMouseMove(instanceId)}}"
+    bind:touchend="{{computed.onTrackMouseUp(instanceId)}}"
+
+    data-min="{{min}}"
+    data-valuemin="{{valueMin}}"
+    data-max="{{max}}"
+
+    data-step="{{step}}"
+
+    data-startmin="{{startMin}}"
+    data-startmax="{{startMax}}"
+    
+    data-endmin="{{endMin}}"
+    data-endmax="{{endMax}}"
+
+    data-starteventname="{{startEventName}}"
+    data-moveeventname="{{moveEventName}}"
+    data-endeventname="{{endEventName}}"
+
+    data-mode="{{mode}}"
+    data-barpad="{{barPad}}"
+    data-hidethumb="{{hideThumb}}"
+    data-showsteps="{{showSteps}}"
+    data-direction="{{direction}}"
+    data-reverse="{{reverse}}"
+    data-hidethumbbutton="{{hideThumbButton}}"
+    data-enabletouch="{{enableTouch}}"
+    data-enabletouchbar="{{enableTouchBar}}"
+    data-maxrangeoffset="{{maxRangeOffset}}"
+    data-texttemplate="{{textTemplate}}"
+    data-showtext="{{showText}}"
+    data-thumbstylecalc="{{thumbStyleCalc}}"
+    data-hidebaronfirstrender="{{hideBarOnFirstRender}}"
+
+    style="{{trackStyle}};background:{{trackColor}};border-color:{{borderColor}};"
+  >
+    <view ty:if="{{showSteps}}" class="rayui-touch-slider-steps">
+      <view class="rayui-touch-slider-steps-dot" ty:for="{{steps}}" style="{{stepStyle}}" ty:for-item="step">
+      </view>
+    </view>
+    <view class="rayui-touch-slider_wrap-left" style="left: {{showButtons ? '77px' : '15px'}};{{textWrapStyle}};">
+      <view class="rayui-touch-slider_wrap-left-icon" ty:if="{{showIcon}}" style="background-image: {{bgIconSrc}}" />
+      <view class="rayui-touch-slider_wrap-left-text" ty:if="{{showText}}" style="color: {{bgTextColor}};{{bgTextStyle}}">{{computed.calcText(text, textValueScale ,valueScaleMathType)}}%</view>
+    </view>
+    <view class="rayui-touch-slider-bar"
+      style="{{barStyle}};background: {{barColor}};"
+    >
+      <view class="rayui-touch-slider_wrap-left" style="left: {{showButtons ? '77px' : '15px'}};{{textWrapStyle}};">
+        <view class="rayui-touch-slider_wrap-left-icon" ty:if="{{showIcon}}" style="background-image: {{iconSrc}}" />
+        <view class="rayui-touch-slider_wrap-left-text" ty:if="{{showText}}" style="color: {{textColor}};{{bgTextStyle}}">{{computed.calcText(text, textValueScale ,valueScaleMathType)}}%</view>
+      </view>
+      <view class="rayui-touch-slider-bar-steps_wrap">
+        <view ty:if="{{showSteps}}" class="rayui-touch-slider-steps">
+          <view class="rayui-touch-slider-steps-dot" ty:for="{{steps}}" style="{{activeStepStyle}}" ty:for-item="step">
+          </view>
+        </view>  
+      </view>
+    </view>
+    <view
+      class="rayui-touch-slider-thumb rayui-touch-slider-thumb-start"
+      data-name="start"
+    >
+      <view 
+        data-name="start"
+        class="rayui-touch-slider-thumb-render rayui-touch-slider-thumb-start-render" style="{{thumbStartStyle}}"
+      ></view>
+    </view>
+    <view
+      class="rayui-touch-slider-thumb rayui-touch-slider-thumb-end"
+      data-name="end"
+    >
+      <view 
+        data-name="end"
+        class="rayui-touch-slider-thumb-render rayui-touch-slider-thumb-end-render" style="{{thumbStyle}};opacity:{{hideThumbButton ? 0 : 1}}"
+      ></view>
+    </view>
+  </view>
+  <view class="rayui-touch-slider_wrap-rightbtn" bind:tap="{{computed.onAdd(instanceId)}}" ty:if="{{showButtons}}" style="background-image: {{iconPlusSrc}}"></view>
+</view>
