@@ -1,0 +1,50 @@
+.container {
+  padding: 46rpx 48rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .titleBox {
+    width: 30%;
+
+    &.descBox {
+      width: 100%;
+    }
+
+    .title {
+      font-size: 32rpx;
+      font-weight: 400;
+      color: var(--app-B6-N1, rgba(0, 0, 0, 0.9));
+    }
+    .subTitle {
+      font-size: 24rpx;
+      font-weight: 400;
+      color: var(--app-B6-N3, rgba(0, 0, 0, 0.5));
+    }
+  }
+
+  .right {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+
+    .value {
+      font-size: 32rpx;
+      font-weight: 400;
+      color: var(--app-B6-N2, rgba(0, 0, 0, 0.7));
+      line-height: 48rpx;
+      text-align: right;
+      word-break: break-all;
+
+      &.placeholder {
+        opacity: 0.5;
+      }
+    }
+
+    .arrow {
+      flex: 0 0 36rpx;
+    }
+  }
+}

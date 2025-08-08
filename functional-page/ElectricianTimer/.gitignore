@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.ray/
+.DS_Store
+.idea/
+dist-next/
+dist-new/
+typings/

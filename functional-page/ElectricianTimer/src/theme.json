@@ -1,0 +1,10 @@
+{
+  "light": {
+    "bgColor": "#fff",
+    "themeColor": "#FF4800"
+  },
+  "dark": {
+    "bgColor": "#fff",
+    "themeColor": "#FF4800"
+  }
+}

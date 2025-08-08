@@ -1,0 +1,70 @@
+.viewDefault {
+  align-items: stretch;
+  box-sizing: border-box;
+  display: flex;
+  flex-basis: auto;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.switch {
+  .viewDefault();
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.content {
+  .viewDefault();
+  align-items: center;
+  justify-content: center;
+}
+
+.disabled {
+  opacity: 0.8;
+}
+.smallThumb {
+  align-items: center;
+  justify-content: center;
+  width: 3;
+  position: absolute;
+  border-radius: 1.5;
+  background-color: var(--app-B3, #ffffff);
+  transition: transform 0.2s linear;
+
+  &Active {
+    transform: scale(1, 0);
+  }
+}
+.bg {
+  position: absolute;
+  background-color: var(--app-B6-N7, rgba(0, 0, 0, 0.1));
+}
+.text {
+  font-size: 24rpx;
+  color: var(--app-B6-N1, #000);
+  position: absolute;
+  font-weight: 500;
+  opacity: 1;
+  transition: opacity 0.2s linear;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.selected {
+    color: #fff;
+  }
+}
+.hide {
+  opacity: 0;
+}
+.thumb {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  justify-content: center;
+  align-self: flex-start;
+  background-color: var(--app-M1);
+  box-shadow: 0 3px 3px var(--app-B6-N5, rgba(0, 0, 0, 0.3));
+  transition: transform 0.2s ease;
+}

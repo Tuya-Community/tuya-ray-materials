@@ -1,0 +1,48 @@
+.clock {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 500rpx;
+    height: 500rpx;
+    border-radius: 50%;
+    background-color: var(--app-B3, #fff);
+    position: absolute;
+  }
+
+  .countdown {
+    position: absolute;
+    z-index: 1;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    font-size: 72rpx;
+    font-weight: 600;
+  }
+  .hour,
+  .minute {
+    width: 130rpx;
+    text-align: center;
+  }
+  .dot {
+    font-size: 64rpx;
+  }
+  .reset {
+    padding: 24rpx 0;
+    font-size: 24rpx;
+    color: var(--app-B6-N3, rgba(0, 0, 0, 0.6));
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    transform: translateY(100%);
+  }
+}

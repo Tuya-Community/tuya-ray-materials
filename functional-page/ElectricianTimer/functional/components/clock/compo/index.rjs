@@ -1,0 +1,98 @@
+
+const systemInfo = getSystemInfo();
+function rpx2pxNum(maybeRpx) {
+    return (maybeRpx / 750) * systemInfo.screenWidth * systemInfo.pixelRatio
+}
+
+
+export default Render({
+    config: {},
+    setConfig(config) {
+        this.config = {...this.config, ...config}
+        if (config.size) {
+            this.config.size = rpx2pxNum(config.size)
+        }
+        if (config.lineWidth) {
+            this.config.linewidth = rpx2pxNum(config.linewidth)
+        }
+        if (config.lineLength) {
+            this.config.lineLength = rpx2pxNum(config.lineLength)
+        }
+    },
+    async initCanvas (){
+        const canvasId = this.config.canvasId;
+        const canvas = await getCanvasById(canvasId);
+        canvas.width = canvas.width * systemInfo.pixelRatio;
+        canvas.height = canvas.height * systemInfo.pixelRatio;
+        this.canvas = canvas;
+
+        this.ctx = canvas.getContext('2d');
+        this.update();
+    },
+    update(newValue) {
+        if (!this.ctx) {
+            return ;
+        }
+        const { size, value, total} = this.config;
+        if (typeof newValue === 'undefined') {
+            newValue = value;
+        }
+        this.ctx.clearRect(0,0,size,size);
+        this.ctx.save();
+        const center = size/2;
+        this.ctx.translate(center, center)
+        this.ctx.rotate(-Math.PI/2);
+        this.drawScales(value);
+        this.ctx.restore();
+    },
+    
+    drawScales(value) {
+        const ctx = this.ctx;
+        const { size, lineWidth, lineCount, lineLength, lineColor, activeColor, total} = this.config;
+        const radius = (size - lineWidth) /2
+        ctx.save();
+        ctx.beginPath();
+        const stepAngle = 2 * Math.PI / lineCount;
+        let activeAngle = (value * 2 * Math.PI / total);
+        if (value === total) {
+            activeAngle = 0;
+        }
+        const scaleInnerRadius = radius - lineLength;
+        let hasDrawNormal = false;
+        for(let i = lineCount - 1; i >= 0; i--){
+            const angle = stepAngle*i;
+            if (angle < activeAngle && !hasDrawNormal) {
+                hasDrawNormal = true;
+                ctx.closePath();
+                //设定曲线粗细度
+                ctx.lineWidth = lineWidth;
+                //给曲线着色
+                ctx.strokeStyle = lineColor;
+                //连接处样式
+                ctx.lineCap = 'round';
+                //给环着色
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.restore()
+                ctx.save();
+
+            }
+            const x1 = Math.cos(angle) * scaleInnerRadius;
+            const y1 = Math.sin(angle) * scaleInnerRadius;
+            const x2 = Math.cos(angle) * radius;
+            const y2 = Math.sin(angle) * radius;
+            ctx.moveTo(x1,y1);
+            ctx.lineTo(x2,y2);
+        }
+        ctx.closePath();
+        //设定曲线粗细度
+        ctx.lineWidth = lineWidth;
+        //给曲线着色
+        ctx.strokeStyle = activeColor;
+        //连接处样式
+        ctx.lineCap = 'round';
+        //给环着色
+        ctx.stroke();
+        ctx.restore();
+    },
+})

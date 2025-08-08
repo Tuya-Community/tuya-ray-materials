@@ -1,0 +1,4 @@
+<canvas type="2d"
+    canvas-id="{{ canvasId }}"
+    disable-scroll="true"
+    style="width:{{size}}rpx;height:{{size}}rpx;"></canvas>

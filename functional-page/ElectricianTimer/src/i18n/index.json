@@ -1,0 +1,38 @@
+{
+  "en": {
+    "select_switch": "Switch",
+    "all_switch": "All",
+    "multi_timers": "Enter comprehensive timing",
+    "multi_countdown_timers": "Enter comprehensive timing (support countdown)",
+    "countdown_list": "Enter countdown list",
+    "countdown": "Enter countdown",
+    "please_select": "Please select device",
+    "current_device": "Current device",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "cloud_timer": "Enter cloud timing",
+    "cycle_timer": "Enter cycle timing",
+    "random_timer": "Enter random timing",
+    "astronomical_timer": "Enter astronomical timing",
+    "inching_timer": "Enter inching timing",
+    "please_input": "Please enter"
+  },
+  "zh": {
+    "select_switch": "选择开关",
+    "all_switch": "所有开关",
+    "multi_timers": "进入综合定时",
+    "multi_countdown_timers": "进入综合定时（支持倒计时）",
+    "countdown_list": "进入倒计时列表",
+    "countdown": "进入倒计时",
+    "please_select": "请选择设备",
+    "current_device": "当前设备",
+    "confirm": "确认",
+    "cancel": "取消",
+    "cloud_timer": "进入云定时",
+    "cycle_timer": "进入循环定时",
+    "random_timer": "进入随机定时",
+    "astronomical_timer": "进入天文定时",
+    "inching_timer": "进入点动定时",
+    "please_input": "请输入"
+  }
+}

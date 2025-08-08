@@ -1,0 +1,26 @@
+.weeks {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 64rpx 48rpx 80rpx;
+  justify-content: space-between;
+
+  .week {
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    background-color: var(--app-B6-N7, rgba(0, 0, 0, 0.1));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24rpx;
+    color: var(--app-B6-N1, rgba(0, 0, 0, 0.9));
+    font-weight: 400;
+
+    &.selected {
+      color: #fff;
+      background-color: var(--app-M1);
+    }
+  }
+}

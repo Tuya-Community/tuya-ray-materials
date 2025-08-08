@@ -1,0 +1,25 @@
+{
+  "projectname": "电工定时功能页",
+  "i18n": true,
+  "description": "用于电工品类定时功能页，支持普通定时、日出定时、日落定时、循环定时、随机定时、点动开关、倒计时等功能",
+  "miniprogramRoot": "dist/tuya/miniprogram",
+  "functionalRoot": "dist/tuya/functional",
+  "projectId": "typtepohxfeukudmyi",
+  "dependencies": {
+    "BaseKit": "2.1.2",
+    "MiniKit": "3.2.1",
+    "BizKit": "3.3.1",
+    "DeviceKit": "3.9.3",
+    "MapKit": "3.0.0",
+    "HomeKit": "3.3.1"
+  },
+  "compilerOptions": {
+    "compatible": [
+      "wx"
+    ]
+  },
+  "devMode": "ray",
+  "baseversion": "2.12.18",
+  "compileType": "miniprogram",
+  "remoteDebug": "mqtt"
+}

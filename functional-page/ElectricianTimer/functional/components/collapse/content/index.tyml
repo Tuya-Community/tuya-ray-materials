@@ -1,0 +1,14 @@
+<sjs src="./index.sjs"
+    module="computed"></sjs>
+<view class="my-collapse-box"
+    data-status="{{status}}"
+    data-update="{{update}}"
+    update="{{update}}"
+    status="{{status}}"
+    change:update="{{computed.observerProp}}"
+    change:status="{{computed.observerProp}}"
+    id="{{instanceId}}">
+    <view class="my-collapse-content">
+        <slot/>
+    </view>
+</view>

@@ -1,0 +1,48 @@
+.box {
+  border-bottom: 2rpx solid var(--app-B4-N9, rgba(0, 0, 0, 0.1));
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32rpx;
+
+    .icon {
+      background-color: var(--app-M1);
+      border-radius: 50%;
+    }
+
+    .txt {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin: 0 16rpx;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      box-sizing: border-box;
+      height: 12rpx;
+      border: 12rpx solid transparent;
+      border-top-color: var(--app-B6-N1, #000);
+      border-radius: 6rpx;
+      transform-origin: 50% 25%;
+      transition: transform 0.2s linear;
+    }
+
+    &.opened {
+      border-bottom: 2rpx solid var(--app-B4-N9, rgba(0, 0, 0, 0.1));
+
+      &::after {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}

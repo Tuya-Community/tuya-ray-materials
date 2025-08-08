@@ -1,0 +1,37 @@
+.topBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  height: 84rpx;
+  box-sizing: content-box;
+}
+
+.btn {
+  margin: 0 24rpx;
+  width: 80rpx;
+
+  &.textBtn {
+    margin: 0 32rpx;
+    &:first-child {
+      text-align: left;
+    }
+    &:last-child {
+      text-align: right;
+      color: var(--app-M1);
+    }
+  }
+}
+
+.title {
+  line-height: 48rpx;
+  font-weight: 600;
+  font-size: 34rpx;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: var(--app-B6-N1, #000);
+  flex: 1;
+  text-align: center;
+}

@@ -1,0 +1,43 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  height: 100vh;
+
+  --picker-background-color: transparent;
+  --picker-option-font-size: 32px;
+
+  .tips {
+    text-align: center;
+    padding: 0 32rpx;
+    font-size: 24rpx;
+  }
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+  .picker {
+    width: 100vw;
+    padding: 0 32rpx;
+  }
+  .footer {
+    align-self: stretch;
+    margin: 0 32rpx;
+    &::after {
+      content: '';
+      display: block;
+      min-height: 40rpx;
+      height: calc(40rpx + constant(safe-area-inset-bottom)); /* 兼容 iOS < 11.2 */
+      height: calc(40rpx + env(safe-area-inset-bottom)); /* 兼容 iOS >= 11.2 */
+    }
+  }
+  .btn {
+    width: 100%;
+    background-color: var(--app-M1, #3678e3);
+    color: #fff;
+  }
+}
