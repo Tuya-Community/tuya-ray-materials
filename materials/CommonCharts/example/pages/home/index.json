@@ -1,0 +1,5 @@
+{
+    "usingComponents": {
+        "common-charts": "../../dist/core/index"
+    }
+}

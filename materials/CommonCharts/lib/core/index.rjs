@@ -1,0 +1,242 @@
+import lodash, { isEqual, debounce } from 'lodash-es';
+import { convertOptionStringalFunction, convertStringalFunction, copy } from '../shared/utils';
+import { autoInject } from "./inject";
+import echarts from '../shared/echarts';
+import dayjs from 'dayjs';
+const DEBOUNCE_RESIZE_TIME = 100;
+let pluginCharts = null;
+let pluginChartsPromise = null; // promise 缓存起来，避免重复执行
+
+
+async function getChartInstance(usingPlugin) {
+    if (!usingPlugin) {
+        return echarts;
+    }
+
+    if (!pluginChartsPromise) {
+        try {
+            pluginChartsPromise = requirePlugin('rjs://echarts');
+            pluginCharts = await pluginChartsPromise;
+        } catch (error) {
+            throw new Error("The plugin rjs://echarts is not in usingPlugins, https://developer.tuya.com/cn/miniapp/develop/miniapp/framework/plugin/intro");
+        }
+    } else if (!pluginCharts) {
+        pluginCharts = await pluginChartsPromise;
+    }
+
+    return pluginCharts || echarts;
+}
+
+
+
+
+export default Render({
+    notMerge: false,
+    renderTask: null,
+    waitBindEvents: null,
+    debounceTimer: 0,
+    ready: false,
+    usingPlugin: false,
+    lastTriggeredEvents: {},
+    isRunOnLoad: false,
+    init(canvasId, notMerge, usingPlugin) {
+        let systemInfo = getSystemInfo();
+        this.systemInfo = systemInfo;
+
+        this.notMerge = notMerge;
+        this.canvasId = canvasId;
+        this.usingPlugin = usingPlugin;
+
+        Promise.all([getCanvasById(canvasId), getChartInstance(usingPlugin)]).then(([canvas, myCharts]) => {
+            this.canvas = canvas;
+            this.ready = true;
+
+            canvas.appendChild = function (child) {
+                canvas.parentNode.appendChild(child);
+            }
+            // 设置允许聚焦
+            canvas.setAttribute("tabindex", "-1");
+
+            canvas.style.outline = 'none';
+
+            canvas.addEventListener("touchstart", e => {
+                canvas.focus();
+            });
+
+            if (this.renderTask) {
+                this.render(this.renderTask.options, this.renderTask.opts, this.renderTask.injectVars, this.renderTask.onLoad, this.renderTask.onRender);
+                this.renderTask = null;
+            }
+        });
+
+    },
+    async render(options, opts = {}, injectVars = {}, onLoad = "", onRender = "", blurAutoHideTooltip) {
+        if (!this.ready) {
+            this.renderTask = {
+                options,
+                opts,
+                injectVars,
+                onLoad,
+                onRender
+            };
+            return;
+        }
+
+        this.renderTask = null;
+
+        let myCharts = await getChartInstance(this.usingPlugin);
+
+        if (typeof injectVars !== 'object' || Array.isArray(injectVars) || injectVars === null) {
+            throw new Error('injectVars must be an object');
+        }
+
+        if (this.canvas) {
+            let { pixelRatio } = this.systemInfo;
+            if (!this.chart) {
+                const { width, height } = await getBoundingClientRectById(this.canvasId)
+                this.chart = myCharts.init(this.canvas, 'dark' === options.theme ? 'dark' : null, {
+                    devicePixelRatio: pixelRatio,
+                    width,
+                    height,
+                    useCoarsePointer: false
+                });
+            }
+            convertOptionStringalFunction(options.option, {
+                myChart: this.chart,
+                Echarts: myCharts,
+                _: lodash,
+                dayjs: dayjs,
+                ...options, // option, unit, theme
+                ...injectVars
+            });
+            const option = this.notMerge ? options.option : autoInject(options);
+            this.previousOption = option;
+            this.chart.setOption(option, opts);
+            if (this.waitBindEvents) {
+                this.bindEvent(this.waitBindEvents);
+                this.waitBindEvents = null;
+            }
+            if (!this.isRunOnLoad) {
+                this.isRunOnLoad = true;
+                if (onLoad) {
+                    // onLoad 里面的 this 指向当前组件
+                    convertStringalFunction(onLoad, {
+                        myChart: this.chart,
+                        Echarts: myCharts,
+                        _: lodash,
+                        dayjs: dayjs,
+                        ...options, // option, unit, theme
+                        ...injectVars
+                    })();
+                }
+
+                this.canvas.addEventListener('focus', () => {
+                    this.instance.callMethod('onFocus');
+                });
+
+                this.canvas.addEventListener('blur', () => {
+                    if (this.chart && this.previousOption && blurAutoHideTooltip) {
+                        this.chart.setOption(this.previousOption, {
+                            replaceMerge: ['tooltip', 'xAxis'],
+                        })
+                        // 触发 hideTip 事件
+                        this.chart.dispatchAction({
+                            type: 'hideTip'
+                        });
+                    }
+                    this.instance.callMethod('onBlur');
+                });
+            }
+            if (onRender) {
+                convertStringalFunction(onRender, {
+                    myChart: this.chart,
+                    Echarts: myCharts,
+                    _: lodash,
+                    dayjs: dayjs,
+                    ...options, // option, unit, theme
+                    ...injectVars
+                })();
+            }
+        } else {
+            throw new Error('canvas or chart initial errored');
+        }
+    },
+
+    bindEvent(events) {
+        if (this.chart) {
+            // 解绑旧的事件
+            if (this.events) {
+                this.events.forEach((event) => {
+                    this.chart.off(event.eventName);
+                });
+            }
+            const lastTriggeredEvents = this.lastTriggeredEvents;
+            // 绑定新的事件
+            events.forEach((event) => {
+                const { eventName } = event;
+                this.chart.on(eventName, ...[event.query, (params) => {
+                    const nextParams = copy(params);
+                    if (
+                        lastTriggeredEvents[eventName] &&
+                        (
+                            (isEqual(lastTriggeredEvents[eventName].params, nextParams) &&
+                                Date.now() - lastTriggeredEvents[eventName].time < 500)
+                        )
+                    ) {
+                        return;
+                    }
+
+                    this.triggerEvent(eventName, nextParams);
+                    lastTriggeredEvents[eventName] = {
+                        params: nextParams,
+                        time: Date.now()
+                    };
+                }].filter(Boolean));
+            });
+
+            this.events = events;
+        } else {
+            this.waitBindEvents = events;
+        }
+    },
+
+    triggerEvent(event, params) {
+        if (this.chart) {
+            this.instance.callMethod('onEvent', event, params);
+        }
+    },
+
+    async handleEchartsMethod(key, ...args) {
+        if (this.chart) {
+            if (this.chart[key] && typeof this.chart[key] === 'function') {
+                return this.chart[key](...args);
+            }
+        }
+
+    },
+
+    resize: function () {
+        if (this.canvas && this.chart && this.canvasId) {
+            clearTimeout(this.debounceTimer);
+            this.debounceTimer = setTimeout(() => {
+
+                getBoundingClientRectById(this.canvasId).then(({ width, height }) => {
+                    this.chart.resize({
+                        width: width,
+                        height: height,
+                    });
+                })
+            }, DEBOUNCE_RESIZE_TIME);
+        }
+    },
+
+    destroy() {
+        if (this.chart) {
+            this.chart.dispose();
+            this.previousOption = null;
+            this.chart = null;
+            this.canvas = null;
+            this.lastTriggeredEvents = {};
+        }
+    }
+});
