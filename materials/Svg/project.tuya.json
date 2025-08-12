@@ -1,0 +1,13 @@
+{
+  "projectname": "@ray-js/svg",
+  "i18n": false,
+  "description": "",
+  "baseversion": "2.13.3",
+  "miniprogramRoot": "./example/dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.2.1",
+    "DeviceKit": "3.2.0",
+    "MiniKit": "3.0.0",
+    "BizKit": "3.1.1"
+  }
+}
