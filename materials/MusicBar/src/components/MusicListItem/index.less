@@ -1,0 +1,104 @@
+@class-prefix: ~'rayui-music-bar';
+@width: 100%;
+
+.@{class-prefix}itemContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+  width: @width;
+  height: 96rpx;
+  margin-bottom: 28rpx;
+}
+
+.@{class-prefix}leftContent {
+  display: flex;
+  min-width: 400rpx;
+  flex-direction: row;
+  height: 96rpx;
+}
+
+.@{class-prefix}number {
+  width: 40rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  height: 48rpx;
+  line-height: 48rpx;
+  color: #3d3d3d;
+  opacity: 0.5;
+  margin-right: 28rpx;
+}
+
+.@{class-prefix}musicInfo:extend(.@{class-prefix}flex-column) {
+  align-items: flex-start;
+}
+
+.@{class-prefix}musicName {
+  max-width: 560rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  height: 48rpx;
+  line-height: 48rpx;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+
+.@{class-prefix}musicExtraInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.@{class-prefix}vip {
+  min-width: 48rpx;
+  height: 28rpx;
+  line-height: 28rpx;
+  border-radius: 6rpx;
+  border-width: 2rpx;
+  border-color: #ffa100;
+  color: #ffa100;
+  font-size: 16rpx;
+  text-align: center;
+  margin-right: 8rpx;
+}
+
+.@{class-prefix}musicOtherInfo {
+  max-width: 480rpx;
+  font-size: 20rpx;
+  height: 48rpx;
+  line-height: 48rpx;
+  color: #808080;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+
+.@{class-prefix}collect {
+  width: 48rpx;
+  height: 48rpx;
+  margin: 10rpx;
+}
+
+.@{class-prefix}musicPic {
+  width: 40rpx;
+  height: 40rpx;
+  margin-top: 4rpx;
+  margin-right: 20rpx;
+}
+
+.@{class-prefix}flex-column {
+  display: flex;
+  flex-direction: column;
+}
