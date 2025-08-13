@@ -1,0 +1,14 @@
+{
+  "projectname": "@ray-js/lamp-bright-slider",
+  "i18n": false,
+  "description": "muhai",
+  "miniprogramRoot": "./example/dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.3",
+    "BizKit": "3.0.6",
+    "DeviceKit": "3.0.4",
+    "MiniKit": "3.0.3"
+  },
+  "baseversion": "2.10.25",
+  "compileType": "miniprogram"
+}
