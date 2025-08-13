@@ -1,0 +1,9 @@
+{
+  "entryPoints": ["src"],
+  "exclude": ["**/utils/**/*", "**/constant/**/*", "**/*.test.ts"],
+  "out": "./docs",
+  "name": "扫地机协议库",
+  "plugin": ["typedoc-theme-hierarchy"],
+  "tsconfig": "./tsconfig.json",
+  "theme": "hierarchy"
+}

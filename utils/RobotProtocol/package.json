@@ -1,0 +1,73 @@
+{
+  "name": "@ray-js/robot-protocol",
+  "version": "0.11.3",
+  "description": "扫地机协议解析库",
+  "main": "dist/index",
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "types": "dist/index.d.ts",
+  "maintainers": [
+    "tuya_npm",
+    {
+      "name": "tuyafe",
+      "email": "tuyafe@tuya.com"
+    }
+  ],
+  "scripts": {
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "build": "tsup",
+    "dev": "vitest",
+    "prepublishOnly": "yarn build",
+    "release-it": "standard-version",
+    "test": "vitest --run",
+    "test:types": "tsc -p test/typescript && echo \"Typetests passed\"",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage",
+    "test:typecheck": "tsc -p test && echo \"Types passed\"",
+    "docs": "typedoc"
+  },
+  "peerDependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "@swc/core": "^1.6.1",
+    "@types/jest": "^29.5.11",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^17.0.43",
+    "@vitest/coverage-istanbul": "^1.0.4",
+    "@vitest/coverage-v8": "^1.0.4",
+    "eslint-config-tuya-panel": "^0.4.1",
+    "husky": "^1",
+    "lint-staged": "^10",
+    "standard-version": "9.3.2",
+    "ts-node": "^10.9.1",
+    "tsup": "^8.3.5",
+    "typedoc": "^0.25.12",
+    "typedoc-theme-hierarchy": "^4.1.2",
+    "vitest": "^2.1.4"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS --config commitlint.config.js",
+      "pre-commit": "yarn test && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "buffer": "^6.0.3",
+    "lodash-es": "^4.17.21",
+    "moment": "^2.29.2",
+    "tinycolor2": "^1.6.0"
+  }
+}
