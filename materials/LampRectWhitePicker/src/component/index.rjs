@@ -1,0 +1,388 @@
+/* eslint-disable prettier/prettier */
+const defaultThumbOffset = 0.7;
+
+export default Render({
+  rectContext: null,
+  canvas: null,
+  canvasId: null,
+  screenRadio : null,
+  screenWidth:null,
+  screenHeight: null,
+  brightValue: null,
+
+  // 矩形色盘
+  renderRectWhite(ctx,width,height, colorsGradient) {
+    // 水平颜色绘制
+    const ratioX = this.canvas.width / (width);
+    this.screenRadio = ratioX || 1;
+
+    const grd1 = ctx.createLinearGradient(0, 0, this.canvas.width, 0);
+    this.addWhiteRightStops(grd1, colorsGradient);
+    ctx.fillStyle = grd1;
+    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    // 设置传递canvas宽高
+    this.callMethod('setCanvasRect', {
+      width: this.canvas.width,
+      height: this.canvas.height,
+    });
+  },
+  addWhiteRightStops(grd, colorsGradient = {}) {
+    const colorKeyList = Object.keys(colorsGradient);
+    colorKeyList.forEach(key => {
+      grd.addColorStop(key, colorsGradient[key]);
+    });
+  },
+  _getValidMaxMinResColor(x, y) {
+    if (!this.canvas) {
+      return {
+        x,
+        y,
+      };
+    }
+    // 色盘判断范围
+    const rectWidth = this.canvas.width;
+    const rectHeight = this.canvas.height;
+    const _offsetPercent = 0.3 + (0.5 - 0.3) + 0.05;
+    const offset = _offsetPercent * this.thumbRadius * 2 * this.screenRadio;
+    let xRes = x;
+    let yRes = y;
+     if (x < offset) {
+      xRes = offset + 1;
+     }
+     if (x > rectWidth - offset) {
+      xRes = rectWidth - 1;
+     }
+     if (y < offset) {
+      yRes = offset + 1;
+     }
+     if (y > rectHeight - offset) {
+      yRes = rectHeight - 1;
+     }
+ 
+    return {
+      x: xRes,
+      y: yRes,
+    };
+  },
+  _getValidMaxMinResThumb(x, y) {
+    // 滑块判断范围
+   const rectWidth = this.canvasThumb.width / 2;
+   const rectHeight = this.canvasThumb.height / 2;
+    const offset = defaultThumbOffset * this.thumbRadius * 2 * this.screenRadio;
+    let xRes = x;
+    let yRes = y;
+    if (x < offset) {
+      xRes = offset
+    }
+    if (x > rectWidth - offset) {
+      xRes = rectWidth - offset
+    }
+    if (y <offset) {
+      yRes = offset
+    }
+    if (y > rectHeight - offset) {
+      yRes = rectHeight - offset
+    }
+    return {
+      x: xRes,
+      y: yRes,
+    };
+  },
+  async renderRectColor(id, width, height, thumbRadius, closed, colorsGradient, _thumbWidth, options = {}) {
+    this.thumbRadius = _thumbWidth !== 0 ? _thumbWidth / 2 : thumbRadius;
+    const { useEventChannel, eventChannelName } = options || {};
+    this.useEventChannel = useEventChannel;
+    this.eventChannelName = eventChannelName;
+    if (!this.canvas) {
+      this.canvas = await getCanvasById(id);
+    }
+    if (!this.canvas) {
+      console.error('canvas not found');
+      return;
+    }
+
+    this.screenWidth = width + thumbRadius * 2 * defaultThumbOffset,
+    this.screenHeight = height + thumbRadius * 2 * defaultThumbOffset,
+    this.canvasId = id;
+    const ctx = this.canvas.getContext('2d');
+    this.rectContext = ctx;
+    this.renderRectWhite(ctx, width,height, colorsGradient);
+
+    if (!this.canvasThumb) {
+      this.canvasThumb = await getCanvasById(this.canvasId + '-thumb');
+      this.canvasThumbCtx = this.canvasThumb.getContext('2d');
+      this.addEventListeners(this.canvasThumb);
+    }
+
+    const scale = 2;
+    const oldRadius  = this.thumbRadius * this.screenRadio;
+    const radius = oldRadius * scale; // 圆弧半径
+    const _width = this.screenWidth * this.screenRadio;
+    const _height = this.screenHeight * this.screenRadio;
+    this.canvasThumb.width = _width * scale;
+    this.canvasThumb.height = _height * scale;
+  },
+  setDisable(v) {
+    this.disable = v;
+  },
+  setBrightValue(v) {
+    this.brightValue = v;
+  },
+  getMaxMinCanvasPos(x, y, maxWidth, maxHeight) {
+    const resX = Math.max(0.1, x);
+    const resY = Math.max(0.5, y);
+    return {
+      x: Math.min(resX, maxWidth - 0.5),
+      y: Math.min(resY, maxHeight - 0.5),
+    }
+  },
+  handleCanvasStartEvent(evt) {
+    if(this.disable) return;
+    this.touchType = 'start';
+    const {
+      changedTouches
+    } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvasThumb.getBoundingClientRect();
+    const offsetX = (this.canvasThumb.width / 2 - this.canvas.width) / 2;
+    const offsetY = (this.canvasThumb.height / 2 - this.canvas.height) / 2;
+    const {
+      x,
+      y
+    } = this._getValidMaxMinResThumb(point.clientX - left, point.clientY - top);
+    const { width: _canvasWidth, height: _canvasHeight} = this.canvas;
+    // 获取转换后的canvas元素点的坐标，从thumbCanvas转换来
+    const { x: canvasPosX, y: canvasPosY } = this.getMaxMinCanvasPos(point.clientX - left - offsetX, point.clientY - top - offsetY, _canvasWidth, _canvasHeight);
+
+    const temp = this._coorToValue(canvasPosX, this.canvas.width, this.thumbRadius * 2);
+    const rgb = this.getRectImageData(canvasPosX, canvasPosY, temp);
+    if (!rgb) {
+      return;
+    }
+    const emitRes = {
+      data: temp,
+      bright: this.brightValue,
+      touchType: this.touchType,
+      pos: {
+        x,
+        y
+      }
+    };
+
+    this.callMethod('_getRectImageData', emitRes);
+    const { r, g, b } = rgb;
+    this.updateThumbPosition(x, y, { r, g, b });
+
+    if (this.useEventChannel) {
+      try {
+        this.instance?.eventChannel.emit(this.eventChannelName, emitRes);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  },
+
+  _coorToValue(x, rectWidth, _thumbWidth) {
+    let res = x / (rectWidth - 0.5);
+    res *= 1000;
+    res = Math.round(res);
+    return Math.max(res, 0);
+  },
+  handleCanvasEndEvent(evt) {
+    if(this.disable) return;
+    this.touchType = 'end';
+    const {
+      changedTouches
+    } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvasThumb.getBoundingClientRect();
+    const offsetX = (this.canvasThumb.width / 2 - this.canvas.width) / 2;
+    const offsetY = (this.canvasThumb.height / 2 - this.canvas.height) / 2;
+    const {
+      x,
+      y
+    } = this._getValidMaxMinResThumb(point.clientX - left, point.clientY - top);
+    const { width: _canvasWidth, height: _canvasHeight} = this.canvas;
+    // 获取转换后的canvas元素点的坐标，从thumbCanvas转换来
+    const { x: canvasPosX, y: canvasPosY } = this.getMaxMinCanvasPos(point.clientX - left - offsetX, point.clientY - top - offsetY, _canvasWidth, _canvasHeight);
+
+    const temp = this._coorToValue(canvasPosX, this.canvas.width, this.thumbRadius * 2);
+    const rgb = this.getRectImageData(canvasPosX, canvasPosY, temp);
+    if (!rgb) {
+      return;
+    }
+    const emitRes = {
+      data: temp,
+      bright: this.brightValue,
+      touchType: this.touchType,
+      pos: {
+        x,
+        y
+      }
+    };
+
+    if (this.useEventChannel) {
+      this.instance?.eventChannel.emit(this.eventChannelName, emitRes);
+    }
+    this.callMethod('_getRectImageData', emitRes);
+    const { r, g, b } = rgb;
+    this.updateThumbPosition(x, y, { r, g, b });
+  },
+  handleCanvasMoveEvent(evt) {
+    if(this.disable) return;
+    this.touchType = 'move';
+    const {
+      changedTouches
+    } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvasThumb.getBoundingClientRect();
+    const offsetX = (this.canvasThumb.width / 2 - this.canvas.width) / 2;
+    const offsetY = (this.canvasThumb.height / 2 - this.canvas.height) / 2;
+    const {
+      x,
+      y
+    } = this._getValidMaxMinResThumb(point.clientX - left, point.clientY - top);
+    const { width: _canvasWidth, height: _canvasHeight} = this.canvas;
+    // 获取转换后的canvas元素点的坐标，从thumbCanvas转换来
+    const { x: canvasPosX, y: canvasPosY } = this.getMaxMinCanvasPos(point.clientX - left - offsetX, point.clientY - top - offsetY, _canvasWidth, _canvasHeight);
+
+    const temp = this._coorToValue(canvasPosX, this.canvas.width, this.thumbRadius * 2);
+    const rgb = this.getRectImageData(canvasPosX, canvasPosY, temp);
+    if (!rgb) {
+      return;
+    }
+
+    const emitRes = {
+      data: temp,
+      bright: this.brightValue,
+      touchType: this.touchType,
+      pos: {
+        x,
+        y
+      }
+    };
+
+    if (this.useEventChannel) {
+      this.instance?.eventChannel.emit(this.eventChannelName, emitRes);
+    }
+    this.callMethod('_getRectImageData', emitRes);
+    const { r, g, b } = rgb;
+    this.updateThumbPosition(x, y, { r, g, b });
+  },
+  addEventListeners() {
+    if (!this.canvasThumb) {
+      console.error('canvasThumb  not found');
+      return;
+    }
+    this.canvasThumb.addEventListener('touchstart', this.handleCanvasStartEvent, false);
+    this.canvasThumb.addEventListener('touchmove', this.handleCanvasMoveEvent, false);
+    this.canvasThumb.addEventListener('touchend', this.handleCanvasEndEvent, false);
+  },
+  removeEventListeners() {
+    if (!this.canvasThumb) {
+      console.error('canvasThumb  not found');
+      return;
+    }
+    this.canvasThumb.removeEventListener('touchstart', this.handleCanvasStartEvent);
+    this.canvasThumb.removeEventListener('touchmove', this.handleCanvasMoveEvent);
+    this.canvasThumb.removeEventListener('touchend', this.handleCanvasEndEvent);
+  },
+  _getPosByTemp(temp) {
+    if (!this.canvas) {
+      return null;
+    }
+    const { data } = this;
+    const { width , height } = this.canvas;
+    let x = (h / 360) * width;
+    if (x <= 0) {
+      x = width + x;
+    }
+    const y = (s * height) / 1000;
+    return {
+      x,
+      y,
+    };
+  },
+  limit(number, min, max) {
+    return Math.min(max, Math.max(min, number))
+  },
+  _getPosByBt(t) {
+    const { rectWidth, thumbRadius } = this.data;
+    // 白光色盘x对应色温
+    let x = (t / 1000) * rectWidth;
+    if (x < 0) {
+      x = rectWidth + x;
+    } else if (x > rectWidth) {
+      x = rectWidth;
+    }
+    return {
+      x,
+      y: thumbRadius,
+    };
+  },
+  updateThumbPositionByTemp(temp, _pos, closed) {
+    const pos =  _pos;
+    if (!pos) {
+      return;
+    }
+    this.closed = closed;
+    const { x, y } = this._getValidMaxMinResColor(pos.x, pos.y);
+    const rgb = this.getRectImageData(x, y, temp);
+    if (!rgb) {
+      return;
+    }
+    this.updateThumbPosition(x, y, rgb);
+  },
+  updateThumbPosition(x, y, rgb) {
+    if (!this.canvasThumb) {
+      console.error('canvasThumb not found');
+      return;
+    }
+    if (this.closed) {
+      rgb = { r: 41, g: 41, b: 41 }
+    }
+    let ctx = this.canvasThumbCtx;
+    const scale = 2;
+    const oldRadius  = this.thumbRadius * this.screenRadio;
+    const radius = oldRadius * scale; // 圆弧半径
+    const width = this.screenWidth * this.screenRadio;
+    const height = this.screenHeight * this.screenRadio;
+    this.canvasThumb.width = width * scale;
+    this.canvasThumb.height = height * scale;
+    this.canvasThumb.style.width = `${width}px`
+    this.canvasThumb.style.height = `${height}px`
+    ctx.clearRect(0, 0, width * scale, height* scale);
+    ctx.beginPath();
+  
+    const startAngle = 0; // 开始点
+    const endAngle = 2 * Math.PI; // 结束点
+    ctx.arc(x * scale, y *scale, radius, startAngle, endAngle, true);
+    ctx.shadowColor = "rgba(0, 0, 0, 0.16)";
+    ctx.shadowBlur = 3;
+    ctx.fillStyle = 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 3 * this.screenRadio * scale;
+    ctx.stroke();
+    ctx.scale(scale, scale);
+  },
+  getRectImageData(x, y, temp) {
+    const ctx = this.rectContext;
+    if (!ctx) {
+      console.error('rectContext not found');
+      return;
+    }
+    const {
+      data = []
+    } = ctx.getImageData(x, y, 1, 1);
+    const r = data[0];
+    const g = data[1];
+    const b = data[2];
+
+    return {
+      r,
+      g,
+      b
+    };
+  },
+});

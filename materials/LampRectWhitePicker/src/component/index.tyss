@@ -1,0 +1,50 @@
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas-wrapper {
+  position: absolute;
+}
+
+.canvas-screen-wrapper {
+  border-radius: 20px;
+}
+
+.thumb {
+  position: absolute;
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255, 255, 255, 0.8);
+  z-index: 50;
+}
+
+.colorTipWrapper {
+  position: absolute;
+  top: 12rpx;
+  left: 12rpx;
+  min-width: 72rpx;
+  height: 36rpx;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  border-radius: 66rpx;
+  font-size: 20rpx;
+  z-index: 60;
+}
+
+.colorTip {
+  color: #fff;
+  font-size: 20rpx;
+}
+.ray-js_lamp_rect_picker_color_mask {
+  position: absolute;
+  z-index: 0;
+}

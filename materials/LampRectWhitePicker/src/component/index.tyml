@@ -1,0 +1,24 @@
+<view
+    class="container"
+    style="width: {{ rectWidth * 2 + thumbRadius * 2  * offset * 2  }}rpx; height:  {{ rectHeight * 2 + thumbRadius * 2 * offset * 2 }}rpx;"
+>
+    <view class="canvas-screen-wrapper" style="position: absolute; overflow: hidden; width: {{ rectWidth * 2 - 2 }}rpx; transform: translateZ(0); height:  {{ rectHeight * 2 - 2 }}rpx; borderRadius: {{ _borderRadius }};">
+        <canvas
+            class="canvas-wrapper"
+            type="2d"
+            disable-scroll="true"
+            canvas-id="{{ canvasId }}"
+            style="width: {{ rectWidth * 2 }}rpx; transform: translateZ(0); height:  {{ rectHeight * 2 }}rpx; {{rectStyle}}"
+        ></canvas>
+        <View ty:if="{{isShowTip && !!colorText}}" class="colorTipWrapper" style="left: {{tipRectPosition.left}}; top: {{tipRectPosition.top}}; right: {{tipRectPosition.right}}; {{ colorTipStyle }}">
+            {{ colorText }}
+        </View>
+    </view>
+    <view ty:if="{{closed}}" class="ray-js_lamp_rect_picker_color_mask" style="width: {{ rectWidth * 2 }}rpx; height:  {{ rectHeight * 2 }}rpx; backgroundColor: rgba(0, 0, 0, 0.2); borderRadius: {{ _borderRadius }};"/>
+    <canvas
+        canvas-id="{{ canvasId }}-thumb"
+        type="2d"
+        disable-scroll="true"
+        style="width: {{ rectWidth * 2 + thumbRadius * 2  * offset * 2   }}rpx; height:  {{ rectHeight * 2 + thumbRadius * 2 * offset * 2 }}rpx; z-index: 10; position:abosulte;"
+    ></canvas>
+</view>
