@@ -1,0 +1,215 @@
+import {hsColorSource} from './config'
+import {hsv2rgb} from './utils';
+
+/* eslint-disable prettier/prettier */
+export default Render({
+  rectContext: null,
+  canvas: null,
+  canvasId: null,
+  screenRadio : 1,
+  scale:4,
+  hollow:21,
+  centerRingRadius:17,
+  radius:160,
+  lineWidth:5,
+  paddingWidth:5,
+  lineColor: '#fff',
+
+
+  renderHollow(ctx,hollowRadius,radius,paddingWidth,centerRingRadius) {
+    const startAngle = 0; 
+    const endAngle = 2 * Math.PI; 
+    ctx.beginPath();
+    ctx.arc((radius+paddingWidth)*this.scale/2,(radius+paddingWidth)*this.scale/2,radius*this.scale/2,startAngle,endAngle,true)
+    ctx.beginPath();
+    ctx.arc((radius+paddingWidth)*this.scale/2,(radius+paddingWidth)*this.scale/2,radius*this.scale/2,startAngle,endAngle,true)
+    ctx.beginPath();
+    ctx.arc((radius+paddingWidth)*this.scale/2,(radius+paddingWidth)*this.scale/2,centerRingRadius*this.scale/2,startAngle,endAngle,true)
+    ctx.fillStyle ='#fff'
+    ctx.fill()
+
+  },
+
+  renderRing(ctx,hollowRadius,radius,paddingWidth){
+    const x = radius;
+    const y = radius;
+    const  colorHeight = (radius-hollowRadius)/hsColorSource.length;
+    const rotateAngle =-Math.PI/2;
+    hsColorSource.forEach((lineColors,lineIndex)=> {
+      const angle = Math.PI*2/ lineColors.length;
+    lineColors.forEach((color,colorIndex)=> {
+      const newTopRadius = hollowRadius + colorHeight*(lineIndex+1);
+      const newBottomRadius = hollowRadius + colorHeight*lineIndex;
+      ctx.beginPath();
+      ctx.arc((radius+paddingWidth)*this.scale/2,(radius+paddingWidth)*this.scale/2,newTopRadius*this.scale/2,rotateAngle+angle*(colorIndex),rotateAngle+angle*(colorIndex+1),false)
+  
+   
+      ctx.arc((radius+paddingWidth)*this.scale/2,(radius+paddingWidth)*this.scale/2,newBottomRadius*this.scale/2,rotateAngle+angle*(colorIndex+1),rotateAngle+angle*(colorIndex),true)
+      ctx.fillStyle = hsv2rgb(color.h,color.s,color.v);;
+      ctx.fill();
+      ctx.closePath();
+      ctx.strokeStyle = '#000';
+
+     ctx.stroke();
+    }) 
+   }) 
+
+ 
+  },
+ async renderColorWheel(id,hollowRadius,ringRadius,paddingWidth,centerRingRadius,thumbBorderColor,thumbBorderWidth) {
+
+  if (!this.canvas) {
+    this.canvas = await getCanvasById(id);
+  }
+  if (!this.canvas) {
+    console.error('canvas not found');
+    return;
+  }
+  this.canvasId = id;
+  this.lineWidth = thumbBorderWidth;
+  this.lineColor = thumbBorderColor;
+  const ctx = this.canvas.getContext('2d');
+  this.rectContext = ctx;
+  const ratio = this.canvas.width / ((ringRadius+paddingWidth)*2);
+  
+  this.screenRadio = ratio || 1; 
+  this.canvas.width =(ringRadius+paddingWidth)*ratio * this.scale;
+  this.canvas.height = (ringRadius+paddingWidth) *ratio* this.scale;
+  this.canvas.style.width =(ringRadius+paddingWidth) *ratio *2+ "px";
+  this.canvas.style.height = (ringRadius+paddingWidth) *ratio *2+ "px";
+
+   this.hollow = hollowRadius*this.screenRadio;
+   this.centerRingRadius = centerRingRadius * this.screenRadio;
+   this.radius = ringRadius*this.screenRadio;
+   this.paddingWidth = paddingWidth*this.screenRadio;
+  
+  this.renderHollow(ctx,hollowRadius*this.screenRadio,ringRadius*this.screenRadio,paddingWidth*this.screenRadio,centerRingRadius*this.screenRadio);
+  this.renderRing(ctx,hollowRadius*this.screenRadio,ringRadius*this.screenRadio,paddingWidth*this.screenRadio);
+  if (!this.canvasThumb) {
+    this.canvasThumb = await getCanvasById(this.canvasId + '-thumb');
+   this.addEventListeners(this.canvasThumb);
+   this.canvasThumb.width =(ringRadius+paddingWidth) *ratio* this.scale;
+    this.canvasThumb.height = (ringRadius+paddingWidth) *ratio* this.scale;
+  
+    this.canvasThumb.style.width = (ringRadius+paddingWidth) *ratio *2+ "px";
+    this.canvasThumb.style.height =(ringRadius+paddingWidth) *ratio *2+ "px";
+  }
+  this.canvasThumbCtx = this.canvasThumb.getContext('2d');
+ },
+ addEventListeners(){
+
+  if (!this.canvasThumb) {
+    console.error('canvasThumb  not found');
+    return;
+  }
+
+  this.canvasThumb.addEventListener('touchend', this.handleCanvasEndEvent, false);
+ },
+ removeEventListeners() {
+  if (!this.canvasThumb) {
+    console.error('canvasThumb  not found');
+    return;
+  }
+ 
+  this.canvasThumb.removeEventListener('touchend', this.handleCanvasEndEvent);
+},
+ handleCanvasEndEvent(evt) {
+
+  this.touchType = 'end';
+  const {
+    changedTouches
+  } = evt;
+
+  const [point] = changedTouches;
+  const { top, left } = this.canvasThumb.getBoundingClientRect();
+  let ctx = this.canvasThumbCtx; 
+   const x = this.hollow;
+    const y = this.hollow;
+
+
+    const newX = point.clientX - left-this.radius-this.paddingWidth;
+     const newY = point.clientY - top-this.radius-this.paddingWidth;
+     const distance = Math.sqrt((newX*newX+newY*newY))
+     const rotateAngle =-Math.PI/2;
+     const angle = Math.PI*2/hsColorSource.length;
+ 
+     const radian = Math.atan2(newY, newX);
+     const  colorHeight = (this.radius-this.hollow)/hsColorSource.length;
+     const anglesss = ((radian * 180) / Math.PI< -90?(radian * 180) / Math.PI+360:(radian * 180) / Math.PI)/180 *Math.PI;
+    if (distance<=this.centerRingRadius) {
+      this.callMethod('_getColor', {
+        h: 0,
+        s: 0,
+
+      });
+      return ;
+ 
+    }
+     hsColorSource.forEach((lineColors,lineIndex)=> {
+      const angle = Math.PI*2/ lineColors.length;
+      const newTopRadius = this.hollow + colorHeight*(lineIndex+1);
+      const newBottomRadius = this.hollow + colorHeight*lineIndex;
+      lineColors.forEach((color,colorIndex)=> {
+        if (distance<=newTopRadius && distance>=newBottomRadius && anglesss>=rotateAngle+angle*(colorIndex) &&anglesss<=rotateAngle+angle*(colorIndex+1)) {
+
+          this.callMethod('_getColor', {
+           h: color.h,
+           s: color.s*10,
+
+         });
+          }
+  
+      
+    }) 
+   }) 
+  
+
+ },
+ getRectImageData(x,y){
+  const ctx = this.rectContext;
+  if (!ctx) {
+    console.error('rectContext not found');
+    return;
+  }
+ },
+ updateThumbPosition(hsColor){
+  let ctx = this.canvasThumbCtx; 
+  if (!ctx) {
+    console.warn('canvasThumbCtx not found');
+    return;
+  }
+  if (hsColor.s === 0) {
+    ctx.clearRect(0, 0,this.radius*2*this.scale, this.radius*2*this.scale);
+    ctx.beginPath();
+    ctx.arc((this.radius+this.paddingWidth)*this.scale/2,(this.radius+this.paddingWidth)*this.scale/2,this.centerRingRadius*this.scale/2,0,2*Math.PI,false)   
+    ctx.lineWidth = this.lineWidth;
+    ctx.strokeStyle = this.lineColor;
+    ctx.stroke();
+    return ;
+  }
+  hsColorSource.forEach((lineColors,lineColorsIndex) => {
+    lineColors.forEach((colorItem,index)=> {
+
+      if (colorItem.h === (hsColor.h === 360 ? 0: hsColor.h) && colorItem.s === hsColor.s/10) {
+        const  colorHeight = (this.radius-this.hollow)/hsColorSource.length;
+        const newTopRadius = this.hollow + colorHeight*(lineColorsIndex+1);
+        const newBottomRadius = this.hollow + colorHeight*(lineColorsIndex+0);
+        const angle = Math.PI*2/ lineColors.length;
+        const rotateAngle =-Math.PI/2;
+        let ctx = this.canvasThumbCtx; 
+        ctx.clearRect(0, 0,this.radius*2*this.scale, this.radius*2*this.scale);
+        ctx.beginPath();
+        ctx.arc((this.radius+this.paddingWidth)*this.scale/2,(this.radius+this.paddingWidth)*this.scale/2,newTopRadius*this.scale/2,rotateAngle+angle*(index),rotateAngle+angle*(index+1),false)
+        ctx.arc((this.radius+this.paddingWidth)*this.scale/2,(this.radius+this.paddingWidth)*this.scale/2,newBottomRadius*this.scale/2,rotateAngle+angle*(index+1),rotateAngle+angle*(index),true)
+        ctx.closePath();
+   
+        ctx.lineWidth = this.lineWidth;
+        ctx.strokeStyle = this.lineColor;
+        ctx.stroke();
+      }
+    })
+  })
+ }
+})
+
+

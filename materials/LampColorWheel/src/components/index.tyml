@@ -1,0 +1,19 @@
+<view 
+    class="container"
+    style="position: relative; width: {{ (ringRadius+paddingWidth) * 2 * 2 }}rpx;  height: {{  (ringRadius+paddingWidth) * 2 * 2 }}rpx;  {{ containerStyle }}"
+>
+    <canvas
+        class="canvasWrapper"
+        disable-scroll="true"
+        type="2d"
+        canvas-id="{{ canvasId }}"
+        style="position: absolute;top:0;left:0; width: {{ (ringRadius+paddingWidth) * 2*2  }}rpx;  height:  {{  (ringRadius+paddingWidth) * 2 * 2 }}rpx;{{ringStyle}};borderRadius:{{ringRadius*2}}rpx"
+    ></canvas>
+     <canvas
+        class="canvasSelectBox"
+        type="2d"
+        disable-scroll="true"
+        canvas-id="{{ canvasId }}-thumb"
+          style="position: absolute;top:0;left:0; width: {{ (ringRadius+paddingWidth) * 2*2 }}rpx;  height: {{  (ringRadius+paddingWidth) * 2 * 2 }}rpx;{{ringStyle}};borderRadius:{{ringRadius*2}}rpx"
+    ></canvas>
+</view>

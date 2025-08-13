@@ -1,0 +1,13 @@
+{
+  "projectname": "@ray/color-wheel",
+  "i18n": false,
+  "description": "彩色圆形选择色环",
+  "miniprogramRoot": "./example/dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.1",
+    "DeviceKit": "3.0.2",
+    "MiniKit": "3.0.2",
+    "BizKit": "3.0.6"
+  },
+  "baseversion": "2.10.4"
+}
