@@ -1,0 +1,13 @@
+{
+  "projectname": "@ray/ray-pencil-flow",
+  "i18n": false,
+  "description": "@ray/ray-pencil-flow",
+  "baseversion": "2.10.4",
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.1",
+    "BizKit": "3.0.7",
+    "DeviceKit": "3.0.2",
+    "MiniKit": "3.0.2"
+  }
+}

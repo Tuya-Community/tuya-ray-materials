@@ -1,0 +1,33 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "CommonJS",
+    "lib": ["ESNext", "DOM"],
+    "declaration": true,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "noEmitOnError": false,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@ray-js/lamp-music-card": ["./src"]
+    },
+    "typeRoots": ["./typings", ".src/types"]
+  },
+  "exclude": [
+    "node_modules",
+    "lib",
+    "typings",
+    "**/__test__",
+    "test",
+    "tests",
+    "example/dist",
+    "example/public"
+  ]
+}
