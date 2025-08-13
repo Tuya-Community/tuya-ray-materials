@@ -1,6 +1,6 @@
 {
   "name": "@ray-js/components-ty-perf-text",
-  "version": "0.0.9-beta-7",
+  "version": "0.0.9-beta-16",
   "description": "用于Slider实时拖动显示数值",
   "main": "lib/index",
   "files": [
@@ -8,9 +8,6 @@
   ],
   "license": "MIT",
   "types": "lib/index.d.ts",
-  "maintainers": [
-    "tuya_npm"
-  ],
   "scripts": {
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
     "build": "patch-package && ray build --type=component",
@@ -20,7 +17,7 @@
     "build:web": "ray build ./example --target=web",
     "build:native": "ray build ./example --target=native",
     "start:native": "ray start ./example -t native --verbose",
-    "start:tuya": "ray start ./example",
+    "start:tuya": "ray start -t tuya ./example",
     "start:wechat": "ray start ./example -t wechat --verbose",
     "start:web": "ray start ./example -t web",
     "prepublishOnly": "yarn build",
@@ -30,14 +27,16 @@
     "@ray-js/ray": "^1.4.9"
   },
   "dependencies": {
+    "@tuya-miniapp/smart-ui": "2.3.3-beta-4",
     "clsx": "^1.2.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.2.1",
     "@commitlint/config-conventional": "^9.0.1",
-    "@ray-js/cli": "^1.4.9",
-    "@ray-js/components-ty-slider": "^0.2.44",
+    "@ray-js/cli": "^1.6.24",
+    "@ray-js/components-ty-slider": "0.3.2-beta-10",
     "@ray-js/ray": "^1.4.9",
+    "@ray-js/smart-ui": "^2.3.2",
     "core-js": "^3.19.1",
     "eslint-config-tuya-panel": "^0.4.2",
     "husky": "^1.2.0",
@@ -46,7 +45,8 @@
     "standard-version": "9.3.2"
   },
   "resolutions": {
-    "@ray-js/builder-mp": "1.4.15"
+    "@ray-js/builder-mp": "1.4.15",
+    "@ray-js/components-ty-slider": "0.3.2-beta-10"
   },
   "husky": {
     "hooks": {
@@ -63,5 +63,11 @@
       "prettier --write",
       "git add"
     ]
-  }
+  },
+  "maintainers": [
+    {
+      "name": "tuyafe",
+      "email": "tuyafe@tuya.com"
+    }
+  ]
 }

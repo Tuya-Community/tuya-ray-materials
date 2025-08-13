@@ -37,17 +37,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="HighPerfText">2024/11</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/HighPerfText">HighPerfText</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/materials-HighPerfText.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="LampBeaconTemplate">2024/11</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/LampBeaconTemplate">LampBeaconTemplate</a></td>
   <td>
@@ -582,6 +571,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampVerticalTouchSlider" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="HighPerfText">2025/08</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/HighPerfText">HighPerfText</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=HighPerfText" target="_blank">View Details</a>
   </details>
   </td>
 </tr>

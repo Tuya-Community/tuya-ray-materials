@@ -1,3 +1,5 @@
+// @ts-ignore
+// eslint-disable-next-line no-undef
 Component({
   properties: {
     instanceId: String,
@@ -18,14 +20,9 @@ Component({
     textStyle: {
       type: null,
     },
-    // round | ceil | floor | 'fix' | 'origin'
-    mathType: {
-      type: String,
-      value: 'round',
-    },
     fixNum: {
       type: Number,
-      value: 1,
+      value: null,
     },
     checkEventInstanceId: Boolean,
     min: { type: Number, value: -Number.MAX_SAFE_INTEGER },

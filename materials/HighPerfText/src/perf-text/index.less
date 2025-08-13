@@ -1,7 +1,29 @@
 .text {
+  opacity: var(--perf-text1-op, 1);
   counter-reset: perf-text-counter var(--perf-text-value);
 }
 
 .text::after {
   content: counter(perf-text-counter);
+}
+
+.wrap {
+  display: inline;
+}
+
+.text2 {
+  counter-reset: perf-text-counter2 var(--perf-text-value2);
+}
+
+.text2::after {
+  content: counter(perf-text-counter2);
+}
+
+.prefix {
+  display: var(--perf-text-prefix-show, 'inline');
+  opacity: var(--perf-text1-op, 1);
+}
+
+.dot {
+  opacity: var(--perf-text1-op, 1);
 }

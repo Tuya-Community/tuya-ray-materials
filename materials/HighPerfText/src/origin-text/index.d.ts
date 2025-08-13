@@ -7,10 +7,13 @@ export interface PerfTextProps {
   textStyle?: React.CSSProperties;
   className?: string;
   checkEventInstanceId?: boolean;
-  mathType?: 'round' | 'ceil' | 'floor' | 'fix' | 'origin';
+  mathType?: 'round' | 'ceil' | 'floor' | 'fix';
   fixNum?: number;
   min?: number;
   max?: number;
+  localMap?: any;
 }
 
-export default React.Component<PerfTextProps>;
+declare const InnerText: React.FC<PerfTextProps>;
+
+export default InnerText;

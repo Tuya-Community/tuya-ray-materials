@@ -1,0 +1,23 @@
+<sjs src="./index.sjs" module="computed"></sjs>
+
+<text
+  id="{{instanceId}}" 
+
+  instanceId="{{instanceId}}" 
+  change:instanceId="{{computed.init}}" 
+
+  defval="{{defaultValue}}"
+  change:defval="{{computed.setVal(instanceId)}}"
+
+  data-eventname="{{eventName}}" 
+  data-valuestart="{{valueStart}}" 
+  data-valuescale="{{valueScale}}" 
+  data-defval="{{defaultValue}}"
+  data-fixnum="{{fixNum}}"
+  data-checkeventinstanceid="{{checkEventInstanceId}}"
+  data-min="{{min}}"
+  data-max="{{max}}"
+
+  style="{{textStyle}}"
+  class="origin_text {{className}}"
+></text>

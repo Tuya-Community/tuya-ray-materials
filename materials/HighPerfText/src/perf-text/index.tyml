@@ -1,21 +1,50 @@
 <sjs src="./index.sjs" module="computed"></sjs>
 
-<text
-  id="{{instanceId}}" 
+<block ty:if="{{mathType !== 'fix'}}">
+  <text
+    id="{{instanceId}}" 
 
-  instanceId="{{instanceId}}" 
-  change:instanceId="{{computed.init}}" 
+    instanceId="{{instanceId}}" 
+    change:instanceId="{{computed.init}}" 
 
-  defval="{{defaultValue}}"
-  change:defval="{{computed.setVal(instanceId)}}"
+    defval="{{defaultValue}}"
+    change:defval="{{computed.setVal(instanceId)}}"
 
-  data-eventname="{{eventName}}" 
-  data-valuestart="{{valueStart}}" 
-  data-valuescale="{{valueScale}}" 
-  data-defval="{{defaultValue}}"
-  data-checkeventinstanceid="{{checkEventInstanceId}}"
-  data-mathtype="{{mathType}}"
+    data-eventname="{{eventName}}" 
+    data-valuestart="{{valueStart}}" 
+    data-valuescale="{{valueScale}}" 
+    data-defval="{{defaultValue}}"
+    data-fixnum="{{fixNum}}"
+    data-checkeventinstanceid="{{checkEventInstanceId}}"
+    data-mathtype="{{mathType}}"
+    data-min="{{min}}"
+    data-max="{{max}}"
 
-  style="{{textStyle}}"
-  class="text {{className}}"
-></text>
+    style="{{textStyle}}"
+    class="text {{className}}"
+  ></text>
+</block>
+<block ty:else>
+  <view
+    class="wrap"
+    id="{{instanceId}}" 
+    instanceId="{{instanceId}}" 
+    change:instanceId="{{computed.init}}" 
+
+    defval="{{defaultValue}}"
+    change:defval="{{computed.setVal(instanceId)}}"
+
+    data-eventname="{{eventName}}" 
+    data-valuestart="{{valueStart}}" 
+    data-valuescale="{{valueScale}}" 
+    data-defval="{{defaultValue}}"
+    data-fixnum="{{fixNum}}"
+    data-checkeventinstanceid="{{checkEventInstanceId}}"
+    data-mathtype="{{mathType}}"
+  >
+    <text class="prefix {{className}}" style="{{textStyle}}">-</text>
+    <text class="text {{className}}" style="{{textStyle}}"></text>
+    <text class="dot {{className}}" style="{{textStyle}}">.</text>
+    <text class="text2 {{className}}" style="{{textStyle}}"></text>
+  </view>
+</block>
