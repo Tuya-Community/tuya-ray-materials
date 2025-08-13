@@ -1,0 +1,91 @@
+<sjs src="./index.sjs" module="computed"></sjs>
+
+<view class="rayui-vertical-percent-slider_wrap {{direction === 'vertical' ? 'vertical': 'horizontal'}}"
+  bind:touchstart="{{disable ? null : computed.handleTrackMouseDown(instanceId)}}"
+  bind:touchmove="{{disable ? null : computed.onMouseMove(instanceId)}}"
+  bind:touchend="{{disable ? null : computed.onTrackMouseUp(instanceId)}}"
+  style="{{hotAreaStyle}}"
+>
+  <view ty:if="{{showIcon}}" class="rayui-vertical-percent-slider-left-icon" style="background-image: {{iconSrc}}" />
+  <view 
+    id="{{instanceId}}"
+    class="rayui-vertical-percent-slider {{direction === 'vertical' ? 'vertical': 'horizontal'}} {{reverse ? 'reverse': 'no-reverse'}} {{disable ? 'disabled': ''}} {{className}}"
+    disable="{{disable}}"
+    
+    change:start="{{computed.startPropObserver(instanceId)}}"
+    change:end="{{computed.endPropObserver(instanceId)}}"
+    change:watchstart="{{computed.watchstartPropObserver(instanceId)}}"
+    change:watchend="{{computed.watchenddPropObserver(instanceId)}}"
+    start="{{start}}"
+    end="{{end}}"
+    watchstart="{{watchStart}}"
+    watchend="{{watchEnd}}"
+
+    data-max="{{max}}"
+
+    data-step="{{step}}"
+
+    data-startmin="{{startMin}}"
+    data-startmax="{{startMax}}"
+    data-valuemin="{{min}}"
+    
+    data-endmin="{{endMin}}"
+    data-endmax="{{endMax}}"
+
+    data-mode="{{mode}}"
+    data-barpad="{{barPad}}"
+    data-hidethumb="{{hideThumb}}"
+    data-showsteps="{{showSteps}}"
+    data-direction="{{direction}}"
+    data-reverse="{{reverse}}"
+    data-enabletouch="{{enableTouch}}"
+    data-enabletouchbar="{{enableTouchBar}}"
+    data-maxrangeoffset="{{maxRangeOffset}}"
+    data-texttemplate="{{textTemplate}}"
+    data-showtext="{{showText}}"
+    data-thumbstylecalc="{{thumbStyleCalc}}"
+    data-hidebaronfirstrender="{{hideBarOnFirstRender}}"
+
+    style="{{trackStyle}}"
+  >
+    <view ty:if="{{showSteps}}" class="rayui-vertical-percent-slider-steps">
+      <view class="rayui-vertical-percent-slider-steps-dot" ty:for="{{steps}}" style="{{stepStyle}}" ty:for-item="step">
+      </view>
+    </view>
+    <view class="rayui-vertical-percent-slider-bar"
+      style="{{barStyle}}"
+    >
+      <view class="rayui-vertical-percent-slider-bar-steps_wrap">
+        <view ty:if="{{showSteps}}" class="rayui-vertical-percent-slider-steps">
+          <view class="rayui-vertical-percent-slider-steps-dot" ty:for="{{steps}}" style="{{activeStepStyle}}" ty:for-item="step">
+          </view>
+        </view>  
+      </view>
+    </view>
+    <view
+      class="rayui-vertical-percent-slider-thumb rayui-vertical-percent-slider-thumb-start"
+      data-name="start"
+      bind:touchstart="{{disable ? null : computed.handleMouseDown(instanceId)}}"
+      bind:touchend="{{disable ? null : computed.onMouseUp(instanceId)}}"
+    >
+      <view 
+        data-name="start"
+        class="rayui-vertical-percent-slider-thumb-render rayui-vertical-percent-slider-thumb-start-render"
+      ></view>
+    </view>
+    <view
+      class="rayui-vertical-percent-slider-thumb rayui-vertical-percent-slider-thumb-end"
+      data-name="end"
+      bind:touchstart="{{disable ? null : computed.handleMouseDown(instanceId)}}"
+      bind:touchend="{{disable ? null : computed.onMouseUp(instanceId)}}"
+    >
+      <view 
+        data-name="end"
+        class="rayui-vertical-percent-slider-thumb-render rayui-vertical-percent-slider-thumb-end-render" style="{{thumbStyle}}"
+      ></view>
+    </view>
+  </view>
+    <view class="rayui-vertical-percent-slider-right-text" ty:if="{{showText}}" style="color: {{textColor}}">
+    {{text}}%
+  </view>
+</view>
