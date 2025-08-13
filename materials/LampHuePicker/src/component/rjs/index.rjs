@@ -1,0 +1,261 @@
+export default Render({
+  rectContext: null,
+  // 环形色盘
+  async renderAnnulusColor(id, radius, innerRingRadius, h = 0, isRenderWithImg = false, options) {
+    let canvas = null;
+    try {
+      canvas = await getCanvasById(id);
+      if (!canvas) {
+        console.error('canvas not found');
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+    const { useEventChannel, eventChannelName } = options || {};
+    this.useEventChannel = useEventChannel;
+    this.eventChannelName = eventChannelName;
+
+    const ctx = canvas.getContext('2d');
+    canvas.width = radius * 4;
+    canvas.height = radius * 4;
+
+    const counterClockwise = false;
+    this.annulusContext = ctx;
+    ctx.beginPath(); // 开一条新路
+    const x = canvas.width / 2;
+    const y = canvas.height / 2;
+
+    for (let angle = 0; angle <= 360; angle += 1) {
+      const startAngle = ((angle - 2) * Math.PI) / 180;
+      const endAngle = (angle * Math.PI) / 180;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.arc(x, y, radius * 2, startAngle, endAngle, false);
+      ctx.closePath();
+      var gradient = ctx.createRadialGradient(x, y, 0, x, y, radius * 2);
+      gradient.addColorStop(0, 'hsl(' + (360 - angle) + ', 100%, 50%)');
+      gradient.addColorStop(1, 'hsl(' + (360 - angle) + ', 100%, 50%)');
+      ctx.fillStyle = gradient;
+      ctx.fill();
+    }
+    ctx.globalCompositeOperation = 'destination-out';
+
+    ctx.beginPath();
+    ctx.arc(radius * 2, radius * 2, innerRingRadius * 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.scale(2, 2);
+
+    canvas.style.width = `${radius * 2}px`;
+    canvas.style.height = `${radius * 2}px`;
+    this.renderAnnulusColorThumb(id, h);
+  },
+  async renderAnnulusColorThumb(id, h = 0) {
+    if (!this.canvasThumb) {
+      this.canvasThumb = await getCanvasById(`${id}_thumb`);
+      this.canvasThumbCtx = this.canvasThumb.getContext('2d');
+    }
+    this.addEventListeners();
+    this.updateThumbPositionByHs(h);
+  },
+  async checkIsRender(id) {
+    const canvas = await getCanvasById(id);
+    this.callMethod('getCanvas', canvas);
+  },
+  limit(number, min, max) {
+    return Math.min(max, Math.max(min, number));
+  },
+  hsv2rgb(h = 0, s = 0, v = 0, a) {
+    const hsb = [h, s, v].map((bit, i) => {
+      let _bit = bit;
+      if (_bit) _bit = parseFloat(_bit);
+      if (i === 0) {
+        return (_bit %= 360) < 0 ? _bit + 360 : _bit;
+      }
+      return this.limit(Math.round(bit), 0, 100);
+    });
+
+    const br = Math.round((hsb[2] / 100) * 255);
+    if (hsb[1] == 0) return [br, br, br];
+
+    const hue = hsb[0];
+    const f = hue % 60;
+    const p = Math.round(((hsb[2] * (100 - hsb[1])) / 10000) * 255);
+    const q = Math.round(((hsb[2] * (6000 - hsb[1] * f)) / 600000) * 255);
+    const t = Math.round(((hsb[2] * (6000 - hsb[1] * (60 - f))) / 600000) * 255);
+
+    let rgb;
+    switch (Math.floor(hue / 60)) {
+      case 0:
+        rgb = [br, t, p];
+        break;
+      case 1:
+        rgb = [q, br, p];
+        break;
+      case 2:
+        rgb = [p, br, t];
+        break;
+      case 3:
+        rgb = [p, q, br];
+        break;
+      case 4:
+        rgb = [t, p, br];
+        break;
+      default:
+        rgb = [br, p, q];
+        break;
+    }
+    if (a !== undefined) {
+      rgb.push(this.limit(Number(a), 0, 1));
+    }
+    return rgb;
+  },
+  updateThumbPositionByHs(h) {
+    const pos = this._getPosByH(h);
+    const { x, y } = this._getValidMaxMinRes(pos.x, pos.y);
+    const rgb = this.hsv2rgb(h, 1000, 1000, 1);
+    this.updateThumbPosition(x, y, { r: rgb[0], g: rgb[1], b: rgb[2] });
+  },
+  updateThumbPosition(x, y, rgb) {
+    if (!this.canvasThumb) {
+      console.error('canvasThumb not found');
+      return;
+    }
+    let ctx = this.canvasThumbCtx;
+    this.canvasThumb.width = this.radius * 4;
+    this.canvasThumb.height = this.radius * 4;
+    ctx.clearRect(0, 0, this.canvasThumb.width, this.canvasThumb.height);
+    ctx.beginPath();
+    const radius = this.radius - this.innerRingRadius - 4; // 圆弧半径
+    const startAngle = 0; // 开始点
+    const endAngle = 2 * Math.PI; // 结束点
+    ctx.arc(x * 2, y * 2, radius, startAngle, endAngle, true);
+    ctx.shadowBlur = 24;
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+    ctx.fillStyle = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 8;
+    ctx.stroke();
+    ctx.scale(2, 2);
+    this.canvasThumb.style.width = `${this.radius * 2}px`;
+    this.canvasThumb.style.height = `${this.radius * 2}px`;
+  },
+  getAnnulusImageData(x, y) {
+    const ctx = this.annulusContext;
+    if (!ctx) {
+      console.error('ctx not found');
+      return;
+    }
+    const { data } = ctx.getImageData(x * 2, y * 2, 1, 1);
+    const r = data[0];
+    const g = data[1];
+    const b = data[2];
+    this.updateThumbPosition(x, y, { r, g, b });
+    const emitRes = {
+      ...data,
+      touchType: this.touchType,
+    };
+
+    this.callMethod('_getAnnulusImageData', emitRes);
+
+    if (this.useEventChannel) {
+      try {
+        this.instance?.eventChannel.emit(this.eventChannelName, emitRes);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  },
+
+  _getRgb(x, y) {
+    const { radius, innerRingRadius } = this;
+    const xDistance = Math.abs(x - radius);
+    const yDistance = Math.abs(y - radius);
+    const distance = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
+    if (distance >= radius - innerRingRadius && distance <= radius) {
+      this.getAnnulusImageData(x, y);
+    }
+  },
+  _getPosByH(h) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { radius, innerRingRadius } = this;
+    const { PI } = Math;
+    const x = radius + ((radius + innerRingRadius) / 2) * Math.cos(((360 - h) / 180) * PI);
+    const y = radius + ((radius + innerRingRadius) / 2) * Math.sin(((360 - h) / 180) * PI);
+    return {
+      x,
+      y,
+    };
+  },
+  _setCircles(radius, innerRingRadius) {
+    this.radius = radius;
+    this.innerRingRadius = innerRingRadius;
+  },
+  _getValidMaxMinRes(x, y) {
+    const { radius, innerRingRadius } = this;
+    const centerX = radius;
+    const centerY = radius;
+    const xDistance = Math.abs(centerX - x);
+    const yDistance = Math.abs(centerY - y);
+    const distance = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
+
+    let angle = (Math.atan(yDistance / xDistance) * 180) / Math.PI;
+    let quadrant = 1; // 象限
+    if (x <= radius && y <= radius) {
+      quadrant = 2;
+      angle = 180 - angle;
+    } else if (x <= radius && y >= radius) {
+      quadrant = 3;
+      angle = 180 + angle;
+    } else if (x >= radius && y >= radius) {
+      quadrant = 4;
+      angle = 360 - angle;
+    }
+    const r = innerRingRadius + (radius - innerRingRadius) / 2;
+    x = radius + r * Math.cos((angle / 180) * Math.PI);
+    y = radius - r * Math.sin((angle / 180) * Math.PI);
+    return {
+      x,
+      y,
+    };
+  },
+  handleCanvasStartEvent(evt) {
+    this.touchType = 'start';
+    const { changedTouches } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvasThumb.getBoundingClientRect();
+    const { x, y } = this._getValidMaxMinRes(point.clientX - left, point.clientY - top);
+
+    this._getRgb(x, y);
+  },
+  handleCanvasEndEvent(evt) {
+    this.touchType = 'end';
+    const { changedTouches } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvasThumb.getBoundingClientRect();
+    const { x, y } = this._getValidMaxMinRes(point.clientX - left, point.clientY - top);
+
+    this._getRgb(x, y);
+  },
+  handleCanvasMoveEvent(evt) {
+    this.touchType = 'move';
+    const { changedTouches } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvasThumb.getBoundingClientRect();
+    const { x, y } = this._getValidMaxMinRes(point.clientX - left, point.clientY - top);
+    this._getRgb(x, y);
+  },
+  addEventListeners() {
+    this.canvasThumb.addEventListener('touchstart', this.handleCanvasStartEvent, false);
+    this.canvasThumb.addEventListener('touchmove', this.handleCanvasMoveEvent, false);
+    this.canvasThumb.addEventListener('touchend', this.handleCanvasEndEvent, false);
+  },
+  removeEventListeners() {
+    this.canvasThumb.removeEventListener('touchstart', this.handleCanvasStartEvent);
+    this.canvasThumb.removeEventListener('touchmove', this.handleCanvasMoveEvent);
+    this.canvasThumb.removeEventListener('touchend', this.handleCanvasEndEvent);
+  },
+});

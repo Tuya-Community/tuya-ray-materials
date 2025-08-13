@@ -1,0 +1,15 @@
+{
+  "projectname": "彩色色环",
+  "i18n": false,
+  "description": "",
+  "baseversion": "2.12.18",
+  "miniprogramRoot": "./example/dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.1",
+    "DeviceKit": "3.0.2",
+    "MiniKit": "3.0.2",
+    "BizKit": "3.0.6"
+  },
+  "productId": "rve13lun",
+  "compileType": "miniprogram"
+}
