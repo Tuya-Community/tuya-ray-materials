@@ -455,17 +455,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="LampVerticalTouchSlider">2025/08</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampVerticalTouchSlider">LampVerticalTouchSlider</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampVerticalTouchSlider" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="LampTouchSlider">2025/08</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampTouchSlider">LampTouchSlider</a></td>
   <td>
@@ -582,6 +571,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampVerticalPercentSlider" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="LampVerticalTouchSlider">2025/08</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampVerticalTouchSlider">LampVerticalTouchSlider</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampVerticalTouchSlider" target="_blank">View Details</a>
   </details>
   </td>
 </tr>
