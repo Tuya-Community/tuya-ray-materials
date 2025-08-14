@@ -1,0 +1,16 @@
+{
+  "projectname": "@ray/lamp-countdown",
+  "i18n": false,
+  "description": "",
+  "baseversion": "2.21.10",
+  "miniprogramRoot": "./example/dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.1",
+    "BizKit": "3.0.7",
+    "DeviceKit": "3.0.2",
+    "MiniKit": "3.0.2"
+  },
+  "compileType": "miniprogram",
+  "remoteDebug": "mqtt",
+  "remoteVersion": "1.0"
+}

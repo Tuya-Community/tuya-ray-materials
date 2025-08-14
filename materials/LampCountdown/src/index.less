@@ -1,0 +1,96 @@
+.countdown {
+  // TODO:
+  font-family: serif, sans-serif, monospace;
+
+  &_container {
+    --picker-option-unit-font-size: 14px;
+    --picker-background-color: transparent;
+    --popup-background-color: transparent;
+    --nav-bar-background-color: transparent;
+    --nav-bar-title-font-size: 16px;
+    --nav-bar-title-font-weight: 600;
+
+    .smart-picker-column__unit_text {
+      margin-left: 18px;
+      position: relative;
+      top: 7px;
+    }
+
+    .smart-picker__columns {
+      padding: 0 142rpx;
+    }
+  }
+
+  &_close-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &_scrollView {
+    position: relative;
+    height: auto;
+    flex: 1;
+  }
+
+  &_picker {
+    .smart-picker-column__item {
+      font-size: 40px;
+      // margin-right: 28px;
+    }
+  }
+
+  &_normal-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &_card-container {
+    background-color: var(--app-B3);
+  }
+
+  &_placeholder {
+    width: 40px;
+  }
+
+  &_picker-wrapper {
+    height: calc(100% - 40px - 50px - 48px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &_tip {
+    padding: 0 16px;
+    font-size: 10px;
+    text-align: center;
+  }
+
+  &_popup {
+    position: relative;
+    display: flex;
+  }
+
+  &_confirm-button-wrapper {
+    position: absolute;
+    bottom: calc(constant(safe-area-inset-bottom, 0) + 16px);
+    bottom: calc(env(safe-area-inset-bottom, 0) + 16px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+  }
+
+  &_confirm-button {
+    width: 686rpx;
+    height: 48px;
+    font-weight: 400;
+    font-size: 14px;
+    border-radius: 48rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #da3737;
+  }
+}
