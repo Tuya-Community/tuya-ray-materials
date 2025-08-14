@@ -543,17 +543,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="LampRectWhitePicker">2025/08</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampRectWhitePicker">LampRectWhitePicker</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampRectWhitePicker" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="LampVerticalPercentSlider">2025/08</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampVerticalPercentSlider">LampVerticalPercentSlider</a></td>
   <td>
@@ -615,6 +604,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampRectPickerColor" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="LampRectWhitePicker">2025/08</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampRectWhitePicker">LampRectWhitePicker</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampRectWhitePicker" target="_blank">View Details</a>
   </details>
   </td>
 </tr>
