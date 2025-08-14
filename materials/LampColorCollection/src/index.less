@@ -1,0 +1,41 @@
+.rayLampColorCollection {
+  display: flex;
+  flex-direction: row;
+  width: 638rpx;
+  margin-bottom: 16rpx;
+  &__content {
+    width: 504rpx;
+    border-radius: 32rpx;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    background-color: #393838;
+  }
+  &__delete {
+    width: 118rpx;
+    border-radius: 32rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #393838;
+    margin-left: 16rpx;
+    &:active {
+      filter: brightness(0.7);
+    }
+    &--icon {
+      width: 16px;
+      height: 18px;
+    }
+  }
+  &__item-wrapper {
+    margin-top: 24rpx;
+    margin-left: 24rpx;
+    margin-bottom: 24rpx;
+  }
+  &__add {
+    margin-top: 24rpx;
+    margin-left: 24rpx;
+    margin-bottom: 24rpx;
+  }
+}

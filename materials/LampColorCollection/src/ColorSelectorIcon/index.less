@@ -1,0 +1,32 @@
+.rayLampColorCollection {
+  &__icon {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    width: 96rpx;
+    height: 96rpx;
+    border-radius: 48rpx;
+    position: relative;
+    &--content {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #434242;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      transition: all 0.5s;
+      z-index: 2;
+      position: relative;
+      &:active {
+        filter: brightness(0.8);
+      }
+    }
+    &--image {
+      width: 56rpx;
+      height: 56rpx;
+    }
+  }
+}
