@@ -1,0 +1,14 @@
+
+<view
+    class="container"
+    style="position: relative;  display: flex; align-items: center; justify-content: center; width: {{ rectWidth * 2 }}rpx;height:{{ rectHeight * 2}}rpx; {{ containerStyle }}"
+>
+    <canvas
+        class="canvasWrapper"
+        type="2d"
+        disable-scroll="true"
+        canvas-id="{{ canvasId }}"
+        style="position: absolute; left:0; top:0; z-index: 0; width: {{ rectWidth * 2 }}rpx;height:{{ rectHeight * 2}}rpx; {{rectStyle}}"
+    ></canvas>
+    <View  class="thumbWrapper" style="{{thumbPosition}}" />
+</view>

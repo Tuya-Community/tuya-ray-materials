@@ -1,0 +1,83 @@
+import { hsColorSource } from './config';
+import { hsv2rgb } from './utils';
+
+/* eslint-disable prettier/prettier */
+export default Render({
+    scale:2,
+
+    async  renderRectColor(id,width,height) {
+        if (!this.canvas) {
+            this.canvas = await getCanvasById(id);
+          }
+          if (!this.canvas) {
+            console.error('canvas not found');
+            return;
+          }
+
+          const ctx = this.canvas.getContext('2d');
+          const ratioX= this.canvas.width / width;
+          const ratioY = this.canvas.height / height;
+          this.canvas.width =width *ratioX * this.scale;
+          this.canvas.height = height *ratioY* this.scale;
+          this.canvas.style.width =width *ratioX + "px";
+          this.canvas.style.height = height *ratioY + "px";
+          this.renderColorCard(ctx,width *ratioX,height *ratioY);
+    },
+    renderColorCard(ctx,width,height) {
+        const colorHeight = height/hsColorSource.length;
+        this.itemHeight = colorHeight;
+        hsColorSource.forEach((lineColors,lineIndex)=> {
+            lineColors.forEach((color,colorIndex)=> {
+                const colorWidth = width / lineColors.length;
+                this.itemWidth = colorWidth;
+                const x = colorWidth* colorIndex*this.scale;
+                const y = colorHeight*lineIndex*this.scale;
+                ctx.fillStyle = hsv2rgb(color.h,color.s,color.v);
+                ctx.fillRect(x,y,colorWidth*this.scale,colorHeight*this.scale)
+                this.addEventListeners(this.canvas);
+            })
+        })
+
+
+    },
+    addEventListeners(){
+
+        if (!this.canvas) {
+          console.error('canvas  not found');
+          return;
+        }
+
+        this.canvas.addEventListener('touchend', this.handleCanvasEndEvent, false);
+       },
+     removeEventListeners() {
+        if (!this.canvas) {
+          console.error('canvas  not found');
+          return;
+        }
+        this.canvas.removeEventListener('touchend', this.handleCanvasEndEvent);
+
+      },
+      handleCanvasEndEvent(evt) {
+
+        this.touchType = 'end';
+        const {
+          changedTouches
+        } = evt;
+
+        const [point] = changedTouches;
+        const { top, left } = this.canvas.getBoundingClientRect();
+        const newX = point.clientX - left;
+        const newY = point.clientY - top;
+        const heightIndex = Math.floor(newY/this.itemHeight);
+        const widthIndex = Math.floor(newX/this.itemWidth);
+        try {
+          const color = hsColorSource[heightIndex][widthIndex];
+          this.callMethod('_getColor', {
+            h: color.h,
+            s: color.s * 10,
+          });
+        } catch(e) {
+          console.error('_getColor', e);
+        }
+      },
+});
