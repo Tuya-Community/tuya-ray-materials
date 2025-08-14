@@ -1,0 +1,16 @@
+<view 
+    class="container lamp-circle-picker-color-wrapper"
+    style="position: relative; width: {{ radius * 2 + thumbRadius * 2 + thumbBorderWidth * 2 }}px; height:  {{ radius * 2 + thumbRadius * 2 + thumbBorderWidth * 2 }}px; display: flex; justify-content: center; align-items: center;"
+>
+    <canvas
+        type="2d"
+        canvas-id="{{ instanceId }}"
+        style="position: absolute; overflow: hidden; width: {{ radius * 2  }}px; height:  {{ radius * 2 }}px; z-index: 10;"
+    >
+    </canvas>
+    <canvas
+        canvas-id="{{ instanceId }}-thumb" 
+        type="2d"
+        style="width: {{ radius * 2 + thumbRadius * 2 + thumbBorderWidth * 2 }}px; height:  {{ radius * 2 + thumbRadius * 2 + thumbBorderWidth * 2 }}px; z-index: 11;"
+    ></canvas>
+</view>

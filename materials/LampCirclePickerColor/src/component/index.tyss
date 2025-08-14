@@ -1,0 +1,13 @@
+.lamp-circle-picker-color-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.canvasWrapper {
+  position: relative;
+}
+
+

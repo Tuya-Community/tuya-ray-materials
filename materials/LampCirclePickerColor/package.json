@@ -1,0 +1,77 @@
+{
+  "name": "@ray-js/lamp-circle-picker-color",
+  "version": "1.1.1",
+  "description": "LampUnfilledCornerAnnulusPickerWhite",
+  "main": "lib/index",
+  "files": [
+    "lib",
+    "example/src"
+  ],
+  "license": "MIT",
+  "types": "lib/index.d.ts",
+  "maintainers": [
+    "tuya_npm",
+    {
+      "name": "tuyafe",
+      "email": "tuyafe@tuya.com"
+    }
+  ],
+  "scripts": {
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "build": "ray build --type=component",
+    "watch": "ray start --type=component",
+    "build:tuya": "ray build ./example --target=tuya",
+    "build:wechat": "ray build ./example --target=wechat",
+    "build:web": "ray build ./example --target=web",
+    "build:native": "ray build ./example --target=native",
+    "start:native": "ray start ./example -t native --verbose",
+    "start:tuya": "ray start ./example -t tuya --verbose",
+    "dev": "yarn start:tuya",
+    "start:wechat": "ray start ./example -t wechat --verbose",
+    "start:web": "ray start ./example -t web",
+    "prepublishOnly": "yarn build",
+    "release-it": "standard-version"
+  },
+  "peerDependencies": {
+    "@ray-js/panel-sdk": "^1.1.4"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "@ray-js/babel-preset-standard": "^0.6.14",
+    "@ray-js/cli": "0.6.16",
+    "@ray-js/ray": "^0.6.14",
+    "@ray-js/components": "^0.6.14",
+    "@ray-js/framework": "^0.6.14",
+    "@ray-js/panel-sdk": "^1.1.4",
+    "@ray-js/rn-transformer-helper": "^0.5.5",
+    "@ray-js/types": "^0.6.14",
+    "@types/node": "^17.0.43",
+    "core-js": "^3.19.1",
+    "eslint-config-tuya-panel": "^0.4.1",
+    "husky": "^1.2.0",
+    "lint-staged": "^10.2.11",
+    "standard-version": "9.3.2"
+  },
+  "resolutions": {
+    "shell-quote": "~1.7.3",
+    "follow-redirects": "~1.15.6"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS --config commitlint.config.js",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {}
+}

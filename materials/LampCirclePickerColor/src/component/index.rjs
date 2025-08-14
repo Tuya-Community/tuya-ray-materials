@@ -1,0 +1,331 @@
+/* eslint-disable prettier/prettier */
+import { hsvToRgb } from '../utils';
+
+export default Render({
+  circleContext: null,
+  canvas: null, // 彩色画布
+  canvasThumb: null, // 按钮画布
+  thumbWidth: 12,
+  xyRef: undefined,
+  centerPos() {
+    return {
+      x: this.canvasSetRadius,
+      y: this.canvasSetRadius,
+    };
+  },
+  getDegreeByPosition(x, y) {
+    const center = this.centerPos();
+    const xDistance = x - center.x;
+    const yDistance = y - center.y;
+    const radian = Math.atan2(yDistance, xDistance);
+    const degree = (radian * 180) / Math.PI;
+    return degree >= 0 ? degree : 360 + degree;
+  },
+  _getValidMaxMinRes(x, y) {
+    const circleWidth = this.canvasSetRadius * 2;
+    const center = this.centerPos();
+    const degree = this.getDegreeByPosition(x, y);
+    const xDistance = Math.abs(x - center.x);
+    const yDistance = Math.abs(y - center.y);
+    const r = Math.max(
+      Math.min(
+        circleWidth / 2 - (this.thumbWidth / 2 + this.thumbBorderWidth) * 0.3,
+        Math.sqrt(xDistance * xDistance + yDistance * yDistance)
+      ),
+      circleWidth / 2 * this.minRange
+    )
+    const realX = r * Math.cos(degree * (Math.PI / 180)) + center.x;
+    const realY = r * Math.sin(degree * (Math.PI / 180)) + center.y;
+    const _realX = Math.round(realX);
+    const _realY = Math.round(realY);
+    const offset = 10;
+    return {
+      x: +realX.toFixed(4),
+      y: +realY.toFixed(4),
+      isValid: Math.abs(_realX - x) <= offset && Math.abs(_realY - y) <= offset,
+    };
+  },
+  setThumbWidth(thumbWidth) {
+    this.thumbWidth = thumbWidth;
+  },
+  setThumbBorderWidth(thumbBorderWidth) {
+    this.thumbBorderWidth = thumbBorderWidth;
+  },
+  async renderCircleColor({ id, whiteRange, minRange, circleRadius, ratio = 2, options = {} }) {
+    let canvas = this.canvas;
+    if (!canvas) {
+      canvas = await getCanvasById(id);
+      canvas && console.log(id, 'retry got');
+      this.canvas = canvas;
+    }
+    if (!canvas) {
+      console.error('canvas not found');
+      return;
+    }
+
+    const {
+      useEventChannel,
+      eventChannelName,
+      thumbBorderWidth,
+      thumbShadowBlur,
+      thumbShadowColor,
+    } = options;
+    this.useEventChannel = useEventChannel;
+    this.eventChannelName = eventChannelName;
+    this.thumbBorderWidth = thumbBorderWidth || 2;
+    this.thumbShadowBlur = thumbShadowBlur;
+    this.thumbShadowColor = thumbShadowColor;
+    this.minRange = minRange || 0
+    this.ratio = ratio;
+    const ctx = canvas.getContext('2d');
+    this.circleContext = ctx;
+    this.canvas.width = circleRadius * 4 * ratio;
+    this.canvas.height = circleRadius * 4 * ratio;
+
+    this.canvasSetRadius = circleRadius;
+    const x = (circleRadius * 2).toFixed(4);
+    const y = (circleRadius * 2).toFixed(4);
+
+    const counterClockwise = false;
+    const _whiteRange = Math.max(Math.min(whiteRange, 0.5), 0.15);
+    this.whiteRange = _whiteRange;
+    for (let angle = 0; angle <= 360; angle += 1) {
+      const startAngle = ((angle - 2) * Math.PI) / 180;
+      const endAngle = (angle * Math.PI) / 180;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.arc(x, y, circleRadius * 2, startAngle, endAngle, counterClockwise);
+      ctx.closePath();
+
+      var gradient = ctx.createRadialGradient(x, y, 0, x, y, circleRadius * 2);
+      gradient.addColorStop(0, 'hsl(0, 0%, 100%)');
+      gradient.addColorStop(_whiteRange, 'hsl(0, 0%, 100%)');
+      gradient.addColorStop(0.9, 'hsl(' + angle + ', 100%, 50%)');
+      gradient.addColorStop(1, 'hsl(' + angle + ', 100%, 50%)');
+      ctx.fillStyle = gradient;
+      ctx.fill();
+    }
+    // 中心区域绘制一个白色圆心
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.arc(x, y, _whiteRange * circleRadius * 2, 0, Math.PI * 2, counterClockwise);
+    ctx.closePath();
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    this.scaleCirclePixelRatio(circleRadius, ratio);
+    if (!this.canvasThumb) {
+      this.canvasThumb = await getCanvasById(id + '-thumb');
+      this.canvasThumbCtx = this.canvasThumb.getContext('2d');
+      const thumbVisionWidth =
+        this.thumbWidth + this.canvasSetRadius * 2 + this.thumbBorderWidth * 2;
+      this.canvasThumb.width = thumbVisionWidth * ratio;
+      this.canvasThumb.height = thumbVisionWidth * ratio;
+      this.canvasThumb.style.width = `${thumbVisionWidth}px`;
+      this.canvasThumb.style.height = `${thumbVisionWidth}px`;
+      this.canvasThumbCtx.scale(ratio, ratio);
+      this.addEventListeners();
+    }
+    if (this.canvasThumb.width <= this.canvasSetRadius * 2) {
+      console.error(
+        '！！！设置异常， 请检查radius和thumbRadius属性值设置，使radius + thumbRadius >= 屏幕宽度'
+      );
+    }
+  },
+  scaleCirclePixelRatio(visionWidth, ratio = 2) {
+    this.canvas.style.width = `${visionWidth * 2 * ratio}px`;
+    this.canvas.style.height = `${visionWidth * 2 * ratio}px`;
+    this.circleContext.scale(ratio, ratio);
+  },
+  handleCanvasStartEvent(evt) {
+    if (!this.canvas) {
+      return;
+    }
+    this.touchType = 'start';
+    const { changedTouches } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvas.getBoundingClientRect();
+    const { x, y, isValid } = this._getValidMaxMinRes(point.clientX - left, point.clientY - top);
+    // 点击时是否时合理位置
+    this.isStartValid = isValid;
+    if (!isValid) {
+      return;
+    }
+    // 真机生效
+    evt.preventDefault();
+    // ide 生效
+    evt.stopPropagation();
+    this.getRectImageData(x, y);
+  },
+  handleCanvasEndEvent(evt) {
+    if (!this.canvas) {
+      return;
+    }
+    this.touchType = 'end';
+    const { changedTouches } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvas.getBoundingClientRect();
+    const { x, y } = this._getValidMaxMinRes(point.clientX - left, point.clientY - top);
+    if (!this.isStartValid) {
+      return;
+    }
+    // 真机生效
+    evt.preventDefault();
+    // ide 生效
+    evt.stopPropagation();
+    this.getRectImageData(x, y);
+    this.isStartValid = true;
+  },
+  handleCanvasMoveEvent(evt) {
+    if (!this.canvas) {
+      return;
+    }
+    this.touchType = 'move';
+    const { changedTouches } = evt;
+    const [point] = changedTouches;
+    const { top, left } = this.canvas.getBoundingClientRect();
+    const { x, y } = this._getValidMaxMinRes(point.clientX - left, point.clientY - top);
+    if (!this.isStartValid) {
+      return;
+    }
+    // 真机生效
+    evt.preventDefault();
+    // ide 生效
+    evt.stopPropagation();
+    this.getRectImageData(x, y);
+  },
+  addEventListeners() {
+    this.removeEventListeners();
+    this.canvasThumb?.addEventListener('touchstart', this.handleCanvasStartEvent, { passive: false });
+    this.canvasThumb?.addEventListener('touchmove', this.handleCanvasMoveEvent, { passive: false });
+    this.canvasThumb?.addEventListener('touchend', this.handleCanvasEndEvent, { passive: false });
+  },
+  removeEventListeners() {
+    this.canvasThumb?.removeEventListener('touchstart', this.handleCanvasStartEvent);
+    this.canvasThumb?.removeEventListener('touchmove', this.handleCanvasMoveEvent);
+    this.canvasThumb?.removeEventListener('touchend', this.handleCanvasEndEvent);
+  },
+
+  _getPosByHs(h, s) {
+    if (!this.canvas) {
+      console.log('this.canvas not found');
+      const pos = {
+        x: 0,
+        y: 0,
+      };
+      return pos;
+    }
+    if (this.xyRef && !s) {
+      return { ...this.xyRef }
+    }
+    const hDegree = Math.round(h);
+    const { x: centerX, y: centerY } = this.centerPos();
+    const whiteR = this.whiteRange * this.canvasSetRadius
+    const offsetWid = (this.canvasSetRadius - 6.5 - whiteR) * Number(s) / 1000 + whiteR;
+    const x = centerX + offsetWid * Math.cos((hDegree / 180) * Math.PI);
+    const y = centerY + offsetWid * Math.sin((hDegree / 180) * Math.PI);
+    const pos = {
+      x,
+      y,
+    };
+    this.xyRef = {
+      ...pos,
+    }
+    return pos;
+  },
+  // 逆向方法：根据坐标反推色调(h)和饱和度(s)
+  getHSByPos(x, y) {
+    if (!this.canvas) {
+      console.log('this.canvas not found');
+      return { h: 0, s: 0 };
+    }
+
+    const { x: centerX, y: centerY } = this.centerPos();
+    const offsetX = x - centerX;
+    const offsetY = y - centerY;
+
+    // 计算颜色角度h
+    let angle = Math.atan2(offsetY, offsetX) * (180 / Math.PI);
+    const hue = angle < 0 ? 360 + angle : angle;
+
+    // 计算饱和度s
+    const radius = this.canvasSetRadius - 6.5
+    const offsetWidth = Math.sqrt(Math.pow(offsetX, 2) + Math.pow(offsetY, 2));
+    const whiteR = this.whiteRange * radius;
+    const hR = radius - whiteR;
+    const isWhite = offsetWidth <= whiteR
+    this.xyRef = { x, y };
+    const saturation = isWhite ? 0 : Math.min((offsetWidth - whiteR) / hR * 1000, 1000);
+
+    return { h: Math.round(hue), s: Math.round(saturation) };
+  },
+  updateThumbPositionByHs(h, s) {
+    if (!this.canvas) {
+      return;
+    }
+    if (typeof h !== 'number' || typeof s !== 'number') {
+      console.log('h or s is not numbers');
+      return;
+    }
+    if (!this.canvasThumb) {
+      console.log('this.canvasThumb not found');
+      return;
+    }
+    const pos = this._getPosByHs(h, s);
+    const { x, y } = this._getValidMaxMinRes(pos.x, pos.y);
+    const rgb = hsvToRgb(h, s / 10, 100);
+    if (this.preHS && Math.abs(h - this.preHS.h) < 1 && Math.abs(s - this.preHS.s) < 1) {
+      return;
+    }
+    this.preHS = { h, s };
+    this.updateThumbPosition(x, y, rgb);
+  },
+  updateThumbPosition(x, y, rgb) {
+    if (!this.canvasThumb) {
+      console.error('canvasThumb not found');
+      return;
+    }
+    let ctx = this.canvasThumbCtx;
+    ctx.clearRect(0, 0, this.canvasThumb.width, this.canvasThumb.height);
+    ctx.beginPath();
+    const radius = this.thumbWidth / 2; // 圆弧半径
+    const startAngle = 0; // 开始点
+    const endAngle = 2 * Math.PI; // 结束点
+    const offset = this.thumbWidth / 2 + this.thumbBorderWidth;
+    ctx.arc(x + offset, y + offset, radius, startAngle, endAngle, true);
+    ctx.shadowBlur = this.thumbShadowBlur ?? 6;
+    ctx.shadowColor = this.thumbShadowColor ?? 'rgba(0, 0, 0, 0.16)';
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = this.thumbBorderWidth || 2;
+    ctx.stroke();
+    ctx.fillStyle = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+    ctx.fill();
+  },
+  getRectImageData(x, y) {
+    if (!this.circleContext) {
+      console.error('circleContext not found');
+      return;
+    }
+    const hs = this.getHSByPos(x, y);
+    const rgb = hsvToRgb(hs.h, hs.s/10, 100);
+    const emitRes = {
+      hs: hs,
+      rgba: [rgb.r, rgb.g, rgb.b],
+      rgbaTransform: [],
+      touchType: this.touchType,
+      pos: {
+        x,
+        y,
+      },
+    };
+    if (this.useEventChannel) {
+      try {
+        this.instance?.eventChannel.emit(this.eventChannelName, emitRes);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    this.preHS = hs;
+    this.updateThumbPosition(x, y, rgb);
+    this.callMethod('_getRectImageData', emitRes);
+  }
+});
