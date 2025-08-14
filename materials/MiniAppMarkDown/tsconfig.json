@@ -1,0 +1,34 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "CommonJS",
+    "lib": ["ESNext", "DOM"],
+    "declaration": true,
+    "declarationMap": false,
+    "noEmit": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowImportingTsExtensions": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "noEmitOnError": false,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@ray-js/mini-app-mark-down": ["./src"]
+    },
+    "typeRoots": ["./typings"]
+  },
+  "exclude": [
+    "node_modules",
+    "lib",
+    "typings",
+    "**/__test__",
+    "test",
+    "tests",
+    "example/dist",
+    "example/public"
+  ]
+}

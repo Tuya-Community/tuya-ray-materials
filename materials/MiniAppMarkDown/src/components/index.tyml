@@ -1,0 +1,7 @@
+<view class="ray_miniapp_markdown__{{theme || 'light'}} {{class}}" style="{{containerStyle}}">
+    <block ty:for="{{blocks}}">
+        <rich-text ty:if="{{item.type ==='rich-text'}}" nodes="{{item.children}}"
+            bind:select="onTap" />
+        <slot ty:elif="{{item.id}}" name="{{item.id}}"></slot>
+    </block>
+</view>

@@ -1,0 +1,416 @@
+/*正文样式*/
+.ray_miniapp_markdown {
+  font-family: PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif,
+    WenQuanYi Micro Hei, sans-serif;
+  font-weight: normal;
+  font-size: 32rpx;
+  line-height: 1.8;
+  word-wrap: break-word;
+  word-break: normal;
+  /*text-align:justify;*/
+}
+
+.ray_miniapp_markdown__main {
+  margin: 0;
+}
+
+.ray_miniapp_markdown__img {
+  width: 100%;
+}
+
+/**标题**/
+.ray_miniapp_markdown__h1,
+.ray_miniapp_markdown__h2,
+.ray_miniapp_markdown__h3,
+.ray_miniapp_markdown__h4,
+.ray_miniapp_markdown__h5,
+.ray_miniapp_markdown__h6 {
+  font-weight: bold;
+}
+
+/**设置行间元素样式**/
+.ray_miniapp_markdown__span,
+.ray_miniapp_markdown__b,
+.ray_miniapp_markdown__strong,
+.ray_miniapp_markdown__i,
+.ray_miniapp_markdown__em,
+.ray_miniapp_markdown__code,
+.ray_miniapp_markdown__sub,
+.ray_miniapp_markdown__sup,
+.ray_miniapp_markdown__g-emoji,
+.ray_miniapp_markdown__mark,
+.ray_miniapp_markdown__u,
+.ray_miniapp_markdown__navigatorParent,
+.ray_miniapp_markdown__ins {
+  display: inline;
+}
+
+.ray_miniapp_markdown__h1 {
+  border-bottom-style: double;
+  border-bottom-width: 6rpx;
+  font-size: 42rpx;
+  padding-bottom: 10rpx;
+  margin-bottom: 20rpx;
+}
+
+.ray_miniapp_markdown__h2 {
+  border-bottom-style: solid;
+  border-bottom-width: 1rpx;
+  font-size: 40rpx;
+  padding-bottom: 8rpx;
+  margin-bottom: 18rpx;
+}
+
+.ray_miniapp_markdown__h3 {
+  font-size: 38rpx;
+  padding-bottom: 6rpx;
+  margin-bottom: 12rpx;
+}
+
+.ray_miniapp_markdown__h4 {
+  font-size: 36rpx;
+  padding-bottom: 4rpx;
+  margin-bottom: 12rpx;
+}
+
+.ray_miniapp_markdown__h5 {
+  font-size: 34rpx;
+  padding-bottom: 2rpx;
+  margin-bottom: 12rpx;
+}
+
+.ray_miniapp_markdown__h6 {
+  margin-bottom: 12rpx;
+}
+
+/**组件父级容器**/
+.ray_miniapp_markdown__textParent,
+.ray_miniapp_markdown__viewParent {
+  display: inline;
+}
+
+.ray_miniapp_markdown__rich-textParent {
+  overflow-x: auto;
+}
+
+/**表格**/
+.ray_miniapp_markdown__tableParent {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.ray_miniapp_markdown__table {
+  width: 99.99%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: table;
+  margin-bottom: 40rpx;
+  white-space: nowrap;
+}
+
+.ray_miniapp_markdown__table .ray_miniapp_markdown__tr:nth-child(2n) {
+  background-color: red;
+}
+
+.ray_miniapp_markdown__colgroup {
+  display: table-column-group;
+}
+
+.ray_miniapp_markdown__col {
+  display: table-column;
+}
+
+.ray_miniapp_markdown__thead {
+  display: table-header-group;
+}
+
+.ray_miniapp_markdown__tbody {
+  display: table-row-group;
+}
+
+.ray_miniapp_markdown__tfoot {
+  display: table-footer-group;
+}
+
+.ray_miniapp_markdown__tr {
+  display: table-row;
+}
+
+.ray_miniapp_markdown__th,
+.ray_miniapp_markdown__td {
+  padding: 8rpx 16rpx;
+  font-size: 28rpx;
+  border-width: 2rpx;
+  border-style: solid;
+  display: table-cell;
+}
+
+.ray_miniapp_markdown__th {
+  font-weight: bold;
+}
+
+/**代码块**/
+.ray_miniapp_markdown__pre {
+  /*white-space:nowrap;*/
+  padding: 10rpx 14rpx 10rpx 10rpx;
+  font-size: 28rpx;
+  word-break: normal;
+  border-width: 1rpx;
+  border-style: solid;
+  margin-bottom: 40rpx;
+  white-space: nowrap;
+  overflow-x: auto;
+  tab-size: 4;
+}
+
+.ray_miniapp_markdown__pre .ray_miniapp_markdown__p {
+  margin: 0;
+}
+
+.ray_miniapp_markdown__pre .ray_miniapp_markdown__code {
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+}
+
+.ray_miniapp_markdown__pre,
+.ray_miniapp_markdown__code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace,
+    'STHeitiTC-Light', 'Microsoft YaHei Light', -apple-system, system-ui, BlinkMacSystemFont;
+}
+
+.ray_miniapp_markdown__code {
+  padding: 4rpx 8rpx;
+  margin: 0 4rpx;
+  border-width: 1rpx;
+  border-style: solid;
+  border-radius: 8rpx;
+  font-size: 80%;
+  overflow-x: auto;
+}
+
+.ray_miniapp_markdown__pre .ray_miniapp_markdown__span,
+.ray_miniapp_markdown__pre .ray_miniapp_markdown__a,
+.ray_miniapp_markdown__pre .ray_miniapp_markdown__span,
+.ray_miniapp_markdown__pre .ray_miniapp_markdown__b,
+.ray_miniapp_markdown__pre .ray_miniapp_markdown__strong,
+.ray_miniapp_markdown__pre .ray_miniapp_markdown__i,
+.ray_miniapp_markdown__pre .ray_miniapp_markdown__em {
+  display: inline;
+}
+
+.ray_miniapp_markdown__pre {
+  white-space: pre;
+  display: block;
+}
+
+.ray_miniapp_markdown__pre .ray_miniapp_markdown__code {
+  white-space: nowrap;
+  /* width: 9999px; */
+  display: block;
+  font-size: 80%;
+}
+
+/**列表**/
+.ray_miniapp_markdown__ul,
+.ray_miniapp_markdown__ol {
+  /*margin-bottom: 40rpx;*/
+  padding-left: 1rem;
+}
+
+.ray_miniapp_markdown__ul .ray_miniapp_markdown__ol,
+.ray_miniapp_markdown__ol .ray_miniapp_markdown__ul {
+  margin-bottom: 0;
+}
+
+.ray_miniapp_markdown__li {
+  display: list-item;
+}
+
+/**todo**/
+.ray_miniapp_markdown__todogroup {
+  margin-bottom: 40rpx;
+}
+
+.ray_miniapp_markdown__todogroup .ray_miniapp_markdown__todogroup {
+  padding-left: 1.6rem;
+}
+
+/**一级ol样式**/
+.ray_miniapp_markdown__ol {
+  list-style-type: decimal;
+}
+
+/**二级ol样式**/
+.ray_miniapp_markdown__ul .ray_miniapp_markdown__ol,
+.ray_miniapp_markdown__ol .ray_miniapp_markdown__ol {
+  list-style-type: lower-roman;
+}
+
+/**三级ol样式**/
+.ray_miniapp_markdown__ul .ray_miniapp_markdown__ul .ray_miniapp_markdown__ol,
+.ray_miniapp_markdown__ul .ray_miniapp_markdown__ol .ray_miniapp_markdown__ol,
+.ray_miniapp_markdown__ol .ray_miniapp_markdown__ul .ray_miniapp_markdown__ol,
+.ray_miniapp_markdown__ol .ray_miniapp_markdown__ol .ray_miniapp_markdown__ol {
+  list-style-type: lower-alpha;
+}
+
+/**一级ul样式**/
+.ray_miniapp_markdown__ul {
+  list-style-type: disc;
+}
+
+/**二级ul样式**/
+.ray_miniapp_markdown__ul .ray_miniapp_markdown__ul,
+.ray_miniapp_markdown__ol .ray_miniapp_markdown__ul {
+  list-style-type: circle;
+}
+
+/**三级样式**/
+.ray_miniapp_markdown__ol .ray_miniapp_markdown__ol .ray_miniapp_markdown__ul,
+.ray_miniapp_markdown__ol .ray_miniapp_markdown__ul .ray_miniapp_markdown__ul,
+.ray_miniapp_markdown__ul .ray_miniapp_markdown__ol .ray_miniapp_markdown__ul,
+.ray_miniapp_markdown__ul .ray_miniapp_markdown__ul .ray_miniapp_markdown__ul {
+  list-style-type: square;
+}
+
+/**块元素**/
+/*.ray_miniapp_markdown__p {*/
+/*  margin: 0 0 20rpx 0;*/
+/*}*/
+
+.ray_miniapp_markdown__blockquote {
+  border-left-width: 8rpx;
+  border-left-style: solid;
+  padding: 0 20rpx;
+}
+
+/**内连元素**/
+.ray_miniapp_markdown__a,
+.ray_miniapp_markdown__span,
+.ray_miniapp_markdown__s,
+.ray_miniapp_markdown__b,
+.ray_miniapp_markdown__strong,
+.ray_miniapp_markdown__i,
+.ray_miniapp_markdown__em {
+  display: inline;
+}
+
+.ray_miniapp_markdown__b,
+.ray_miniapp_markdown__strong {
+  font-weight: bold;
+}
+
+.ray_miniapp_markdown__i,
+.ray_miniapp_markdown__em {
+  font-style: italic;
+}
+
+/**文本删除线**/
+.ray_miniapp_markdown__s,
+.ray_miniapp_markdown__strike,
+.ray_miniapp_markdown__del {
+  text-decoration: line-through;
+}
+
+/**文本下划线**/
+.ray_miniapp_markdown__ins,
+.ray_miniapp_markdown__u {
+  text-decoration: underline;
+}
+
+/**链接**/
+.ray_miniapp_markdown__a {
+  margin: 0 8rpx;
+  border-bottom-width: 1rpx;
+  border-bottom-style: solid;
+  line-height: 1;
+}
+
+.ray_miniapp_markdown__hr {
+  height: 8rpx;
+  margin: 40rpx 0;
+}
+
+/**荧光标记**/
+.ray_miniapp_markdown__mark {
+  border-radius: 4rpx;
+}
+
+/**上标、下标**/
+.ray_miniapp_markdown__sup,
+.ray_miniapp_markdown__sub {
+  font-size: 75%;
+  position: relative;
+}
+
+.ray_miniapp_markdown__sup {
+  top: -0.5em;
+}
+
+.ray_miniapp_markdown__sub {
+  bottom: -0.25em;
+}
+
+/**emoji表情**/
+.ray_miniapp_markdown__g-emoji {
+  margin: 0 0.1em;
+  font-family: 'Apple Color Emoji', 'Segoe UI', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+/**内置元素**/
+/*image,*/
+/*video {*/
+/*  max-width: 100%;*/
+/*}*/
+
+/*video {*/
+/*  width: 100%;*/
+/*  margin: 10rpx auto;*/
+/*}*/
+
+/*image {*/
+/*  height: auto;*/
+/*  vertical-align: middle;*/
+/*}*/
+
+/*video {*/
+/*  height: 220px;*/
+/*  font-size: 0;*/
+/*}*/
+
+.ray_miniapp_markdown__latex--line {
+  margin: 4rpx 8rpx;
+  vertical-align: middle;
+}
+
+.ray_miniapp_markdown__latex--block {
+  display: block;
+  margin: 1em auto;
+}
+
+.ray_miniapp_markdown__yuml {
+  display: block;
+}
+
+.ray_miniapp_markdown__yumlBox {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.ray_miniapp_markdown__yumlView {
+  margin: 0 auto;
+  padding-bottom: 40rpx;
+}
+
+/**代码行号**/
+.ray_miniapp_markdown__lineNum {
+  text-align: right;
+  float: left;
+  padding: 0;
+  margin: 0 1em 0 0;
+}
+
+.ray_miniapp_markdown__lineNumLine {
+  list-style: none;
+}

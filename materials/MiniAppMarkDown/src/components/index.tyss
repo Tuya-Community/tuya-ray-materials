@@ -1,0 +1,4 @@
+@import './main.tyss';
+@import './light.tyss';
+@import './dark.tyss';
+
