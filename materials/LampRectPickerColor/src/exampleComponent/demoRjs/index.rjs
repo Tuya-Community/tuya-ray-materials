@@ -1,0 +1,10 @@
+export default Render({
+  renderChannel({ eventChannelName = 'lampRectPickerColorEventChannel' }) {
+    this.instance.eventChannel.on(eventChannelName, (e) => {
+      console.log('eventChannel get', e);
+    });
+    this.instance.eventChannel.on('lampRectPickerColorEventChannel1', (e) => {
+      console.log('eventChannel1 get', e);
+    });
+  },
+});

@@ -1,0 +1,15 @@
+{
+  "projectname": "矩形色盘",
+  "i18n": false,
+  "description": "",
+  "baseversion": "2.12.18",
+  "miniprogramRoot": "./example/dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.1",
+    "DeviceKit": "4.0.8",
+    "MiniKit": "3.0.7",
+    "BizKit": "4.2.0"
+  },
+  "productId": "oygahgbcg9wnnafv",
+  "compileType": "miniprogram"
+}

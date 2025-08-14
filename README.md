@@ -607,5 +607,16 @@ Tuya Ray Materials
   </details>
   </td>
 </tr>
+
+<tr>
+  <td id="LampRectPickerColor">2025/08</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampRectPickerColor">LampRectPickerColor</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampRectPickerColor" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
 </table>
 <!-- txp-asset-qrcode-end -->
