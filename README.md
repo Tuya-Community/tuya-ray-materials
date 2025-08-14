@@ -499,17 +499,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="LampHuePicker">2025/08</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampHuePicker">LampHuePicker</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampHuePicker" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="RayPencilFlow">2025/08</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/RayPencilFlow">RayPencilFlow</a></td>
   <td>
@@ -659,6 +648,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=MiniAppMarkDown" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="LampHuePicker">2025/08</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampHuePicker">LampHuePicker</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampHuePicker" target="_blank">View Details</a>
   </details>
   </td>
 </tr>
