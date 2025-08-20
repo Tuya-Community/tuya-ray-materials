@@ -620,17 +620,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="LampCountdown">2025/08</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampCountdown">LampCountdown</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampCountdown" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="LampCirclePickerColor">2025/08</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampCirclePickerColor">LampCirclePickerColor</a></td>
   <td>
@@ -670,6 +659,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampColorCollection" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="LampCountdown">2025/08</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampCountdown">LampCountdown</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampCountdown" target="_blank">View Details</a>
   </details>
   </td>
 </tr>

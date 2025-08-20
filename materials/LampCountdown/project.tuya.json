@@ -1,7 +1,7 @@
 {
   "projectname": "@ray/lamp-countdown",
   "i18n": false,
-  "description": "",
+  "description": "光源-006",
   "baseversion": "2.21.10",
   "miniprogramRoot": "./example/dist/tuya",
   "dependencies": {

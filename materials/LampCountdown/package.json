@@ -1,6 +1,6 @@
 {
   "name": "@ray/lamp-countdown",
-  "version": "0.0.4",
+  "version": "0.0.5-beta-1",
   "description": "照明倒计时组件",
   "main": "lib/index",
   "files": [
@@ -41,7 +41,7 @@
     "@ray-js/cli": "^1.4.9",
     "@ray-js/panel-sdk": "^1.13.6-beta.2",
     "@ray-js/ray": "^1.4.9",
-    "@ray-js/smart-ui": "^2.5.0",
+    "@ray-js/smart-ui": "^2.6.1",
     "@vant/stylelint-config": "^1.4.2",
     "core-js": "^3.19.1",
     "eslint-config-tuya-panel": "^0.4.2",
