@@ -1,0 +1,90 @@
+@darkBaseBg: #201e1e;
+@lightBaseBg: #ffffff;
+
+.lamp-music-card-wrapper.dark {
+  .lamp-music-card-content {
+    background-color: @darkBaseBg;
+  }
+
+  .lamp-music-bar-lines__item {
+    background-color: rgba(26, 26, 26, 1);
+  }
+}
+
+.lamp-music-card-wrapper.light {
+  .lamp-music-card-content {
+    background-color: @lightBaseBg;
+  }
+}
+
+.lamp-music-bar-wrapper {
+  position: relative;
+  height: 140rpx;
+  width: 100%;
+  vertical-align: baseline;
+  font-size: 0;
+  overflow: hidden;
+}
+
+.lamp-music-bar-content {
+  display: inline-block;
+  width: 24rpx;
+  height: 140rpx;
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.lamp-music-bar-content-0 {
+  animation: 1.5s .1s living linear infinite backwards normal;
+  -webkit-animation-delay: -1.1s;
+}
+
+.lamp-music-bar-content-1 {
+  animation: 1.5s .3s living linear infinite backwards normal;
+  -webkit-animation-delay: -1.3s;
+}
+
+.lamp-music-bar-content-2 {
+  animation: 1.5s .6s living linear infinite backwards normal;
+  -webkit-animation-delay: -1.6s;
+}
+
+.lamp-music-bar-content-3 {
+  animation: 1.5s .9s living linear infinite backwards normal;
+  -webkit-animation-delay: -1.8s;
+}
+
+.lamp-music-bar-content-4 {
+  animation: 1.5s 1.2s living linear infinite backwards normal;
+  -webkit-animation-delay: -2s;
+}
+
+.lamp-music-bar-content-5 {
+  animation: 1.5s 1.4s living linear infinite backwards normal;
+  -webkit-animation-delay: -2.2s;
+}
+
+.lamp-music-bar-lines__item {
+  width: 100%;
+  height: 4rpx;
+  position: absolute;
+  bottom: 4rpx;
+}
+
+@keyframes living {
+  0% {
+    transform: scaleY(1);
+    transform-origin: 0 200rpx;
+  }
+
+  50% {
+    transform: scaleY(0.4);
+    transform-origin: 0 200rpx
+  }
+
+  100% {
+    transform: scaleY(1);
+    transform-origin: 0 200rpx;
+  }
+}
