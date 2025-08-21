@@ -1,0 +1,124 @@
+@import url('./dark.less');
+@import url('./light.less');
+
+switch {
+  position: relative;
+  left: 10rpx;
+}
+
+.c-flex {
+  display: flex;
+}
+
+.c-flex-1 {
+  flex: 1;
+}
+
+.c-flex-row {
+  .c-flex();
+  flex-direction: row;
+}
+
+.c-align-center {
+  .c-flex();
+  align-items: center;
+}
+
+.c-content-center {
+  .c-flex();
+  justify-content: center;
+}
+
+.c-flex-center {
+  .c-align-center();
+  .c-content-center();
+}
+
+.c-flex-around-center {
+  .c-flex();
+  justify-content: space-around;
+  align-items: center;
+}
+
+.c-flex-between-center {
+  .c-flex();
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+
+.c-width-full {
+  width: 100vw;
+}
+
+.c-height-full {
+  width: 100vh;
+}
+
+.c-fixed {
+  position: fixed;
+}
+
+.c-absolute {
+  position: absolute;
+}
+
+.c-bottom0 {
+  bottom: 0;
+}
+
+.c-top0 {
+  top: 0;
+}
+
+.c-border1 {
+  border-width: 1rpx;
+}
+
+.c-mg-h-32 {
+  margin-left: 32rpx;
+  margin-right: 32rpx;
+}
+
+.c-color-white {
+  color: #fff;
+}
+
+.c-bg-white {
+  background-color: #fff;
+}
+
+.c-color-black {
+  color: #000;
+}
+
+.c-bg-black {
+  background-color: #000;
+}
+
+.c-theme-bg {
+  background-color: #000;
+}
+
+@theme-color: #1082FE;
+
+.c-theme-color {
+  background-color: @theme-color;
+}
+
+@danger-color: #F03E3E;
+
+.c-theme-danger {
+  background-color: @danger-color;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar() {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

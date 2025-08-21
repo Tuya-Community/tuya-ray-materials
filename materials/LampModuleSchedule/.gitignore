@@ -1,0 +1,7 @@
+node_modules
+/dist
+/.ray
+/.vscode
+example/dist
+/lib
+/typings

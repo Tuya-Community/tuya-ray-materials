@@ -1,0 +1,11 @@
+{
+  "presets": [
+    [
+      "@ray-js/babel-preset-standard",
+      {
+        "framework": "react",
+        "ts": true
+      }
+    ]
+  ]
+}

@@ -1,0 +1,371 @@
+@import url('./commonStyle/index.less');
+
+.schedule-view-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100%;
+  background-color: #000;
+  color: #fff;
+  font-size: 28rpx;
+  overflow: auto;
+
+  .add-text-button {
+    position: absolute;
+    bottom: 76rpx;
+    right: 48rpx;
+    z-index: 1;
+    width: 104rpx;
+    height: 104rpx;
+    border-radius: 52rpx;
+    margin-top: 128rpx;
+    font-size: 28rpx;
+    color: #fff;
+    .c-flex-center();
+    .c-theme-color();
+  }
+
+  .timing-view-wrapper {
+    padding-left: 32rpx;
+    padding-right: 32rpx;
+
+    .timing-view-tips {
+      display: flex;
+      flex-direction: column;
+
+      .timing-view-tips-title {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #FFFFFF;
+        margin-bottom: 2px;
+      }
+
+      .timing-view-tips-text {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 18px;
+        color: #FFFFFF;
+        mix-blend-mode: normal;
+      }
+    }
+
+    .no-data-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #999999;
+      height: 46vh;
+
+      .no-data-image {
+        width: 448rpx;
+        height: 322rpx;
+      }
+    }
+
+    .picker-view {
+      background-color: #3b3b3c;
+    }
+
+    .weeks-view {
+      display: flex;
+      flex-direction: column;
+      margin: 0px 32rpx;
+      margin-top: 48rpx;
+      padding: 0 48rpx;
+      height: 952rpx;
+      background: #292828;
+      border-radius: 32rpx;
+      overflow: hidden;
+
+      .week-item {
+        position: relative;
+        height: 136rpx;
+        line-height: 136rpx;
+        font-size: 28rpx;
+        .c-flex();
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .action-view {
+      height: 96rpx;
+      width: 100vw;
+      padding-left: 48rpx;
+      padding-right: 48rpx;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #434344;
+
+      .action-handle {
+        display: flex;
+        align-items: center;
+        color: rgba(255, 255, 255, .4);
+
+        .action-handle-text {
+          width: 12rpx;
+          height: 24rpx;
+          margin-left: 12rpx;
+        }
+      }
+
+      .action-view-text {
+        position: relative;
+        top: 2rpx;
+        color: #fff;
+        font-size: 32rpx;
+      }
+    }
+
+    .timing-view-scroll {
+      display: flex;
+      justify-content: center;
+      color: #fff;
+      padding-top: 16px;
+      // flex: 0.7; // TODO: 空的情况图片居中
+      // align-items: center;
+      .rayui-swipeout-container {
+        overflow: hidden;
+        margin-right: 16px;
+        .rayui-swipeout-drawer {
+          margin-left: 16px;
+        }
+      }
+      .time-item-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 686rpx;
+        height: 202rpx;
+        color: rgba(255, 255, 255, .5);
+        padding-left: 48rpx;
+        padding-right: 48rpx;
+        border-radius: 32rpx;
+        margin-bottom: 16rpx;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        .gray {
+          font-size: 24rpx;
+          color: rgba(255, 255, 255, .5);
+        }
+
+        .white {
+          font-size: 56rpx;
+          color: #fff;
+        }
+
+        .time-item-left {
+          position: relative;
+          top: -10rpx;
+        }
+      }
+
+      .button-add-wrapper {
+        position: fixed;
+        bottom: 244rpx;
+        right: 48rpx;
+        width: 103rpx;
+        height: 103rpx;
+        border-radius: 50%;
+        .c-theme-color();
+      }
+
+      .rayui-swipeout-button-wrap {
+        &>view {
+          border-radius: 32rpx !important;
+        }
+      }
+    }
+  }
+
+  .action-check-item-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-left: 48rpx;
+    padding-right: 48rpx;
+    padding-top: 38rpx;
+    background-color: #434344;
+
+    .action-check-item {
+      width: 320rpx;
+      height: 92rpx;
+      background-color: rgba(255, 255, 255, .1);
+      color: #fff;
+      border-radius: 24rpx;
+      margin-bottom: 24rpx;
+      .c-flex-center();
+
+      &.active {
+        background-color: #1082FE;
+      }
+    }
+  }
+}
+
+.countdown-view-wrapper.dark {
+  .rayui-picker-mask {
+    z-index: 9999 !important;
+    background-image: linear-gradient(rgba(14, 36, 62, 1), rgba(14, 36, 62, 0)), linear-gradient(0deg, rgba(14, 38, 62, 1), rgba(255, 255, 255, 0));
+  }
+}
+
+.countdown-view-wrapper.light {
+  .rayui-picker-mask {
+    z-index: 9999 !important;
+    background-image: linear-gradient(#f5f5f5, rgba(14, 36, 62, 0)), linear-gradient(0deg, #f5f5f5, rgba(255, 255, 255, 0));
+  }
+}
+
+// 包裹container内部的样式
+.page-container-view {
+  // page-container内部样式
+  .countdown-picker-wrapper {
+    margin-top: 0;
+    height: calc(100% - 274rpx);
+    display: flex;
+    align-items: center;
+
+    .countdown-picker-hour {
+      position: absolute;
+      left: 102px;
+      top: 159px;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .countdown-picker-minute {
+      position: absolute;
+      left: 251px;
+      top: 159px;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  .timing-view-container {
+    .rayui-time-picker-container {
+      background: rgba(0, 0, 0, 0) !important;
+    }
+
+    .rayui-time-picker-mask {
+      display: none !important;
+    }
+  }
+
+  .timing-custom-container {
+    .custom-tip {
+      padding: 0 16px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+    }
+  }
+
+  .timing-view-container,
+  .timing-custom-container,
+  .countdown-view-wrapper {
+    width: 100vw;
+    margin: 0;
+    box-shadow: 0px 2px 7px  rgba(0, 0, 0, 0.3) !important;
+    height: 100vh;
+
+    .countdown-view-back {
+      position: absolute;
+      left: 32rpx;
+      top: 14px;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      color: #FFFFFF;
+    }
+
+    .countdown-text-button-wrapper {
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      bottom: 76rpx;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .countdown-text-button {
+      background: #0D84FF;
+      border-radius: 48rpx;
+      font-weight: 400;
+      font-size: 32rpx;
+      width: 654rpx;
+      color: #FFFFFF;
+      margin-top: 160rpx;
+    }
+
+    .countdown-view-tips {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10rpx;
+
+      .countdown-view-tips-title {
+        display: flex;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 41px;
+        color: #FFFFFF;
+      }
+
+      .countdown-view-tips-text {
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 16px;
+        color: #999999;
+      }
+    }
+  }
+}
+
+.page-container-view {
+  .timing-view-handler {
+    // margin-top: 50px; // TODO:
+    position: relative;
+    width: 100vw;
+    height: 88rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32rpx;
+    overflow: hidden;
+  }
+}
+
+.timing-view-cancel {
+}
+
+.timing-view-save {
+  color: #fff;
+  font-size: 32rpx;
+}
+
+.cell-list {
+  margin: 0;
+  background: #222;
+}
+
+.list-item {
+  height: 96rpx;
+  line-height: 96rpx;
+  text-align: center;
+  color: 'red';
+}
+.schedule-list-wrapper {
+  .countdown-wrapper {
+    padding-top: 24px;
+  }
+}
