@@ -90,15 +90,12 @@ function Record() {
         subRecordId = value.length > 6 ? value.slice(6, 11) : '';
         // 旧格式使用gmtCreate作为时间戳，已在默认值设置
       }
-    } else {
-      // 新格式: YYYYMMDDHHmmTTTAAASSSS...
-      // 其中 TTT 是时间，AAA 是面积，SSSS 是子记录ID
+    } else if (value.length > 21) {
       const year = value.slice(0, 4);
       const month = value.slice(4, 6);
       const day = value.slice(6, 8);
       const hour = value.slice(8, 10);
       const minute = value.slice(10, 12);
-
       dayDate = `${year}-${month}-${day}`;
       timeDate = `${hour}:${minute}`;
 
@@ -109,6 +106,10 @@ function Record() {
       time = scaleNumber(timeScale, parseInt(value.slice(12, 15), 10));
       area = scaleNumber(areaScale, parseInt(value.slice(15, 18), 10));
       subRecordId = value.slice(18, 33);
+    } else {
+      time = parseInt(value.slice(0, 3), 10);
+      area = parseInt(value.slice(3, 6), 10);
+      subRecordId = value.slice(-15);
     }
 
     // 格式化简短日期（如 "5-28 17:00"）
