@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "typeRoots": ["./node_modules/@types", "./typings", "./functional/typings"],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./functional/*"]
+    }
+  },
+  "include": ["./functional/**/*.*", "./src/**/*.*", "./functional/typings"],
+  "exclude": ["node_modules", "dist"]
+}
