@@ -2,7 +2,7 @@
  * @Author: mjh
  * @Date: 2025-06-16 10:18:17
  * @LastEditors: mjh
- * @LastEditTime: 2025-06-20 14:54:45
+ * @LastEditTime: 2025-08-19 17:40:54
  * @Description:
  */
 interface handleEvent<T = string, U = any> {
@@ -26,6 +26,12 @@ export type DragProps = {
    */
   list: Array<any>;
   /**
+   * @description.en class
+   * @description.zh class
+   * @version 2.1.0
+   */
+  className?: string;
+  /**
    * @description.en style
    * @description.zh style
    */
@@ -48,6 +54,20 @@ export type DragProps = {
    * @default ""
    */
   activeClassName?: string;
+  /**
+   * @description.en The entire node can trigger dragging. If true, the dragIconNode dragging is disabled.
+   * @description.zh 整个节点可以触发拖拽 为 true 则 dragIconNode 拖拽失效
+   * @version 2.0.1
+   * @default false
+   */
+  bodyDrag?: boolean;
+  /**
+   * @description.en The display situation of multiple columns
+   * @description.zh 一列多个的展示情况
+   * @version 2.1.0
+   * @default false
+   */
+  multipleCol?: boolean;
   /**
    * @description.en Identification key name
    * @description.zh 标识key名称
@@ -99,4 +119,16 @@ export type DragItemProps = {
    * @default ""
    */
   dragIconNode?: React.ReactNode;
+  /**
+   * @description.en click event
+   * @description.zh 点击事件
+   * @version 2.1.0
+   */
+  onClick?: (e: TouchEvent) => any;
+  /**
+   * @description.en Drag and drop icon node click event
+   * @description.zh 拖拽图标节点点击事件
+   * @version 2.1.0
+   */
+  onDragNodeClick?: (e: TouchEvent) => any;
 };

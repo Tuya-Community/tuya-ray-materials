@@ -2,7 +2,7 @@
  * @Author: mjh
  * @Date: 2025-06-03 10:05:28
  * @LastEditors: mjh
- * @LastEditTime: 2025-06-20 14:53:56
+ * @LastEditTime: 2025-08-19 18:23:14
  * @Description:
  */
 /* eslint-disable no-undef */
@@ -57,6 +57,9 @@ Component({
     styleData: '',
     activeClassName: '',
     dargStartDelay: 0,
+    bodyDrag: false,
+    multipleCol: false,
+    fatherId: '',
   },
   observers: {},
   methods: {

@@ -1,2 +1,8 @@
 .ray-drag-list {
 }
+
+.ray-drag-list-multiple-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

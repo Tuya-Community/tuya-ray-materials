@@ -2,7 +2,8 @@
 <view 
   id="{{ instanceId }}"
   prop="{{list}}"
-  change:prop="{{drag.propObserver}}" 
+  wx:if="{{!bodyDrag}}"
+  change:prop="{{drag.propObserver(fatherId)}}" 
   class="ray-drag-list-item ray-drag-list-item-{{instanceId}} {{activeClassName}}"
 >
   <view 
@@ -15,11 +16,39 @@
       data-id="{{instanceId}}" 
       data-keyid="{{keyId}}"
       data-duration="{{dargStartDelay}}"
-      catch:touchstart="{{drag.touchStart}}" 
-      catch:touchmove="{{drag.touchmove}}"
-      catch:touchend="{{drag.touchend}}"
+      data-multiple="{{multipleCol}}"
+      bind:touchstart="{{drag.touchStart}}" 
+      bind:touchmove="{{drag.touchmove(fatherId)}}"
+      bind:touchend="{{drag.touchend(fatherId)}}"
       class="ray-drag-list-item-point"
     >
+      <slot name="drag"></slot>
+    </view>
+  </view>
+</view>
+
+
+<view 
+  id="{{ instanceId }}"
+  prop="{{list}}"
+  wx:if="{{bodyDrag}}"
+  change:prop="{{drag.propObserver(fatherId)}}" 
+  data-item="{{item}}" 
+  data-id="{{instanceId}}" 
+  data-keyid="{{keyId}}"
+  data-multiple="{{multipleCol}}"
+  data-duration="{{dargStartDelay}}"
+  bind:touchstart="{{drag.touchStart}}" 
+  bind:touchmove="{{drag.touchmove(fatherId)}}"
+  bind:touchend="{{drag.touchend(fatherId)}}"
+  class="ray-drag-list-item ray-drag-list-item-{{instanceId}} {{activeClassName}}"
+>
+  <view 
+    class="ray-drag-list-item-sort" 
+    style="margin-bottom: {{midOffset}};{{styleData}}"
+  >
+    <slot></slot>
+    <view class="ray-drag-list-item-point" >
       <slot name="drag"></slot>
     </view>
   </view>

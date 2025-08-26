@@ -1,6 +1,6 @@
 {
   "name": "@ray-js/drag-list",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "os-1 @ray-js/drag-list",
   "main": "lib/index",
   "files": [

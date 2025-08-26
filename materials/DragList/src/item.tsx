@@ -2,7 +2,7 @@
  * @Author: mjh
  * @Date: 2025-06-12 17:05:10
  * @LastEditors: mjh
- * @LastEditTime: 2025-06-20 13:46:23
+ * @LastEditTime: 2025-08-19 17:35:57
  * @Description:
  */
 /* eslint-disable @typescript-eslint/no-empty-function */
@@ -16,12 +16,23 @@ import DragItemMini from './components/drag-item/index';
 import { DragItemProps } from './props';
 
 export const DragItem = (props: DragItemProps) => {
-  const { id, item, children, dragIconNode } = props;
+  const { id, item, children, dragIconNode, onClick, onDragNodeClick } = props;
 
   return (
-    <DragItemMini id={id} instanceId={id} item={item}>
+    <DragItemMini
+      id={id}
+      instanceId={id}
+      item={item}
+      bindclick={onClick}
+      binddragNodeClick={onDragNodeClick}
+    >
       {children}
       {dragIconNode && <View slot="drag">{dragIconNode}</View>}
     </DragItemMini>
   );
+};
+
+DragItem.defaultProps = {
+  onClick: () => {},
+  onDragNodeClick: () => {},
 };

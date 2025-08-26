@@ -3,7 +3,7 @@
  * @Author: mjh
  * @Date: 2025-06-03 10:39:13
  * @LastEditors: mjh
- * @LastEditTime: 2025-06-20 14:55:25
+ * @LastEditTime: 2025-08-06 17:37:42
  * @Description:
  */
 
@@ -57,6 +57,18 @@ Component({
       type: null,
       value: 0,
     },
+    bodyDrag: {
+      type: Boolean,
+      value: false,
+    },
+    className: {
+      type: String,
+      value: '',
+    },
+    multipleCol: {
+      type: Boolean,
+      value: false,
+    },
     keyId: {
       type: String,
       value: '',
@@ -72,8 +84,9 @@ Component({
     ready() {
       this.setData({
         isInit: true,
+        fatherId: Math.random().toString(36).substring(2, 15) + new Date().getTime(),
       });
-      this.getChildRect(this.data.list);
+      this.getChildRect(this.data.list, true);
     },
   },
   observers: {
@@ -100,7 +113,7 @@ Component({
     moveCanceled() {
       this.triggerEvent('handleSortEnd', false);
     },
-    async getChildRect(newList = this.data.list) {
+    async getChildRect(newList = this.data.list, isReady) {
       if (!this.children.length) return;
       const { children } = this;
       const list = [...newList];
@@ -114,17 +127,25 @@ Component({
             top: rect.top,
             bottom: rect.bottom,
             height: rect.bottom - rect.top,
-            offset: 0,
+            left: rect.left,
+            right: rect.right,
+            width: rect.right - rect.left,
+            offsetY: 0,
+            offsetX: 0,
           };
           return rect;
         })
       );
       this.children.forEach(child => {
-        child.updateData({
+        const data = {
           list,
           keyId: this.data.keyId,
           dargStartDelay: this.data.dargStartDelay,
-        });
+          bodyDrag: this.data.bodyDrag,
+          multipleCol: this.data.multipleCol,
+          fatherId: this.data.fatherId,
+        };
+        child.updateData(data);
       });
     },
   },
