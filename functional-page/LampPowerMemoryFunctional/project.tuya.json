@@ -1,0 +1,22 @@
+{
+  "projectname": "@ray/lamp-power-memory-functional",
+  "i18n": true,
+  "description": "照明断电记忆功能页",
+  "miniprogramRoot": "dist/tuya/miniprogram",
+  "functionalRoot": "dist/tuya/functional",
+  "projectId": "typsxgb7vfl1unmkbt",
+  "dependencies": {
+    "BaseKit": "3.0.6",
+    "MiniKit": "3.0.7",
+    "BizKit": "4.2.0",
+    "DeviceKit": "4.0.8"
+  },
+  "compilerOptions": {
+    "compatible": [
+      "wx"
+    ]
+  },
+  "devMode": "ray",
+  "baseversion": "2.25.0",
+  "compileType": "miniprogram"
+}
