@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.ray/
+
+.idea/
+dist-next/
+dist-new/
+
+typings
