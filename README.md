@@ -4,7 +4,7 @@ Tuya Ray Materials
 <!-- txp-asset-qrcode-start -->
 <table>
 <tr>
-  <td id="CurtainControllerTemplate">2024/10</td>
+  <td id="CurtainControllerTemplate">2024/11</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/CurtainControllerTemplate">CurtainControllerTemplate</a></td>
   <td>
   <details>
@@ -15,7 +15,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="TempHumSenser">2024/10</td>
+  <td id="TempHumSenser">2024/11</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/TempHumSenser">TempHumSenser</a></td>
   <td>
   <details>
@@ -103,7 +103,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="PublicPanelLamp">2024/12</td>
+  <td id="PublicPanelLamp">2024/11</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelLamp">PublicPanelLamp</a></td>
   <td>
   <details>
@@ -191,7 +191,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="PublicPanelStripLamp">2025/03</td>
+  <td id="PublicPanelStripLamp">2024/11</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelStripLamp">PublicPanelStripLamp</a></td>
   <td>
   <details>
@@ -246,7 +246,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="AIPetTemplate">2025/06</td>
+  <td id="AIPetTemplate">2025/03</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/AIPetTemplate">AIPetTemplate</a></td>
   <td>
   <details>
@@ -257,7 +257,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="PublicPanelIpc">2025/06</td>
+  <td id="PublicPanelIpc">2024/12</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelIpc">PublicPanelIpc</a></td>
   <td>
   <details>
@@ -268,7 +268,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="SweepRobotTemplate">2025/06</td>
+  <td id="SweepRobotTemplate">2024/11</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SweepRobotTemplate">SweepRobotTemplate</a></td>
   <td>
   <details>
@@ -279,7 +279,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="TySlider">2025/07</td>
+  <td id="TySlider">2024/12</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/TySlider">TySlider</a></td>
   <td>
   <details>
@@ -312,7 +312,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="PublicSdmTemplate">2025/07</td>
+  <td id="PublicSdmTemplate">2024/11</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicSdmTemplate">PublicSdmTemplate</a></td>
   <td>
   <details>
@@ -323,7 +323,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="PanelOutdoorCycle">2025/07</td>
+  <td id="PanelOutdoorCycle">2024/11</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PanelOutdoorCycle">PanelOutdoorCycle</a></td>
   <td>
   <details>
@@ -389,7 +389,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="LampStripClipFunctional">2025/08</td>
+  <td id="LampStripClipFunctional">2025/05</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=functional-page/LampStripClipFunctional">LampStripClipFunctional</a></td>
   <td>
   <details>
@@ -488,7 +488,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="LampCirclePicker">2025/08</td>
+  <td id="LampCirclePicker">2025/07</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampCirclePicker">LampCirclePicker</a></td>
   <td>
   <details>
@@ -532,7 +532,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="HighPerfText">2025/08</td>
+  <td id="HighPerfText">2024/11</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/HighPerfText">HighPerfText</a></td>
   <td>
   <details>
@@ -675,7 +675,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="GyroSweeperTemplate">2025/08</td>
+  <td id="GyroSweeperTemplate">2025/06</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/GyroSweeperTemplate">GyroSweeperTemplate</a></td>
   <td>
   <details>
@@ -730,7 +730,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="DragList">2025/08</td>
+  <td id="DragList">2025/07</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/DragList">DragList</a></td>
   <td>
   <details>
