@@ -48,6 +48,72 @@ Tuya Ray Materials
 </tr>
 
 <tr>
+  <td id="PublicPanelLamp">2024/11</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelLamp">PublicPanelLamp</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-PublicPanelLamp.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="PublicPanelStripLamp">2024/11</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelStripLamp">PublicPanelStripLamp</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-PublicPanelStripLamp.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="SweepRobotTemplate">2024/11</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SweepRobotTemplate">SweepRobotTemplate</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-SweepRobotTemplate.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="PublicSdmTemplate">2024/11</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicSdmTemplate">PublicSdmTemplate</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-PublicSdmTemplate.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="PanelOutdoorCycle">2024/11</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PanelOutdoorCycle">PanelOutdoorCycle</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-PanelOutdoorCycle.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="HighPerfText">2024/11</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/HighPerfText">HighPerfText</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=HighPerfText" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
   <td id="MultiSocketTemplate">2024/12</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/MultiSocketTemplate">MultiSocketTemplate</a></td>
   <td>
@@ -103,23 +169,34 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="PublicPanelLamp">2024/11</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelLamp">PublicPanelLamp</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-PublicPanelLamp.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="PanelWirelessTapToRun">2024/12</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PanelWirelessTapToRun">PanelWirelessTapToRun</a></td>
   <td>
   <details>
   <summary>Scan QRCode</summary>
   <img src="./qrCode/template-PanelWirelessTapToRun.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="PublicPanelIpc">2024/12</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelIpc">PublicPanelIpc</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=PublicPanelIpc" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="TySlider">2024/12</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/TySlider">TySlider</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/materials-TySlider.png" width="100" height="100">
   </details>
   </td>
 </tr>
@@ -191,12 +268,12 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="PublicPanelStripLamp">2024/11</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelStripLamp">PublicPanelStripLamp</a></td>
+  <td id="AIPetTemplate">2025/03</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/AIPetTemplate">AIPetTemplate</a></td>
   <td>
   <details>
   <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-PublicPanelStripLamp.png" width="100" height="100">
+  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=AIPetTemplate" target="_blank">View Details</a>
   </details>
   </td>
 </tr>
@@ -246,45 +323,23 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="AIPetTemplate">2025/03</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/AIPetTemplate">AIPetTemplate</a></td>
+  <td id="LampStripClipFunctional">2025/05</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=functional-page/LampStripClipFunctional">LampStripClipFunctional</a></td>
   <td>
   <details>
   <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=AIPetTemplate" target="_blank">View Details</a>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampStripClipFunctional" target="_blank">View Details</a>
   </details>
   </td>
 </tr>
 
 <tr>
-  <td id="PublicPanelIpc">2024/12</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicPanelIpc">PublicPanelIpc</a></td>
+  <td id="GyroSweeperTemplate">2025/06</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/GyroSweeperTemplate">GyroSweeperTemplate</a></td>
   <td>
   <details>
   <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=PublicPanelIpc" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
-  <td id="SweepRobotTemplate">2024/11</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SweepRobotTemplate">SweepRobotTemplate</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-SweepRobotTemplate.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
-  <td id="TySlider">2024/12</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/TySlider">TySlider</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/materials-TySlider.png" width="100" height="100">
+  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=GyroSweeperTemplate" target="_blank">View Details</a>
   </details>
   </td>
 </tr>
@@ -312,34 +367,34 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="PublicSdmTemplate">2024/11</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PublicSdmTemplate">PublicSdmTemplate</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-PublicSdmTemplate.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
-  <td id="PanelOutdoorCycle">2024/11</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PanelOutdoorCycle">PanelOutdoorCycle</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-PanelOutdoorCycle.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="LampRhythmCircle">2025/07</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampRhythmCircle">LampRhythmCircle</a></td>
   <td>
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampRhythmCircle" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="LampCirclePicker">2025/07</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampCirclePicker">LampCirclePicker</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampCirclePicker" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="DragList">2025/07</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/DragList">DragList</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=DragList" target="_blank">View Details</a>
   </details>
   </td>
 </tr>
@@ -384,17 +439,6 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampStripLightSmear" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
-  <td id="LampStripClipFunctional">2025/05</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=functional-page/LampStripClipFunctional">LampStripClipFunctional</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampStripClipFunctional" target="_blank">View Details</a>
   </details>
   </td>
 </tr>
@@ -488,17 +532,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="LampCirclePicker">2025/07</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampCirclePicker">LampCirclePicker</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampCirclePicker" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="LampColorWheel">2025/08</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampColorWheel">LampColorWheel</a></td>
   <td>
@@ -527,17 +560,6 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampVerticalTouchSlider" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
-  <td id="HighPerfText">2024/11</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/HighPerfText">HighPerfText</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=HighPerfText" target="_blank">View Details</a>
   </details>
   </td>
 </tr>
@@ -675,17 +697,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="GyroSweeperTemplate">2025/06</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/GyroSweeperTemplate">GyroSweeperTemplate</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=GyroSweeperTemplate" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="LampNoDisturbFunctional">2025/08</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=functional-page/LampNoDisturbFunctional">LampNoDisturbFunctional</a></td>
   <td>
@@ -725,17 +736,6 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampPercentSlider" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
-  <td id="DragList">2025/07</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/DragList">DragList</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=DragList" target="_blank">View Details</a>
   </details>
   </td>
 </tr>
