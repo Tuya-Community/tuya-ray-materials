@@ -92,17 +92,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="PanelOutdoorCycle">2024/11</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PanelOutdoorCycle">PanelOutdoorCycle</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-PanelOutdoorCycle.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="HighPerfText">2024/11</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/HighPerfText">HighPerfText</a></td>
   <td>
@@ -736,6 +725,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=LampPercentSlider" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="PanelOutdoorCycle">2025/09</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PanelOutdoorCycle">PanelOutdoorCycle</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-PanelOutdoorCycle.png" width="100" height="100">
   </details>
   </td>
 </tr>

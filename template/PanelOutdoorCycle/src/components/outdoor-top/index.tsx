@@ -13,40 +13,23 @@ export const OutdoorTop = () => {
   const devInfo = useDevInfo() || { devId: '', name: '' };
   const theme = useSelector(selectThemeType);
 
-  const changeDevice = _.debounce(() => {
-    ty.outdoor.switchDevice({
-      success: () => {
-        console.log('切换设备成功');
-      },
-      fail: () => {
-        console.log('切换设备失败');
-      },
-    });
-  }, 500);
-
   const goToDeviceDetailPage = _.debounce(() => {
-    ty.device.openDeviceDetailPage({ deviceId: devInfo.devId });
+    ty.navigateTo({
+      url: `functional://settings/detail?deviceId=${devInfo.devId}`,
+    });
   }, 500);
 
   return (
     <View className={styles.topBarWrap}>
       <View className={styles.statusBar} style={{ height: `${statusBarHeight}px` }} />
       <View className={styles.topBar}>
-        <Text className={styles.topBarText} onClick={changeDevice}>
-          {devInfo.name}
-        </Text>
-        <Image
-          src={theme === 'dark' ? change : changeLight}
-          className={styles.icon}
-          style={{ marginLeft: 6 }}
-          onClick={changeDevice}
-        />
+        <Text className={styles.topBarText}>{devInfo.name}</Text>
         <View style={{ flex: 1 }} />
-        <Image
+        {/* <Image
           src={theme === 'dark' ? set : setLight}
           className={styles.icon}
           onClick={goToDeviceDetailPage}
-        />
+        /> */}
       </View>
     </View>
   );

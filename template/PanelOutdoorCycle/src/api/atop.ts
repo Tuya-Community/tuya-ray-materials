@@ -5,7 +5,10 @@ import {
   getLatestLocation,
   getOutdoorDeviceIcon,
   getVehicleDetail,
-  GetVehicleImgUrl,
+  getVehicleImgUrl,
+  setVasPopup,
+  getRunningAbility,
+  getDeviceBindInfo,
 } from '@ray-js/ray';
 
 const errStyle = 'background: red; color: #fff;';
@@ -74,11 +77,12 @@ export const getRowData = (key: string): Promise<boolean> => {
 
 export const isBLEXDeviceTTT = (devId): Promise<boolean> => {
   return new Promise<boolean>((resolve, reject) => {
-    ty.outdoor.isBLEXDevice({
-      deviceID: devId,
-      success: res => {
-        console.log('是否是ble+x设备 :>> ', res);
-        resolve(res);
+    ty.device.getDeviceInfo({
+      deviceId: devId,
+      success: (res: Record<string, any>) => {
+        const isBlexD = res?.extModuleType >= 1;
+        console.log('是否是ble+x设备 :>> ', isBlexD);
+        resolve(isBlexD);
       },
       fail: fail => {
         console.log('是否是ble+x设备获取失败 >> ', fail);
@@ -90,11 +94,12 @@ export const isBLEXDeviceTTT = (devId): Promise<boolean> => {
 
 export const isBLEXDeviceActive = (devId): Promise<boolean> => {
   return new Promise<boolean>((resolve, reject) => {
-    ty.outdoor.isBLEXDeviceActived({
-      deviceID: devId,
-      success: activeRes => {
-        resolve(activeRes);
-        console.log('蜂窝是否激活 :>> ', activeRes);
+    ty.device.getDeviceInfo({
+      deviceId: devId,
+      success: res => {
+        const isBLEXActive = res?.meta?.ext_module_in === 1;
+        console.log('蜂窝是否激活 :>> ', isBLEXActive);
+        resolve(isBLEXActive);
       },
       fail: fail => {
         console.log('蜂窝是否激活判断失败 >> ', fail);
@@ -105,58 +110,56 @@ export const isBLEXDeviceActive = (devId): Promise<boolean> => {
 };
 
 // 获取 扩展模组关联事件配置
-export const getExtendedModuleExtConfig = (devId: string): Promise<IAbility> => {
+export const getExtendedModuleExtConfig = devId => {
   return new Promise((resolve, reject) => {
-    ty.outdoor.getExtendedModuleExtConfig({
-      deviceID: devId,
-      success: extConfigRes => {
-        resolve(extConfigRes);
-        console.log('扩展模组数据 :>> ', extConfigRes);
-      },
-      fail: fail => {
-        console.log('扩展模组数据获取失败 >> ', fail);
+    getDeviceBindInfo({ deviceId: devId, codes: 'productAbility' })
+      .then((res: Record<string, any>) => {
+        const d = res?.deviceInfo?.productAbility?.find(item => item.abilityCode === 'tyabiymhcv');
+        let extConfig: Record<string, any> = {};
+        if (d && d.extConfig) {
+          extConfig = JSON.parse(d.extConfig);
+        }
+        const data = {
+          activeType: extConfig?.ModuleActiveType,
+          interactionType: extConfig?.AssociativeDPInteraction,
+          assocaitedDps: extConfig?.AssociateDP,
+        };
+        console.log('扩展模组数据 :>> ', data);
+        resolve(data);
+      })
+      .catch(err => {
+        console.log('扩展模组数据获取失败 >> ', err);
         reject();
-      },
-    });
+      });
   });
 };
 
 // 获取设备增值服务能力
-export const getCServicesAbility = (devId: string): Promise<IAbility> => {
+export const getCServicesAbility = (devId: string, uuid: string) => {
   return new Promise((resolve, reject) => {
-    ty.outdoor.getValueAddedServicesAbility({
-      deviceID: devId,
-      success: res => {
-        const { result } = res;
+    getRunningAbility({ devId: devId, uuid })
+      .then((result: Record<string, any>) => {
         if (result && result?.abilityMap) {
           const { outdoor_data_cloud_store: serviceResult } = result.abilityMap;
           console.log('serviceResult :>> ', serviceResult);
           resolve(serviceResult);
+        } else {
+          reject();
         }
-        console.log('获取设备增值服务能力 :>> ', result);
-      },
-      fail: fail => {
-        console.log('获取设备增值服务能力失败 >> ', fail);
+      })
+      .catch(err => {
+        console.log('获取设备增值服务能力失败 >> ', err);
         reject();
-      },
-    });
+      });
   });
 };
 
 // 设置弹窗状态
-export const setCServicesPop = (devId: string): Promise<boolean> => {
+export const setCServicesPop = (devId: string, uuid: string) => {
   return new Promise((resolve, reject) => {
-    ty.outdoor.setValueAddedServicesPop({
-      deviceID: devId,
-      hadPopup: true,
-      success: result => {
-        resolve(true);
-        console.log('setCServicesPop :>> ', result);
-      },
-      fail: fail => {
-        console.log('setCServicesPop fail >> ', fail);
-        reject();
-      },
+    setVasPopup({ devId: devId, uuid: uuid, hadPopup: true }).then(res => {
+      resolve(true);
+      console.log('setCServicesPop :>> ', res);
     });
   });
 };
@@ -165,7 +168,7 @@ export const setCServicesPop = (devId: string): Promise<boolean> => {
 export const getCarInfo = (deviceId: string): any => getVehicleDetail({ deviceId });
 
 // 获取车辆详情图片地址
-export const getCarImgUrl = (bizKey: string) => GetVehicleImgUrl({ bizKey });
+export const getCarImgUrl = (bizKey: string) => getVehicleImgUrl({ bizKey });
 
 export const getNgData = (rawKey: string): Promise<boolean> => {
   return new Promise((resolve, reject) => {

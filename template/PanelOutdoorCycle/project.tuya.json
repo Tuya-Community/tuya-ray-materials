@@ -3,17 +3,16 @@
   "type": "panel-app",
   "ownerType": "tuya-official",
   "i18n": false,
-  "description": "出行UI2.0首页",
+  "description": "出行两轮车模版",
   "miniprogramRoot": "./dist/tuya",
   "dependencies": {
     "BaseKit": "3.0.0",
     "MiniKit": "3.0.1",
-    "DeviceKit": "3.0.2",
+    "DeviceKit": "4.19.5",
     "BizKit": "4.3.1",
-    "MapKit": "3.0.7",
-    "OutdoorKit": "1.1.7"
+    "MapKit": "3.0.7"
   },
-  "baseversion": "2.27.1",
+  "baseversion": "2.29.16",
   "projectname": "出行两轮车模板",
   "devMode": "ray",
   "compileType": "miniprogram",

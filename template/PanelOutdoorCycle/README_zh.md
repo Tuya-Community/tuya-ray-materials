@@ -15,14 +15,13 @@
 ## 3、能力依赖
 
 - App 版本
-  - 出行回归 APP 3.0.0 及以上版本
+  - 涂鸦智能 APP 6.6.0 及以上版本
 - TTT 依赖
   - "BaseKit": "3.0.0",
   - "MiniKit": "3.0.1",
-  - "DeviceKit": "3.0.2",
+  - "DeviceKit": "4.19.5",
   - "BizKit": "4.3.1",
-    "MapKit": "3.0.7",
-  - "OutdoorKit": "1.1.7"
+  - "MapKit": "3.0.7"
   - "baseversion": "2.27.1",
 - 组件依赖
   - 暂无
@@ -65,3 +64,10 @@
 - 更新 `@ray-js/ray` 版本至 `1.7.23`
 - 更新 `@ray-js/smart-ui` 版本至 `2.5.0`
 - UI2.0 功能迭代
+
+### [2.1.0] - 2025-09-30
+
+#### Feature
+
+- 更新 `@ray-js/ray` 版本至 `1.7.41`
+- 移除 OutdoorKit 支持涂鸦智能 APP

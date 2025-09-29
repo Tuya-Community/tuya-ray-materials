@@ -99,7 +99,7 @@ export const ControlMenu: React.FC<MenuProps> = React.memo(
             checkPermissions(dpCodes.tailBoxLock, () => changeDp(dpCodes.tailBoxLock));
           },
         },
-        {
+        /* {
           name: 'moreLock',
           icon: menuUnlock,
           color: theme === 'dark' ? '#F1F1F1' : '#555555',
@@ -109,7 +109,7 @@ export const ControlMenu: React.FC<MenuProps> = React.memo(
               url: `tuyaSmart://tsod_additional_unlock_methods?devId=${devId}`,
             });
           },
-        },
+        }, */
         {
           name: 'alarmTitle',
           icon: menuAlarm,

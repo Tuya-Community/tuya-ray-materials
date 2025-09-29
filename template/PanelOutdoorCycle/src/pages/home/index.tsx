@@ -18,6 +18,7 @@ import {
   offBluetoothAdapterStateChange,
   subscribeBLEConnectStatus,
   unsubscribeBLEConnectStatus,
+  getDeviceInfo,
 } from '@ray-js/ray';
 import { Icon } from '@ray-js/icons';
 import {
@@ -133,12 +134,17 @@ export function Home() {
   }, []);
 
   usePageEvent('onShow', () => {
-    checkServiceAbility();
+    getDeviceInfo({
+      deviceId: devId,
+      success: res => {
+        const { uuid } = res;
+        checkServiceAbility(uuid);
+      },
+    });
   });
 
   const getInit = async () => {
     ty.createMapContext('myMap'); // 创建地图上下文
-    ty.hideMenuButton(); // 隐藏菜单按钮
     getBannerData(); // 获取banner数据
     getCarLocation(); // 获取车辆位置
     getDeviceCloudImg(); // 获取车辆配置图
@@ -174,17 +180,17 @@ export function Home() {
   );
 
   useEffect(() => {
-    const onRegisterExtModuleChange = ({ devID, status }: { devID: string; status: 0 | 1 }) => {
+    const checkActive = ({ devID, status }) => {
+      console.log('插拔模块监听 :>> ');
       if (isBleOnline && devID === devId) {
         // 在BLE连接状态并且在首页时蜂窝模组插入时，提示：“云模组已插入”
-        ty.showToast({ title: Strings.getLang(`bleXActive${status}`), icon: 'none' });
+        ty.showToast({ title: Strings.getLang(`bleXActive${status}` as any), icon: 'none' });
         checkBleXDevice();
       }
     };
-    // 注册扩展模块插拔状态监听
-    ty.outdoor.onRegisterExtModuleStatus(onRegisterExtModuleChange);
+    ty.device.onRegisterExtModuleStatus(checkActive);
     return () => {
-      ty.outdoor.offRegisterExtModuleStatus(onRegisterExtModuleChange);
+      ty.device.offRegisterExtModuleStatus(checkActive);
     };
   }, [isBleOnline, devId]);
 
@@ -218,7 +224,7 @@ export function Home() {
     try {
       // 获取 扩展模组关联事件配置
       const extConfigRes = await getExtendedModuleExtConfig(devId);
-      if (!_.isEmpty(extConfigRes)) {
+      if (!_.isEmpty(extConfigRes) && typeof extConfigRes === 'object' && extConfigRes !== null) {
         dispatch(updateCommonInfo({ ...extConfigRes }));
       }
     } catch (error) {
@@ -309,15 +315,17 @@ export function Home() {
           longitude={carLocation.longitude}
           latitude={carLocation.latitude}
           id="myMap"
-          markers={[
-            {
-              id: 1,
-              name: 'carLocation',
-              longitude: carLocation.longitude,
-              latitude: carLocation.latitude,
-              iconPath: isOnline ? marker : markerOffline,
-            },
-          ]}
+          markers={
+            [
+              {
+                id: 1,
+                name: 'carLocation',
+                longitude: carLocation.longitude,
+                latitude: carLocation.latitude,
+                iconPath: isOnline ? marker : markerOffline,
+              },
+            ] as any
+          }
         />
         <View className={styles.mapTop} />
         <View className={styles.mapBottom} />

@@ -15,7 +15,7 @@
     "@ray-js/components-ty-cell": "^0.0.19",
     "@ray-js/icons": "^1.7.20",
     "@ray-js/panel-sdk": "^1.10.0",
-    "@ray-js/ray": "^1.7.23",
+    "@ray-js/ray": "^1.7.41",
     "@ray-js/ray-error-catch": "^0.0.23",
     "@ray-js/smart-ui": "^2.5.0",
     "@ray-js/svg": "^0.2.0",

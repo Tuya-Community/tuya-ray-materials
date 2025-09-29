@@ -155,9 +155,9 @@ const useCheckPermissions = ({
   const setBleOnline = (b: boolean) => setIsBleOnline(b);
 
   // C端续费能力判断
-  const checkServiceAbility = async () => {
+  const checkServiceAbility = async (uuid: string) => {
     try {
-      const res = await getCServicesAbility(devId);
+      const res: IAbility = await getCServicesAbility(devId, uuid);
       if (!res) return; // 蓝牙设备没有智能服务
       const { inService, isPidHadVAS, commodityUrl, hadPopup } = res;
       dispatch(updateCommonInfo({ inService, isPidHadVAS, commodityUrl: commodityUrl || '' }));
@@ -185,7 +185,7 @@ const useCheckPermissions = ({
             confirmText: Strings.getLang('confirm'),
           });
         }
-        await setCServicesPop(devId);
+        await setCServicesPop(devId, uuid);
       }
     } catch (error) {
       console.log('checkServiceAbility error :>> ', error);

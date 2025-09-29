@@ -15,14 +15,13 @@ Before using this template, you need to have a basic understanding of the Ray fr
 ## 3. Capability dependency
 
 - App version
-  - Travel Returns 3.0.0 and above
+  - Tuya Smart 6.6.0 and above
 - TTT dependency
   - "BaseKit": "3.0.0",
   - "MiniKit": "3.0.1",
-  - "DeviceKit": "3.0.2",
+  - "DeviceKit": "4.19.5",
   - "BizKit": "4.3.1",
-    "MapKit": "3.0.7",
-  - "OutdoorKit": "1.1.7"
+  - "MapKit": "3.0.7"
   - "baseversion": "2.27.1",
 - Component dependency
   - None
@@ -65,3 +64,10 @@ If you have any questions, please visit the link and submit post feedback: https
 - Updated `@ray-js/ray` version to `1.7.23`
 - Updated `@ray-js/smart-ui` version to `2.5.0`
 - UI2.0 Functional Iteration
+
+### [2.1.0] - 2025-09-30
+
+#### Feature
+
+- Updated `@ray-js/ray` version to `1.7.41`
+- Remove OutdoorKit and support Tuya Smart App

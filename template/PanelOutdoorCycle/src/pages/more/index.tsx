@@ -87,9 +87,15 @@ export function MorePage() {
           ty.router({
             url: `tuyaSmart://tsod_additional_unlock_methods?devId=${devId}`,
             success: res => {
-              console.log('跳转更多解锁方式成功 :>> ');
+              // console.log('跳转更多解锁方式成功 :>>  仅支持出行APP');
             },
-            fail: fail => console.log('fail :>> ', fail),
+            fail: fail => {
+              console.log('fail :>> ', fail);
+              ty.showToast({
+                title: fail?.errorMsg,
+                icon: 'none',
+              });
+            },
           });
           // 原生locking options 更多解锁方式
         },
