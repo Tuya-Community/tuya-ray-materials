@@ -1,0 +1,15 @@
+<svg>
+  <defs>
+    <mask id="circle-mask" x="0" y="0" width="100%" height="100%" maskUnits="userSpaceOnUse">
+      <!-- 黑色遮住的区域，白色显示的区域 -->
+      <rect x="0" y="0" width="100%" height="100%" fill="white" />
+      <circle
+        id="cutout-circle"
+        fill="black"
+        r="calc((100vw - 88px) / 2)"
+        cx="calc(16px + ((100vw - 88px) / 2))"
+        cy="80px"
+      />
+    </mask>
+  </defs>
+</svg>

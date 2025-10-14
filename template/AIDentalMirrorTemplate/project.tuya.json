@@ -1,0 +1,19 @@
+{
+  "name": "AI口腔镜模板",
+  "type": "panel-app",
+  "ownerType": "tuya-official",
+  "i18n": false,
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.24.9",
+    "MiniKit": "3.21.0",
+    "DeviceKit": "3.9.3",
+    "BizKit": "3.9.12",
+    "AIKit": "1.6.0"
+  },
+  "baseversion": "2.29.16",
+  "devMode": "ray",
+  "compileType": "miniprogram",
+  "projectname": "apply-config-tpl",
+  "description": ""
+}
