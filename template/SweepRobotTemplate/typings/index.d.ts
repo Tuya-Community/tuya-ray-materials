@@ -161,7 +161,7 @@ type IMaterialMaterialMaps = {
 };
 
 type IMaterialMaterials = Array<{
-  id: string;
+  id: any;
   type: string;
   x: number;
   y: number;

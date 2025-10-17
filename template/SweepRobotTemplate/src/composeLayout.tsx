@@ -1,5 +1,4 @@
 import store from '@/redux';
-import { DevInfo } from '@ray-js/panel-sdk';
 import { getSystemInfoSync } from '@ray-js/ray';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
@@ -10,13 +9,9 @@ import { initializeSystemInfo } from './redux/modules/systemInfoSlice';
 import './styles/index.less';
 import { APP_LOG_TAG } from './constant';
 
-interface State {
-  devInfo: DevInfo;
-}
-
 const composeLayout = (SubComp: React.ComponentType<any>) => {
   const { dispatch } = store;
-  return class PanelComponent extends Component<Record<string, any>, State> {
+  return class PanelComponent extends Component<Record<string, any>, any> {
     async onLaunch(object: any) {
       devices.common.init();
       support.init();
