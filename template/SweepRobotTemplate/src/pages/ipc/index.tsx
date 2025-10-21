@@ -1,6 +1,6 @@
-import { View } from '@ray-js/ray';
+import { router, View } from '@ray-js/ray';
 import React, { FC } from 'react';
-import TopBar from '@/components/TopBar';
+import { NavBar } from '@ray-js/smart-ui';
 import Strings from '@/i18n';
 
 import styles from './index.module.less';
@@ -10,7 +10,7 @@ import Tools from './Tools';
 const Ipc: FC = () => {
   return (
     <View className={styles.container}>
-      <TopBar.Sub title={Strings.getLang('dsc_ipc')} />
+      <NavBar title={Strings.getLang('dsc_ipc')} leftArrow onClickLeft={router.back} />
       <Player />
       <Tools />
     </View>

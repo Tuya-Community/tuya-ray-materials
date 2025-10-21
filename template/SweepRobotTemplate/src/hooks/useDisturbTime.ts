@@ -1,8 +1,7 @@
 // 勿扰模式
 import { PROTOCOL_VERSION } from '@/constant';
 import { disturbTimeSetCode } from '@/constant/dpCodes';
-import { useSendDp } from '@/hooks/useSendDp';
-import { useProps } from '@ray-js/panel-sdk';
+import { useActions, useProps } from '@ray-js/panel-sdk';
 import { decodeDoNotDisturb0x41, encodeDoNotDisturb0x40 } from '@ray-js/robot-protocol';
 import { useEffect, useRef, useState } from 'react';
 
@@ -17,14 +16,13 @@ const defaultDoNotDisturbData = {
 
 // 解析定时指令
 export const useDisturbTime = () => {
+  const actions = useActions();
   const lastDataRef = useRef('');
   const dpValue = useProps(props => props[disturbTimeSetCode]);
   const isListeningRef = useRef(false);
   const [disturbTimeSetData, setDisturbTimeSetData] = useState<typeof defaultDoNotDisturbData>(
     defaultDoNotDisturbData
   );
-
-  const { sendDP } = useSendDp();
 
   const dpChangeFunc = (value: string) => {
     if (value) {
@@ -47,7 +45,7 @@ export const useDisturbTime = () => {
 
   const updateDpValue = (value: typeof defaultDoNotDisturbData) => {
     const data = encodeDoNotDisturb0x40(value);
-    sendDP(disturbTimeSetCode, data);
+    actions[disturbTimeSetCode].set(data);
   };
 
   return { disturbTimeSetData, setDisturbTimeSetData, updateDpValue };

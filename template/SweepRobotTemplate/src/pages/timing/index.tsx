@@ -2,10 +2,10 @@ import { THEME_COLOR } from '@/constant';
 import { useMemoizedFn } from '@/hooks';
 import Strings from '@/i18n';
 import Res from '@/res';
-import { ScrollView, View, router } from '@ray-js/ray';
+import { View, router } from '@ray-js/ray';
 import { TimerData } from '@ray-js/robot-protocol';
-import { Button, Empty } from '@ray-js/smart-ui';
-import React, { FC, useCallback, useEffect } from 'react';
+import { Button, Empty, NavBar } from '@ray-js/smart-ui';
+import React, { FC, useCallback } from 'react';
 import { useDeviceTimerList } from '@/hooks/useDeviceTimerList';
 import { useDisturbTime } from '@/hooks/useDisturbTime';
 
@@ -22,12 +22,6 @@ const Timing: FC = () => {
     updateTimer(index, data);
   };
 
-  useEffect(() => {
-    ty.setNavigationBarTitle({
-      title: Strings.getLang('dsc_timer_title'),
-    });
-  }, []);
-
   const handleRemoveSchedule = useCallback(
     (index: number) => {
       deleteTimer(index);
@@ -36,18 +30,18 @@ const Timing: FC = () => {
   );
 
   const handleEditTiming = useMemoizedFn((item: TimerData, index: number) => {
-    // navigation.navigate('addTiming', { index });
     router.push(`/addTiming?index=${index}`);
   });
 
   const { enable: disturbSwitch } = disturbTimeSetData || {};
   return (
     <View className={styles.container}>
+      <NavBar title={Strings.getLang('dsc_timer_title')} leftArrow onClickLeft={router.back} />
       <View className={styles.content}>
         {disturbSwitch && <Disturb />}
 
         {timerList.length > 0 ? (
-          <View>
+          <View className={styles.listWrapper}>
             {timerList.map((timer: TimerData, index: number) => {
               return (
                 <TimingItem

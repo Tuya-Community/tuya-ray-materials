@@ -3,26 +3,11 @@ import RoomNamePopLayout from '@/components/RoomNamePopLayout';
 import { PROTOCOL_VERSION } from '@/constant';
 import { commandTransCode } from '@/constant/dpCodes';
 import Strings from '@/i18n';
-import store from '@/redux';
+import store, { useSelector } from '@/redux';
 import Res from '@/res';
 import { emitter } from '@/utils';
-import {
-  changeAllMapAreaColor,
-  getLaserMapMergeInfo,
-  getLaserMapSplitPoint,
-  getMapAreaInfo,
-  getMapPointsInfo,
-  updateMapAreaColor,
-} from '@/utils/openApi';
-import {
-  setMapStatusMerge,
-  setMapStatusNormal,
-  setMapStatusOrder,
-  setMapStatusRename,
-  setMapStatusSplit,
-} from '@/utils/openApi/mapStatus';
 import { useActions } from '@ray-js/panel-sdk';
-import { CoverView, hideLoading, Image, showLoading, showToast, View } from '@ray-js/ray';
+import { CoverView, hideLoading, Image, router, showLoading, showToast, View } from '@ray-js/ray';
 import {
   PARTITION_DIVISION_CMD_ROBOT_V1,
   PARTITION_MERGE_CMD_ROBOT_V1,
@@ -34,42 +19,59 @@ import {
   encodePartitionMerge0x1e,
   encodeRoomOrder0x26,
   encodeSetRoomName0x24,
-  isAdjacent,
-  parseRoomId,
-  stringToByte,
 } from '@ray-js/robot-protocol';
-import { EMapSplitStateEnum } from '@ray-js/robot-sdk-types';
-import { Grid, GridItem, Toast, ToastInstance } from '@ray-js/smart-ui';
-import React, { FC, useEffect, useRef, useState } from 'react';
-import WebViewMap from '@/components/MapView/WebViewMap';
+import { Grid, GridItem, NavBar, Toast, ToastInstance } from '@ray-js/smart-ui';
+import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
+import WebViewMap from '@/components/Map/WebViewMap';
+
+import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
+import { MapApi, RoomData } from '@ray-js/robot-map';
 
 import styles from './index.module.less';
 
-enum EditTypes {
-  split = 'split',
-  order = 'order',
-  merge = 'merge',
-  reName = 'reName',
-}
+type RoomEditStatus = 'normal' | 'split' | 'merge' | 'reName' | 'order';
 
 const RoomEdit: FC = () => {
   const actions = useActions();
   const [mapLoadEnd, setMapLoadEnd] = useState(false);
   const [showMenuBar, setShowMenuBar] = useState(true);
   const [showDecisionBar, setShowDecisionBar] = useState(false);
-  const [previewCustom, setPreviewCustom] = useState({});
-  const [tip, setTip] = useState('');
-  const [roomIdHexState, setRoomIdHexState] = useState('');
   const [showRenameModal, setShowRenameModal] = useState(false);
   const [activeConfirm, setActiveConfirm] = useState(false);
-  const mapId = useRef('');
-  const stateType = useRef('normal');
   const timerRef = useRef<NodeJS.Timeout>(null);
 
+  const [mapApi, setMapApi] = useState<MapApi>();
+  const [enableRoomSelection, setEnableRoomSelection] = useState(false);
+  const [selectRoomIds, setSelectRoomIds] = useState<number[]>([]);
+  const [dividingRoomId, setDividingRoomId] = useState<number | null>(null);
+  const [roomEditStatus, setRoomEditStatus] = useState<RoomEditStatus>('normal');
+  const [roomSelectionMode, setRoomSelectionMode] = useState<'checkmark' | 'order'>('checkmark');
+  const roomProperties = useSelector(selectMapStateByKey('roomProperties'));
+
+  // 临时的清扫顺序状态
+  const [tempCleaningOrder, setTempCleaningOrder] = useState<Record<number, number>>({});
+  const [tempName, setTempName] = useState<Record<number, string>>({});
+
+  // 合并原始数据和临时的状态
+  const finalRoomProperties = useMemo(() => {
+    return roomProperties.map(room => ({
+      ...room,
+      order: tempCleaningOrder[room.id] ?? room.order ?? 0,
+      name: tempName[room.id] ?? room.name ?? '',
+    }));
+  }, [roomProperties, tempCleaningOrder, tempName]);
+
   useEffect(() => {
-    ty.setNavigationBarTitle({
-      title: Strings.getLang('dsc_room_edit'),
-    });
+    if (roomEditStatus === 'order') {
+      const roomsWithOrder = finalRoomProperties
+        .filter(room => room.order > 0)
+        .map(room => room.id);
+      setSelectRoomIds(roomsWithOrder);
+      setActiveConfirm(roomsWithOrder.length > 0);
+    }
+  }, [roomEditStatus, finalRoomProperties]);
+
+  useEffect(() => {
     const handleRoomEditResponse = ({ cmd, command }) => {
       if (timerRef.current) {
         // 房间分割上报 刻意增加延迟，等待地图刷新
@@ -82,7 +84,7 @@ const RoomEdit: FC = () => {
 
             if (splitResponse.success) {
               ToastInstance.success({
-                message: Strings.getLang('edit_success'),
+                message: Strings.getLang('dsc_split_room_success'),
               });
             } else {
               ToastInstance.fail({
@@ -152,95 +154,15 @@ const RoomEdit: FC = () => {
   }, []);
 
   /**
-   * 地图加载完成回调
-   * @param data
-   */
-  const onMapId = (data: any) => {
-    mapId.current = data.mapId;
-  };
-
-  const onClickSplitArea = async (data: any) => {
-    if (stateType.current === EditTypes.split || stateType.current === EditTypes.order)
-      setActiveConfirm(true);
-    if (stateType.current === EditTypes.merge) {
-      const res: any = await getLaserMapSplitPoint(mapId.current);
-      // console.info('getLaserMapSplitPoint', res);
-      const { data: rooms } = res;
-      const roomIds = rooms
-        .filter(({ pixel }: any) => pixel !== undefined)
-        .map(({ pixel }: any) => {
-          return pixel;
-        });
-
-      changeAllMapAreaColor(mapId.current, true).then(() => {
-        updateMapAreaColor(mapId.current, roomIds, true, false);
-      });
-
-      if (roomIds.length > 1) {
-        const dataList = (await getMapAreaInfo(mapId.current, roomIds, true)) as any[];
-        console.log('dataList ==>', dataList);
-        if (!isAdjacent(dataList[0].points, dataList[1].points, 3)) {
-          setTimeout(() => {
-            showToast({
-              title: Strings.getLang('dsc_room_merge_board_error'),
-              icon: 'error',
-            });
-            setActiveConfirm(false);
-          }, 500);
-        } else {
-          setActiveConfirm(true);
-        }
-      }
-    }
-
-    if (stateType.current === EditTypes.reName) {
-      const { version } = store.getState().mapState;
-      const maxUnknownId = version === 1 ? 31 : 26;
-      if (!data || !data.length || !Array.isArray(data)) return;
-      const [firstRoom] = data;
-      const { pixel } = firstRoom;
-      const roomId = parseRoomId(pixel, version);
-      if (roomId > maxUnknownId) {
-        showToast({
-          title: Strings.getLang('dsc_home_selectRoom_unknown'),
-          icon: 'error',
-        });
-        return;
-      }
-      reName(pixel);
-    }
-  };
-
-  /**
-   * 点击创建了分割线之后的回调
-   * @param param
-   */
-  const onSplitLine = ({ type }) => {
-    if (type === 'add') {
-      setActiveConfirm(true);
-    } else if (type === 'remove') {
-      setActiveConfirm(false);
-    }
-  };
-  /**
-   * 地图渲染完成回调
-   * @param success
-   */
-  const onMapLoadEnd = (success: boolean) => {
-    setMapLoadEnd(success);
-  };
-
-  const reName = (pixel: string) => {
-    setRoomIdHexState(pixel);
-    setShowRenameModal(true);
-  };
-  /**
    * 进入区域分割状态
    */
   const handleSplit = () => {
     try {
-      setMapStatusSplit(mapId.current);
       setActiveConfirm(false);
+      setRoomEditStatus('split');
+      setEnableRoomSelection(true);
+      setSelectRoomIds([]);
+      setRoomSelectionMode('checkmark');
     } catch (e) {
       console.error(e);
     }
@@ -250,16 +172,34 @@ const RoomEdit: FC = () => {
    * 进入区域合并状态
    */
   const handleMerge = async () => {
-    setMapStatusMerge(mapId.current);
-    await changeAllMapAreaColor(mapId.current, true);
-    setActiveConfirm(false);
+    setEnableRoomSelection(true);
+    setSelectRoomIds([]);
+    setRoomEditStatus('merge');
+    setRoomSelectionMode('checkmark');
   };
 
   /**
    * 进入区域命名状态
    */
   const handleRename = () => {
-    setMapStatusRename(mapId.current);
+    setRoomEditStatus('reName');
+    setEnableRoomSelection(true);
+    setSelectRoomIds([]);
+    setRoomSelectionMode('checkmark');
+  };
+
+  /**
+   * 进入区域排序状态
+   */
+  const handleOrder = async () => {
+    try {
+      setRoomEditStatus('order');
+      setEnableRoomSelection(true);
+      setSelectRoomIds([]);
+      setRoomSelectionMode('order');
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   /**
@@ -267,17 +207,8 @@ const RoomEdit: FC = () => {
    * @param name 房间名称
    */
   const handleRenameConfirm = (name: string) => {
-    const room = previewCustom[roomIdHexState] || {};
-    const curRoom = {
-      [roomIdHexState]: {
-        ...room,
-        name,
-      },
-    };
-    const newPreviewCustom = { ...previewCustom, ...curRoom };
     setShowRenameModal(false);
-
-    setPreviewCustom(newPreviewCustom);
+    setTempName({ ...tempName, [selectRoomIds[0]]: name });
     setActiveConfirm(true);
   };
 
@@ -285,52 +216,41 @@ const RoomEdit: FC = () => {
    * 重命名取消按钮
    */
   const handleRenameCancel = () => {
-    // 取消，弹框关闭，停留在rename
     setShowRenameModal(false);
-
-    if (Object.keys(previewCustom).length === 0) setActiveConfirm(false);
+    setSelectRoomIds([]);
   };
 
   /**
    * 回复地图到正常状态
    */
   const handleNormal = async () => {
-    setMapStatusNormal(mapId.current);
-    stateType.current = 'normal';
+    setEnableRoomSelection(false);
+    setSelectRoomIds([]);
+    setDividingRoomId(null);
+    setTempCleaningOrder({});
+    setTempName({});
     setShowMenuBar(true);
     setShowDecisionBar(false);
-  };
-
-  const handleOrder = async () => {
-    try {
-      setMapStatusOrder(mapId.current);
-    } catch (e) {
-      console.error(e);
-    }
+    setActiveConfirm(false);
+    setRoomEditStatus('normal');
   };
 
   /**
    * 改变当前的逻辑状态
    */
-  const handleStateChange = (type: string) => {
-    switch (type) {
-      case EditTypes.merge:
-        handleMerge();
-        break;
-      case EditTypes.split:
-        handleSplit();
-        break;
-      case EditTypes.reName:
-        handleRename();
-        break;
-      case EditTypes.order:
-        handleOrder();
-        break;
-      default:
-        break;
+  const handleStateChange = (type: RoomEditStatus) => {
+    const stateHandlers = {
+      merge: handleMerge,
+      split: handleSplit,
+      reName: handleRename,
+      order: handleOrder,
+    };
+
+    const handler = stateHandlers[type as RoomEditStatus];
+    if (handler) {
+      handler();
     }
-    stateType.current = type;
-    _onTip();
+
     setShowMenuBar(false);
     setShowDecisionBar(true);
   };
@@ -339,41 +259,41 @@ const RoomEdit: FC = () => {
    * 渲染底部的控制按钮
    */
   const renderMenuBar = () => {
-    const { roomNum, version } = store.getState().mapState;
+    const { roomProperties, version } = store.getState().mapState;
     const menuList: { text: string; image: any; onClick: () => void }[] = [
       {
         text: Strings.getLang('dsc_room_merge'),
         image: Res.roomMerge,
         onClick: () => {
-          handleStateChange(EditTypes.merge);
+          handleStateChange('merge');
         },
       },
       {
         text: Strings.getLang('dsc_room_split'),
         image: Res.roomExcision,
         onClick: () => {
-          if (roomNum >= (version === 1 ? 32 : 28)) {
+          if (roomProperties.length >= (version === 1 ? 32 : 28)) {
             showToast({
               title: Strings.getLang('dsc_room_num_limit'),
               icon: 'error',
             });
             return;
           }
-          handleStateChange(EditTypes.split);
+          handleStateChange('split');
         },
       },
       {
         text: Strings.getLang('dsc_rename_room'),
         image: Res.roomName,
         onClick: () => {
-          handleStateChange(EditTypes.reName);
+          handleStateChange('reName');
         },
       },
       {
         text: Strings.getLang('dsc_order_room'),
         image: Res.mapEdit,
         onClick: () => {
-          handleStateChange(EditTypes.order);
+          handleStateChange('order');
         },
       },
     ];
@@ -385,9 +305,9 @@ const RoomEdit: FC = () => {
               text={item.text}
               key={item.text}
               onClick={item.onClick}
-              iconClass={styles.cleanModeContent}
+              iconClass={styles.item}
               slot={{
-                icon: <Image src={item.image} className={styles.myImg} />,
+                icon: <Image src={item.image} className={styles.icon} />,
               }}
             />
           );
@@ -397,50 +317,35 @@ const RoomEdit: FC = () => {
   };
 
   /**
+   * 确定按钮对应的逻辑
+   */
+  const handleConfirm = () => {
+    const confirmHandlers = {
+      merge: handleConfirmMerge,
+      split: handleConfirmSplit,
+      reName: handleConfirmRename,
+      order: handleConfirmOrder,
+    };
+
+    const handler = confirmHandlers[roomEditStatus];
+    if (handler) {
+      handler();
+    }
+  };
+
+  /**
    * 区域分割确定
    */
-  const handleSplitOk = async () => {
+  const handleConfirmSplit = async () => {
     try {
-      const res: any = await getLaserMapSplitPoint(mapId.current);
-      console.log('【RoomEditLayout】handleSplitOk', res);
-      const {
-        type,
-        data: [{ points, pixel }],
-      } = res;
-      if (points.length < 2) {
-        showToast({
-          title: Strings.getLang('dsc_room_split_out_of_range'),
-          icon: 'error',
-        });
-        return;
-      }
-      const { version, origin } = store.getState().mapState;
-      const roomId = parseRoomId(pixel, version);
-      if (!roomId && roomId !== 0) {
-        showToast({
-          title: Strings.getLang('dsc_room_select_room'),
-          icon: 'error',
-        });
-        return;
-      }
+      const points = await mapApi.getEffectiveDividerPoints();
 
-      if (type === EMapSplitStateEnum.split) {
-        const command = encodePartitionDivision0x1c({
-          roomId,
-          points: points.reverse(),
-          origin,
-          version: PROTOCOL_VERSION,
-        });
-        actions[commandTransCode].set(command);
-        showLoading({ title: '' });
-
-        timerRef.current = setTimeout(() => {
-          hideLoading();
-          ToastInstance.fail({
-            message: Strings.getLang('dsc_split_room_fail'),
-          });
-        }, 20 * 1000);
-      }
+      const command = encodePartitionDivision0x1c({
+        roomId: dividingRoomId,
+        points,
+        version: PROTOCOL_VERSION,
+      });
+      actions[commandTransCode].set(command);
     } catch (error) {
       console.error(error);
     }
@@ -449,55 +354,28 @@ const RoomEdit: FC = () => {
 
   /**
    * 重命名确定
-   * @returns
    */
-  const handleRoomNameOk = async () => {
+  const handleConfirmRename = async () => {
     try {
       const { version } = store.getState().mapState;
-      const maxUnknownId = version === 1 ? 31 : 26;
-      const keys = Object.keys(previewCustom);
+      const command = encodeSetRoomName0x24({
+        mapVersion: version,
+        version: PROTOCOL_VERSION,
+        rooms: Object.entries(tempName).map(([roomId, name]) => ({
+          roomId: Number(roomId),
+          name,
+        })),
+      });
 
-      if (keys.some(key => parseRoomId(key, version) > maxUnknownId)) {
-        showToast({
-          title: Strings.getLang('dsc_home_selectRoom_unknown'),
-          icon: 'error',
-        });
-        return;
-      }
-      if (keys.some(key => stringToByte(previewCustom[key]).length > 19)) {
-        showToast({
-          title: Strings.getLang('dsc_room_name_too_long'),
-          icon: 'error',
-        });
-        return;
-      }
+      actions[commandTransCode].set(command);
+      showLoading({ title: '' });
 
-      if (keys.length > 0) {
-        const command = encodeSetRoomName0x24({
-          mapVersion: version,
-          version: PROTOCOL_VERSION,
-          rooms: keys.map(key => {
-            return {
-              roomHexId: key,
-              name: previewCustom[key].name,
-            };
-          }),
+      timerRef.current = setTimeout(() => {
+        hideLoading();
+        ToastInstance.fail({
+          message: Strings.getLang('dsc_split_room_fail'),
         });
-
-        actions[commandTransCode].set(command);
-        showLoading({ title: '' });
-
-        timerRef.current = setTimeout(() => {
-          hideLoading();
-          ToastInstance.fail({
-            message: Strings.getLang('dsc_split_room_fail'),
-          });
-        }, 20 * 1000);
-      } else {
-        ToastInstance({
-          message: Strings.getLang('dsc_rename_room_tips'),
-        });
-      }
+      }, 20 * 1000);
     } catch (error) {
       console.error(error);
     }
@@ -505,103 +383,22 @@ const RoomEdit: FC = () => {
 
   /**
    * 合并区域确定
-   * @returns
    */
-  const handleMergeOk = async () => {
-    const { version } = store.getState().mapState;
-
-    const maxUnknownId = version === 1 ? 31 : 26;
+  const handleConfirmMerge = async () => {
     try {
-      const res: any = await getLaserMapMergeInfo(mapId.current);
-      console.log('handleMergeOk ==>', res);
-      const { type, data } = res;
-      const roomIds = data.map((room: { pixel: string }) => parseRoomId(room.pixel, version));
-      if (roomIds.length !== 2) {
-        showToast({
-          title: Strings.getLang('dsc_room_merge_count_error'),
-          icon: 'error',
-        });
-        return;
-      }
-      if (roomIds.some((roomId: number) => roomId > maxUnknownId)) {
-        showToast({
-          title: Strings.getLang('dsc_room_selected_unknown'),
-          icon: 'error',
-        });
+      const isAdjacent = await mapApi.areRoomsAdjacent(selectRoomIds);
+
+      // 检查房间是否相邻
+      if (!isAdjacent) {
+        ToastInstance.fail(Strings.getLang('dsc_room_merge_board_error'));
         return;
       }
 
-      const dataList = (await getMapAreaInfo(mapId.current, roomIds, false)) as any[];
-      if (!isAdjacent(dataList[0].points, dataList[1].points, 3)) {
-        showToast({
-          title: Strings.getLang('dsc_room_merge_board_error'),
-          icon: 'error',
-        });
-        return;
-      }
+      showLoading({ title: '' });
 
-      if (type === EMapSplitStateEnum.merge) {
-        const command = encodePartitionMerge0x1e({
-          roomIds,
-          version: PROTOCOL_VERSION,
-        });
-        actions[commandTransCode].set(command);
-        showLoading({ title: '' });
-
-        timerRef.current = setTimeout(() => {
-          hideLoading();
-          ToastInstance.fail({
-            message: Strings.getLang('dsc_merge_room_fail'),
-          });
-        }, 20 * 1000);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  /**
-   * 取消按钮恢复初始状态
-   */
-  const _onCancel = () => {
-    handleNormal();
-    setPreviewCustom({});
-  };
-
-  /**
-   * 确定按钮对应的逻辑
-   */
-  const _onConfirm = () => {
-    switch (stateType.current) {
-      case 'merge':
-        handleMergeOk();
-        break;
-      case 'split':
-        handleSplitOk();
-        break;
-      case 'reName':
-        handleRoomNameOk();
-        break;
-      case EditTypes.order:
-        handleOrderOk();
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleOrderOk = async () => {
-    const { data } = await getMapPointsInfo(mapId.current);
-    const { version } = store.getState().mapState;
-
-    if (Array.isArray(data)) {
-      const roomIdHexs = data
-        .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
-        .map(itm => itm.pixel);
-      const command = encodeRoomOrder0x26({
+      const command = encodePartitionMerge0x1e({
+        roomIds: selectRoomIds,
         version: PROTOCOL_VERSION,
-        roomIdHexs,
-        mapVersion: version,
       });
       actions[commandTransCode].set(command);
       showLoading({ title: '' });
@@ -609,32 +406,34 @@ const RoomEdit: FC = () => {
       timerRef.current = setTimeout(() => {
         hideLoading();
         ToastInstance.fail({
-          message: Strings.getLang('edit_fail'),
+          message: Strings.getLang('dsc_merge_room_fail'),
         });
       }, 20 * 1000);
+    } catch (error) {
+      console.error(error);
     }
   };
 
   /**
-   * 切换到对应的操作之后，改变提示的内容
-   * @returns
+   * 区域排序确定
    */
-  const _onTip = () => {
-    let tipTxt = '';
-    switch (stateType.current) {
-      case 'merge':
-        tipTxt = Strings.getLang('dsc_merge_tip');
-        break;
-      case 'split':
-        tipTxt = Strings.getLang('dsc_split_tip');
-        break;
-      case 'reName':
-        tipTxt = Strings.getLang('dsc_rename_room_tips');
-        break;
-      default:
-        break;
-    }
-    setTip(tipTxt);
+  const handleConfirmOrder = async () => {
+    const roomIds = finalRoomProperties
+      .sort((a: RoomData, b: RoomData) => a.order - b.order)
+      .map(room => room.id);
+    const command = encodeRoomOrder0x26({
+      version: PROTOCOL_VERSION,
+      roomIds,
+    });
+    actions[commandTransCode].set(command);
+    showLoading({ title: '' });
+
+    timerRef.current = setTimeout(() => {
+      hideLoading();
+      ToastInstance.fail({
+        message: Strings.getLang('edit_fail'),
+      });
+    }, 20 * 1000);
   };
 
   const tags = [
@@ -645,29 +444,106 @@ const RoomEdit: FC = () => {
     { text: Strings.getLang('dsc_room_tags_balcony') },
   ];
 
+  const handleMapReady = (mapApi: MapApi) => {
+    setMapApi(mapApi);
+  };
+  const handleMapFirstDrawed = () => {
+    setMapLoadEnd(true);
+  };
+
+  const handleClickRoom = (room: RoomData) => {
+    if (roomEditStatus === 'normal') return;
+
+    if (roomEditStatus === 'merge') {
+      if (selectRoomIds.includes(room.id)) {
+        const newSelectRoomIds = selectRoomIds.filter(id => id !== room.id);
+        setSelectRoomIds(newSelectRoomIds);
+        setActiveConfirm(newSelectRoomIds.length === 2);
+      } else {
+        if (selectRoomIds.length >= 2) {
+          // 只能合并两个房间
+          ToastInstance(Strings.getLang('dsc_room_merge_count_error'));
+          return;
+        }
+        const newSelectRoomIds = [...selectRoomIds, room.id];
+        setSelectRoomIds(newSelectRoomIds);
+        setActiveConfirm(newSelectRoomIds.length === 2);
+      }
+    }
+
+    if (roomEditStatus === 'split') {
+      setSelectRoomIds([room.id]);
+      setDividingRoomId(room.id);
+      setActiveConfirm(true);
+    }
+
+    if (roomEditStatus === 'reName') {
+      setSelectRoomIds([room.id]);
+      setShowRenameModal(true);
+    }
+
+    if (roomEditStatus === 'order') {
+      const currentOrder = finalRoomProperties.find(r => r.id === room.id)?.order || 0;
+
+      setTempCleaningOrder(prev => {
+        if (currentOrder > 0) {
+          // 取消顺序，其他房间顺序递减
+          const updates = { ...prev, [room.id]: 0 };
+          finalRoomProperties.forEach(r => {
+            if (r.order > currentOrder) {
+              const originalOrder = roomProperties.find(orig => orig.id === r.id)?.order || 0;
+              updates[r.id] = (prev[r.id] ?? originalOrder) - 1;
+            }
+          });
+          return updates;
+        }
+
+        // 设置新顺序
+        const maxOrder = Math.max(0, ...finalRoomProperties.map(r => r.order));
+        return { ...prev, [room.id]: maxOrder + 1 };
+      });
+    }
+  };
+
+  const handleUpdateDivider = async () => {
+    const effectiveDividerPoints = await mapApi.getEffectiveDividerPoints();
+
+    if (!effectiveDividerPoints) {
+      setActiveConfirm(false);
+    } else {
+      setActiveConfirm(true);
+    }
+  };
+
   return (
     <View className={styles.container}>
+      <CoverView>
+        <NavBar title={Strings.getLang('dsc_room_edit')} leftArrow onClickLeft={router.back} />
+      </CoverView>
       <WebViewMap
-        // 房间信息临时数据
-        preCustomConfig={previewCustom}
-        roomPropertyStyle="unfolding"
-        onMapId={onMapId}
-        onClickSplitArea={onClickSplitArea}
-        onSplitLine={onSplitLine}
-        onMapLoadEnd={onMapLoadEnd}
-        selectRoomData={[]}
-        areaInfoList={[]}
-        pathVisible={false}
+        roomProperties={finalRoomProperties}
+        runtime={{
+          enableRoomSelection,
+          selectRoomIds,
+          showRoomOrder: true,
+          dividingRoomId,
+          roomSelectionMode,
+          showPath: false,
+        }}
+        onMapReady={handleMapReady}
+        onMapFirstDrawed={handleMapFirstDrawed}
+        onClickRoom={handleClickRoom}
+        onClickRoomProperties={handleClickRoom}
+        onUpdateDivider={handleUpdateDivider}
       />
 
       <CoverView className={styles.bottomMenuBar}>
         {showMenuBar && mapLoadEnd && renderMenuBar()}
         {!showMenuBar && showDecisionBar && mapLoadEnd && (
           <DecisionBar
-            onCancel={_onCancel}
+            onCancel={handleNormal}
             activeConfirm={activeConfirm}
-            onConfirm={_onConfirm}
-            tipText={tip}
+            onConfirm={handleConfirm}
           />
         )}
       </CoverView>

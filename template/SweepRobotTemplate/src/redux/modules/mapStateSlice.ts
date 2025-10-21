@@ -1,50 +1,78 @@
 // 是否第一次配网
 
+import {
+  DetectedObjectParam,
+  Point,
+  RoomProperty,
+  SpotParam,
+  VirtualWallParam,
+  ZoneParam,
+} from '@ray-js/robot-map';
 import { ReduxState } from '..';
-import { RoomDecoded } from '@ray-js/robot-protocol';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const DEFAULT_MAP_STATE = {
-  mapId: undefined as any, // map ID 主页地图
-  dataMapId: undefined as any,
-  decodePathFn: '',
-  RCTAreaList: [], // 区域框
-  selectRoomData: [] as string[],
-  sweepRegionData: [],
-  mapData: {} as {
-    dataMapId: number;
-    width: number;
-    height: number;
-    origin: { x: number; y: number };
-    materialObject: any;
-  },
-  materialObject: {} as {
-    materialMaps: { [key: string]: IMaterialMaterialMaps };
-    materials: IMaterialMaterials;
-  },
-  mapStable: false,
-  mapResolution: 5, // 比例尺
-  bgWidth: 0,
-  bgHeight: 0,
-  origin: { x: 0, y: 0 },
-  roomInfo: '',
-  isEmptyMap: null,
-  pilePosition: { theta: 0, startTheta: 0, x: 0, y: 0 },
-  pathData: [],
-  mapSize: {
-    width: 0,
-    height: 0,
-  },
-  curPos: { x: 0, y: 0 },
-  foldableRoomIds: [] as string[], // 房间属性折叠数组
-  isDebugMode: false, // 当前处于debug模式，可复制地图等数据链接
+export type PanelMapState = {
+  originMap: string;
+  originPath: string;
+  roomProperties: RoomProperty[];
+  mapId: number | null;
+  mapSize: { width: number; height: number };
+  mapStable: boolean;
+  origin: Point;
+  charger: Point;
+  version: 0 | 1 | 2;
+  currentMode: Mode;
+  detectedObjects: DetectedObjectParam[];
+  selectRoomIds: number[];
+  forbiddenSweepZones: ZoneParam[];
+  forbiddenMopZones: ZoneParam[];
+  cleanZones: ZoneParam[];
+  virtualWalls: VirtualWallParam[];
+  spots: SpotParam[];
+  editingForbiddenSweepZoneIds: string[];
+  editingForbiddenMopZoneIds: string[];
+  editingCleanZoneIds: string[];
+  editingVirtualWallIds: string[];
+  editingSpotIds: string[];
+};
 
-  version: 2 as 0 | 1 | 2, // 地图解析协议的版本
-  roomNum: 0, // 分区个数
-  originPath: '',
+const DEFAULT_MAP_STATE: PanelMapState = {
   originMap: '',
-  originCommand: '',
-  mapRooms: [] as RoomDecoded[], // 地图房间信息
+  originPath: '',
+  roomProperties: [],
+  mapId: null as null | number,
+  mapSize: { width: 0, height: 0 },
+  mapStable: false,
+  origin: { x: 0, y: 0 },
+  charger: { x: 0, y: 0 },
+  version: 2 as 0 | 1 | 2,
+
+  currentMode: 'smart',
+
+  // 检测到的物体
+  detectedObjects: [],
+  // 选中的房间id
+  selectRoomIds: [],
+  // 禁扫区域
+  forbiddenSweepZones: [],
+  // 禁拖区域
+  forbiddenMopZones: [],
+  // 清扫区域
+  cleanZones: [],
+  // 虚拟墙
+  virtualWalls: [],
+  // 定点清扫
+  spots: [],
+  // 编辑禁扫区域id
+  editingForbiddenSweepZoneIds: [],
+  // 编辑禁拖区域id
+  editingForbiddenMopZoneIds: [],
+  // 编辑清扫区域id
+  editingCleanZoneIds: [],
+  // 编辑虚拟墙id
+  editingVirtualWallIds: [],
+  // 编辑定点清扫id
+  editingSpotIds: [],
 };
 
 /**
@@ -54,7 +82,7 @@ const mapStateSlice = createSlice({
   name: 'mapState',
   initialState: DEFAULT_MAP_STATE,
   reducers: {
-    updateMapData(state, action: PayloadAction<AtLeastOne<typeof DEFAULT_MAP_STATE>>) {
+    updateMapState(state, action: PayloadAction<AtLeastOne<typeof DEFAULT_MAP_STATE>>) {
       return { ...state, ...action.payload };
     },
   },
@@ -63,7 +91,7 @@ const mapStateSlice = createSlice({
 /**
  * Actions
  */
-export const { updateMapData } = mapStateSlice.actions;
+export const { updateMapState } = mapStateSlice.actions;
 
 /**
  * Selectors

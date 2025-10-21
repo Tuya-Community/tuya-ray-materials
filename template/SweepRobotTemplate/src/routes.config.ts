@@ -71,4 +71,9 @@ export const routes: Routes = [
     path: '/pages/ipc/index',
     name: 'Ipc',
   },
+  {
+    route: '/roomFloorMaterial',
+    path: '/pages/roomFloorMaterial/index',
+    name: 'RoomFloorMaterial',
+  },
 ];

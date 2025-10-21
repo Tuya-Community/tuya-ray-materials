@@ -14,7 +14,13 @@ interface Props {
   children: React.ReactNode;
 }
 
-initPanelEnvironment({ useDefaultOffline: true });
+(ty as any).panel.initPanelKit({
+  disableOtaDialog: true,
+});
+initPanelEnvironment({
+  useDefaultOffline: true,
+  disableOtaDialog: true,
+} as any);
 class App extends React.Component<Props> {
   componentDidMount() {
     console.log('=== App did mount');

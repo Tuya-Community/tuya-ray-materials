@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View } from '@ray-js/ray';
+import { router, View } from '@ray-js/ray';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux';
 import {
@@ -8,6 +8,7 @@ import {
   selectCleanRecords,
 } from '@/redux/modules/cleanRecordsSlice';
 import Strings from '@/i18n';
+import { NavBar } from '@ray-js/smart-ui';
 
 import styles from './index.module.less';
 import Item from './Item';
@@ -23,13 +24,11 @@ const CleanRecords = () => {
 
   useEffect(() => {
     (dispatch as AppDispatch)(fetchCleanRecords());
-    ty.setNavigationBarTitle({
-      title: Strings.getLang('dsc_clean_records'),
-    });
   }, []);
 
   return (
     <View className={styles.container}>
+      <NavBar title={Strings.getLang('dsc_clean_records')} leftArrow onClickLeft={router.back} />
       <Header />
       {records.map(record => (
         <Item key={record.id} data={record} onDeleted={handleDelete} />

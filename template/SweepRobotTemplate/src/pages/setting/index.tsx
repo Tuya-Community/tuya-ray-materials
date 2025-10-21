@@ -14,22 +14,22 @@ import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
 import { fetchMultiMaps } from '@/redux/modules/multiMapsSlice';
 import { robotIsNotWorking } from '@/utils/robotStatus';
 import { useActions } from '@ray-js/panel-sdk';
-import { router } from '@ray-js/ray';
-import { Cell, CellGroup, Dialog, DialogInstance } from '@ray-js/smart-ui';
+import { router, View } from '@ray-js/ray';
+import { Cell, CellGroup, Dialog, DialogInstance, NavBar } from '@ray-js/smart-ui';
 import { useInterval } from 'ahooks';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import styles from './index.module.less';
 
 const Setting: FC = () => {
   const dispatch = useDispatch();
   const actions = useActions();
-  const isEmptyMap = useSelector(selectMapStateByKey('isEmptyMap'));
-
-  useEffect(() => {
-    ty.setNavigationBarTitle({
-      title: Strings.getLang('dsc_settings'),
-    });
-  }, []);
+  const mapSize = useSelector(selectMapStateByKey('mapSize'));
+  const { width, height } = mapSize;
+  const isEmpty = useMemo(() => {
+    return width === 0 || height === 0;
+  }, [width, height]);
 
   const handleNavToMapEdit = async () => {
     if (!robotIsNotWorking(devices.common.model.props[statusCode] as Status)) {
@@ -84,7 +84,8 @@ const Setting: FC = () => {
   );
 
   return (
-    <>
+    <View className={styles.container}>
+      <NavBar title={Strings.getLang('dsc_settings')} leftArrow onClickLeft={router.back} />
       <CellGroup>
         <Cell
           title={Strings.getLang('dsc_multi_map')}
@@ -93,13 +94,28 @@ const Setting: FC = () => {
             router.push('/multiMap');
           }}
         />
-        {isEmptyMap === false && (
+        {!isEmpty && (
           <Cell title={Strings.getLang('dsc_map_edit')} isLink onClick={handleNavToMapEdit} />
         )}
-        {support.isSupportDp(mapResetCode) && (
-          <Cell title={Strings.getLang('dsc_reset_map')} isLink onClick={handleResetMap} />
+        {!isEmpty && (
+          <Cell
+            title={Strings.getLang('dsc_room_edit')}
+            isLink
+            onClick={() => {
+              router.push('/roomEdit');
+            }}
+          />
         )}
-        {!isEmptyMap && (
+        {!isEmpty && (
+          <Cell
+            title={Strings.getLang('dsc_room_floor_material')}
+            isLink
+            onClick={() => {
+              router.push('/roomFloorMaterial');
+            }}
+          />
+        )}
+        {!isEmpty && (
           <Cell
             title={Strings.getLang('dsc_preference')}
             isLink
@@ -107,6 +123,9 @@ const Setting: FC = () => {
               router.push('/cleanPreference');
             }}
           />
+        )}
+        {support.isSupportDp(mapResetCode) && (
+          <Cell title={Strings.getLang('dsc_reset_map')} isLink onClick={handleResetMap} />
         )}
         {support.isSupportDp(deviceTimerCode) && (
           <Cell
@@ -153,7 +172,7 @@ const Setting: FC = () => {
         )}
       </CellGroup>
       <Dialog id="smart-dialog" customClass="my-custom-class" />
-    </>
+    </View>
   );
 };
 

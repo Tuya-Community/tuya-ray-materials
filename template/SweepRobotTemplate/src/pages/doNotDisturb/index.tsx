@@ -2,9 +2,9 @@ import { THEME_COLOR } from '@/constant';
 import { useDisturbTime } from '@/hooks/useDisturbTime';
 import Strings from '@/i18n';
 import { utils } from '@ray-js/panel-sdk';
-import { View } from '@ray-js/ray';
-import { Button, Cell, CellGroup, DateTimePicker, Popup } from '@ray-js/smart-ui';
-import React, { useEffect, useState } from 'react';
+import { router, View } from '@ray-js/ray';
+import { Button, Cell, CellGroup, DateTimePicker, NavBar, Popup } from '@ray-js/smart-ui';
+import React, { useState } from 'react';
 import styles from './index.module.less';
 import SwitchBox from './switchBox';
 
@@ -15,16 +15,11 @@ const DoNotDisturb = () => {
   const [ePopVisible, setEPopVisible] = useState(false);
   const { disturbTimeSetData, setDisturbTimeSetData, updateDpValue } = useDisturbTime();
 
-  useEffect(() => {
-    ty.setNavigationBarTitle({
-      title: Strings.getLang('dsc_do_not_disturb'),
-    });
-  }, []);
-
   const { enable, startHour, startMinute, endHour, endMinute } = disturbTimeSetData;
 
   return (
-    <View className={styles.pageBox}>
+    <View className={styles.container}>
+      <NavBar title={Strings.getLang('dsc_do_not_disturb')} leftArrow onClickLeft={router.back} />
       <View className={styles.contentBox}>
         <View className={styles.spaceLine} />
         <SwitchBox

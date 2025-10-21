@@ -2,14 +2,14 @@ import log4js from '@ray-js/log4js';
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDevice } from '@ray-js/panel-sdk';
-import { updateMapData } from '@/redux/modules/mapStateSlice';
+import { updateMapState } from '@/redux/modules/mapStateSlice';
 import { StreamDataNotificationCenter } from '@ray-js/robot-data-stream';
 import { setStorageSync } from '@ray-js/ray';
 import { AIObject, AiPicInfo, decodeAiPicData } from '@ray-js/robot-protocol';
 import base64Imgs from '@/res/base64Imgs';
+import { DetectedObjectParam } from '@ray-js/robot-map';
 
-// 0x00 到 0x07 为默认协议数据，若需要新增，则对应增加枚举值和配套的图片
-const materialObjEnum = [
+const OBJECT_IMAGES = [
   base64Imgs.aiWire, // 0x00：电线
   base64Imgs.aiShoes, // 0x01：鞋子
   base64Imgs.aiSock, // 0x02：袜子
@@ -37,55 +37,27 @@ export default function useVisionData() {
 
         visionDataCache.current = visionStr;
 
-        const visionData: AiPicInfo[] = decodeAiPicData({
-          str: visionStr,
-        });
+        const visionData: AiPicInfo[] =
+          decodeAiPicData({
+            str: visionStr,
+          }) ?? [];
 
-        let materialObject: {
-          materialMaps: { [key: string]: IMaterialMaterialMaps };
-          materials: IMaterialMaterials;
-        } = {
-          materialMaps: {},
-          materials: [],
-        };
+        const detectedObjects: DetectedObjectParam[] = visionData.map((item: AiPicInfo) => ({
+          id: `detectedObject${item.object}`,
+          type: `obj${item.object}`,
+          height: 60,
+          width: 60,
+          x: item.position.x,
+          y: item.position.y,
+          src: OBJECT_IMAGES[item.object],
+          customData: {
+            xHex: item.xHex,
+            yHex: item.yHex,
+          },
+        }));
 
-        const materialMaps = {};
-
-        // 宽高需要保持一致
-        const materialObjWidth = 60;
-        const materialObjHeight = 60;
-
-        if (visionData) {
-          materialObjEnum.forEach((item: string, index: number) => {
-            materialMaps[`obj${index}`] = {
-              uri: item,
-              width: materialObjWidth,
-              height: materialObjHeight,
-              scale: 0.03,
-            };
-          });
-
-          const materials = visionData.map((itm: AiPicInfo, index: number) => ({
-            id: `materialObjData${index}`,
-            type: `obj${itm.object}`,
-            x: itm.position.x,
-            y: itm.position.y,
-            extends: JSON.stringify({
-              type: itm.object,
-              x: itm.position.x,
-              y: itm.position.y,
-              xHex: itm.xHex,
-              yHex: itm.yHex,
-            }),
-          }));
-          materialObject = {
-            materialMaps,
-            materials,
-          };
-        }
-
-        log4js.info('vision materialObject', materialObject);
-        dispatch(updateMapData({ originVision: visionStr, materialObject }));
+        log4js.info('vision detectedObjects', detectedObjects);
+        dispatch(updateMapState({ detectedObjects }));
 
         setStorageSync({
           key: `vision_${devId}`,
@@ -100,49 +72,24 @@ export default function useVisionData() {
 
         aiObjectsCache.current = aiObjects;
 
-        let materialObject: {
-          materialMaps: { [key: string]: IMaterialMaterialMaps };
-          materials: IMaterialMaterials;
-        } = {
-          materialMaps: {},
-          materials: [],
-        };
-
-        const materialMaps = {};
-
-        // 宽高需要保持一致
-        const materialObjWidth = 76;
-        const materialObjHeight = 86;
-
-        if (aiObjects?.length > 0) {
-          materialObjEnum.forEach((item: string, index: number) => {
-            materialMaps[`obj${index}`] = {
-              uri: item,
-              width: materialObjWidth,
-              height: materialObjHeight,
-              scale: 0.04,
-            };
-          });
-
-          const materials = aiObjects.map(({ point, type }, index: number) => ({
+        const detectedObjects: DetectedObjectParam[] = aiObjects.map(
+          ({ point, type }, index: number) => ({
             id: `materialObjData${index}`,
             type: `obj${type}`,
+            height: 86,
+            width: 76,
+            src: OBJECT_IMAGES[type],
             x: point.x,
             y: point.y,
-            extends: JSON.stringify({
-              type,
-              x: point.x,
-              y: point.y,
-            }),
-          }));
-          materialObject = {
-            materialMaps,
-            materials,
-          };
-        }
+            customData: {
+              xHex: point.x.toString(16).padStart(4, '0'),
+              yHex: point.y.toString(16).padStart(4, '0'),
+            },
+          })
+        );
 
-        log4js.info('vision materialObject', materialObject);
-        dispatch(updateMapData({ materialObject }));
+        log4js.info('vision detectedObjects', detectedObjects);
+        dispatch(updateMapState({ detectedObjects }));
 
         setStorageSync({
           key: `vision_${devId}`,

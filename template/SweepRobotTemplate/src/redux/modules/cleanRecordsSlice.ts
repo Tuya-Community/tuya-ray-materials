@@ -5,9 +5,10 @@ import {
   createSlice,
 } from '@reduxjs/toolkit';
 import { ReduxState } from '..';
-import { getCleaningRecords, getDevInfo } from '@ray-js/ray';
+import { getCleaningRecords } from '@ray-js/ray';
 import moment from 'moment';
 import { parseDataFromString } from '@/utils';
+import { devices } from '@/devices';
 
 const cleanRecordsAdapter = createEntityAdapter<CleanRecord>({
   sortComparer: (a, b) => b.time - a.time,
@@ -17,7 +18,7 @@ export const fetchCleanRecords = createAsyncThunk<CleanRecord[], void, { state: 
   'cleanRecords/fetchCleanRecords',
   async () => {
     const { datas } = await getCleaningRecords({
-      devId: getDevInfo().devId,
+      devId: devices.common.getDevInfo().devId,
       startTime: '',
       endTime: moment().format('X'),
       limit: 100,

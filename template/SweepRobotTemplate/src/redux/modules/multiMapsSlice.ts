@@ -7,18 +7,14 @@ import {
 import moment from 'moment';
 import Strings from '@/i18n';
 import store, { ReduxState } from '..';
-import { getDevInfo, getMultipleMapFiles, getStorageSync, setStorage } from '@ray-js/ray';
+import { getMultipleMapFiles, getStorageSync, setStorage } from '@ray-js/ray';
 import { decodeAreas, fetchMapFile } from '@/utils';
 import ossApiInstance from '@/api/ossApi';
 import { decodeMapHeader, getFeatureProtocolVersion } from '@ray-js/robot-protocol';
 import { base64ToRaw } from '@ray-js/panel-sdk/lib/utils';
-import generateSnapshotByData from '@/utils/openApi/generateSnapshotByData';
 import { createAsyncQueue } from '@/utils/createAsyncQueue';
-import {
-  DEFAULT_VIRTUAL_AREA_NO_GO_CONFIG,
-  DEFAULT_VIRTUAL_AREA_NO_MOP_CONFIG,
-  DEFAULT_VIRTUAL_WALL_CONFIG,
-} from '@/constant';
+import { devices } from '@/devices';
+import { decodeRoomProperties, SpotParam, VirtualWallParam, ZoneParam } from '@ray-js/robot-map';
 
 const taskQueue = createAsyncQueue(
   async (params: { filePathKey: string; bucket: string; file: string; realTimeMapId: string }) => {
@@ -31,50 +27,24 @@ const taskQueue = createAsyncQueue(
       });
 
       const {
-        virtualState: { virtualAreaData = [], virtualMopAreaData = [], virtualWallData = [] },
-      } = data as OSSMapData;
+        virtualState: { virtualWalls, forbiddenMopZones, forbiddenSweepZones },
+      } = data;
 
-      const areaInfoList = [];
+      const homeMapApi = store.getState().mapApis.home;
 
-      if (virtualWallData) {
-        areaInfoList.push(
-          ...virtualWallData.map(points => {
-            return {
-              ...DEFAULT_VIRTUAL_WALL_CONFIG,
-              points,
-            };
-          })
-        );
+      if (homeMapApi) {
+        // 生成快照图片
+        const snapshotImage = await homeMapApi.snapshotByData({
+          map: data.originMap,
+          roomProperties: decodeRoomProperties(data.originMap),
+          virtualWalls,
+          forbiddenMopZones,
+          forbiddenSweepZones,
+        });
+
+        // 将快照存储到 Redux store
+        store.dispatch(upsertSnapshotImage({ key: filePathKey, snapshotImage }));
       }
-
-      if (virtualAreaData) {
-        areaInfoList.push(
-          ...virtualAreaData.map(({ points }) => {
-            return {
-              ...DEFAULT_VIRTUAL_AREA_NO_GO_CONFIG,
-              points,
-            };
-          })
-        );
-      }
-
-      if (virtualMopAreaData) {
-        areaInfoList.push(
-          ...virtualMopAreaData.map(({ points }) => {
-            return {
-              ...DEFAULT_VIRTUAL_AREA_NO_MOP_CONFIG,
-              points,
-            };
-          })
-        );
-      }
-
-      const snapshotImage = await generateSnapshotByData(realTimeMapId, {
-        originMap: data.originMap,
-        areaInfoList: JSON.stringify(areaInfoList),
-      });
-
-      store.dispatch(upsertSnapshotImage({ key: filePathKey, snapshotImage }));
     } catch (err) {
       console.error(err);
     }
@@ -83,7 +53,7 @@ const taskQueue = createAsyncQueue(
     const { snapshotImageMap } = store.getState().multiMaps;
 
     setStorage({
-      key: `snapshotImageMap_${getDevInfo().devId}`,
+      key: `snapshotImageMap_${devices.common.getDevInfo().devId}`,
       data: JSON.stringify(snapshotImageMap),
     });
   }
@@ -106,7 +76,17 @@ export const getMapInfoFromCloudFile = async (history: {
   file: string;
   mapLen?: number;
   pathLen?: number;
-}): Promise<OSSMapData> => {
+}): Promise<{
+  originMap: string;
+  originPath: string;
+  virtualState: {
+    virtualWalls?: VirtualWallParam[];
+    forbiddenSweepZones?: ZoneParam[];
+    forbiddenMopZones?: ZoneParam[];
+    spots?: SpotParam[];
+    cleanZones?: ZoneParam[];
+  };
+}> => {
   const { bucket, file, mapLen, pathLen } = history;
 
   const getMapData = (data: string) => {
@@ -165,7 +145,7 @@ export const fetchMultiMaps = createAsyncThunk<MultiMap[], void, { state: ReduxS
   'multiMaps/fetchMultiMaps',
   async (nothing, { getState, dispatch }) => {
     const storagedMultiMapsJSONString = getStorageSync({
-      key: `snapshotImageMap_${getDevInfo().devId}`,
+      key: `snapshotImageMap_${devices.common.getDevInfo().devId}`,
     }) as string | null;
 
     const storagedMultiMaps = storagedMultiMapsJSONString
@@ -173,7 +153,7 @@ export const fetchMultiMaps = createAsyncThunk<MultiMap[], void, { state: ReduxS
       : {};
 
     const { datas } = await getMultipleMapFiles({
-      devId: getDevInfo().devId,
+      devId: devices.common.getDevInfo().devId,
     });
 
     if (Object.keys(storagedMultiMaps).length > 0) {
@@ -242,7 +222,7 @@ const multiMapsSlice = createSlice({
   name: 'multiMaps',
   initialState: {
     list: multiMapsAdapter.getInitialState(),
-    snapshotImageMap: {} as Record<string, SnapshotImage>,
+    snapshotImageMap: {} as Record<string, string>,
   },
   reducers: {
     updateMultiMap: (state, action: PayloadAction<MultiMap>) => {
@@ -254,13 +234,15 @@ const multiMapsSlice = createSlice({
     deleteMultiMap: (state, action: PayloadAction<string>) => {
       multiMapsAdapter.removeOne(state.list, action.payload);
     },
-    setSnapshotImageMap: (state, action: PayloadAction<Record<string, SnapshotImage>>) => {
+    setSnapshotImageMap: (state, action: PayloadAction<Record<string, string>>) => {
       state.snapshotImageMap = action.payload;
     },
-    upsertSnapshotImage: (
-      state,
-      action: PayloadAction<{ key: string; snapshotImage: SnapshotImage }>
-    ) => {
+    /**
+     * 插入或更新单个快照图片
+     * @param state 当前状态
+     * @param action 包含快照键和图片数据的 action
+     */
+    upsertSnapshotImage: (state, action: PayloadAction<{ key: string; snapshotImage: string }>) => {
       state.snapshotImageMap[action.payload.key] = action.payload.snapshotImage;
     },
   },

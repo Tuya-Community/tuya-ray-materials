@@ -177,9 +177,3 @@ type OSSMapData = {
     virtualMopAreaData?: any[];
   };
 };
-
-type SnapshotImage = {
-  image: string;
-  width: number;
-  height: number;
-};

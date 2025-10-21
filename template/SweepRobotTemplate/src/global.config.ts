@@ -8,7 +8,7 @@ export const tuya = {
     navigationBarBackgroundColor: '#f2f4f6',
     navigationBarTextStyle: 'black',
   },
-  webviewRoot: 'webview',
+  webviewRoot: 'node_modules/@ray-js/robot-map-sdk/dist-app',
   functionalPages: {
     settings: {
       // 这个小程序id写死不需要更改！！！

@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
-import { Swiper, View } from '@ray-js/ray';
+import { router, Swiper, View } from '@ray-js/ray';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMultiMaps, selectMultiMaps } from '@/redux/modules/multiMapsSlice';
-import { Toast } from '@ray-js/smart-ui';
+import { NavBar, Toast } from '@ray-js/smart-ui';
 import Strings from '@/i18n';
 
 import styles from './index.module.less';
@@ -14,13 +14,11 @@ const MultiMap: FC = () => {
 
   useEffect(() => {
     dispatch(fetchMultiMaps());
-    ty.setNavigationBarTitle({
-      title: Strings.getLang('dsc_multi_map'),
-    });
   }, []);
 
   return (
     <View className={styles.container}>
+      <NavBar title={Strings.getLang('dsc_multi_map')} leftArrow onClickLeft={router.back} />
       <Swiper
         dots
         className={styles.swiper}

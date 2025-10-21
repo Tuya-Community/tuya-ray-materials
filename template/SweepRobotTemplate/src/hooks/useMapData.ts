@@ -1,8 +1,10 @@
 import log4js from '@ray-js/log4js';
 import { useCallback, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateMapData } from '@/redux/modules/mapStateSlice';
-import { getDevInfo, setStorageSync } from '@ray-js/ray';
+import { updateMapState } from '@/redux/modules/mapStateSlice';
+import { setStorageSync } from '@ray-js/ray';
+import { devices } from '@/devices';
+import { decodeRoomProperties } from '@ray-js/robot-map';
 
 /**
  * 接收地图数据并解析
@@ -18,10 +20,12 @@ export default function useMapData() {
 
       mapDataStrCache.current = mapDataStr;
 
-      dispatch(updateMapData({ originMap: mapDataStr }));
+      dispatch(
+        updateMapState({ originMap: mapDataStr, roomProperties: decodeRoomProperties(mapDataStr) })
+      );
 
       setStorageSync({
-        key: `map_${getDevInfo().devId}`,
+        key: `map_${devices.common.getDevInfo().devId}`,
         data: mapDataStr,
       });
     }

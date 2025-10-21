@@ -39,22 +39,13 @@
 - IDE 插件依赖
   - [扫地机调试助手](https://developer.tuya.com/cn/miniapp/devtools/tools/extension/panel)
 
-## 5、关键模块依赖关系
+## 5、 地图组件
 
-为了能够让开发者更关注在 UI 层面的处理，而不需要过多关心一些其他的流程逻辑处理，我们将扫地机进行模块拆分，将底层实现与业务调用独立。目前扫地机面板主要依赖的包有以下几个
+你可以通过以下指令查看地图组件的文档
 
-- @ray-js/robot-map-component 业务层直接调用， 提供了 WebView 地图和 Rjs 地图组件 (可以参考逻辑 src/components/MapView/index.tsx)，并且暴露了地图操作的常用方法。
-- @ray-js/robot-data-stream 业务层直接调用，封装了面板与设备的 P2P 传输方法，开发者可以忽略 p2p 通信过程中的复杂过程，只需要关注业务本身逻辑
-- @ray-js/robot-protocol 业务层直接调用，提供完整协议解析标准能力，将扫地机协议中比较复杂的 raw 类型 dp 点的解析、编码过程进行了封装
-- @ray-js/webview-invoke 底层依赖，提供了小程序与底层 SDK 的通信能力，一般情况下不需要修改
-- @ray-js/robot-middleware 底层依赖，提供逻辑层和 Webview 的业务中间处理
-- @ray-js/hybrid-robot-map 底层依赖，扫地机基础 SDK，提供底层图层的渲染能力
-
-对于普遍的扫地机需求，基本上只关注应用业务逻辑和 UI 展示，不需要关心内部依赖包中的实现，依赖包的升级会做到向下兼容，可以在项目中针对依赖包进行单独升级。
-
-![模块依赖关系](https://developer.tuya.com/cn/miniapp-codelabs/codelabs/panel-robot-sweeper-guide/img/3aeaab5f55a72d86.png)
-
-## 6、 地图组件选择
+```sh
+$ npx serve node_modules/@ray-js/robot-map-sdk/dist-docs
+```
 
 在地图组件的选用上，我们提供了 WebViewMap 和 RjsMap 两种模式的组件。
 
@@ -64,7 +55,7 @@
 
 - RjsMap 组件以 RJS 组件形式作为视图层组件的扩充，拥有可以动态设置组件宽高的特性。RjsMap 组件，运行与小程序的视图层，与页面元素位于同一层次结构，在频繁的地图数据交互中，可能对视图元素的交互响应产生影响。单个小程序页面可以引入多个。
 
-## 7、面板功能
+## 6、面板功能
 
 - 多模式清扫
 - 地图管理
@@ -79,19 +70,25 @@
 - 视频监控
 - AI 物体识别
 
-## 8、后续功能规划
+## 7、后续功能规划
 
 - 扫地机组件使用文档说明
 
-## 9、问题反馈
+## 8、问题反馈
 
 若有疑问，请访问链接，提交帖子反馈：https://tuyaos.com/viewforum.php?f=10
 
-## 10、许可
+## 9、许可
 
 [许可详情](LICENSE)
 
 ## Changelog
+
+### [1.0.1] - 2025-10-21
+
+#### BREAKING CHANGE
+
+- 地图组件更换为@ray-js/robot-map，涉及地图组件的页面都已经完成了接入重写。原有地图组件已废弃。
 
 ### [0.0.18] - 2025-6-19
 

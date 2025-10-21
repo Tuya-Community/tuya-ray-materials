@@ -6,16 +6,18 @@ import { useProps, utils } from '@ray-js/panel-sdk';
 import { Text, View, router } from '@ray-js/ray';
 import { TimerData, decodeDeviceTimer0x31 } from '@ray-js/robot-protocol';
 import { DateTimePicker, Icon, NavBar, Popup } from '@ray-js/smart-ui';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import rightIcon from '@tuya-miniapp/icons/dist/svg/Right';
 import leftIcon from '@tuya-miniapp/icons/dist/svg/Left';
-
 import { useDeviceTimerList } from '@/hooks/useDeviceTimerList';
+import RjsMap from '@/components/Map/RjsMap';
 import { trim } from 'lodash-es';
+import { RoomData } from '@ray-js/robot-map';
+
 import { CleanCount } from './components/cleanCount';
 import { CleanRange } from './components/cleanRange';
 import { Loops } from './components/loops';
-import { AddTimingMapView } from './components/mapView';
+
 import styles from './index.module.less';
 import { ECleaningRange } from './props';
 
@@ -43,7 +45,7 @@ const AddTiming = props => {
   const [week, setWeek] = useState(defaultWeeks);
   const [sweepCount, setSweepCount] = useState(1); // 清扫次数
   const [cleaningRange, setCleaningRange] = useState(ECleaningRange.auto);
-  const [roomIds, setRoomIds] = useState([]);
+  const [selectRoomIds, setSelectRoomIds] = useState([]);
   const [show, setShow] = useState(false);
   const [time, setTime] = useState({
     hour: new Date().getHours(),
@@ -66,7 +68,7 @@ const AddTiming = props => {
   useEffect(() => {
     setWeek(currentTiming.week);
     setSweepCount(currentTiming.sweepCount);
-    setRoomIds(currentTiming.roomIds);
+    setSelectRoomIds(currentTiming.roomIds);
     setTime(currentTiming.time);
     setCleaningRange(currentTiming.roomNum > 0 ? ECleaningRange.selectRoom : ECleaningRange.auto);
   }, [currentTiming]);
@@ -78,8 +80,8 @@ const AddTiming = props => {
       time,
       week,
       sweepCount,
-      roomIds,
-      roomNum: roomIds.length,
+      roomIds: selectRoomIds,
+      roomNum: selectRoomIds.length,
     };
 
     if (isEdit) {
@@ -96,10 +98,10 @@ const AddTiming = props => {
     ty.hideMenuButton();
   }, []);
 
-  const handleCleaningRangeChange = useCallback(async key => {
-    const { roomNum } = store.getState().mapState;
+  const handleCleaningRangeChange = async key => {
+    const { roomProperties } = store.getState().mapState;
     // 如果选择选区清扫,同时地图未分区,则弹窗提示
-    if (key === ECleaningRange.selectRoom && roomNum <= 0) {
+    if (key === ECleaningRange.selectRoom && roomProperties.length <= 0) {
       ty.showToast({ title: Strings.getLang('dsc_time_no_room'), icon: 'error' });
       return;
     }
@@ -107,11 +109,11 @@ const AddTiming = props => {
     setCleaningRange(key);
     // 如果从选区切换到全屋,则清空已选择的房间id
     if (key === ECleaningRange.auto) {
-      setRoomIds([]);
+      setSelectRoomIds([]);
     }
-  }, []);
+  };
 
-  const onSaveTiming = useCallback(event => {
+  const handleSaveTiming = event => {
     const { detail } = event;
     const [hour, minute] = detail.split(':');
     setTime({
@@ -119,7 +121,14 @@ const AddTiming = props => {
       minute: parseInt(trim(minute), 10),
     });
     setShow(false);
-  }, []);
+  };
+
+  const handleClickRoom = (room: RoomData) => {
+    setSelectRoomIds(prev => {
+      const existing = prev.find(item => item === room.id);
+      return existing ? prev.filter(item => item !== room.id) : [...prev, room.id];
+    });
+  };
 
   const { hour, minute } = time;
   return (
@@ -170,7 +179,13 @@ const AddTiming = props => {
           flex: 1,
         }}
       >
-        <AddTimingMapView setRoomIds={setRoomIds} roomIds={roomIds} />
+        <RjsMap
+          runtime={{
+            enableRoomSelection: true,
+            selectRoomIds,
+          }}
+          onClickRoom={handleClickRoom}
+        />
       </View>
 
       <Popup
@@ -186,7 +201,7 @@ const AddTiming = props => {
           confirmButtonText={Strings.getLang('dsc_confirm')}
           type="time"
           value={`${hour}:${minute}`}
-          onConfirm={onSaveTiming}
+          onConfirm={handleSaveTiming}
           onCancel={() => setShow(false)}
         />
       </Popup>

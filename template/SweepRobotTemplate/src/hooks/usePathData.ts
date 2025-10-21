@@ -1,8 +1,9 @@
 import log4js from '@ray-js/log4js';
 import { useCallback, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateMapData } from '@/redux/modules/mapStateSlice';
-import { getDevInfo, setStorageSync } from '@ray-js/ray';
+import { updateMapState } from '@/redux/modules/mapStateSlice';
+import { setStorageSync } from '@ray-js/ray';
+import { devices } from '@/devices';
 /**
  * 接收路径数据并解析
  * @returns
@@ -17,10 +18,10 @@ export default function usePathData() {
 
       pathDataCache.current = pathDataStr;
 
-      dispatch(updateMapData({ originPath: pathDataStr }));
+      dispatch(updateMapState({ originPath: pathDataStr }));
 
       setStorageSync({
-        key: `path_${getDevInfo().devId}`,
+        key: `path_${devices.common.getDevInfo().devId}`,
         data: pathDataStr,
       });
     }

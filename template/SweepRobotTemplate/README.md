@@ -40,22 +40,13 @@
 - IDE Plugin Dependencies
   - [Sweeper Debug Assistant](https://developer.tuya.com/en/miniapp/devtools/tools/extension/panel)
 
-## 5. Key Module Dependencies
+## 5. Map Component
 
-To allow developers to focus more on UI handling rather than other process logic handling, we have split the sweeper into modules, separating the underlying implementation from business calls. The following are the main packages that the sweeper panel currently depends on:
+You can view the documentation of the map component by running the following command
 
-- @ray-js/robot-map-component: Directly called by the business layer, providing full-screen maps and RjsMap components [reference usage]src/components/MapView/index.tsx, and exposing common methods for map operations.
-- @ray-js/robot-data-stream: Directly called by the business layer, encapsulating the P2P transmission methods between the panel and the device, allowing developers to ignore the complex process of P2P communication and focus only on the business logic itself.
-- @ray-js/robot-protocol: Directly called by the business layer, providing a complete protocol parsing standard capability, encapsulating the parsing and encoding process of the complex raw type DP points in the sweeper protocol.
-- @ray-js/webview-invoke: Underlying dependency, providing communication capabilities between the mini program and the underlying SDK, generally not requiring modification.
-- @ray-js/robot-middleware: Underlying dependency, providing intermediate processing of logic layers and WebView business.
-- @ray-js/hybrid-robot-map: Underlying dependency, the basic SDK for the sweeper, providing the ability to render the underlying layers.
-
-For general sweeper requirements, you basically only need to focus on the application business logic and UI presentation, without needing to worry about the implementation in the internal dependency packages. Dependency package upgrades will be backward compatible, and you can individually upgrade the dependency packages in your project.
-
-![Module Dependencies](https://developer.tuya.com/en/miniapp-codelabs/codelabs/panel-robot-sweeper-guide/img/61e4414579bb6763.png)
-
-## 6. Map Component Selection
+```sh
+$ npx serve node_modules/@ray-js/robot-map-sdk/dist-docs
+```
 
 In terms of map component selection, we provide two modes of components, WebViewMap and RjsMap.
 
@@ -65,7 +56,7 @@ In terms of map component selection, we provide two modes of components, WebView
 
 - The RjsMap component is used as an extension of the view layer component in the form of an RJS component, allowing dynamic setting of the component’s width and height. The RjsMap component runs on the same layer as the view element of the mini program. In the case of frequent map data interaction, it may affect the interactive response of view elements. Multiple RjsMap components can be introduced on a single mini program page.
 
-## 7. Panel Functions
+## 6. Panel Functions
 
 - Multi-mode cleaning
 - Map management
@@ -80,19 +71,25 @@ In terms of map component selection, we provide two modes of components, WebView
 - Video surveillance
 - AI object recognition
 
-## 8. Future Function Plans
+## 7. Future Function Plans
 
 - Sweeper component usage documentation
 
-## 9. Issue Feedback
+## 8. Issue Feedback
 
 If you have any questions, please visit the link and submit a post for feedback: https://tuyaos.com/viewforum.php?f=10
 
-## 10. License
+## 9. License
 
 [License Details](LICENSE)
 
 ## Changelog
+
+### [1.0.1] - 2025-10-21
+
+#### BREAKING CHANGE
+
+- The map component has been replaced with `@ray-js/robot-map`, and all pages involving map components have been completely rewritten and integrated. The original map component has been deprecated.
 
 ### [0.0.18] - 2025-6-19
 

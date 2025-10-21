@@ -1,4 +1,5 @@
-import { getDevInfo, getSweeperStorageConfig } from '@ray-js/ray';
+import { devices } from '@/devices';
+import { getSweeperStorageConfig } from '@ray-js/ray';
 import { decode } from 'js-base64';
 
 export class OssApi {
@@ -26,7 +27,7 @@ export class OssApi {
     try {
       const response = await getSweeperStorageConfig({
         type: 'Common',
-        devId: getDevInfo().devId,
+        devId: devices.common.getDevInfo().devId,
       });
 
       this.modelConfig = response;
@@ -42,7 +43,7 @@ export class OssApi {
         return new Promise((resolve, reject) => {
           ty.apiRequestByAtop({
             api: decode('dHV5YS5tLmRldi5zdG9yYWdlLmNvbmZpZy5nZXQ='),
-            postData: { type: 'Common', devId: getDevInfo().devId },
+            postData: { type: 'Common', devId: devices.common.getDevInfo().devId },
             version: '1.0',
             success: response => {
               this.modelConfig = response;

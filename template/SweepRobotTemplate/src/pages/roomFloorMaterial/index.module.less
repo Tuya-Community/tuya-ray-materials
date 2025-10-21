@@ -1,0 +1,56 @@
+@import 'src/variables.less';
+@import '@/mixins.less';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+.bottomWrapper {
+  position: absolute;
+  bottom: 0;
+  padding: 32rpx 32rpx 64rpx;
+  width: 100vw;
+  z-index: 100;
+  background-color: #ffffff;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.floorItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &.active {
+    .floorItemIcon {
+      background-color: #3a9;
+    }
+  }
+}
+
+.floorItemIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 56rpx;
+  background-color: #f6f6f6;
+}
+
+.floorItemText {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.9);
+  margin-top: 8rpx;
+}

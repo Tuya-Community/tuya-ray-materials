@@ -1,9 +1,9 @@
+import { devices } from '@/devices';
 import Strings from '@/i18n';
 import store from '@/redux';
 import { updateIpcCommon } from '@/redux/modules/ipcCommonSlice';
 import {
   showToast as rayShowToast,
-  getDevInfo,
   authorizeStatus,
   authorize,
   setPageOrientation,
@@ -92,7 +92,7 @@ export const goAppPage = (pageId: string) => {
     url: pageId,
     success: res => {
       if (res?.result) {
-        const { devId } = getDevInfo();
+        const { devId } = devices.common.getDevInfo();
 
         const url = `thingSmart://${pageId}?extra_camera_uuid=${devId}&theme=2`;
 
@@ -120,7 +120,7 @@ export const goAppPage = (pageId: string) => {
  */
 export const stopPreview = () => {
   return new Promise((resolve, reject) => {
-    if (getDevInfo().devId.startsWith('vdevo')) {
+    if (devices.common.getDevInfo().devId.startsWith('vdevo')) {
       resolve(true);
     }
     const { streamStatus, playerCtx } = store.getState().ipcCommon;
@@ -531,7 +531,7 @@ export const openPanel = (deviceId: string, extraData?: Record<string, any>, fn?
 export const openPanelApp = () => {
   const { mainDeviceCameraConfig } = store.getState().ipcCommon;
 
-  openPanel(getDevInfo().devId, { mainDeviceCameraConfig }, data => {
+  openPanel(devices.common.getDevInfo().devId, { mainDeviceCameraConfig }, data => {
     const { type } = data;
     // const supportedAudioMode = data?.mainDeviceCameraConfig?.supportedAudioMode;
     switch (type) {

@@ -1,68 +1,54 @@
 import { modeCode } from '@/constant/dpCodes';
-import { usePoseClean } from '@/hooks';
 import Strings from '@/i18n';
-import store from '@/redux';
-import { mapExtrasUpdated } from '@/redux/modules/mapExtrasSlice';
-import { selectMapStateByKey, updateMapData } from '@/redux/modules/mapStateSlice';
-import { setLaserMapSplitType } from '@/utils/openApi';
-import { EMapSplitStateEnum, ENativeMapStatusEnum } from '@ray-js/robot-sdk-types';
+import { selectMapStateByKey, updateMapState } from '@/redux/modules/mapStateSlice';
 import { Grid, GridItem, Icon } from '@ray-js/smart-ui';
 import clsx from 'clsx';
 import React, { FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectMapApiByKey } from '@/redux/modules/mapApisSlice';
 
-import { emitter } from '@/utils';
 import styles from './index.module.less';
 
-type Props = {
-  setMapStatus: (status: number) => void;
-  modeState: Mode;
-  setModeState: (mode: Mode) => void;
-};
-
-const ModeChange: FC<Props> = ({ modeState, setMapStatus, setModeState }) => {
+const ModeChange: FC = () => {
   const dispatch = useDispatch();
-  const { drawPoseCleanArea } = usePoseClean();
+  const currentMode = useSelector(selectMapStateByKey('currentMode'));
+  const mapSize = useSelector(selectMapStateByKey('mapSize'));
+  const mapApi = useSelector(selectMapApiByKey('home'));
+  const { width, height } = mapSize;
 
-  const isEmptyMap = useSelector(selectMapStateByKey('isEmptyMap'));
-  const roomNum = useSelector(selectMapStateByKey('roomNum'));
-
-  /**
-   * 增加一个指哪扫哪的移动点
-   */
-  const addPosPoints = async () => {
-    const { mapId } = store.getState().mapState;
-    drawPoseCleanArea(mapId);
-  };
+  const isEmpty = useMemo(() => {
+    return width === 0 || height === 0;
+  }, [width, height]);
 
   /**
    * 切换清扫模式
-   * @param modeValue
-   * @param mapStatus
+   * @param mode
    */
-  const handleSwitchMode = (modeValue: string, mapStatus: number) => {
-    const { mapId } = store.getState().mapState;
+  const handleSwitchMode = async (mode: Mode) => {
+    dispatch(updateMapState({ currentMode: mode }));
 
-    setMapStatus(mapStatus);
+    let spotPoint = { x: 0, y: 0 };
 
-    // 是否是切换到选区清扫
-    if (mapStatus === ENativeMapStatusEnum.mapClick) {
-      setLaserMapSplitType(mapId, EMapSplitStateEnum.click);
+    if (mode === 'pose') {
+      spotPoint = await mapApi.getSpotPointByViewportCenter();
     }
 
-    if (mapStatus === ENativeMapStatusEnum.normal) {
-      setLaserMapSplitType(mapId, EMapSplitStateEnum.normal);
-    }
-
-    // 指哪扫哪如果不需要点击地图，立即生成一个可移动区时
-    if (mapStatus === 1) {
-      addPosPoints();
-    }
-
-    dispatch(updateMapData({ selectRoomData: [] }));
-    dispatch(mapExtrasUpdated({ appointData: [], sweepRegionData: [] }));
-
-    emitter.emit('reorganizationRCTAreaList');
+    dispatch(
+      updateMapState({
+        currentMode: mode,
+        selectRoomIds: [],
+        spots:
+          mode === 'pose'
+            ? [
+                {
+                  id: '0',
+                  point: spotPoint,
+                },
+              ]
+            : [],
+        cleanZones: mode === 'zone' ? [] : [],
+      })
+    );
   };
 
   const modes = useMemo(() => {
@@ -70,42 +56,37 @@ const ModeChange: FC<Props> = ({ modeState, setMapStatus, setModeState }) => {
       // 全屋清扫
       {
         mode: 'smart',
-        mapStatus: ENativeMapStatusEnum.normal,
         disabled: false,
       },
       // 选区清扫
       {
         mode: 'select_room',
-        mapStatus: ENativeMapStatusEnum.mapClick,
-        disabled: isEmptyMap !== false || roomNum === 0,
+        disabled: isEmpty,
       },
       // 指哪扫哪
       {
         mode: 'pose',
-        mapStatus: ENativeMapStatusEnum.pressToRun,
-        disabled: isEmptyMap !== false,
+        disabled: isEmpty,
       },
       // 划区清扫
       {
         mode: 'zone',
-        mapStatus: ENativeMapStatusEnum.areaSet,
-        disabled: isEmptyMap !== false,
+        disabled: isEmpty,
       },
     ] as const;
-  }, [isEmptyMap, roomNum]);
+  }, [isEmpty]);
 
   return (
     <Grid customClass={styles.full} border={false}>
-      {modes.map(({ mode, disabled, mapStatus }) => {
-        const isActive = mode === modeState;
+      {modes.map(({ mode, disabled }) => {
+        const isActive = mode === currentMode;
         return (
           <GridItem
             key={mode}
             text={Strings.getDpLang(modeCode, mode)}
             onClick={() => {
               if (disabled) return;
-              setModeState(mode);
-              handleSwitchMode(mode, mapStatus);
+              handleSwitchMode(mode);
             }}
             className={clsx(
               styles.cleanModeItem,

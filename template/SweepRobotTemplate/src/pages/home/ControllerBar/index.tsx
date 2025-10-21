@@ -1,19 +1,9 @@
 import { PROTOCOL_VERSION } from '@/constant';
 import { commandTransCode, modeCode, statusCode, switchChargeCode } from '@/constant/dpCodes';
-import store from '@/redux';
-import {
-  setLaserMapSplitType,
-  showPilePositionBreatheAnimation,
-  showRobotSleepAnimation,
-} from '@/utils/openApi';
-
 import Strings from '@/i18n';
-import { mapExtrasUpdated } from '@/redux/modules/mapExtrasSlice';
-import { updateMapData } from '@/redux/modules/mapStateSlice';
-import { emitter } from '@/utils';
+import { selectMapStateByKey, updateMapState } from '@/redux/modules/mapStateSlice';
 import {
   isRobotSilence,
-  isRobotSleep,
   robotIsAreaPause,
   robotIsAreaing,
   robotIsAutoRunPause,
@@ -36,11 +26,10 @@ import {
   requestSpotClean0x3f,
   requestZoneClean0x3b,
 } from '@ray-js/robot-protocol';
-import { EMapSplitStateEnum, ENativeMapStatusEnum } from '@ray-js/robot-sdk-types';
 import { Grid } from '@ray-js/smart-ui';
 import { useUpdateEffect } from 'ahooks';
-import React, { FC, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { FC, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import AddAreaButton from './addAreaButton';
 import styles from './index.module.less';
 import IpcButton from './ipcButton';
@@ -50,47 +39,20 @@ import RechargeButton from './rechargeButton';
 import SettingButton from './settingButton';
 import SwitchButton from './switchButton';
 
-type Props = {
-  mapStatus: number;
-  setMapStatus: (status: number) => void;
-};
-
-const ControllerBar: FC<Props> = ({ mapStatus, setMapStatus }) => {
+const ControllerBar: FC = () => {
   const dispatch = useDispatch();
   const dpStatus = useProps(props => props[statusCode]) as Status;
   const dpMode = useProps(props => props[modeCode]) as Mode;
   const dpSwitchCharge = useProps(props => props[switchChargeCode]);
+  const currentMode = useSelector(selectMapStateByKey('currentMode'));
   const dpActions = useActions();
 
-  // 工作模式
-  const [modeState, setModeState] = useState<Mode>(
-    (['smart', 'select_room', 'zone', 'pose'] as Mode[]).includes(dpMode) ? dpMode : 'smart'
-  );
-
   useUpdateEffect(() => {
-    const { mapId } = store.getState().mapState;
-
-    // 扫地机处于充电状态下显示充电中的动画
-    if (robotIsCharing(dpStatus)) {
-      showPilePositionBreatheAnimation(mapId, true);
-    } else {
-      showPilePositionBreatheAnimation(mapId, false);
-    }
-
-    // 扫地机是否处于休眠中状态
-    if (isRobotSleep(dpStatus)) {
-      showRobotSleepAnimation(mapId, true);
-    } else {
-      showRobotSleepAnimation(mapId, false);
-    }
-
     // 扫地机处于待机/充电中/充电完成/休眠/故障状态
     if (isRobotSilence(dpStatus) || robotIsFault(dpStatus)) {
-      setModeState('smart');
-      setMapStatus(ENativeMapStatusEnum.normal);
-      dispatch(updateMapData({ selectRoomData: [] }));
-      dispatch(mapExtrasUpdated({ appointData: [], sweepRegionData: [] }));
-      emitter.emit('reorganizationRCTAreaList');
+      dispatch(
+        updateMapState({ currentMode: 'smart', selectRoomIds: [], spots: [], cleanZones: [] })
+      );
     }
   }, [dpStatus]);
 
@@ -102,7 +64,6 @@ const ControllerBar: FC<Props> = ({ mapStatus, setMapStatus }) => {
      * 工作模式/机器状态改变回调函数
      */
     const modeAndStatusChange = async () => {
-      const { mapId } = store.getState().mapState;
       // 扫地机处于回充/寻找集尘桶/集尘/手动控制状态
       if (
         robotIsToCharing(dpStatus, dpSwitchCharge) ||
@@ -110,57 +71,51 @@ const ControllerBar: FC<Props> = ({ mapStatus, setMapStatus }) => {
         robotIsDust(dpStatus) ||
         robotIsManual(dpMode, dpStatus)
       ) {
-        setModeState('smart');
-        setMapStatus(ENativeMapStatusEnum.normal);
-
-        dispatch(updateMapData({ selectRoomData: [] }));
-        dispatch(mapExtrasUpdated({ appointData: [], sweepRegionData: [] }));
-        emitter.emit('reorganizationRCTAreaList');
+        dispatch(updateMapState({ currentMode: 'smart' }));
       }
 
       // 扫地机处于指哪扫哪暂停状态
       if ([robotIsPointPause].some(fn => fn(dpMode, dpStatus))) {
-        setModeState('pose');
+        dispatch(updateMapState({ currentMode: 'pose' }));
         dpActions[commandTransCode].set(requestSpotClean0x3f({ version: PROTOCOL_VERSION }));
       }
       // 扫地机处于指哪扫哪清扫状态
       if ([robotIsPointing].some(fn => fn(dpMode, dpStatus))) {
-        setModeState('pose');
-        setMapStatus(ENativeMapStatusEnum.normal);
+        dispatch(updateMapState({ currentMode: 'pose' }));
         dpActions[commandTransCode].set(requestSpotClean0x3f({ version: PROTOCOL_VERSION }));
       }
       // 扫地机处于划区清扫暂停状态
       if ([robotIsAreaPause].some(fn => fn(dpMode, dpStatus))) {
-        setModeState('zone');
-        setMapStatus(ENativeMapStatusEnum.normal);
+        dispatch(updateMapState({ currentMode: 'zone' }));
         dpActions[commandTransCode].set(requestZoneClean0x3b({ version: PROTOCOL_VERSION }));
       }
       // 扫地机处于划区清扫中状态
       if ([robotIsAreaing].some(fn => fn(dpMode, dpStatus))) {
-        setModeState('zone');
-        setMapStatus(ENativeMapStatusEnum.normal);
+        dispatch(updateMapState({ currentMode: 'zone' }));
         dpActions[commandTransCode].set(requestZoneClean0x3b({ version: PROTOCOL_VERSION }));
       }
       // 扫地机处于全屋清扫/全屋清扫暂停/快速建图/快速建图暂停状态
       if (
         [robotIsAutoRunning, robotIsAutoRunPause, robotIsMapping].some(fn => fn(dpMode, dpStatus))
       ) {
-        setModeState('smart');
-        setMapStatus(ENativeMapStatusEnum.normal);
-        dispatch(updateMapData({ selectRoomData: [] }));
+        dispatch(updateMapState({ currentMode: 'smart' }));
       }
       // 扫地机处于选区清扫状态
       if ([robotIsSelectRoom].some(fn => fn(dpMode, dpStatus))) {
-        setModeState('select_room');
-        setMapStatus(ENativeMapStatusEnum.normal);
-        setLaserMapSplitType(mapId, EMapSplitStateEnum.click);
+        dispatch(
+          updateMapState({
+            currentMode: 'select_room',
+          })
+        );
         dpActions[commandTransCode].set(requestRoomClean0x15({ version: PROTOCOL_VERSION }));
       }
       // 扫地机处于选区清扫暂停状态
       if ([robotIsSelectRoomPaused].some(fn => fn(dpMode, dpStatus))) {
-        setModeState('select_room');
-        setLaserMapSplitType(mapId, EMapSplitStateEnum.click);
-        setMapStatus(ENativeMapStatusEnum.normal);
+        dispatch(
+          updateMapState({
+            currentMode: 'select_room',
+          })
+        );
         dpActions[commandTransCode].set(requestRoomClean0x15({ version: PROTOCOL_VERSION }));
       }
     };
@@ -186,18 +141,12 @@ const ControllerBar: FC<Props> = ({ mapStatus, setMapStatus }) => {
         {/* 快速建图: 无地图且不处于快速建图状态中时显示快速建图按钮 */}
         <QuickMapButton />
 
-        <ModeChange
-          setMapStatus={setMapStatus}
-          modeState={modeState}
-          setModeState={newMode => {
-            setModeState(newMode);
-          }}
-        />
+        <ModeChange />
         {/* 控制栏 */}
         <Grid customClass={styles.full} border={false}>
-          <SwitchButton mapStatus={mapStatus} />
+          <SwitchButton />
           {/* 回充 */}
-          {mapStatus === ENativeMapStatusEnum.areaSet ? <AddAreaButton /> : <RechargeButton />}
+          {currentMode === 'zone' ? <AddAreaButton /> : <RechargeButton />}
           <SettingButton />
           <IpcButton />
         </Grid>

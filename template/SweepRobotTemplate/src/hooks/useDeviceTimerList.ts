@@ -1,18 +1,17 @@
 import { PROTOCOL_VERSION } from '@/constant';
 import { deviceTimerCode } from '@/constant/dpCodes';
-import { useSendDp } from '@/hooks/useSendDp';
-import { useProps } from '@ray-js/panel-sdk';
+import { useActions, useProps } from '@ray-js/panel-sdk';
 import { decodeDeviceTimer0x31, encodeDeviceTimer0x30, TimerData } from '@ray-js/robot-protocol';
 import { useEffect, useRef, useState } from 'react';
 
 // 解析定时指令
 export const useDeviceTimerList = () => {
   const lastTimerDataRef = useRef('');
+  const actions = useActions();
 
   const deviceTimerValue = useProps(props => props[deviceTimerCode]);
   const isListeningRef = useRef(false);
   const [timerList, setTimerList] = useState<TimerData[]>([]);
-  const { sendDP } = useSendDp();
 
   const dpChangeFunc = deviceTimerValue => {
     if (deviceTimerValue) {
@@ -44,7 +43,8 @@ export const useDeviceTimerList = () => {
       version: PROTOCOL_VERSION,
       number: newList.length,
     });
-    sendDP(deviceTimerCode, data);
+
+    actions[deviceTimerCode].set(data);
   };
 
   const updateTimer = (index: number, timerData: TimerData) => {
@@ -55,7 +55,7 @@ export const useDeviceTimerList = () => {
       version: PROTOCOL_VERSION,
       number: newList.length,
     });
-    sendDP(deviceTimerCode, data);
+    actions[deviceTimerCode].set(data);
   };
 
   const addTimer = (timerData: TimerData) => {
@@ -65,7 +65,7 @@ export const useDeviceTimerList = () => {
       version: PROTOCOL_VERSION,
       number: newList.length,
     });
-    sendDP(deviceTimerCode, data);
+    actions[deviceTimerCode].set(data);
   };
 
   return { timerList, deleteTimer, updateTimer, addTimer };

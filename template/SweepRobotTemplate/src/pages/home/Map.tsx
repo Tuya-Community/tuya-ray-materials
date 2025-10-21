@@ -1,33 +1,44 @@
 import { useCommandTransData, useMapData, usePathData } from '@/hooks';
-import Strings from '@/i18n';
 import store from '@/redux';
-import { updateMapData } from '@/redux/modules/mapStateSlice';
-import { foldableSingleRoomInfo } from '@/utils/openApi';
+import { selectMapStateByKey, updateMapState } from '@/redux/modules/mapStateSlice';
 import { useProps } from '@ray-js/panel-sdk';
-import { getDevInfo, getStorageSync, getSystemInfoSync, showToast } from '@ray-js/ray';
+import { getStorageSync, getSystemInfoSync } from '@ray-js/ray';
 import { StreamDataNotificationCenter, useP2PDataStream } from '@ray-js/robot-data-stream';
-import { MapHeader, RoomDecoded, parseRoomId } from '@ray-js/robot-protocol';
 import log4js from '@ray-js/log4js';
-import React, { useEffect, useRef } from 'react';
-import { customizeModeSwitchCode, modeCode, statusCode } from '@/constant/dpCodes';
-import { useDispatch } from 'react-redux';
-import { ENativeMapStatusEnum } from '@ray-js/robot-sdk-types';
-import { APP_LOG_TAG } from '@/constant';
+import React, { useEffect } from 'react';
+import { customizeModeSwitchCode, statusCode } from '@/constant/dpCodes';
+import { useDispatch, useSelector } from 'react-redux';
+import { APP_LOG_TAG, MAP_CONFIG } from '@/constant';
 import useVisionData from '@/hooks/useVisionData';
 import useImgDialog from '@/hooks/useImageDialog';
-import WebViewMap from '@/components/MapView/WebViewMap';
+import WebViewMap from '@/components/Map/WebViewMap';
+import { merge } from 'lodash-es';
+import {
+  DeepPartialAppConfig,
+  DetectedObjectParam,
+  MapApi,
+  MapState,
+  RoomData,
+  SpotParam,
+  ZoneParam,
+} from '@ray-js/robot-map';
+import { devices } from '@/devices';
+import { setMapApi } from '@/redux/modules/mapApisSlice';
+import { robotIsNotWorking } from '@/utils/robotStatus';
 
-type Props = {
-  mapStatus: number;
-};
-
-const Map: React.FC<Props> = ({ mapStatus }) => {
+const Map: React.FC = () => {
   const dispatch = useDispatch();
-  // dp点
-  const dpMode = useProps(props => props[modeCode]) as Mode;
   const dpStatus = useProps(props => props[statusCode]) as Status;
-  const customizeModeSwitchState = useProps(props => props[customizeModeSwitchCode]);
-  const mapId = useRef('');
+  const dpCustomizeModeSwitch = useProps(props => props[customizeModeSwitchCode]);
+  const currentMode = useSelector(selectMapStateByKey('currentMode'));
+  const selectRoomIds = useSelector(selectMapStateByKey('selectRoomIds'));
+  const editingCleanZoneIds = useSelector(selectMapStateByKey('editingCleanZoneIds'));
+
+  const virtualWalls = useSelector(selectMapStateByKey('virtualWalls'));
+  const forbiddenSweepZones = useSelector(selectMapStateByKey('forbiddenSweepZones'));
+  const forbiddenMopZones = useSelector(selectMapStateByKey('forbiddenMopZones'));
+  const cleanZones = useSelector(selectMapStateByKey('cleanZones'));
+  const spots = useSelector(selectMapStateByKey('spots'));
 
   const { imgDialogElement, startVisionImgTask } = useImgDialog({ waitTime: 5000 });
 
@@ -51,7 +62,7 @@ const Map: React.FC<Props> = ({ mapStatus }) => {
   const { onPathData } = usePathData();
 
   const { appendDownloadStreamDuringTask } = useP2PDataStream(
-    getDevInfo().devId,
+    devices.common.getDevInfo().devId,
     onMapData,
     onPathData,
     {
@@ -70,15 +81,15 @@ const Map: React.FC<Props> = ({ mapStatus }) => {
     if (getSystemInfoSync().brand === 'devtools') {
       // (加载缓存地图功能) 默认只在IDE环境下使用，如果业务需求需要可以去掉这个判断
       const cacheMap = getStorageSync({
-        key: `map_${getDevInfo().devId}`,
+        key: `map_${devices.common.getDevInfo().devId}`,
       });
       const cachePath = getStorageSync({
-        key: `path_${getDevInfo().devId}`,
+        key: `path_${devices.common.getDevInfo().devId}`,
       });
 
       // IDE 暂时不支持Vision的数据推送
       // const cacheVision = getStorageSync({
-      //   key: `vision_${getDevInfo().devId}`,
+      //   key: `vision_${devices.common.getDevInfo().devId}`,
       // });
 
       if (cacheMap) {
@@ -95,95 +106,25 @@ const Map: React.FC<Props> = ({ mapStatus }) => {
   }, []);
 
   /**
-   * 地图唯一标识
-   * @param data
-   */
-  const onMapId = async (data: any) => {
-    mapId.current = data.mapId;
-    dispatch(
-      updateMapData({
-        mapId: data.mapId,
-      })
-    );
-  };
-
-  /**
-   * 选区
-   * @param data
-   * @returns
-   */
-  const onClickSplitArea = (data: any) => {
-    const { version, selectRoomData } = store.getState().mapState;
-
-    if (!data || !data.length || !Array.isArray(data)) {
-      return;
-    }
-    const room = data[0];
-    const { pixel } = room;
-    const roomId = parseRoomId(pixel, version);
-    const maxUnknownId = version === 1 ? 31 : 26;
-    if (roomId > maxUnknownId) {
-      showToast({
-        title: Strings.getLang('dsc_home_selectRoom_unknown'),
-        icon: 'error',
-      });
-      return;
-    }
-
-    dispatch(
-      updateMapData({
-        selectRoomData: selectRoomData.includes(pixel)
-          ? selectRoomData.filter((i: string) => i !== pixel)
-          : [...selectRoomData, pixel],
-      })
-    );
-  };
-
-  /**
-   * 点击房间的回调
-   * @param data
-   */
-  const onClickRoom = data => {
-    const { foldableRoomIds } = store.getState().mapState;
-    const { roomId, isFoldable } = data;
-    const edit = mapStatus !== ENativeMapStatusEnum.normal;
-    if (edit) return;
-    let curData = [];
-    if (!isFoldable && !foldableRoomIds.includes(roomId)) {
-      curData = foldableRoomIds.concat([roomId]);
-    } else {
-      curData = foldableRoomIds.filter((i: string) => i !== roomId);
-    }
-    dispatch(updateMapData({ foldableRoomIds: curData }));
-  };
-
-  const onClickRoomProperties = (data: any) => {
-    const {
-      properties: { colorHex },
-    } = data;
-    foldableSingleRoomInfo(mapId.current, colorHex, true);
-  };
-
-  /**
    * 点击AI Vision 虚拟物体
    * @param data
    */
-  const onClickMaterial = ({ data }: any) => {
+  const handleClickDetectedObject = (object: DetectedObjectParam) => {
     if (getSystemInfoSync().brand === 'devtools') {
       log4js.warn(
         '【HomeMapView】==> appendDownloadStreamDuringTask in IDE mode is not supported yet'
       );
       return;
     }
-    const { xHex, yHex } = data.extends || {};
+    const { xHex, yHex } = object.customData || {};
 
     if (xHex && yHex) {
       const fileName = `aiHD_${xHex}_${yHex}.bin`;
       const successCallback = () => {
-        log4js.info('【HomeMapView】==> appendDownloadStreamDuringTask success', data);
+        log4js.info('【HomeMapView】==> appendDownloadStreamDuringTask success', object);
       };
       const failCallback = () => {
-        log4js.info('【HomeMapView】==> appendDownloadStreamDuringTask fail', data);
+        log4js.info('【HomeMapView】==> appendDownloadStreamDuringTask fail', object);
       };
       // 开启文件下载
       // 相当于在原来下载的文件列表中增加下载的文件，AI的数据只会收到一次
@@ -194,50 +135,102 @@ const Map: React.FC<Props> = ({ mapStatus }) => {
     }
   };
 
-  const uiInterFace = React.useMemo(() => {
-    return {
-      isCustomizeMode: customizeModeSwitchState, // 是否显示房间属性折叠标签
-    };
-  }, [dpMode, dpStatus]);
-
-  const onDecodeMapData = (data: { mapHeader: MapHeader; mapRooms: RoomDecoded[] }) => {
-    console.log('onDecodeMapData====>', data);
-    const { mapHeader, mapRooms } = data;
-
+  const handleMapDrawed = (data: MapState) => {
     dispatch(
-      updateMapData({
-        pilePosition: {
-          theta: mapHeader.chargeDirection || 0,
-          startTheta: mapHeader.chargeDirection !== undefined ? 90 : 0,
-          ...mapHeader.chargePositionTransformed,
-        },
+      updateMapState({
         mapSize: {
-          width: mapHeader.mapWidth,
-          height: mapHeader.mapHeight,
+          width: data.width,
+          height: data.height,
         },
-        dataMapId: mapHeader.id,
-        version: mapHeader.version as 0 | 1 | 2,
-        origin: { x: mapHeader.originX, y: mapHeader.originY },
-        mapStable: mapHeader.mapStable,
-        isEmptyMap: mapHeader.mapWidth === 0 || mapHeader.mapHeight === 0,
-        roomNum: mapRooms?.length || 0,
+        mapId: data.id,
+        version: data.version as 0 | 1 | 2,
+        origin: data.origin,
+        charger: data.charger,
+        mapStable: data.status,
       })
     );
+  };
+
+  const handleMapReady = (mapApi: MapApi) => {
+    // 将 mapApi 实例存储到 Redux，方便其他组件调用
+    dispatch(setMapApi({ key: 'home', mapApi }));
+
+    // 由于ota的弹窗打开时，地图webview还没有加载导致nativedisable失败，弹窗无法点击，全局使用disableOtaDialog禁用了ota自动升级的弹窗展示
+    // 业务侧加载到webView后，调用ty.panel.checkOTAUpdate方法来检查是否有ota更新
+    setTimeout(() => {
+      (ty as any).panel.checkOTAUpdate(devices.common.getDevInfo().devId, true);
+    }, 2000);
+  };
+
+  const handleClickRoom = (data: RoomData) => {
+    if (robotIsNotWorking(dpStatus) && currentMode === 'select_room') {
+      const { selectRoomIds } = store.getState().mapState;
+
+      if (selectRoomIds.includes(data.id)) {
+        dispatch(updateMapState({ selectRoomIds: selectRoomIds.filter(id => id !== data.id) }));
+      } else {
+        dispatch(updateMapState({ selectRoomIds: [...selectRoomIds, data.id] }));
+      }
+    }
+  };
+
+  const handleClickCleanZone = (data: ZoneParam) => {
+    dispatch(updateMapState({ editingCleanZoneIds: [data.id] }));
+  };
+
+  const handleUpdateCleanZone = (cleanZone: ZoneParam) => {
+    dispatch(
+      updateMapState({
+        cleanZones: cleanZones.map(zone => (zone.id === cleanZone.id ? cleanZone : zone)),
+      })
+    );
+  };
+
+  const handleUpdateSpot = (spot: SpotParam) => {
+    dispatch(updateMapState({ spots: [spot] }));
+  };
+
+  const handleRemoveCleanZone = (id: string) => {
+    dispatch(updateMapState({ cleanZones: cleanZones.filter(zone => zone.id !== id) }));
   };
 
   return (
     <>
       <WebViewMap
-        uiInterFace={uiInterFace}
-        onMapId={onMapId}
-        onClickSplitArea={onClickSplitArea}
-        onDecodeMapData={onDecodeMapData}
-        onClickRoomProperties={onClickRoomProperties}
-        onClickMaterial={onClickMaterial}
-        onClickRoom={onClickRoom}
         style={{
           height: '75vh',
         }}
+        config={merge<DeepPartialAppConfig, DeepPartialAppConfig, DeepPartialAppConfig>(
+          {},
+          MAP_CONFIG,
+          {
+            global: {
+              containerHeight: '75vh',
+            },
+          }
+        )}
+        virtualWalls={virtualWalls}
+        forbiddenSweepZones={forbiddenSweepZones}
+        forbiddenMopZones={forbiddenMopZones}
+        cleanZones={cleanZones}
+        spots={spots}
+        runtime={{
+          enableRoomSelection: currentMode === 'select_room',
+          selectRoomIds,
+          editingSpotIds:
+            robotIsNotWorking(dpStatus) && currentMode === 'pose' ? spots.map(spot => spot.id) : [],
+          editingCleanZoneIds,
+          showRoomProperty: dpCustomizeModeSwitch,
+        }}
+        onMapReady={handleMapReady}
+        onMapDrawed={handleMapDrawed}
+        onClickRoom={handleClickRoom}
+        onClickRoomProperties={handleClickRoom}
+        onClickCleanZone={handleClickCleanZone}
+        onUpdateCleanZone={handleUpdateCleanZone}
+        onUpdateSpot={handleUpdateSpot}
+        onRemoveCleanZone={handleRemoveCleanZone}
+        onClickDetectedObject={handleClickDetectedObject}
       />
       {imgDialogElement}
     </>

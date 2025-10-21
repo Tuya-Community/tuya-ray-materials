@@ -1,7 +1,14 @@
 import React, { FC, useEffect } from 'react';
-import { View, navigateBack, onNavigationBarBack, setNavigationBarBack } from '@ray-js/ray';
+import {
+  CoverView,
+  View,
+  navigateBack,
+  onNavigationBarBack,
+  router,
+  setNavigationBarBack,
+} from '@ray-js/ray';
 import Strings from '@/i18n';
-import { Dialog, DialogInstance } from '@ray-js/smart-ui';
+import { Dialog, DialogInstance, NavBar } from '@ray-js/smart-ui';
 import { useActions } from '@ray-js/panel-sdk';
 import { directionControlCode, modeCode } from '@/constant/dpCodes';
 import ManualPanel from '@/components/ManualPanel';
@@ -12,10 +19,6 @@ const Manual: FC = () => {
   const actions = useActions();
 
   useEffect(() => {
-    ty.setNavigationBarTitle({
-      title: Strings.getLang('dsc_manual'),
-    });
-
     // 进入远程控制需要下发手动模式
     actions[modeCode].set('manual');
 
@@ -51,7 +54,10 @@ const Manual: FC = () => {
 
   return (
     <View className={styles.container}>
-      <ManualPanel />
+      <NavBar title={Strings.getLang('dsc_manual')} leftArrow onClickLeft={router.back} />
+      <View className={styles.content}>
+        <ManualPanel />
+      </View>
       <Dialog id="smart-dialog" />
     </View>
   );

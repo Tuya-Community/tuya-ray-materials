@@ -60,7 +60,6 @@ const Item: FC<Props> = ({ data }) => {
     /**
      * IDE上暂时无法获得完整的url，所以无法正常下发正确的[使用地图]指令，请在真机上调试该功能
      */
-
     const { data: url } = await ossApiInstance.getCloudFileUrl(bucket, robotUseFile);
 
     actions[commandTransCode].set(
@@ -145,8 +144,8 @@ const Item: FC<Props> = ({ data }) => {
         </View>
       </View>
       <View className={styles.mapWrapper}>
-        {snapshotImage?.image && (
-          <Image className={styles.mapImage} src={snapshotImage.image} mode="aspectFill" />
+        {snapshotImage && (
+          <Image className={styles.mapImage} src={snapshotImage} mode="aspectFit" />
         )}
 
         <Loading isLoading={!snapshotImage} />

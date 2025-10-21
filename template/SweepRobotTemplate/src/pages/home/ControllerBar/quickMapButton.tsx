@@ -4,7 +4,7 @@ import { useActions, useProps } from '@ray-js/panel-sdk';
 import { View } from '@ray-js/ray';
 import { encodeQuickMap0x3c } from '@ray-js/robot-protocol';
 import { Button, Col, Row } from '@ray-js/smart-ui';
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { commandTransCode, modeCode, statusCode } from '@/constant/dpCodes';
 import { PROTOCOL_VERSION, THEME_COLOR } from '@/constant';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
@@ -14,7 +14,12 @@ import styles from './index.module.less';
 
 const QuickMapButton: FC = () => {
   const dpActions = useActions();
-  const isEmptyMap = useSelector(selectMapStateByKey('isEmptyMap')); // 地图数据
+  const mapSize = useSelector(selectMapStateByKey('mapSize'));
+  const { width, height } = mapSize;
+
+  const isEmpty = useMemo(() => {
+    return width === 0 || height === 0;
+  }, [width, height]);
 
   const dpMode = useProps(props => props[modeCode]) as Mode;
   const dpStatus = useProps(props => props[statusCode]) as Status;
@@ -26,7 +31,7 @@ const QuickMapButton: FC = () => {
     dpActions[commandTransCode].set(encodeQuickMap0x3c({ version: PROTOCOL_VERSION }));
   };
 
-  const show = isEmptyMap === true && !robotIsCleaning(dpMode, dpStatus);
+  const show = isEmpty && !robotIsCleaning(dpMode, dpStatus);
   return show ? (
     <View style={{ width: '100vw' }}>
       <Row>

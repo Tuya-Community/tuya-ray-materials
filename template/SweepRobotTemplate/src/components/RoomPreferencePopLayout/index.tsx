@@ -1,10 +1,11 @@
 import { THEME_COLOR } from '@/constant';
-import { cisternCode, cleanTimesCode, suctionCode, workModeCode } from '@/constant/dpCodes';
+import { cisternCode, cleanTimesCode, suctionCode } from '@/constant/dpCodes';
 import Strings from '@/i18n';
 import { Text, View, Button, nativeDisabled } from '@ray-js/ray';
 import { Popup, Radio, RadioGroup, Icon, Row, Col, Button as MButton } from '@ray-js/smart-ui';
 import React, { FC, useCallback, useState, useEffect } from 'react';
-import _, { set } from 'lodash';
+import { find, isUndefined } from 'lodash-es';
+
 import styles from './index.module.less';
 
 type Props = {
@@ -76,13 +77,13 @@ const RoomPreferencePopLayout: FC<Props> = props => {
   const [cleanCount, setCleanCount] = useState(sweepCount || '0');
 
   useEffect(() => {
-    if (!_.isUndefined(fan)) {
+    if (!isUndefined(fan)) {
       setFanValue(fan);
     }
-    if (!_.isUndefined(water)) {
+    if (!isUndefined(water)) {
       setWaterValue(water);
     }
-    if (!_.isUndefined(sweepCount)) {
+    if (!isUndefined(sweepCount)) {
       setCleanCount(sweepCount);
     }
   }, [fan, sweepCount, water]);
@@ -96,7 +97,7 @@ const RoomPreferencePopLayout: FC<Props> = props => {
   };
 
   const renderFanSlider = useCallback(() => {
-    const activeFan = _.find(SUCTION_MAP, { value: fanValue }) || SUCTION_MAP.closed;
+    const activeFan = find(SUCTION_MAP, { value: fanValue }) || SUCTION_MAP.closed;
     return (
       <View className={styles.modeBox}>
         <View className={styles.labelBox}>
@@ -152,7 +153,7 @@ const RoomPreferencePopLayout: FC<Props> = props => {
 
   // 渲染水量
   const renderCistern = useCallback(() => {
-    const activeCistern = _.find(CISTERN_MAP, { value: waterValue }) || CISTERN_MAP.closed;
+    const activeCistern = find(CISTERN_MAP, { value: waterValue }) || CISTERN_MAP.closed;
 
     return (
       <View>
