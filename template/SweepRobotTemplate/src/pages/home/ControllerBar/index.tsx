@@ -47,15 +47,6 @@ const ControllerBar: FC = () => {
   const currentMode = useSelector(selectMapStateByKey('currentMode'));
   const dpActions = useActions();
 
-  useUpdateEffect(() => {
-    // 扫地机处于待机/充电中/充电完成/休眠/故障状态
-    if (isRobotSilence(dpStatus) || robotIsFault(dpStatus)) {
-      dispatch(
-        updateMapState({ currentMode: 'smart', selectRoomIds: [], spots: [], cleanZones: [] })
-      );
-    }
-  }, [dpStatus]);
-
   /**
    * 监听 工作模式/机器状态 DP值上报
    */
@@ -69,9 +60,13 @@ const ControllerBar: FC = () => {
         robotIsToCharing(dpStatus, dpSwitchCharge) ||
         robotIsCharing(dpStatus) ||
         robotIsDust(dpStatus) ||
-        robotIsManual(dpMode, dpStatus)
+        robotIsManual(dpMode, dpStatus) ||
+        isRobotSilence(dpStatus) ||
+        robotIsFault(dpStatus)
       ) {
-        dispatch(updateMapState({ currentMode: 'smart' }));
+        dispatch(
+          updateMapState({ currentMode: 'smart', selectRoomIds: [], spots: [], cleanZones: [] })
+        );
       }
 
       // 扫地机处于指哪扫哪暂停状态

@@ -84,6 +84,19 @@ $ npx serve node_modules/@ray-js/robot-map-sdk/dist-docs
 
 ## Changelog
 
+### [1.0.3] - 2025-10-31
+
+#### Changed
+
+- @ray-js/robot-map 更新到 **0.0.2-beta-36**，修复了若干问题。
+- 更新了 runtime 的用法，需要使用 useMemo 来包裹以提升性能。
+
+### [1.0.2] - 2025-10-29
+
+#### Changed
+
+- @ray-js/robot-map 更新到 **0.0.2-beta-32**，修复了若干问题。
+
 ### [1.0.1] - 2025-10-21
 
 #### BREAKING CHANGE

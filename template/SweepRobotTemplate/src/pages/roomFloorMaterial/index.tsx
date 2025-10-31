@@ -39,6 +39,14 @@ const MapEdit: FC = () => {
     return finalRoomProperties.find(room => room.id === selectRoomId)?.floorType ?? 0;
   }, [finalRoomProperties, selectRoomId]);
 
+  const runtime = useMemo(() => {
+    return {
+      enableRoomSelection: true,
+      selectRoomIds: [selectRoomId],
+      showPath: false,
+    };
+  }, [selectRoomId]);
+
   const timerRef = useRef<NodeJS.Timeout>(null);
 
   useEffect(() => {
@@ -139,11 +147,7 @@ const MapEdit: FC = () => {
         </CoverView>
         <WebViewMap
           roomProperties={finalRoomProperties}
-          runtime={{
-            enableRoomSelection: true,
-            selectRoomIds: [selectRoomId],
-            showPath: false,
-          }}
+          runtime={runtime}
           style={{
             position: 'fixed',
             top: 0,

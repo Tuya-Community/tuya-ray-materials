@@ -6,7 +6,7 @@ import { CoverView, Image, router, Text, View } from '@ray-js/ray';
 import { encodeVirtualArea0x38, encodeVirtualWall0x12 } from '@ray-js/robot-protocol';
 import { Grid, GridItem, NavBar } from '@ray-js/smart-ui';
 import { useThrottleFn } from 'ahooks';
-import React, { FC, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import WebViewMap from '@/components/Map/WebViewMap';
 import { MapApi, offsetPointsToAvoidOverlap, VirtualWallParam, ZoneParam } from '@ray-js/robot-map';
 import { nanoid } from '@reduxjs/toolkit';
@@ -30,6 +30,15 @@ const MapEdit: FC = () => {
   const [editingVirtualWallIds, setEditingVirtualWallIds] = useState<string[]>([]);
   const [editingForbiddenMopZoneIds, setEditingForbiddenMopZoneIds] = useState<string[]>([]);
   const [editingForbiddenSweepZoneIds, setEditingForbiddenSweepZoneIds] = useState<string[]>([]);
+
+  const runtime = useMemo(() => {
+    return {
+      editingVirtualWallIds,
+      editingForbiddenMopZoneIds,
+      editingForbiddenSweepZoneIds,
+      showPath: false,
+    };
+  }, [editingVirtualWallIds, editingForbiddenMopZoneIds, editingForbiddenSweepZoneIds]);
 
   /**
    * 取消按钮
@@ -207,12 +216,7 @@ const MapEdit: FC = () => {
         virtualWalls={virtualWalls}
         forbiddenSweepZones={forbiddenSweepZones}
         forbiddenMopZones={forbiddenMopZones}
-        runtime={{
-          editingVirtualWallIds,
-          editingForbiddenMopZoneIds,
-          editingForbiddenSweepZoneIds,
-          showPath: false,
-        }}
+        runtime={runtime}
         onUpdateVirtualWall={handleUpdateVirtualWall}
         onClickVirtualWall={handleClickVirtualWall}
         onRemoveVirtualWall={handleRemoveVirtualWall}

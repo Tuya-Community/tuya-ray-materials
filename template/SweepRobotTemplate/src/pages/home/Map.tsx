@@ -5,7 +5,7 @@ import { useProps } from '@ray-js/panel-sdk';
 import { getStorageSync, getSystemInfoSync } from '@ray-js/ray';
 import { StreamDataNotificationCenter, useP2PDataStream } from '@ray-js/robot-data-stream';
 import log4js from '@ray-js/log4js';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { customizeModeSwitchCode, statusCode } from '@/constant/dpCodes';
 import { useDispatch, useSelector } from 'react-redux';
 import { APP_LOG_TAG, MAP_CONFIG } from '@/constant';
@@ -41,6 +41,17 @@ const Map: React.FC = () => {
   const spots = useSelector(selectMapStateByKey('spots'));
 
   const { imgDialogElement, startVisionImgTask } = useImgDialog({ waitTime: 5000 });
+
+  const runtime = useMemo(() => {
+    return {
+      enableRoomSelection: currentMode === 'select_room',
+      selectRoomIds,
+      editingSpotIds:
+        robotIsNotWorking(dpStatus) && currentMode === 'pose' ? spots.map(spot => spot.id) : [],
+      editingCleanZoneIds,
+      showRoomProperty: dpCustomizeModeSwitch,
+    };
+  }, [currentMode, dpStatus, selectRoomIds, spots, editingCleanZoneIds, dpCustomizeModeSwitch]);
 
   /**
    * 可选参数, 机器人使用视觉识别的缩略概况数据从这里抛出
@@ -214,14 +225,7 @@ const Map: React.FC = () => {
         forbiddenMopZones={forbiddenMopZones}
         cleanZones={cleanZones}
         spots={spots}
-        runtime={{
-          enableRoomSelection: currentMode === 'select_room',
-          selectRoomIds,
-          editingSpotIds:
-            robotIsNotWorking(dpStatus) && currentMode === 'pose' ? spots.map(spot => spot.id) : [],
-          editingCleanZoneIds,
-          showRoomProperty: dpCustomizeModeSwitch,
-        }}
+        runtime={runtime}
         onMapReady={handleMapReady}
         onMapDrawed={handleMapDrawed}
         onClickRoom={handleClickRoom}

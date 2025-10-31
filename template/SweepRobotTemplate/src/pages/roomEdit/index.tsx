@@ -43,7 +43,7 @@ const RoomEdit: FC = () => {
   const [mapApi, setMapApi] = useState<MapApi>();
   const [enableRoomSelection, setEnableRoomSelection] = useState(false);
   const [selectRoomIds, setSelectRoomIds] = useState<number[]>([]);
-  const [dividingRoomId, setDividingRoomId] = useState<number | null>(null);
+  const [dividingRoomId, setDividingRoomId] = useState<number>(-1);
   const [roomEditStatus, setRoomEditStatus] = useState<RoomEditStatus>('normal');
   const [roomSelectionMode, setRoomSelectionMode] = useState<'checkmark' | 'order'>('checkmark');
   const roomProperties = useSelector(selectMapStateByKey('roomProperties'));
@@ -51,6 +51,17 @@ const RoomEdit: FC = () => {
   // 临时的清扫顺序状态
   const [tempCleaningOrder, setTempCleaningOrder] = useState<Record<number, number>>({});
   const [tempName, setTempName] = useState<Record<number, string>>({});
+
+  const runtime = useMemo(() => {
+    return {
+      enableRoomSelection,
+      selectRoomIds,
+      showRoomOrder: true,
+      dividingRoomId,
+      roomSelectionMode,
+      showPath: false,
+    };
+  }, [enableRoomSelection, selectRoomIds, dividingRoomId, roomSelectionMode]);
 
   // 合并原始数据和临时的状态
   const finalRoomProperties = useMemo(() => {
@@ -226,7 +237,7 @@ const RoomEdit: FC = () => {
   const handleNormal = async () => {
     setEnableRoomSelection(false);
     setSelectRoomIds([]);
-    setDividingRoomId(null);
+    setDividingRoomId(-1);
     setTempCleaningOrder({});
     setTempName({});
     setShowMenuBar(true);
@@ -522,14 +533,7 @@ const RoomEdit: FC = () => {
       </CoverView>
       <WebViewMap
         roomProperties={finalRoomProperties}
-        runtime={{
-          enableRoomSelection,
-          selectRoomIds,
-          showRoomOrder: true,
-          dividingRoomId,
-          roomSelectionMode,
-          showPath: false,
-        }}
+        runtime={runtime}
         onMapReady={handleMapReady}
         onMapFirstDrawed={handleMapFirstDrawed}
         onClickRoom={handleClickRoom}

@@ -6,7 +6,7 @@ import { useProps, utils } from '@ray-js/panel-sdk';
 import { Text, View, router } from '@ray-js/ray';
 import { TimerData, decodeDeviceTimer0x31 } from '@ray-js/robot-protocol';
 import { DateTimePicker, Icon, NavBar, Popup } from '@ray-js/smart-ui';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import rightIcon from '@tuya-miniapp/icons/dist/svg/Right';
 import leftIcon from '@tuya-miniapp/icons/dist/svg/Left';
 import { useDeviceTimerList } from '@/hooks/useDeviceTimerList';
@@ -53,6 +53,13 @@ const AddTiming = props => {
   });
 
   const { updateTimer, addTimer } = useDeviceTimerList();
+
+  const runtime = useMemo(() => {
+    return {
+      enableRoomSelection: true,
+      selectRoomIds,
+    };
+  }, [selectRoomIds]);
 
   useEffect(() => {
     if (index > -1) {
@@ -179,13 +186,7 @@ const AddTiming = props => {
           flex: 1,
         }}
       >
-        <RjsMap
-          runtime={{
-            enableRoomSelection: true,
-            selectRoomIds,
-          }}
-          onClickRoom={handleClickRoom}
-        />
+        <RjsMap runtime={runtime} onClickRoom={handleClickRoom} />
       </View>
 
       <Popup

@@ -27,6 +27,15 @@ const CleanPreference: FC = () => {
     return roomProperties.find(room => room.id === selectRoomId);
   }, [roomProperties, selectRoomId]);
 
+  const runtime = useMemo(() => {
+    return {
+      enableRoomSelection: true,
+      selectRoomIds: [selectRoomId],
+      showRoomProperty: true,
+      showPath: false,
+    };
+  }, [selectRoomId]);
+
   useEffect(() => {
     emitter.on('receiveSetRoomPropertyResponse', handleRoomPropertyResponse);
 
@@ -84,12 +93,7 @@ const CleanPreference: FC = () => {
         <NavBar title={Strings.getLang('dsc_preference')} leftArrow onClickLeft={router.back} />
       </CoverView>
       <WebViewMap
-        runtime={{
-          enableRoomSelection: true,
-          selectRoomIds: [selectRoomId],
-          showRoomProperty: true,
-          showPath: false,
-        }}
+        runtime={runtime}
         onClickRoom={handleClickRoom}
         onClickRoomProperties={handleClickRoom}
       />
