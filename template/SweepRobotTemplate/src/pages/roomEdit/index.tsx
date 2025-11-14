@@ -25,7 +25,7 @@ import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
 import WebViewMap from '@/components/Map/WebViewMap';
 
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
-import { MapApi, RoomData } from '@ray-js/robot-map';
+import { DeepPartialRuntimeConfig, MapApi, RoomData } from '@ray-js/robot-map';
 
 import styles from './index.module.less';
 
@@ -52,7 +52,7 @@ const RoomEdit: FC = () => {
   const [tempCleaningOrder, setTempCleaningOrder] = useState<Record<number, number>>({});
   const [tempName, setTempName] = useState<Record<number, string>>({});
 
-  const runtime = useMemo(() => {
+  const runtime = useMemo<DeepPartialRuntimeConfig>(() => {
     return {
       enableRoomSelection,
       selectRoomIds,

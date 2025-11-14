@@ -84,6 +84,12 @@ $ npx serve node_modules/@ray-js/robot-map-sdk/dist-docs
 
 ## Changelog
 
+### [1.0.4] - 2025-11-13
+
+#### Changed
+
+- @ray-js/robot-map 更新到 **0.0.2-beta-49**，修复了若干问题。
+
 ### [1.0.3] - 2025-10-31
 
 #### Changed

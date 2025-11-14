@@ -6,7 +6,7 @@ import { CoverView, Text, View, hideLoading, router, showLoading } from '@ray-js
 import { Dialog, ToastInstance, NavBar, Toast, Icon } from '@ray-js/smart-ui';
 import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
 import WebViewMap from '@/components/Map/WebViewMap';
-import { RoomData } from '@ray-js/robot-map';
+import { DeepPartialRuntimeConfig, RoomData } from '@ray-js/robot-map';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
 import { encodeSetRoomFloorMaterial0x52 } from '@ray-js/robot-protocol';
 import { commandTransCode } from '@/constant/dpCodes';
@@ -39,7 +39,7 @@ const MapEdit: FC = () => {
     return finalRoomProperties.find(room => room.id === selectRoomId)?.floorType ?? 0;
   }, [finalRoomProperties, selectRoomId]);
 
-  const runtime = useMemo(() => {
+  const runtime = useMemo<DeepPartialRuntimeConfig>(() => {
     return {
       enableRoomSelection: true,
       selectRoomIds: [selectRoomId],

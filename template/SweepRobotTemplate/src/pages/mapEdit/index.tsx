@@ -8,7 +8,13 @@ import { Grid, GridItem, NavBar } from '@ray-js/smart-ui';
 import { useThrottleFn } from 'ahooks';
 import React, { FC, useMemo, useState } from 'react';
 import WebViewMap from '@/components/Map/WebViewMap';
-import { MapApi, offsetPointsToAvoidOverlap, VirtualWallParam, ZoneParam } from '@ray-js/robot-map';
+import {
+  DeepPartialRuntimeConfig,
+  MapApi,
+  offsetPointsToAvoidOverlap,
+  VirtualWallParam,
+  ZoneParam,
+} from '@ray-js/robot-map';
 import { nanoid } from '@reduxjs/toolkit';
 import { useActions } from '@ray-js/panel-sdk';
 import { commandTransCode } from '@/constant/dpCodes';
@@ -31,7 +37,7 @@ const MapEdit: FC = () => {
   const [editingForbiddenMopZoneIds, setEditingForbiddenMopZoneIds] = useState<string[]>([]);
   const [editingForbiddenSweepZoneIds, setEditingForbiddenSweepZoneIds] = useState<string[]>([]);
 
-  const runtime = useMemo(() => {
+  const runtime = useMemo<DeepPartialRuntimeConfig>(() => {
     return {
       editingVirtualWallIds,
       editingForbiddenMopZoneIds,

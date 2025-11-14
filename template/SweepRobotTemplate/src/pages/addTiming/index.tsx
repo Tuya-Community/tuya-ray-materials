@@ -12,7 +12,7 @@ import leftIcon from '@tuya-miniapp/icons/dist/svg/Left';
 import { useDeviceTimerList } from '@/hooks/useDeviceTimerList';
 import RjsMap from '@/components/Map/RjsMap';
 import { trim } from 'lodash-es';
-import { RoomData } from '@ray-js/robot-map';
+import { DeepPartialRuntimeConfig, RoomData } from '@ray-js/robot-map';
 
 import { CleanCount } from './components/cleanCount';
 import { CleanRange } from './components/cleanRange';
@@ -54,7 +54,7 @@ const AddTiming = props => {
 
   const { updateTimer, addTimer } = useDeviceTimerList();
 
-  const runtime = useMemo(() => {
+  const runtime = useMemo<DeepPartialRuntimeConfig>(() => {
     return {
       enableRoomSelection: true,
       selectRoomIds,

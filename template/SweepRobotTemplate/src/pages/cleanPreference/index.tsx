@@ -11,7 +11,7 @@ import { PROTOCOL_VERSION } from '@/constant';
 import WebViewMap from '@/components/Map/WebViewMap';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
 import { useSelector } from 'react-redux';
-import { RoomData } from '@ray-js/robot-map';
+import { DeepPartialRuntimeConfig, RoomData } from '@ray-js/robot-map';
 
 import styles from './index.module.less';
 
@@ -27,7 +27,7 @@ const CleanPreference: FC = () => {
     return roomProperties.find(room => room.id === selectRoomId);
   }, [roomProperties, selectRoomId]);
 
-  const runtime = useMemo(() => {
+  const runtime = useMemo<DeepPartialRuntimeConfig>(() => {
     return {
       enableRoomSelection: true,
       selectRoomIds: [selectRoomId],

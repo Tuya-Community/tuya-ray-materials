@@ -15,6 +15,7 @@ import WebViewMap from '@/components/Map/WebViewMap';
 import { merge } from 'lodash-es';
 import {
   DeepPartialAppConfig,
+  DeepPartialRuntimeConfig,
   DetectedObjectParam,
   MapApi,
   MapState,
@@ -42,7 +43,7 @@ const Map: React.FC = () => {
 
   const { imgDialogElement, startVisionImgTask } = useImgDialog({ waitTime: 5000 });
 
-  const runtime = useMemo(() => {
+  const runtime = useMemo<DeepPartialRuntimeConfig>(() => {
     return {
       enableRoomSelection: currentMode === 'select_room',
       selectRoomIds,

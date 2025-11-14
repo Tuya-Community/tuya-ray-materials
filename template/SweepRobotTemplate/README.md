@@ -85,6 +85,12 @@ If you have any questions, please visit the link and submit a post for feedback:
 
 ## Changelog
 
+### [1.0.4] - 2025-11-13
+
+#### Changed
+
+- @ray-js/robot-map updated to **0.0.2-beta-49**, fixed several issues.
+
 ### [1.0.3] - 2025-10-31
 
 #### Changed
