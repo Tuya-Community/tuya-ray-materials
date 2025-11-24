@@ -323,17 +323,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="CircleProgress">2025/07</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/CircleProgress">CircleProgress</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=CircleProgress" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="LampCirclePickerWhite">2025/07</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampCirclePickerWhite">LampCirclePickerWhite</a></td>
   <td>
@@ -747,6 +736,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <img src="./qrCode/template-SweepRobotTemplate.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="CircleProgress">2025/11</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/CircleProgress">CircleProgress</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_oHEKLjj0/component?code=CircleProgress" target="_blank">View Details</a>
   </details>
   </td>
 </tr>

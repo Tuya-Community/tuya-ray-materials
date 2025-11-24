@@ -322,9 +322,10 @@ export default function Home() {
           value={value}
           trackColor="#ef7e85"
           colorList={[
-            { offset: 0, color: '#ddd' },
-            { offset: 1, color: '#ddd' },
+            { offset: 0, color: '#1a202c' },
+            { offset: 1, color: '#7eb4fe' },
           ]}
+          compatibleMode
           thumbColor="#ffffff"
           startDegree={135}
           offsetDegree={270}

@@ -53,12 +53,14 @@ export interface IProps {
   /**
    * @description.zh thumb 滑过区域的背景颜色，V0.1.0 开始支持
    * @description.en The background color of the area where the thumb slides over,Support began in V0.1.0
+   * @version 0.1.0
    * @default ''
    */
   trackColor?: string;
   /**
    * @description.zh thumb 背景色,V0.1.0 开始支持
    * @description.en thumb background,Support began in V0.1.0
+   * @version 0.1.0
    * @default ''
    */
   thumbColor?: string;
@@ -66,18 +68,21 @@ export interface IProps {
   /**
    * @description.zh 是否 thumb 禁用滑动， V0.1.1 开始支持
    * @description.en Whether to disable thumb sliding, Support began in V0.1.1
+   * @version 0.1.1
    * @default false
    */
   disable?: boolean;
   /**
-   * @description zh 兼容模式，某些机型渲染异常时使用， V0.1.2 开始支持
+   * @description.zh 兼容模式，某些机型渲染异常时使用， V0.1.2 开始支持
    * @description.en compatibility mode, when the rendering is abnormal on some models, Support began in V0.1.2
+   * @version 0.1.2
    * @default false
    */
   compatibleMode?: boolean;
   /**
    * @description.zh 禁用时 thumb 背景色, 只支持 rgba 格式 和 hex 格式，不支持 red blue 这种文字颜色， V0.1.1 开始支持
    * @description.en thumb background color when disabled, only supports rgba format and hex format, not supports red blue text color, Support began in V0.1.1
+   * @version 0.1.1
    * @default 'rgba(0, 0, 0, 0.5)'
    */
   disableThumbColor?: string;
@@ -118,12 +123,14 @@ export interface IProps {
   /**
    * @description.en thumb radius (V0.0.12 start support)
    * @description.zh thumb 半径 (V0.0.12 开始支持)
+   * @version 0.0.12
    * @default ringRadius - innerRingRadius
    */
   thumbRadius?: number;
   /**
    * @description.en thumb offset(Set it when thumb is covered) (V0.0.12 start support)
    * @description.zh thumb 展示偏移量（当 thumb 被遮盖时进行设置） (V0.0.12 开始支持)
+   * @version 0.0.12
    * @default 10
    */
   thumbOffset?: number;

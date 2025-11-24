@@ -1,6 +1,6 @@
 {
   "name": "@ray-js/circle-progress",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "通用环形进度条",
   "main": "lib/index",
   "files": [
@@ -23,7 +23,11 @@
     "build:tuya": "ray build ./example",
     "start:tuya": "ray start ./example",
     "prepublishOnly": "yarn build",
-    "release-it": "standard-version"
+    "release-it": "standard-version",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:ci": "jest --ci --coverage --watchAll=false"
   },
   "peerDependencies": {
     "@ray-js/ray": "^1.4.9"
@@ -35,15 +39,17 @@
     "@ray-js/cli": "^1.4.9",
     "@ray-js/panel-sdk": "^1.13.1",
     "@ray-js/ray": "^1.4.9",
+    "@types/jest": "^30.0.0",
+    "@types/jsdom": "^27.0.0",
     "@types/node": "^22.9.0",
     "core-js": "^3.19.1",
     "eslint-config-tuya-panel": "^0.4.2",
     "husky": "^1.2.0",
+    "jest": "^30.2.0",
+    "jsdom": "^27.1.0",
     "lint-staged": "^10.2.11",
-    "standard-version": "9.3.2"
-  },
-  "resolutions": {
-    "@ray-js/builder-mp": "1.4.15"
+    "standard-version": "9.3.2",
+    "ts-jest": "^29.4.5"
   },
   "husky": {
     "hooks": {

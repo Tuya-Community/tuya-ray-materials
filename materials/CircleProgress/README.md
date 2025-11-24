@@ -16,6 +16,8 @@ $ yarn add @ray-js/circle-progress
 
 ## Usage
 
+### Note: If the model does not support the ctx.createConicGradient property, the rendering will be degraded, i.e. there will be no rounded corners at both ends
+
 ### Basic Usage
 
 ```tsx

@@ -16,6 +16,8 @@ $ yarn add @ray-js/circle-progress
 
 ## 使用
 
+### 注意：如果机型不支持 ctx.createConicGradient 属性，则会降级渲染，也即没有两端的圆角效果
+
 ### 基础使用
 
 ```tsx

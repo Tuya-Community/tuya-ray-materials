@@ -8,19 +8,34 @@ export default Render({
 
   // 判断是否是 hex color
   isHexColor(color) {
+    if (typeof color !== 'string') return false;
     const hex = /^#([0-9a-fA-F]{6})$/;
-    return hex.test(color);
+    const halfHex = /^#([0-9a-fA-F]{3})$/;
+    return hex.test(color) || halfHex.test(color);
   },
   // 判断是否是 rgb color
   isRgbColor(color) {
+    if (typeof color !== 'string') return false;
     const rgb = /^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/;
     return rgb.test(color);
   },
   isRgbaColor(color) {
+    if (typeof color !== 'string') return false;
     // rgba 示例 rgba(0, 0, 0, 0.5)
     return color.includes('rgba');
   },
   colorToRgb(color) {
+    // 如果已经是 RGB 对象，直接返回
+    if (
+      typeof color === 'object' &&
+      color !== null &&
+      'r' in color &&
+      'g' in color &&
+      'b' in color
+    ) {
+      return color;
+    }
+
     if (this.isHexColor(color)) {
       return this.hexToRgb(color);
     } else if (this.isRgbColor(color)) {
@@ -28,6 +43,7 @@ export default Render({
     } else if (this.isRgbaColor(color)) {
       return this.rgbaStringToRgb(color);
     }
+    console.warn(color, '【ray-circle-progress】=> Invalid color');
     return {
       r: 0,
       g: 0,
@@ -38,8 +54,14 @@ export default Render({
 
   // hex color to rgb
   hexToRgb(hex) {
+    const hexLen = hex.length;
+    let match = null;
+    if (hexLen === 4) {
+      hex = hex.replace(/^#/, '');
+      hex = '#' + hex.repeat(2);
+    }
     const rgb = /^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/;
-    const match = hex.match(rgb);
+    match = hex.match(rgb);
     if (!match) {
       console.warn(hex, '【ray-circle-progress】=> Invalid hex color');
       return null;
@@ -140,7 +162,8 @@ export default Render({
   setDisable(disable) {
     this.disable = disable;
   },
-  drawRingWithConicGradient(params) {
+  // 使用分段绘制实现渐变色环
+  drawRingWithGradientSegments(params) {
     let {
       startAngle,
       endAngle,
@@ -157,7 +180,7 @@ export default Render({
     // 检查 canvas 和 context
     if (!canvas || !ctx) {
       console.error('【ray-circle-progress】=> canvas or ctx not found');
-      return;
+      return [];
     }
     // 检查角度
     if (
@@ -168,7 +191,7 @@ export default Render({
     ) {
       console.error('【ray-circle-progress】=> startAngle or endAngle is not a number');
       console.log('【ray-circle-progress】=> startAngle:', startAngle, 'endAngle:', endAngle);
-      return;
+      return [];
     }
 
     // 检查半径
@@ -182,13 +205,13 @@ export default Render({
       innerRadius >= outerRadius
     ) {
       console.error('【ray-circle-progress】=> innerRadius or outerRadius is not a number');
-      return;
+      return [];
     }
 
     // 检查颜色数组
     if (!Array.isArray(colorList) || colorList.length < 1) {
       console.error('【ray-circle-progress】=> colors array must contain at least one color');
-      return;
+      return [];
     }
 
     const _colorList = colorList.map(item => item.color);
@@ -213,7 +236,7 @@ export default Render({
         console.error(
           '【ray-circle-progress】=> color object format is not correct. r, g, b values should be between 0-255'
         );
-        return;
+        return [];
       }
     }
     ctx.beginPath();
@@ -241,7 +264,7 @@ export default Render({
     ctx.clip(); // 设置裁剪区域
 
     const steps = Math.abs(offsetDegree);
-    if (steps === 0) return;
+    if (steps === 0) return [];
     let modifyColorList = colorList;
     // 说明是整圆环, 颜色需要修正偏移下
     if (offsetDegree === 360) {
@@ -263,23 +286,169 @@ export default Render({
       ctx.beginPath();
       ctx.moveTo(centerX, centerY);
       ctx.arc(centerX, centerY, outerRadius * scale, startDegree, endDegree, false);
-      const gradient = ctx.createRadialGradient(
-        centerX,
-        centerY,
-        innerRadius * scale,
-        centerX,
-        centerY,
-        outerRadius * scale
-      );
-
       const currentColor = gradientColors[angle];
-      gradient.addColorStop(0, currentColor);
-      gradient.addColorStop(1, currentColor);
-      ctx.fillStyle = gradient;
+      ctx.fillStyle = currentColor;
       ctx.fill();
       ctx.closePath();
     }
+
+    // 返回渐变颜色数组，用于端点绘制
+    return gradientColors;
+  },
+
+  // 绘制圆形端点（实现 lineCap: 'round' 效果）
+  drawRoundEndpoints(params) {
+    const {
+      startAngle,
+      endAngle,
+      innerRadius,
+      outerRadius,
+      ctx,
+      centerX,
+      centerY,
+      gradientColors,
+    } = params;
+
+    if (!gradientColors || gradientColors.length === 0) {
+      return;
+    }
+
+    // 转换为弧度
+    const startAngleRad = (startAngle * Math.PI) / 180;
+    const endAngleRad = (endAngle * Math.PI) / 180;
+
+    // 计算端点半径（色环宽度的一半）
+    const endpointRadius = ((outerRadius - innerRadius) / 2) * scale;
+
+    // 起始端点：绘制半圆，朝向色环外侧（逆时针）
+    ctx.save();
+    ctx.globalCompositeOperation = 'source-over';
+
+    // 起始端点位置（色环中心线上）
+    const startMidRadius = (innerRadius + outerRadius) / 2;
+    const startX = centerX + Math.cos(startAngleRad) * startMidRadius * scale;
+    const startY = centerY + Math.sin(startAngleRad) * startMidRadius * scale;
+
+    // 创建径向渐变（从内到外）
+    const startGradient = ctx.createRadialGradient(
+      centerX,
+      centerY,
+      innerRadius * scale,
+      centerX,
+      centerY,
+      outerRadius * scale
+    );
+
+    // 使用起始颜色
+    const startColor = gradientColors[0] || gradientColors[1];
+    startGradient.addColorStop(0, startColor);
+    startGradient.addColorStop(1, startColor);
+
+    ctx.beginPath();
+    // 半圆：从外侧到内侧（逆时针）
+    ctx.arc(startX, startY, endpointRadius, startAngleRad - Math.PI, startAngleRad, false);
+    ctx.fillStyle = startGradient;
+    ctx.fill();
+    ctx.restore();
+
+    // 结束端点：绘制半圆，朝向色环外侧（顺时针）
+    ctx.save();
+    ctx.globalCompositeOperation = 'source-over';
+
+    // 结束端点位置（色环中心线上）
+    const endMidRadius = (innerRadius + outerRadius) / 2;
+    const endX = centerX + Math.cos(endAngleRad) * endMidRadius * scale;
+    const endY = centerY + Math.sin(endAngleRad) * endMidRadius * scale;
+
+    // 创建径向渐变（从内到外）
+    const endGradient = ctx.createRadialGradient(
+      centerX,
+      centerY,
+      innerRadius * scale,
+      centerX,
+      centerY,
+      outerRadius * scale
+    );
+
+    // 使用结束颜色
+    const endColor =
+      gradientColors[gradientColors.length - 1] || gradientColors[gradientColors.length - 2];
+    endGradient.addColorStop(0, endColor);
+    endGradient.addColorStop(1, endColor);
+
+    ctx.beginPath();
+    // 半圆：从内侧到外侧（顺时针）
+    ctx.arc(endX, endY, endpointRadius, endAngleRad, endAngleRad + Math.PI, false);
+    ctx.fillStyle = endGradient;
+    ctx.fill();
+    ctx.restore();
+  },
+
+  // 降级渲染方法（统一使用此方法）
+  renderAnnulusColorLowRank(id, radius, innerRingRadius, options = {}) {
+    const {
+      startDegree,
+      endDegree,
+      offsetDegree,
+      ringBorderColor,
+      colorList,
+      canvas,
+      ctx,
+      centerX,
+      centerY,
+      lineCap = 'round', // 默认使用圆形端点
+    } = options;
+
+    // 转换颜色格式
+    const convertedColorList = colorList.map(item => {
+      return {
+        offset: item.offset,
+        color: this.colorToRgb(item.color),
+      };
+    });
+
+    // 保存 canvas 状态
+    ctx.save();
+
+    // 绘制主色环（会设置裁剪区域）
+    const gradientColors = this.drawRingWithGradientSegments({
+      startAngle: +startDegree,
+      endAngle: +endDegree,
+      offsetDegree,
+      innerRadius: innerRingRadius,
+      outerRadius: radius,
+      colorList: convertedColorList,
+      canvas,
+      ctx,
+      centerX,
+      centerY,
+      ringBorderColor,
+    });
+
+    // 绘制内圆镂空
     ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, innerRingRadius * scale, 0, 2 * Math.PI);
+    ctx.fillStyle = '#000';
+    ctx.fill();
+    ctx.closePath();
+
+    // 恢复状态（移除裁剪区域限制）
+    ctx.restore();
+
+    // 如果需要圆形端点，在无裁剪限制下绘制
+    if (lineCap === 'round' && gradientColors.length > 0) {
+      this.drawRoundEndpoints({
+        startAngle: +startDegree,
+        endAngle: +endDegree,
+        innerRadius: innerRingRadius,
+        outerRadius: radius,
+        ctx,
+        centerX,
+        centerY,
+        gradientColors,
+      });
+    }
   },
 
   // 环形色盘
@@ -322,79 +491,16 @@ export default Render({
     const ctx = canvas.getContext('2d');
     const poxCenterX = radius * scale;
     const poxCenterY = radius * scale;
-    // 支持 径向渐变 并且不为兼容模式
-    if (ctx.createConicGradient && !compatibleMode) {
-      const startAngle = +((startDegree / 180) * Math.PI).toFixed(4);
-      const endAngle = +((endDegree / 180) * Math.PI).toFixed(4);
-      ctx.beginPath();
-      const arcRadius = innerRingRadius * 2 + (radius - innerRingRadius);
-      ctx.arc(poxCenterX, poxCenterY, arcRadius, startAngle, endAngle);
 
-      const offsetDegree = endDegree - startDegree;
-      // 修正圆弧色彩超出问题
-      const nilArc = 360 - offsetDegree;
-      const fixGradient = nilArc < 180 ? 0.05 * Math.PI : (0.03 / 24) * offsetDegree * Math.PI;
-      const grd = ctx.createConicGradient(+startAngle - +fixGradient, radius * 2, radius * 2);
-      let colorList = options.colorList;
-      if (offsetDegree > 360) {
-        throw new Error(
-          '【ray-circle-progress】=> startDegree + offsetDegree should not greater than 360, please check'
-        );
-      }
-      if (offsetDegree >= 355) {
-        const lastColor = options.colorList[options.colorList.length - 1];
-        lastColor.offset = 0.9;
-        colorList =
-          [
-            ...options.colorList,
-            {
-              offset: 1,
-              color: options.colorList[0].color,
-            },
-          ] || [];
-      }
-      const scaleDegree = offsetDegree / 360;
-      const scaleColorList = colorList.map(item => {
-        return {
-          offset: item.offset * scaleDegree,
-          color: item.color,
-        };
-      });
-      scaleColorList?.forEach(item => {
-        grd.addColorStop(item.offset, item.color);
-      });
-      //设定曲线粗细度
-      ctx.lineWidth = (radius - innerRingRadius) * scale;
-      //给曲线着色
-      ctx.strokeStyle = grd;
-      //连接处样式
-      ctx.lineCap = 'round'; // butt | round | square
-      //给环着色
-      ctx.stroke();
-      ctx.closePath();
-    } else {
-      // 使用 降级方案实现渐变
-      const colorList = options.colorList.map(item => {
-        return {
-          offset: item.offset,
-          color: this.colorToRgb(item.color),
-        };
-      });
-      // 颜色渲染时 按照逆时针渲染，需要按照顺时针渲染， 所以需要反转
-      this.drawRingWithConicGradient({
-        startAngle: +startDegree,
-        endAngle: +endDegree,
-        offsetDegree,
-        innerRadius: innerRingRadius,
-        outerRadius: radius,
-        colorList: colorList,
-        canvas,
-        ctx,
-        centerX: poxCenterX,
-        centerY: poxCenterY,
-        ringBorderColor,
-      });
-    }
+    // 统一使用降级渲染方案，确保所有机型显示一致
+    this.renderAnnulusColorLowRank(id, radius, innerRingRadius, {
+      ...options,
+      canvas,
+      ctx,
+      centerX: poxCenterX,
+      centerY: poxCenterY,
+      lineCap: 'round', // 使用圆形端点
+    });
 
     ctx.scale(scale, scale);
     canvas.style.width = `${diameter}px`;
@@ -563,23 +669,95 @@ export default Render({
 
     const { startDegree, offsetDegree } = options;
     const endDegree = startDegree + offsetDegree;
-    const angle = _angle < 0 ? 360 + +_angle : _angle;
-    // 由于在极致情况下，获取当前位置颜色时 由于精度问题 可能获取不到颜色，所以限制掉
-    if (+angle === +startDegree) {
-      return;
-    }
-    if (+angle === +endDegree) {
-      return;
-    }
+    let angle = _angle < 0 ? 360 + +_angle : _angle;
+
+    // 判断角度是否在有效范围内
     let isValidDegree = angle >= startDegree && angle <= endDegree;
     if (endDegree > 360) {
       const nilArcStart = endDegree - 360;
       const nilArcEnd = startDegree;
       isValidDegree = !(angle >= nilArcStart && angle <= nilArcEnd);
     }
+
+    // 如果角度不在有效范围内，自动吸附到最近的边界
     if (!isValidDegree) {
-      return;
+      // 计算未覆盖区域的中间角度作为分界线
+      let nilArcMiddle;
+
+      if (endDegree > 360) {
+        // 跨越 360° 的情况（例如：startDegree=135°, endDegree=405°）
+        // 覆盖区域：135° - 360° 和 0° - 45°
+        // 未覆盖区域：45° - 135°
+        const normalizedEnd = endDegree - 360;
+        nilArcMiddle = (normalizedEnd + startDegree) / 2;
+      } else {
+        // 正常情况（不跨越 360°）
+        // 例如：startDegree=135°, endDegree=315°
+        // 覆盖区域：135° - 315°
+        // 未覆盖区域：315° - 495°（即 315° - 360° 和 0° - 135°）
+        const nilArcStart = endDegree;
+        const nilArcEnd = startDegree + 360;
+        nilArcMiddle = (nilArcStart + nilArcEnd) / 2;
+        // 归一化到 0-360 范围
+        if (nilArcMiddle >= 360) {
+          nilArcMiddle -= 360;
+        }
+      }
+
+      // 判断当前角度与中间角度的关系
+      let shouldSnapToStart = false;
+
+      if (endDegree > 360) {
+        // 跨越 360° 的情况
+        const normalizedEnd = endDegree - 360;
+        // 当前角度应该在未覆盖区域 [normalizedEnd, startDegree]
+        if (angle < nilArcMiddle) {
+          // 更接近 normalizedEnd（结束位置）
+          shouldSnapToStart = false;
+        } else {
+          // 更接近 startDegree（起始位置）
+          shouldSnapToStart = true;
+        }
+      } else {
+        // 正常情况
+        if (angle < startDegree) {
+          // 角度在起始角度之前（例如 angle=100, startDegree=135）
+          // 需要判断是否小于中间角度
+          if (angle < nilArcMiddle) {
+            // 更接近结束位置
+            shouldSnapToStart = false;
+          } else {
+            // 更接近起始位置
+            shouldSnapToStart = true;
+          }
+        } else if (angle > endDegree) {
+          // 角度在结束角度之后（例如 angle=320, endDegree=315）
+          if (angle < nilArcMiddle) {
+            // 更接近结束位置
+            shouldSnapToStart = false;
+          } else {
+            // 更接近起始位置
+            shouldSnapToStart = true;
+          }
+        }
+      }
+
+      // 吸附到最近的边界，但避免精度问题，稍微偏移 0.1 度
+      if (shouldSnapToStart) {
+        angle = startDegree + 0.1;
+      } else {
+        angle = endDegree - 0.1;
+      }
     }
+
+    // 由于在极致情况下，获取当前位置颜色时 由于精度问题 可能获取不到颜色，所以限制掉
+    if (+angle === +startDegree) {
+      angle = startDegree + 0.1;
+    }
+    if (+angle === +endDegree) {
+      angle = endDegree - 0.1;
+    }
+
     const offsetDis = (radius - innerRingRadius) / 2;
     const xx = Math.cos((angle / 180) * Math.PI) * (radius - offsetDis) + radius;
     const yy = Math.sin((angle / 180) * Math.PI) * (radius - offsetDis) + radius;
@@ -589,11 +767,11 @@ export default Render({
   },
   // 绘制划过区域覆盖层颜色
   drawLayerCircle(options) {
-    const { trackColor, compatibleMode } = this;
+    const { trackColor } = this;
     const { startDegree, endDegree } = options;
-    const { touchCircleStrokeStyle, ringBorderColor, thumbCanvasOffset, thumbRadius } =
-      this.options;
-    const offsetDegree = endDegree - startDegree;
+    const { ringBorderColor } = this.options;
+    let offsetDegree =
+      endDegree < startDegree ? 360 - startDegree + +endDegree : endDegree - startDegree;
     const canvas = this.canvasLayer;
     const { radius, innerRingRadius } = this;
 
@@ -603,89 +781,27 @@ export default Render({
     const ctx = canvas.getContext('2d');
     const poxCenterX = radius * scale;
     const poxCenterY = radius * scale;
-    
-    // 支持 径向渐变
-    if (ctx.createConicGradient && !compatibleMode) {
-      const startAngle = +((startDegree / 180) * Math.PI).toFixed(4);
-      const endAngle = +((endDegree / 180) * Math.PI).toFixed(4);
-      ctx.beginPath();
-      const arcRadius = innerRingRadius * 2 + (radius - innerRingRadius);
-      ctx.arc(poxCenterX, poxCenterY, arcRadius, startAngle, endAngle);
 
-      // 修正圆弧色彩超出问题
-      const nilArc = 360 - offsetDegree;
-      const fixGradient = nilArc < 180 ? 0.05 * Math.PI : (0.03 / 24) * offsetDegree * Math.PI;
-      const grd = ctx.createConicGradient(+startAngle - +fixGradient, radius * 2, radius * 2);
-      const trackColorList = [
-        {
-          color: trackColor,
-          offset: 0,
-        },
-        {
-          color: trackColor,
-          offset: 1,
-        },
-      ];
-      let colorList = trackColor ? trackColorList : this.options.colorList;
-      if (offsetDegree > 360) {
-        throw new Error(
-          '【ray-circle-progress】=> startDegree + offsetDegree should not greater than 360, please check'
-        );
-      }
-      if (offsetDegree >= 355) {
-        const lastColor = this.options.colorList[options.colorList.length - 1];
-        lastColor.offset = 0.9;
-        colorList =
-          [
-            ...this.options.colorList,
-            {
-              offset: 1,
-              color: trackColor || this.options.colorList[0].color,
-            },
-          ] || [];
-      }
+    // 统一使用降级渲染方案
+    const colorList = this.options.colorList.map(item => {
+      return {
+        offset: item.offset,
+        color: this.colorToRgb(trackColor || item.color),
+      };
+    });
 
-      const scaleDegree = offsetDegree / 360;
-      const scaleColorList = colorList.map(item => {
-        return {
-          offset: item.offset * scaleDegree,
-          color: item.color,
-        };
-      });
-      scaleColorList?.forEach(item => {
-        grd.addColorStop(item.offset, item.color);
-      });
-      //设定曲线粗细度
-      ctx.lineWidth = (radius - innerRingRadius) * scale;
-      //给曲线着色
-      ctx.strokeStyle = grd;
-      //连接处样式
-      ctx.lineCap = 'round'; // butt | round | square
-      //给环着色
-      ctx.stroke();
-      ctx.closePath();
-    } else {
-      // 使用 降级方案实现渐变
-      const colorList = this.options.colorList.map(item => {
-        return {
-          offset: item.offset,
-          color: this.colorToRgb(trackColor || item.color),
-        };
-      });
-      this.drawRingWithConicGradient({
-        startAngle: +startDegree,
-        endAngle: +endDegree,
-        offsetDegree,
-        innerRadius: innerRingRadius,
-        outerRadius: radius,
-        colorList: colorList,
-        canvas,
-        ctx,
-        centerX: poxCenterX,
-        centerY: poxCenterY,
-        ringBorderColor,
-      });
-    }
+    this.renderAnnulusColorLowRank('layer', radius, innerRingRadius, {
+      startDegree: +startDegree,
+      endDegree: +endDegree,
+      offsetDegree,
+      ringBorderColor,
+      colorList,
+      canvas,
+      ctx,
+      centerX: poxCenterX,
+      centerY: poxCenterY,
+      lineCap: 'round',
+    });
 
     ctx.scale(scale, scale);
     canvas.style.width = `${diameter}px`;
@@ -702,7 +818,10 @@ export default Render({
     const { changedTouches } = evt;
     const [point] = changedTouches;
     const { top, left } = this.canvasThumb.getBoundingClientRect();
-    const validXY = this.getValidMaxMinRes(point.clientX - (left + this.thumbCanvasOffset), point.clientY - (top + this.thumbCanvasOffset));
+    const validXY = this.getValidMaxMinRes(
+      point.clientX - (left + this.thumbCanvasOffset),
+      point.clientY - (top + this.thumbCanvasOffset)
+    );
     if (!validXY) {
       return;
     }
@@ -723,7 +842,10 @@ export default Render({
     const [point] = changedTouches;
     const { top, left } = this.canvasThumb.getBoundingClientRect();
 
-    const validXY = this.getValidMaxMinRes(point.clientX - (left + this.thumbCanvasOffset), point.clientY - (top + this.thumbCanvasOffset));
+    const validXY = this.getValidMaxMinRes(
+      point.clientX - (left + this.thumbCanvasOffset),
+      point.clientY - (top + this.thumbCanvasOffset)
+    );
     if (!validXY) {
       return;
     }
@@ -743,7 +865,10 @@ export default Render({
     const { changedTouches } = evt;
     const [point] = changedTouches;
     const { top, left } = this.canvasThumb.getBoundingClientRect();
-    const validXY = this.getValidMaxMinRes(point.clientX - (left + this.thumbCanvasOffset), point.clientY - (top + this.thumbCanvasOffset));
+    const validXY = this.getValidMaxMinRes(
+      point.clientX - (left + this.thumbCanvasOffset),
+      point.clientY - (top + this.thumbCanvasOffset)
+    );
     if (!validXY) {
       return;
     }

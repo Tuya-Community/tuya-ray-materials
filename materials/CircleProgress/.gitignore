@@ -111,3 +111,4 @@ lib
 example/src/app.config.ts
 example/src/lib
 typings/
+/.claude
