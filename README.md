@@ -15,17 +15,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="TempHumSenser">2024/11</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/TempHumSenser">TempHumSenser</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-TempHumSenser.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="SphygmometerHealthTemplate">2024/11</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SphygmometerHealthTemplate">SphygmometerHealthTemplate</a></td>
   <td>
@@ -747,6 +736,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <img src="./qrCode/template-PublicSdmTemplate.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="TempHumSenser">2025/11</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/TempHumSenser">TempHumSenser</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-TempHumSenser.png" width="100" height="100">
   </details>
   </td>
 </tr>
