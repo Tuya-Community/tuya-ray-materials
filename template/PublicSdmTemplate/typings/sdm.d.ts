@@ -1,4 +1,3 @@
-import '@ray-js/panel-sdk';
 import { GetStructuredDpState, GetStructuredActions } from '@ray-js/panel-sdk';
 
 /**

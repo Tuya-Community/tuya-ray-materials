@@ -10,7 +10,7 @@ export const defaultSchema = [
     iconname: 'icon-dp_power2',
     id: 1,
     mode: 'rw',
-    name: '开关1',
+    name: 'Switch 1',
     property: {
       type: 'bool',
     },

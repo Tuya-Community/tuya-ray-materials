@@ -4,6 +4,7 @@
   "ownerType": "tuya-official",
   "i18n": false,
   "miniprogramRoot": "./dist/tuya",
+  "projectId": "tyijxdai2dcrdeuwju",
   "dependencies": {
     "BaseKit": "3.0.6",
     "MiniKit": "3.0.0",
@@ -11,7 +12,7 @@
     "BizKit": "3.0.1",
     "HomeKit": "3.0.2"
   },
-  "baseversion": "2.27.3",
+  "baseversion": "2.30.1",
   "devMode": "ray",
   "compileType": "miniprogram",
   "projectname": "通用 SDM 模板",

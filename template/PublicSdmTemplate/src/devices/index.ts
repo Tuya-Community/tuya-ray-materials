@@ -1,6 +1,5 @@
 import { SmartDeviceSchema, SmartGroupSchema } from '@/typings/sdm';
-import { SmartDeviceModel, SmartGroupModel } from '@ray-js/panel-sdk';
-import { createDpKit } from '@ray-js/panel-sdk/lib/sdm/interceptors/dp-kit';
+import { SmartDeviceModel, SmartGroupModel, createDpKit } from '@ray-js/panel-sdk';
 import { getLaunchOptionsSync } from '@ray-js/ray';
 import { protocols } from '@/devices/protocols';
 

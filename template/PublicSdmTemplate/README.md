@@ -46,8 +46,18 @@ If you have any questions, please visit the link and submit post feedback: https
 
 ## 8. Changelog
 
+### [1.2.6] - 2025-11-27
+
+- Package size optimization, removed redundant code, SmartUI on-demand loading, etc.
+- Added darkmode configuration, defaults to follow App theme color
+- Update `@ray-js/ray` version to `1.7.55`
+- Update `@ray-js/ray-error-catch` version to `0.0.26`
+- Update `@ray-js/panel-sdk` version to `1.14.1`
+- Update `@ray-js/smart-ui` version to `2.7.2`
+
 ### [1.2.5] - 2025-07-29
 
+- Fix some type issues
 - Update `@ray-js/ray` version to `1.7.24`
 - Update `@ray-js/smart-ui` version to `2.5.1`
 - Rename `options` to `deviceOptions` and add `groupOptions` for clarity in device and group model configuration

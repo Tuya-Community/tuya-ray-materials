@@ -1,7 +1,6 @@
 /* eslint-disable import/no-duplicates */
 import React from 'react';
 import '@/i18n';
-import '@/res/iconfont/iconfont.css';
 import './app.less';
 import { SdmProvider } from '@ray-js/panel-sdk';
 import { initPanelEnvironment } from '@ray-js/ray';

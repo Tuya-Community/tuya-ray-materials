@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getSystemInfoSync } from '@ray-js/ray';
+import { getCachedSystemInfo } from '@/api/getCachedSystemInfo';
 import { ReduxState } from '..';
 
-type SystemInfo = ReturnType<typeof getSystemInfoSync>;
+type SystemInfo = ReturnType<typeof getCachedSystemInfo>;
 type SystemInfoKey = keyof SystemInfo;
 
 /**

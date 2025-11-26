@@ -1,3 +1,5 @@
+// 若无需跟随 App 主题变量，使用小程序自身的深浅色模式变量定义
+// 可参考如下代码示例及对应文档 https://developer.tuya.com/cn/miniapp/develop/ray/guide/theme/css
 :root {
   /* 首页样式 */
   --index-main-bg: #FFFFFF; // 页面底色
@@ -5,11 +7,6 @@
   --index-title-color: #000000E5; // title字体色
   --index-footer-bar-bg: #FFFFFF; // 底部操作栏底色
   --index-icon-color: rgba(0, 0, 0, 0.5); // 图标颜色
-
-  // 字体图标
-  .iconfont {
-    margin: 0 !important;
-  }
 }
 
 :root[theme='dark'] {

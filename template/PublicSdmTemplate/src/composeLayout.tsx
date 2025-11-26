@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { getSystemInfoSync } from '@ray-js/ray';
 import { devices, dpKit } from './devices';
 import { updateThemeType } from './redux/modules/themeSlice';
 import { initializeSystemInfo } from './redux/modules/systemInfoSlice';
+import { getCachedSystemInfo } from './api/getCachedSystemInfo';
 import store from './redux';
 import './styles/index.less';
 
@@ -24,7 +24,7 @@ const composeLayout = (SubComp: React.ComponentType<any>) => {
       console.log('=== App onLaunch', object);
       devices.common.init();
       devices.common.onInitialized(device => dpKit.init(device));
-      const systemInfo = getSystemInfoSync();
+      const systemInfo = getCachedSystemInfo();
       const { theme } = systemInfo;
 
       dispatch(initializeSystemInfo(systemInfo));
