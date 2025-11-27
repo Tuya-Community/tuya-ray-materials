@@ -1,0 +1,7 @@
+.DS_Store
+node_modules
+.ray
+dist
+
+typings/tuya-miniapp_**
+typings/tuya_miniapp_**

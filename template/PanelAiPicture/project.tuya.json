@@ -1,0 +1,21 @@
+{
+  "name": "AI 图像优化模板",
+  "type": "panel-app",
+  "ownerType": "tuya-official",
+  "i18n": false,
+  "miniprogramRoot": "./dist/tuya",
+  "publicRoot": "./cdn",
+  "dependencies": {
+    "BaseKit": "3.0.6",
+    "MiniKit": "3.0.0",
+    "DeviceKit": "3.0.0",
+    "BizKit": "3.0.1",
+    "HomeKit": "3.0.2",
+    "AIKit": "1.4.3"
+  },
+  "baseversion": "2.27.3",
+  "devMode": "ray",
+  "compileType": "miniprogram",
+  "projectname": "AI 图像优化",
+  "description": ""
+}
