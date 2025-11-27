@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { DpState, useSupport } from '@ray-js/panel-sdk';
 import { useCreation } from 'ahooks';
 import { lampSchemaMap } from '@/devices/schema';
@@ -68,13 +68,6 @@ export const Dimmer = React.memo((props: IProps) => {
   } = props;
 
   const support = useSupport();
-
-  // 如果模式不在调光，自动切成白/彩光
-  useEffect(() => {
-    if (!workModeTabs.includes(mode)) {
-      onModeChange(workModeTabs[0]);
-    }
-  }, [mode]);
 
   // 根据支持的路数生成 tabBar
   const workModeTabs = useCreation(() => {

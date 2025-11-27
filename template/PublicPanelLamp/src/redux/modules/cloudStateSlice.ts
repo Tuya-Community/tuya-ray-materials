@@ -6,24 +6,25 @@ import { ReduxState } from '..';
 import { CLOUD_DATA_KEYS_MAP } from '@/constant';
 import { devices } from '@/devices';
 import Strings from '@/i18n';
-
-type CollectColors = Array<{
-  hue?: number;
-  saturation?: number;
-  value?: number;
-  temperature?: number;
-  brightness?: number;
-}>;
+export interface ColourCustom {
+  hue: number;
+  saturation: number;
+  value: number;
+}
+export interface WhiteCustom {
+  brightness: number;
+  temperature: number;
+}
 
 type CloudState = {
   /**
    * 收藏的彩光颜色列表
    */
-  collectColors: Array<{ hue: number; saturation: number; value: number }>;
+  collectColors: Array<Partial<ColourCustom>>;
   /**
    * 收藏的白光颜色列表
    */
-  collectWhites: Array<{ temperature: number; brightness: number }>;
+  collectWhites: Array<Partial<WhiteCustom>>;
 };
 
 /**
@@ -68,9 +69,9 @@ export const selectCollectColors = createSelector(
   ],
   (collectWhites, collectColors, isColor) => {
     const isSupportTemp = devices.lamp.model.abilities.support.isSupportTemp();
-    if (isColor) return collectColors as CollectColors;
-    if (isSupportTemp) return collectWhites as CollectColors;
-    return config.defaultWhiteC as CollectColors;
+    if (isColor) return collectColors as Partial<ColourCustom>[];
+    if (isSupportTemp) return collectWhites as Partial<WhiteCustom>[];
+    return config.defaultWhiteC as Partial<WhiteCustom>[];
   }
 );
 

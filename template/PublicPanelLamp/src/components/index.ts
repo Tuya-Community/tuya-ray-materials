@@ -1,4 +1,3 @@
-export { Stepper } from './Stepper';
 export { TabBar } from './TabBar';
 export { ControlBar } from './ControlBar';
 export { CollectColors } from './CollectColors';

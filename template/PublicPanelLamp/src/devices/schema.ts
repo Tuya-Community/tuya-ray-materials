@@ -413,6 +413,24 @@ export const lampSchema = [
     },
     type: 'raw',
   },
+  {
+    attr: 128,
+    canTrigger: true,
+    code: 'dreamlight_scene_mode',
+    defaultRecommend: false,
+    editPermission: false,
+    executable: true,
+    extContent: '',
+    iconname: 'icon-dp_time3',
+    id: 210,
+    mode: 'rw',
+    name: '幻彩情景',
+    property: {
+      type: 'raw',
+      maxlen: 255,
+    },
+    type: 'raw',
+  },
 ] as const;
 
 export const lampSchemaMap = keyBy(lampSchema, 'code') as GetSmartDeviceModelDpSchema<

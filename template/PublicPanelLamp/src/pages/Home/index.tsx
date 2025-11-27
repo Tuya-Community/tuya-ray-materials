@@ -16,8 +16,12 @@ import { getCachedSystemInfo } from '@/api/getCachedSystemInfo';
 import { devices } from '@/devices';
 import Strings from '@/i18n';
 import { openScheduleFunctional } from '@/utils/openScheduleFunctional';
-import { openRhythmFunctional } from '@/utils/openRhythmFunctional';
 import { Box } from '@/components/Box';
+import { useSelector } from 'react-redux';
+import { selectCollectColors } from '@/redux/modules/cloudStateSlice';
+import { ReduxState } from '@/redux';
+import { openPowerMemoryFunctional } from '@/utils/openPowerMemoryFunctional';
+import { NavBar } from '@ray-js/smart-ui';
 import styles from './index.module.less';
 
 const {
@@ -29,7 +33,6 @@ const {
   colour_data,
   power_memory,
   do_not_disturb,
-  rhythm_mode,
 } = lampSchemaMap;
 
 const HeaderHeight = 59;
@@ -39,6 +42,8 @@ const sysInfo = getCachedSystemInfo();
 export function Home() {
   const support = useSupport();
   const deviceName = useDevice(d => d.devInfo.name);
+  const deviceId = useDevice(d => d.devInfo.devId);
+  const groupId = useDevice(d => d.devInfo.groupId);
   const [scrollEnabled, setScrollEnabled] = useState(true);
   const dpActions = useActions();
   const dpStructuredActions = useStructuredActions();
@@ -47,19 +52,31 @@ export function Home() {
   const temperature = useProps(props => props.temp_value);
   const power = useProps(props => props.switch_led);
   const workMode = useProps(props => props.work_mode);
+  const collectColors = useSelector((state: ReduxState) => selectCollectColors(state, true));
+  const collectWhites = useSelector((state: ReduxState) => selectCollectColors(state, false));
 
   const moreFuncs = useCreation(() => {
     const isGroupDevice = support.isGroupDevice();
     return [
       {
-        code: 'powerMemory',
+        code: 'powerMemory', // 断电记忆
         hidden: !support.isSupportDp(power_memory.code) || isGroupDevice,
         disabled: !power,
+        onClick: () => {
+          openPowerMemoryFunctional(collectColors, collectWhites);
+        },
       },
       {
-        code: 'doNotDisturb',
+        code: 'doNotDisturb', // 停电勿扰
         hidden: !support.isSupportDp(do_not_disturb.code) || isGroupDevice,
         disabled: !power,
+        onClick: () => {
+          const jumpUrl = `functional://LampNoDisturbFunctional/home?deviceId=${deviceId ||
+            ''}&groupId=${groupId || ''}&activeColor=rgb(16, 130, 254)`;
+          ty.navigateTo({
+            url: jumpUrl,
+          });
+        },
       },
       {
         code: 'switchGradient',
@@ -69,6 +86,13 @@ export function Home() {
             !support.isSupportDp(colour_gradi_time.code)) ||
           isGroupDevice,
         disabled: !power,
+        onClick: () => {
+          const jumpUrl = `functional://LampMutationFunctional/home?deviceId=${deviceId ||
+            ''}&groupId=${groupId || ''}`;
+          ty.navigateTo({
+            url: jumpUrl,
+          });
+        },
       },
       {
         code: 'schedule',
@@ -76,14 +100,8 @@ export function Home() {
         onClick: openScheduleFunctional,
         disabled: false,
       },
-      {
-        code: 'bioRhythm',
-        hidden: !support.isSupportDp(rhythm_mode.code) || isGroupDevice,
-        onClick: openRhythmFunctional,
-        disabled: !power,
-      },
     ].filter(item => !item.hidden);
-  }, [power]);
+  }, [power, groupId, deviceId, collectColors, collectWhites]);
 
   const handleChangeTab = React.useCallback((val: string) => {
     // 切换tab,对应下发工作模式
@@ -149,15 +167,15 @@ export function Home() {
   }, [moreFuncs]);
 
   return (
-    <View className={styles.view} style={{ paddingTop: `${sysInfo.statusBarHeight}px` }}>
+    <View className={styles.view}>
       {/* 根据开关显示不同的页面状态 */}
-      <View className={styles.devName}>{deviceName}</View>
-
+      <NavBar leftTextType="title" leftText={deviceName} />
       <ScrollView
         scrollY={scrollEnabled}
         refresherTriggered
         style={{
           height: `calc(100vh - ${HeaderHeight}px - ${ControlBar.height}px - ${sysInfo.statusBarHeight}px)`,
+          marginTop: '32rpx',
         }}
       >
         <Dimmer

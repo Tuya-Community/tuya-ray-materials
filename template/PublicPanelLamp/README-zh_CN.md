@@ -1,4 +1,4 @@
-[English](README.md) | 简体中文[](README_zh.md)
+[English](./README.md) | 简体中文
 
 ## 照明光源模板
 
@@ -25,8 +25,7 @@
   - baseversion: 2.15.6
 - 功能页依赖
   - 设备详情功能页：settings => 'tycryc71qaug8at6yt'
-  - 定时倒计时功能页：rayScheduleFunctional => 'tyjks565yccrej3xvo'
-  - 生物节律功能页：rayRhythmFunctional => 'ty53odnmk2cxnzcxm6'
+  - 定时倒计时生物节律功能页：LampScheduleSetFunction => 'ty56cr7pi6rxiucspo'
   - 酷玩吧功能页：rayPlayCoolFunctional => 'tyg0szxsm3vog8nf6n'
 
 ## 4. 面板功能
@@ -55,6 +54,15 @@
 [许可详情](LICENSE)
 
 ## 8. 更新日志
+
+### [1.4.1] - 2025-11-27
+
+- 优化模版，接入 SmartUI 按需引入、骨架屏、升级依赖、图片压缩；修复@ray-js/components-ty-lamp 组件库全量引入问题
+
+### [1.4.0] - 2025-03-26
+
+- 修改 `断电记忆`、`停电勿扰`、`开关渐变`使用功能页方式接入
+- 迭代酷玩情景库打开方式，适配新版本`酷玩情景库功能页`
 
 ### [1.2.1] - 2024-12-17
 

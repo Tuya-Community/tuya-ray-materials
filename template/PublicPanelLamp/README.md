@@ -1,4 +1,4 @@
-English[](README.md) | [简体中文](README_zh.md)
+[简体中文](./README-zh_CN.md) | English
 
 ## Lighting Source Template
 
@@ -23,8 +23,7 @@ Before using this template, you need to have a basic understanding of the Ray fr
   - baseversion: 2.15.6
 - Function page dependency
   - Device Detail Functional Page: settings => 'tycryc71qaug8at6yt'
-  - Timer Countdown Functional Page: rayScheduleFunctional => 'tyjks565yccrej3xvo'
-  - Biological Rhythm Functional Page: rayRhythmFunctional => 'ty53odnmk2cxnzcxm6'
+  - Timer Countdown Biological Rhythm Functional Page: LampScheduleSetFunction => 'ty56cr7pi6rxiucspo'
   - Cool Play Bar Functional Page: rayPlayCoolFunctional => 'tyg0szxsm3vog8nf6n'
 
 ## 4. Panel function
@@ -53,6 +52,15 @@ If you have any questions, please visit the link and submit post feedback: https
 [License details](LICENSE)
 
 ## 8. Changelog
+
+### [1.4.1] - 2025-11-27
+
+- Optimize the template, integrate SmartUI for on-demand loading, skeleton screen, upgrade dependencies, image compression; fix the issue with the full import of @ray-js/components-ty-lamp component library.
+
+### [1.4.0] - 2025-03-26
+
+- Modify the `Power Outage Memory`, `Do Not Disturb During Power Outage`, `Switch Gradient` to use the function page access method
+- Iterate the way of opening the Cool Play Scene Library, adapting to the new version of the `Cool Play Scene Library Function Page`
 
 ### [1.2.1] - 2024-12-17
 

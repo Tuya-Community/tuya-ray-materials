@@ -1,25 +1,41 @@
-import { navigateTo } from '@ray-js/ray';
-import { devices } from '@/devices';
 import { getCachedLaunchOptions } from '@/api/getCachedLaunchOptions';
-import { lampSchemaMap } from '@/devices/schema';
+import { navigateTo } from '@ray-js/ray';
 
 const { deviceId, groupId } = getCachedLaunchOptions()?.query ?? {};
 
+// 存储功能页数据Promise化
+export const presetFunctionalData = (url: string, data: Record<string, any>): Promise<boolean> => {
+  return new Promise((resolve, reject) => {
+    // @ts-ignore
+    ty.presetFunctionalData({
+      url,
+      data,
+      success: () => resolve(true),
+      fail: err => reject(err),
+    });
+  });
+};
+
 export const openScheduleFunctional = async () => {
-  const { support } = devices.lamp.model.abilities;
-  const supportCountdown = support.isSupportDp(lampSchemaMap.countdown.code);
-  const supportCloudTimer = support.isSupportCloudTimer();
-  const supportRctTimer = false;
-  const url = `functional://rayScheduleFunctional/home?deviceId=${deviceId ||
-    ''}&groupId=${groupId ||
-    ''}&cloudTimer=${supportCloudTimer}&rtcTimer=${supportRctTimer}&countdown=${supportCountdown}`;
+  const extraData = {
+    rhythmsType: 1,
+    cloudTimerCategory: 'category_timer',
+    themeConfig: {
+      themeType: 'dark',
+    },
+    normalTimerAdvances: {
+      remarks: true,
+      notice: true,
+    },
+  };
+
+  const jumpUrl = `functional://LampScheduleSetFunction/home?deviceId=${deviceId ||
+    ''}&groupId=${groupId || ''}`;
+
+  await presetFunctionalData(jumpUrl, extraData);
+
   navigateTo({
-    url,
-    success(e) {
-      console.log('navigateTo openScheduleFunctional success', e);
-    },
-    fail(e) {
-      console.log('navigateTo openScheduleFunctional fail', e);
-    },
+    url: jumpUrl,
+    fail: err => console.warn(err),
   });
 };

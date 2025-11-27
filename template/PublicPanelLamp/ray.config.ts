@@ -1,4 +1,11 @@
+import SmartUIAutoImport from '@ray-js/smart-ui/lib/auto-import';
+
 const config = {
-  resolveAlias: {},
+  resolveAlias: {
+    lodash: 'lodash-es',
+    moment: 'dayjs',
+  },
+  importTransformer: [SmartUIAutoImport],
 };
-module.exports = config;
+
+export default config;

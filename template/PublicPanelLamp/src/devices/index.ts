@@ -23,9 +23,6 @@ const isGroupDevice = !!groupId;
 const options = {
   abilities: [new SmartSupportAbility(), new SmartStorageAbility()],
   interceptors: dpKit.interceptors,
-  // logConfig: {
-  //   level: 'VERBOSE' as const,
-  // },
 };
 
 export const devices = {

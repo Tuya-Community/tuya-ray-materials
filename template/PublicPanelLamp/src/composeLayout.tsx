@@ -5,7 +5,6 @@ import store from '@/redux';
 import { devices, dpKit } from '@/devices';
 import { utils } from '@ray-js/panel-sdk';
 import defaultConfig from '@/config/default';
-// import { initCloudDataAsync } from './redux/modules/cloudStateSlice';
 import { initCloud } from './redux/modules/cloudStateSlice';
 import './styles/index.less';
 import { CLOUD_DATA_KEYS_MAP } from './constant';
@@ -50,7 +49,7 @@ const composeLayout = (Comp: React.ComponentType<any>) => {
           data.forEach((v, i) => {
             const storageKey = storageKeys[i];
             if (v) {
-              const value = utils.parseJSON(v);
+              const value = utils.parseJSON((v as unknown) as string);
               // @ts-ignore TODO: fix typing
               cloudData[storageKey] = value?.data?.value;
             }

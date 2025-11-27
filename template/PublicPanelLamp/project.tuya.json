@@ -4,16 +4,16 @@
   "ownerType": "panel-lamp",
   "devMode": "ray",
   "i18n": true,
-  "description": "",
+  "description": "照明光源模板",
   "miniprogramRoot": "./dist/tuya",
   "dependencies": {
-    "BaseKit": "3.3.13",
-    "MiniKit": "3.1.0",
-    "BizKit": "3.3.1",
-    "DeviceKit": "3.4.0",
-    "MediaKit": "3.2.0"
+    "BaseKit": "3.0.6",
+    "MiniKit": "3.0.7",
+    "BizKit": "4.2.0",
+    "DeviceKit": "4.0.8"
   },
   "projectname": "照明光源模板",
-  "baseversion": "2.15.6",
-  "compileType": "miniprogram"
+  "baseversion": "2.30.2",
+  "compileType": "miniprogram",
+  "projectId": "tykna6vqwljcmzbb0x"
 }

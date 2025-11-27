@@ -3,11 +3,9 @@ import React, { useMemo } from 'react';
 import { View, Text } from '@ray-js/ray';
 import { useStructuredProps, useSupport } from '@ray-js/panel-sdk';
 import { useThrottleFn } from 'ahooks';
-import {
-  LampColorSlider,
-  LampSaturationSlider,
-  LampBrightSlider,
-} from '@ray-js/components-ty-lamp';
+import LampColorSlider from '@ray-js/lamp-color-slider';
+import LampSaturationSlider from '@ray-js/lamp-saturation-slider';
+import LampBrightSlider from '@ray-js/lamp-bright-slider';
 import Strings from '@/i18n';
 import { lampSchemaMap } from '@/devices/schema';
 import styles from './index.module.less';
