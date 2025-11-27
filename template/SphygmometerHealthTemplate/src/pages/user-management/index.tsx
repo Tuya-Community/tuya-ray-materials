@@ -1,8 +1,7 @@
-import { FC, useState } from 'react';
-import { utils } from '@ray-js/panel-sdk';
 import { Image, router, ScrollView, showToast, Text, usePageEvent, View } from '@ray-js/ray';
 import { Button, Checkbox } from '@ray-js/smart-ui';
 import moment from 'moment';
+import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { PageWrapper, TouchableOpacity, UserAvator } from '@/components';
@@ -70,8 +69,7 @@ const UserManagement: FC = () => {
           heightUnit: targetHeightUnit,
         })
       );
-      const query = utils.stringifyJSON({ type: 'add' });
-      router.push(`/userInformationEdit?params=${query}`);
+      router.push(`/userInformationEdit?type=add`);
     } else {
       showToast({ title: Strings.getLang('dsc_onlyTen'), icon: 'error' });
     }
@@ -106,8 +104,7 @@ const UserManagement: FC = () => {
         userTypeCode: userType > 20 ? userTypeCode : '', // userType > 20 代表 dp 配置的用户
       })
     );
-    const query = utils.stringifyJSON({ type: 'edit', userId: id });
-    router.push(`/userInformationEdit?params=${query}`);
+    router.push(`/userInformationEdit?type=edit&userId=${id}`);
   };
 
   return (

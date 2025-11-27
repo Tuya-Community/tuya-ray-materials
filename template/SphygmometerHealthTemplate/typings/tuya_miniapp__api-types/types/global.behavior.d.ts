@@ -4,7 +4,7 @@ declare namespace SmartMiniprogram.Behavior {
     TData extends DataOption,
     TProperty extends PropertyOption,
     TMethod extends MethodOption,
-    TCustomInstanceProperty extends IAnyObject = Record<string, never>
+    TCustomInstanceProperty extends IAnyObject = Record<string, never>,
   > = Component.Instance<TData, TProperty, TMethod, TCustomInstanceProperty>;
   type TrivialInstance = Instance<IAnyObject, IAnyObject, IAnyObject>;
   type TrivialOption = Options<IAnyObject, IAnyObject, IAnyObject>;
@@ -12,7 +12,7 @@ declare namespace SmartMiniprogram.Behavior {
     TData extends DataOption,
     TProperty extends PropertyOption,
     TMethod extends MethodOption,
-    TCustomInstanceProperty extends IAnyObject = Record<string, never>
+    TCustomInstanceProperty extends IAnyObject = Record<string, never>,
   > = Partial<Data<TData>> &
     Partial<Property<TProperty>> &
     Partial<Method<TMethod>> &
@@ -25,9 +25,9 @@ declare namespace SmartMiniprogram.Behavior {
       TData extends DataOption,
       TProperty extends PropertyOption,
       TMethod extends MethodOption,
-      TCustomInstanceProperty extends IAnyObject = Record<string, never>
+      TCustomInstanceProperty extends IAnyObject = Record<string, never>,
     >(
-      options: Options<TData, TProperty, TMethod, TCustomInstanceProperty>
+      options: Options<TData, TProperty, TMethod, TCustomInstanceProperty>,
     ): BehaviorIdentifier;
   }
 
@@ -43,5 +43,5 @@ declare namespace SmartMiniprogram.Behavior {
 
   type OtherOption = Omit<Component.OtherOption, 'options'>;
 }
-/** 注册一个 `behavior`，接受一个 `Object` 类型的参数。*/
+
 declare let Behavior: SmartMiniprogram.Behavior.Constructor;

@@ -1,12 +1,12 @@
-/// <reference path="./global.d.ts" />
-/// <reference path="./global.system.d.ts" />
-/// <reference path="./global.component.d.ts" />
-/// <reference path="./global.page.d.ts" />
-/// <reference path="./global.widget.d.ts" />
-/// <reference path="./global.app.d.ts" />
-/// <reference path="./global.behavior.d.ts" />
-/// <reference path="./global.render.d.ts" />
-/// <reference path="./panel.d.ts" />
+
+
+
+
+
+
+
+
+
 
 declare namespace SmartMiniprogram {
   type IAnyObject = Record<string, any>;
@@ -31,10 +31,10 @@ declare namespace SmartMiniprogram {
   }
     ? void
     : P extends { fail: any }
-    ? void
-    : P extends { complete: any }
-    ? void
-    : Promise<Parameters<Exclude<T['success'], undefined>>[0]>;
+      ? void
+      : P extends { complete: any }
+        ? void
+        : Promise<Parameters<Exclude<T['success'], undefined>>[0]>;
 
   type RequestResult = { data: any };
   type RequestError = {
@@ -43,9 +43,7 @@ declare namespace SmartMiniprogram {
     innerError: { errorCode: string | number; errorMsg: string };
   };
 
-  /**
-   * 异步回调方法的通用阐述
-   */
+  
   type AsyncApiOptions<S, F extends GeneralCallbackResult = GeneralCallbackResult> = {
     success?: (res: S) => void;
     fail?: (res: F) => void;

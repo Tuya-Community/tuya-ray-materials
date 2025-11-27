@@ -1,4 +1,3 @@
-import { utils } from '@ray-js/panel-sdk';
 import { router, ScrollView, showModal, View } from '@ray-js/ray';
 import { Divider, Overlay } from '@ray-js/smart-ui';
 import clsx from 'clsx';
@@ -133,8 +132,7 @@ const SwitchUser = ({ show, onHide, setErrorShow }: Props) => {
                 userTypeCode: userList[idx]?.userType > 20 ? userList[idx].userTypeCode : '',
               })
             );
-            const query = utils.stringifyJSON({ type: 'edit', userId: userList[idx]?.id });
-            router.push(`/userInformationEdit?params=${query}`);
+            router.push(`/userInformationEdit?type=edit&userId=${userList[idx]?.id}`);
           }
         },
       });
@@ -165,8 +163,7 @@ const SwitchUser = ({ show, onHide, setErrorShow }: Props) => {
           heightUnit: targetHeightUnit,
         })
       );
-      const query = utils.stringifyJSON({ type: 'add' });
-      router.push(`/userInformationEdit?params=${query}`);
+      router.push(`/userInformationEdit?type=add`);
     } else {
       setErrorShow();
     }

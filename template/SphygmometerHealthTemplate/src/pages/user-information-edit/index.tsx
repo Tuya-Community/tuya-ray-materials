@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
 import { useDevice, utils } from '@ray-js/panel-sdk';
 import { Image, router, ScrollView, showToast, View } from '@ray-js/ray';
 import { Button, Dialog, DialogInstance } from '@ray-js/smart-ui';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { SingleInformation, Text, TouchableOpacity, UserAvator } from '@/components';
@@ -31,7 +31,9 @@ const UserInformationEdit = (props: Props) => {
   const { userSetCode } = dpCodes;
   const ishaveUserSet = checkDpExist(userSetCode);
 
-  const { type, userId } = utils.parseJSON(props.location.query?.params) as any;
+  const { type, userId } = props.location.query ?? {};
+
+  console.log(props.location.query);
   const defaultUserInfo = {
     avatar: '',
     userName: '',

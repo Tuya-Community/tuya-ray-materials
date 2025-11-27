@@ -12,7 +12,7 @@
     "DeviceKit": "4.8.0",
     "BizKit": "3.0.6"
   },
-  "baseversion": "2.23.0",
+  "baseversion": "2.30.2",
   "projectname": "健康小程序模版",
   "devMode": "ray",
   "compileType": "miniprogram",

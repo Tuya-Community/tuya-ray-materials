@@ -1,7 +1,6 @@
-import { FC } from 'react';
-import { stringifyJSON } from '@ray-js/panel-sdk/lib/utils';
 import { Image, router, View } from '@ray-js/ray';
 import { SwipeCell } from '@ray-js/smart-ui';
+import { FC } from 'react';
 
 import DataModule from '@/components/DataModule';
 import { deleteRecord } from '@/redux/action';
@@ -29,7 +28,7 @@ const SingleDataItem: FC<Props> = ({ item }) => {
         <TouchableOpacity
           activeOpacity={0.9}
           onClick={() => {
-            router.push(`/editData?singleData=${stringifyJSON(item)}`);
+            router.push(`/editData?${new URLSearchParams(item).toString()}`);
           }}
         >
           <DataModule {...item} />

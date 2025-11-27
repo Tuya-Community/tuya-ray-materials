@@ -1,8 +1,7 @@
-import { FC, useState } from 'react';
-import { parseJSON } from '@ray-js/panel-sdk/lib/utils';
 import { router, ScrollView, showToast, View } from '@ray-js/ray';
 import { Button, Field } from '@ray-js/smart-ui';
 import moment from 'moment';
+import { FC, useState } from 'react';
 
 import { ColorBar, PageWrapper, Text, TouchableOpacity, WHOTable } from '@/components';
 import EditDataTopBar from '@/components/TopBar/EditDataTopBar';
@@ -42,7 +41,7 @@ const EditData: FC<Props> = props => {
   const filterRemark = useSelector(({ uiState }) => uiState.filterRemark);
   const themeColor = useSelector(({ uiState }) => uiState.themeColor);
 
-  const singleData: any = parseJSON(props.location.query?.singleData) || {};
+  const singleData: any = props.location.query || {};
 
   console.log('===', singleData);
 
@@ -50,8 +49,13 @@ const EditData: FC<Props> = props => {
 
   const onPressComfirm = async () => {
     setLoading(true);
-    await addRemark(singleData?.uuid ?? '', remarkText);
-    await getFiltedDataList(0, true, filterBp, filterRemark, type);
+    try {
+      await addRemark(singleData?.uuid ?? '', remarkText);
+      await getFiltedDataList(0, true, filterBp, filterRemark, type);
+    } catch (error) {
+      console.error('Error adding remark:', error);
+    }
+
     setLoading(false);
     router.back();
   };
@@ -63,7 +67,9 @@ const EditData: FC<Props> = props => {
         <ScrollView scrollY className={styles.content}>
           <View className={styles.subContainer}>
             <View className={styles.dataBox}>
-              <Text className={styles.timer}>{moment(singleData.time).format('YYYY.MM.DD')}</Text>
+              <Text className={styles.timer}>
+                {moment(Number(singleData.time)).format('YYYY.MM.DD')}
+              </Text>
               <View className={styles.threeValueBox}>
                 {bpMapSource.map((item: ITEM) => (
                   <View className={styles.itemBox} key={item}>

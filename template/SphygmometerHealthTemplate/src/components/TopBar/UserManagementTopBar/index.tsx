@@ -1,6 +1,6 @@
-import { FC, useRef } from 'react';
-import { useActions, useProps, utils } from '@ray-js/panel-sdk';
+import { useActions, useProps } from '@ray-js/panel-sdk';
 import { router, showModal, View } from '@ray-js/ray';
+import { FC, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { TopBar } from '@/components';
@@ -82,11 +82,7 @@ const UserManagementTopBar: FC<Props> = ({
                   avatar: userList[listNum]?.avatar,
                 })
               );
-              const query = utils.stringifyJSON({
-                type: 'edit',
-                userId: userList[listNum]?.id,
-              });
-              router.push(`/userInformationEdit?${query}`);
+              router.push(`/userInformationEdit?type=edit&userId=${userList[listNum]?.id}`);
             }
 
             if (cancel) {

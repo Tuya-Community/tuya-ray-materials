@@ -3,10 +3,7 @@ const fs = require('fs');
 
 const typeFile = path.join(__dirname, '../index.d.ts');
 
-const typesDir = path.join(
-  __dirname,
-  '../../../@types/tuya-miniapp__api-types'
-);
+const typesDir = path.join(__dirname, '../../../@types/tuya-miniapp__api-types');
 
 // create types dir if not exists
 if (!fs.existsSync(typesDir)) {
