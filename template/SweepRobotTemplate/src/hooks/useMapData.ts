@@ -16,8 +16,6 @@ export default function useMapData() {
 
   const onMapData = useCallback((mapDataStr: string) => {
     if (mapDataStr !== mapDataStrCache.current) {
-      log4js.info('地图数据', mapDataStr);
-
       mapDataStrCache.current = mapDataStr;
 
       dispatch(

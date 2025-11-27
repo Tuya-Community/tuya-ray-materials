@@ -50,7 +50,7 @@ const Item: FC<Props> = ({ data }) => {
   const handleUseMap = async () => {
     if (getSystemInfoSync().brand === 'devtools') {
       ToastInstance(
-        'IDE上暂时无法获得完整的url，所以无法正常下发正确的[使用地图]指令，请在真机上调试该功能'
+        'The IDE cannot obtain the complete URL temporarily, so it cannot properly issue the correct [Use Map] command. Please debug this feature on a real device.'
       );
       return;
     }

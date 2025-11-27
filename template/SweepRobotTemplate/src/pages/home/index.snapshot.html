@@ -1,0 +1,138 @@
+<style data-version="v2" data-remove-type="default" data-max-bottom="925">
+  @keyframes skeletonHide {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  [is='snapshot-root'].snapshot-hide {
+    animation: 0.12s forwards skeletonHide;
+  }
+  @keyframes snapshot-loading {
+    to {
+      background-position-x: -40%;
+    }
+  }
+  [is='snapshot-root'] .skeleton-text {
+    transform: scaleY(0.85);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0) 60%
+      )
+      transparent;
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: 1.5s snapshot-loading ease-in-out infinite;
+  }
+  [theme='dark'] [is='snapshot-root'] .skeleton-text {
+    transform: scaleY(0.85);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0) 60%
+      )
+      transparent;
+    background-size: 200% 100%;
+    background-position-x: 180%;
+    animation: 1.5s snapshot-loading ease-in-out infinite;
+  }
+  [is='snapshot-root'] .custom-nav.skeleton-text {
+    transform: translateY(
+        calc(var(--app-device-navbar-height, 44px) + var(--app-device-status-height, 20px))
+      )
+      scaleY(0.85);
+  }
+  [is='snapshot-root'] {
+    --skeleton-bg: #fff;
+    --skeleton-item-bg: rgba(0, 0, 0, 0.05);
+    --skeleton-deep-0: #fafafa;
+    --skeleton-deep-1: #f5f5f5;
+    --skeleton-deep-2: #f0f0f0;
+    --skeleton-deep-3: #ebebeb;
+    --skeleton-deep-4: #e6e6e6;
+    --skeleton-deep-5: #e1e1e1;
+    --skeleton-deep-6: #dcdcdc;
+    --skeleton-deep-7: #d7d7d7;
+    --skeleton-deep-8: #d2d2d2;
+    --skeleton-deep-9: #cdcdcd;
+    --skeleton-deep-10: #c8c8c8;
+    --skeleton-deep-11: #c3c3c3;
+    --skeleton-deep-12: #bebebe;
+    --skeleton-deep-13: #b9b9b9;
+    --skeleton-deep-14: #b4b4b4;
+    --skeleton-deep-15: #afafaf;
+    --skeleton-deep-16: #aaaaaa;
+    --skeleton-deep-17: #a5a5a5;
+    --skeleton-deep-18: #a0a0a0;
+    --skeleton-deep-19: #9b9b9b;
+    --skeleton-deep-20: #969696;
+  }
+  [theme='dark'] [is='snapshot-root'],
+  [is='snapshot-root'].theme-dark {
+    --skeleton-bg: #000;
+    --skeleton-item-bg: rgba(255, 255, 255, 0.05);
+    --skeleton-deep-0: #050505;
+    --skeleton-deep-1: #0a0a0a;
+    --skeleton-deep-2: #0f0f0f;
+    --skeleton-deep-3: #141414;
+    --skeleton-deep-4: #191919;
+    --skeleton-deep-5: #1e1e1e;
+    --skeleton-deep-6: #232323;
+    --skeleton-deep-7: #282828;
+    --skeleton-deep-8: #2d2d2d;
+    --skeleton-deep-9: #323232;
+    --skeleton-deep-10: #373737;
+    --skeleton-deep-11: #3c3c3c;
+    --skeleton-deep-12: #414141;
+    --skeleton-deep-13: #464646;
+    --skeleton-deep-14: #4b4b4b;
+    --skeleton-deep-15: #505050;
+    --skeleton-deep-16: #555555;
+    --skeleton-deep-17: #5a5a5a;
+    --skeleton-deep-18: #5f5f5f;
+    --skeleton-deep-19: #646464;
+    --skeleton-deep-20: #696969;
+  }
+  [is='snapshot-root'] {
+    pointer-events: none;
+    z-index: 100000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 130vh;
+    background-color: var(--skeleton-bg);
+  }
+  [is='snapshot-root'] div {
+    position: absolute;
+  }
+</style>
+<div
+  style="top:0px;left:0px;width:100vw;height:21.262vw;background-color:var(--skeleton-item-bg);border-radius:0px;background-image:unset;"
+></div>
+<div
+  class="skeleton-text"
+  style="top:12.617vw;left:3.738vw;width:20.888vw;height:7.009vw;background-color:var(--skeleton-item-bg);"
+></div>
+<div
+  style="top:141.355vw;left:0px;width:100vw;height:74.766vw;background-color:var(--skeleton-item-bg);border-radius:0px;background-image:unset;"
+></div>
+<div
+  style="top:141.355vw;left:0px;width:100vw;height:12.150vw;background-color:var(--skeleton-item-bg);border-radius:0px;background-image:unset;"
+></div>
+<div
+  class="skeleton-text"
+  style="top:143.458vw;left:2.103vw;width:96.121vw;height:8.645vw;background-color:var(--skeleton-item-bg);"
+></div>
+<div
+  style="top:21.262vw;left:0px;width:100vw;height:162.103vw;background-color:var(--skeleton-item-bg);border-radius:0px;background-image:unset;"
+></div>
+<div
+  class="skeleton-text"
+  style="top:98.388vw;left:36.238vw;width:27.547vw;height:4.206vw;background-color:var(--skeleton-item-bg);"
+></div>

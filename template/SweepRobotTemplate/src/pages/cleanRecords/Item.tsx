@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { View, showLoading, hideLoading, router, deleteCleaningRecord } from '@ray-js/ray';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { Cell, SwipeCell } from '@ray-js/smart-ui';
 import Strings from '@/i18n';
 
@@ -57,7 +57,7 @@ const Item: FC<Props> = ({ data, onDeleted }) => {
       }}
     >
       <Cell
-        title={moment(timeStamp).format('YYYY-MM-DD HH:mm:ss')}
+        title={dayjs(timeStamp).format('YYYY-MM-DD HH:mm:ss')}
         label={`${time} ${Strings.getLang('dsc_minute')} | ${area} ${Strings.getLang(
           'dsc_square_meter'
         )}`}

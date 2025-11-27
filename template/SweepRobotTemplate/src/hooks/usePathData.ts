@@ -14,8 +14,6 @@ export default function usePathData() {
 
   const onPathData = useCallback((pathDataStr: string) => {
     if (pathDataStr !== pathDataCache.current) {
-      log4js.info('路径数据', pathDataStr);
-
       pathDataCache.current = pathDataStr;
 
       dispatch(updateMapState({ originPath: pathDataStr }));

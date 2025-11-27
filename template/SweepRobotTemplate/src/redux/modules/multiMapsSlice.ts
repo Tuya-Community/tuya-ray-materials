@@ -4,7 +4,7 @@ import {
   createEntityAdapter,
   createSlice,
 } from '@reduxjs/toolkit';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import Strings from '@/i18n';
 import store, { ReduxState } from '..';
 import { getMultipleMapFiles, getStorageSync, setStorage } from '@ray-js/ray';
@@ -202,7 +202,7 @@ export const fetchMultiMaps = createAsyncThunk<MultiMap[], void, { state: ReduxS
         robotUseFile,
         bucket,
         title: Strings.getLang(`dsc_multi_map_title_${i}` as any),
-        time: moment(time * 1000).format('YYYY-MM-DD HH:mm'),
+        time: dayjs(time * 1000).format('YYYY-MM-DD HH:mm'),
         mapId,
       });
     }

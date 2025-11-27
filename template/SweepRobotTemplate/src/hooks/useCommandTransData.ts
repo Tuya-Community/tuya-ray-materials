@@ -106,7 +106,7 @@ export default function useCommandTransData() {
 
       if (!data) return;
 
-      log4js.info('区域数据', data);
+      log4js.info('Command Data', data);
 
       if (Object.keys(data).length > 0) {
         dispatch(updateMapState(data as AtLeastOne<PanelMapState>));

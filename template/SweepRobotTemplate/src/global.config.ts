@@ -10,10 +10,10 @@ export const tuya = {
   },
   webviewRoot: 'node_modules/@ray-js/robot-map-sdk/dist-app',
   functionalPages: {
+    // 设备详情功能页，若未自定义实现设备详情界面，该项为必填配置，不可删除。
     settings: {
-      // 这个小程序id写死不需要更改！！！
-      // This applet ID is hard-coded and does not need to be changed!!!
       appid: 'tycryc71qaug8at6yt',
+      entryCode: 'entrye0n05idydmmfv',
     },
   },
 };

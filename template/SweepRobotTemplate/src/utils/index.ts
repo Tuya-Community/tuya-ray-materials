@@ -14,7 +14,7 @@ import {
   getFeatureProtocolVersion,
 } from '@ray-js/robot-protocol';
 import mitt from 'mitt';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { APP_MULTIPLE_MAP_CACHE_DIR } from '@/constant';
 
 import log4js from '@ray-js/log4js';
@@ -92,7 +92,7 @@ export const parseDataFromString = (inputString: string) => {
 
   // 使用 moment.js 解析日期时间
   const dateTimeFormat = 'YYYYMMDD_HHmmss';
-  const momentDate = moment(dateTimeString, dateTimeFormat);
+  const momentDate = dayjs(dateTimeString, dateTimeFormat);
 
   if (!momentDate.isValid()) {
     throw new Error('Invalid date format');

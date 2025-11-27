@@ -14,20 +14,19 @@
   "dependencies": {
     "@ray-js/components-ty-ipc": "^2.2.4",
     "@ray-js/log4js": "^0.0.4",
-    "@ray-js/panel-sdk": "^1.13.10",
-    "@ray-js/ray": "^1.7.50",
-    "@ray-js/ray-error-catch": "^0.0.25",
-    "@ray-js/robot-data-stream": "^0.0.12",
-    "@ray-js/robot-map": "0.0.2-beta-49",
+    "@ray-js/panel-sdk": "^1.14.1",
+    "@ray-js/ray": "^1.7.55",
+    "@ray-js/ray-error-catch": "^0.0.26",
+    "@ray-js/robot-map": "0.0.2-beta-52",
     "@ray-js/robot-protocol": "^1.0.0",
-    "@ray-js/smart-ui": "^2.6.3",
+    "@ray-js/robot-data-stream": "0.0.13-beta-5",
+    "@ray-js/smart-ui": "^2.7.2",
     "@reduxjs/toolkit": "^1.9.3",
     "ahooks": "^3.7.0",
     "clsx": "^1.2.1",
     "js-base64": "^3.7.7",
     "lodash-es": "^4.17.21",
     "mitt": "^3.0.1",
-    "moment": "^2.30.1",
     "react-redux": "^7.2.1",
     "redux-logger": "^3.0.6",
     "tinycolor2": "^1.4.2"
@@ -35,7 +34,7 @@
   "devDependencies": {
     "@commitlint/cli": "^7.2.1",
     "@commitlint/config-conventional": "^9.0.1",
-    "@ray-js/cli": "^1.7.50",
+    "@ray-js/cli": "^1.7.55",
     "@types/lodash-es": "^4.17.12",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
@@ -59,7 +58,8 @@
   "resolutions": {
     "follow-redirects": "1.15.6",
     "shell-quote": "1.7.3",
-    "@types/react": "16.14.60"
+    "@types/react": "16.14.60",
+    "dayjs": "1.11.19"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [

@@ -6,7 +6,7 @@ import {
 } from '@reduxjs/toolkit';
 import { ReduxState } from '..';
 import { getCleaningRecords } from '@ray-js/ray';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { parseDataFromString } from '@/utils';
 import { devices } from '@/devices';
 
@@ -20,7 +20,7 @@ export const fetchCleanRecords = createAsyncThunk<CleanRecord[], void, { state: 
     const { datas } = await getCleaningRecords({
       devId: devices.common.getDevInfo().devId,
       startTime: '',
-      endTime: moment().format('X'),
+      endTime: dayjs().format('X'),
       limit: 100,
       offset: 0,
     });

@@ -360,7 +360,6 @@ const setAuthorize = async (scope: string) => {
         resolve(status);
       },
       fail: err => {
-        console.log('设置权限失败', err);
         showToast('ipc_permission_fail', 'none');
         reject();
       },
@@ -449,7 +448,6 @@ export const setMute = (isMute: boolean) => {
     playerCtx.ctx.setMuted({
       mute: isMute,
       success: () => {
-        console.log('设置声音');
         dispatch(updateIpcCommon({ isMute }));
         resolve(true);
       },

@@ -35,7 +35,9 @@ export class OssApi {
       return response;
     } catch (err) {
       if (err instanceof TypeError) {
-        console.warn('暂不支持ty.getSweeperStorageConfig，请将基础库升级到2.23.0或以上');
+        console.warn(
+          'ty.getSweeperStorageConfig is not currently supported. Please upgrade the base library to version 2.23.0 or above.'
+        );
 
         /**
          * @deprecated 暂时兼容旧版本，后续将移除
