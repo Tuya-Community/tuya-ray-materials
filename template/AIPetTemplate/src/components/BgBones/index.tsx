@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
 import { View } from '@ray-js/ray';
-import { imgBones } from '@/res';
+import { getCdnPath } from '@/utils';
 import { useSelector } from 'react-redux';
 import { selectIpcCommonValue } from '@/redux/modules/ipcCommonSlice';
 
@@ -18,7 +18,7 @@ const BgBones: FC<Props> = ({ visible = true }) => {
     <View
       className={clsx(styles.container, isFull && 'hide', visible && styles.visible)}
       style={{
-        backgroundImage: `url(${imgBones})`,
+        backgroundImage: `url(${getCdnPath('bones.png')})`,
       }}
     />
   );

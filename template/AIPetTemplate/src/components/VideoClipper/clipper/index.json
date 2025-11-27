@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "smart-loading": "@tuya-miniapp/smart-ui/lib/loading/index"
+  }
+}

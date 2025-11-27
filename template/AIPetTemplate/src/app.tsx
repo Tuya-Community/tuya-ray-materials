@@ -4,7 +4,7 @@ import '@/i18n';
 import '@/res/iconfont/iconfont.css';
 import './app.less';
 import { SdmProvider } from '@ray-js/panel-sdk';
-import { initPanelEnvironment } from '@ray-js/ray';
+import { initPanelEnvironment, nativeDisabled } from '@ray-js/ray';
 import RayErrorCatch from '@ray-js/ray-error-catch';
 import { devices } from '@/devices';
 import Strings from '@/i18n';
@@ -17,7 +17,7 @@ interface Props {
 initPanelEnvironment({ useDefaultOffline: true });
 class App extends React.Component<Props> {
   componentDidMount() {
-    ty.nativeDisabled(true);
+    nativeDisabled(true);
     console.log('=== App did mount');
   }
 

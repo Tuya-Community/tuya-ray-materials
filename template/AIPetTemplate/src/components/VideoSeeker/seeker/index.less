@@ -1,0 +1,76 @@
+@video-seeker-bg-radius: 0;
+@video-seeker-thumb-width: 112rpx;
+@video-seeker-thumb-height: 102rpx;
+@video-seeker-indicator-width: 8rpx;
+@video-seeker-indicator-height: 108rpx;
+@video-seeker-indicator-radius: 4rpx;
+@video-seeker-time-height: 28rpx;
+@video-seeker-time-margin-top: 6rpx;
+@video-seeker-width: 686rpx;
+@video-seeker-height: @video-seeker-indicator-height + @video-seeker-time-height + @video-seeker-time-margin-top;
+
+.video-seeker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: var(--video-seeker-width, @video-seeker-width);
+  height: var(--video-seeker-height, @video-seeker-height);
+
+  &__bg {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: var(--video-seeker-thumb-height, @video-seeker-thumb-height);
+    border-radius: var(--video-seeker-bg-radius, @video-seeker-bg-radius);
+    overflow: hidden;
+    background-color: #f6f7fb;
+  }
+
+  &__loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__time {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 20rpx;
+    line-height: @video-seeker-time-height;
+    margin-top: @video-seeker-time-margin-top;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  @keyframes append-animate {
+    from {
+      opacity: 0.3;
+    }
+    to {
+      opacity: 1;	
+    }
+  }
+
+  &__thumb {
+    width: var(--video-seeker-thumb-width, @video-seeker-thumb-width);
+    height: var(--video-seeker-thumb-height, @video-seeker-thumb-height);
+    animation: append-animate .3s linear;
+    will-change: opacity;
+  }
+
+  &__indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--video-seeker-indicator-width, @video-seeker-indicator-width);
+    height: var(--video-seeker-indicator-height, @video-seeker-indicator-height);
+    background-color: var(--video-seeker-indicator-background, #ffffff);
+    border-radius: var(--video-seeker-indicator-radius, @video-seeker-indicator-radius);
+    box-shadow: 0px 0px 10rpx #888;
+    will-change: transform;
+  }
+}

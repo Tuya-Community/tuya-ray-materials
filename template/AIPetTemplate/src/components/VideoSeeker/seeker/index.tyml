@@ -1,0 +1,43 @@
+<sjs src="./index.sjs" module="computed"></sjs>
+<sjs src="./style.sjs" module="style"></sjs>
+
+<view
+  id="video-seeker"
+  class='video-seeker'
+  style="{{style}}"
+  isReady="{{isReady}}"
+  change:isReady="{{computed.onReady}}"
+  data-duration="{{duration}}"
+  data-offset-left="{{offsetLeft}}"
+  data-offset-right="{{offsetRight}}"
+  data-seeker-width="{{seekerWidth}}"
+  data-indicator-width="{{indicatorWidth}}"
+>
+  <view
+    class='video-seeker__bg'
+    catch:touchstart="{{computed.onTouchStart}}"
+    catch:touchmove="{{computed.onTouchMove}}"
+    catch:touchend="{{computed.onTouchEnd}}"
+  >
+    <smart-loading ty:if="{{!isReady}}" custom-class="video-seeker__loading" />
+    <image
+      ty:for="{{thumbImages}}"
+      ty:for-index="idx"
+      ty:for-item="thumbImage"
+      ty:key="idx"
+      src="{{thumbImage}}"
+      class="video-seeker__thumb"
+      mode="aspectFill"
+    />
+  </view>
+  <view
+    class='video-seeker__indicator'
+    catch:touchstart="{{computed.onTouchStart}}"
+    catch:touchmove="{{computed.onTouchMove}}"
+    catch:touchend="{{computed.onTouchEnd}}"
+  />
+  <view class='video-seeker__time'>
+    <text>{{style.formatStartTimeText({ duration })}}</text>
+    <text>{{style.formatEndTimeText({ duration })}}</text>
+  </view>
+</view>

@@ -4,6 +4,7 @@ import BgBones from '@/components/BgBones';
 import TopBar from '@/components/TopBar';
 import { useDispatch } from 'react-redux';
 import { fetchAudios } from '@/redux/modules/audiosSlice';
+import { getCachedSystemInfo } from '@/api/getCachedSystemInfo';
 import Status from './Status';
 import Player from './Player';
 import PetAssistant from './PetAssistant';
@@ -11,6 +12,7 @@ import styles from './index.module.less';
 import Voices from './Voices';
 
 const Home: FC = () => {
+  const isLight = getCachedSystemInfo()?.theme === 'light';
   const dispatch = useDispatch();
   const [showVoices, setShowVoices] = useState(false);
   const [ready, setReady] = useState(false);
@@ -22,7 +24,7 @@ const Home: FC = () => {
   return (
     <View className={styles.container}>
       <TopBar />
-      <BgBones />
+      {isLight && <BgBones />}
       <Status showVoice={() => setShowVoices(true)} />
       <Player />
       <PetAssistant />
@@ -30,7 +32,7 @@ const Home: FC = () => {
         show={showVoices}
         customStyle="backgroundColor: transparent"
         position="bottom"
-        overlayStyle="background: rgba(0, 0, 0, 0.5);"
+        overlayStyle="background: var(--panel-popup-bg)"
         onLeave={() => setShowVoices(false)}
         onAfterEnter={() => setReady(true)}
         onClickOverlay={() => setShowVoices(false)}

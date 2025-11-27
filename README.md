@@ -213,17 +213,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="AIPetTemplate">2025/03</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/AIPetTemplate">AIPetTemplate</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=AIPetTemplate" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="RayAlarmAbilityDemo">2025/04</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=example/RayAlarmAbilityDemo">RayAlarmAbilityDemo</a></td>
   <td>
@@ -747,6 +736,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <img src="./qrCode/template-PanelOutdoorCycle.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="AIPetTemplate">2025/11</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/AIPetTemplate">AIPetTemplate</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-AIPetTemplate.png" width="100" height="100">
   </details>
   </td>
 </tr>

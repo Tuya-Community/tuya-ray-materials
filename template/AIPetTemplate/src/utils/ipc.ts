@@ -12,6 +12,7 @@ import {
   hideStatusBar,
   showMenuButton,
   showStatusBar,
+  canIUseRouter,
 } from '@ray-js/ray';
 
 /**
@@ -60,9 +61,11 @@ export const holdUp = () => {
 
 // 进入相册
 export const goToAlbum = () => {
+  console.log('--goToAlbum>>>-----');
   if (holdUp()) {
     return null;
   }
+  console.log('--goAppPage>>9999>-----');
   goAppPage('ipc_album_panel');
 };
 
@@ -86,7 +89,7 @@ export const goToPlayback = () => {
  * @param pageId 页面id
  */
 export const goAppPage = (pageId: string) => {
-  ty.canIUseRouter({
+  canIUseRouter({
     url: pageId,
     success: res => {
       if (res?.result) {

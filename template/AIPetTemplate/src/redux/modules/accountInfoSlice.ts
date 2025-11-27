@@ -1,8 +1,9 @@
 import { getAccountInfoSync } from '@ray-js/ray';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ReduxState } from '..';
+import { MiniProgramAccountInfo } from '@/types';
 
-export const fetchAccountInfo = createAsyncThunk<ty.MiniProgramAccountInfo, void>(
+export const fetchAccountInfo = createAsyncThunk<MiniProgramAccountInfo, void>(
   'accountInfo/fetchAccountInfo',
   async () => {
     const res = await getAccountInfoSync();
@@ -15,7 +16,7 @@ export const fetchAccountInfo = createAsyncThunk<ty.MiniProgramAccountInfo, void
  */
 const accountInfoSlice = createSlice({
   name: 'accountInfo',
-  initialState: {} as ty.MiniProgramAccountInfo,
+  initialState: {} as MiniProgramAccountInfo,
   reducers: {},
   extraReducers(builder) {
     builder.addCase(fetchAccountInfo.fulfilled, (state, action) => {

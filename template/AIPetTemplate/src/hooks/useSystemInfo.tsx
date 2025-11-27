@@ -18,7 +18,9 @@ export function useSystemInfo() {
 
   useEffect(() => {
     getSystemInfo({
-      success: data => setSysInfo(data),
+      success: data => {
+        setSysInfo(data);
+      },
     });
   }, []);
 

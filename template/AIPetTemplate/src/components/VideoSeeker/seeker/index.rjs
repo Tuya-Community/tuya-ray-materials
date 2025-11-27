@@ -1,0 +1,42 @@
+// index.rjs
+export default Render({
+  init(id) {
+    let animationId;
+    this.instance.getVideoById(id).then(video => {
+      const startAnimation = () => {
+        animationId = requestAnimationFrame(() => {
+          const currentTime = video.currentTime;
+          this.instance.eventChannel.emit('videoTimeUpdate', { currentTime });
+          startAnimation();
+        });
+      };
+
+      const stopAnimation = () => {
+        animationId && cancelAnimationFrame(animationId);
+      };
+
+      video.addEventListener('seeked', event => {
+        const currentTime = video.currentTime;
+        this.instance.eventChannel.emit('videoTimeUpdate', { currentTime });
+      });
+      video.addEventListener('play', event => {
+        startAnimation();
+      });
+      video.addEventListener('pause', event => {
+        stopAnimation();
+      });
+    });
+  },
+
+  updateStartTime(time) {
+    startTime = time;
+  },
+
+  updateEndTime(time) {
+    endTime = time;
+  },
+
+  updateMovedTime(time) {
+    movedTime = time;
+  },
+});

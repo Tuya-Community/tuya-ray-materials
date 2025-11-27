@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getSystemInfoSync } from '@ray-js/ray';
 import { ReduxState } from '..';
 
-type SystemInfo = ReturnType<typeof getSystemInfoSync>;
+export type SystemInfo = ReturnType<typeof getSystemInfoSync>;
 type SystemInfoKey = keyof SystemInfo;
 
 /**

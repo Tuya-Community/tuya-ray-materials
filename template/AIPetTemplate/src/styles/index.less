@@ -1,24 +1,24 @@
 :root {
-   /* @ray-js/smart-ui */
-   --button-primary-background-color: #FFD974;
-   --button-primary-border-color: #FFD974;
-   --button-primary-color: #3D3D3D;
-   --button-default-height: 80rpx;
-   --button-mini-height: 48rpx;
-   --button-default-border-color: #FFD974;
-   --button-default-color: #FFB53E;
-   --index-anchor-active-background-color: #F9F9F9;
-   --index-anchor-background-color: #F9F9F9;
-   --popup-close-icon-size: 40rpx;
-   --popup-close-icon-z-index: 100;
-   --popup-close-icon-color: #969799;
-   --icon-color: rgba(0, 0, 0, .7);
+  /* @ray-js/smart-ui */
+  --button-primary-background-color: #ffd974;
+  --button-primary-border-color: #ffd974;
+  --button-primary-color: #3d3d3d;
+  --button-default-height: 80rpx;
+  --button-mini-height: 48rpx;
+  --button-default-border-color: #ffd974;
+  --button-default-color: #ffb53e;
+  --index-anchor-active-background-color: #f9f9f9;
+  --index-anchor-background-color: #f9f9f9;
+  --popup-close-icon-size: 40rpx;
+  --popup-close-icon-z-index: 100;
+  --popup-close-icon-color: #969799;
+  --icon-color: rgba(0, 0, 0, 0.7);
 
   /* 首页样式 */
-  --index-main-bg: #FFFFFF; // 页面底色
-  --index-title-bg: #FFFFFF; // title背景
-  --index-title-color: #000000E5; // title字体色
-  --index-footer-bar-bg: #FFFFFF; // 底部操作栏底色
+  --index-main-bg: #ffffff; // 页面底色
+  --index-title-bg: #ffffff; // title背景
+  --index-title-color: #000000e5; // title字体色
+  --index-footer-bar-bg: #ffffff; // 底部操作栏底色
   --index-icon-color: rgba(0, 0, 0, 0.5); // 图标颜色
 
   --pet-center-theme-color: #ffdc80;
@@ -27,18 +27,80 @@
   .iconfont {
     margin: 0 !important;
   }
+
+  .grid-item-photo-list {
+    --grid-item-content-background-color: transparent;
+    --grid-item-content-padding: 0;
+    &__content {
+      position: relative;
+    }
+
+    &__duration {
+      position: absolute;
+      bottom: 0;
+      left: 12rpx;
+      display: flex;
+      align-items: center;
+      & > image {
+        width: 44rpx;
+        height: 44rpx;
+      }
+      & > text {
+        font-size: 20rpx;
+        font-weight: 500;
+        color: #fff;
+        margin-bottom: 8rpx;
+      }
+    }
+
+    &__icon {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 68rpx;
+      height: 68rpx;
+    }
+
+    &__add-box {
+      width: 220rpx;
+      height: 220rpx;
+      border-radius: 16rpx;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255, 217, 116, 0.1);
+    }
+
+    &__add-icon {
+      width: 40rpx;
+      height: 40rpx;
+    }
+
+    &__image {
+      width: 220rpx;
+      height: 220rpx;
+      border-radius: 16rpx;
+    }
+
+    &__checkbox {
+      --checkbox-border-color: #fff;
+      position: absolute;
+      top: 12rpx;
+      right: 0;
+    }
+  }
 }
 
 :root[theme='dark'] {
   /* 首页样式 */
   --index-main-bg: #000000; // 页面底色
   --index-title-bg: #000000; // title背景
-  --index-title-color: #FFFFFF; // title字体色
+  --index-title-color: #ffffff; // title字体色
   --index-footer-bar-bg: rgb(26, 25, 25); // 底部操作栏底色
   --index-icon-color: rgba(255, 255, 255, 0.5); // 图标颜色
 }
 
-.space-y-4>:not([hidden])~:not([hidden]) {
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
   margin-top: 32rpx;
   margin-bottom: 0;
 }

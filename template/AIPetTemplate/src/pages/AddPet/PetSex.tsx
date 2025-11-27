@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
-import { Image, Text, View, getSystemInfoSync } from '@ray-js/ray';
+import { Text, View, getSystemInfoSync } from '@ray-js/ray';
 import clsx from 'clsx';
 import { Icon } from '@ray-js/smart-ui';
-import { imgArrowLeft } from '@/res';
 import { SEXS } from '@/constant';
 import Strings from '@/i18n';
 
@@ -20,7 +19,6 @@ const PetSex: FC<Props> = ({ value, onChange, onBack }) => {
   return (
     <>
       <View className={styles.header} style={{ marginTop: screenHeight <= 736 ? 0 : undefined }}>
-        <Image src={imgArrowLeft} className={styles.back} onClick={onBack} />
         <Text className={styles.title}>{Strings.getLang('add_pet_sex_title')}</Text>
         <Text className={styles['sub-title']}>{Strings.getLang('add_pet_sex_subTitle')}</Text>
       </View>
@@ -33,7 +31,11 @@ const PetSex: FC<Props> = ({ value, onChange, onBack }) => {
               className={clsx(styles.item, isActive && styles.active)}
               onClick={() => onChange(code)}
             >
-              <Icon name={icon} size="88rpx" color={isActive ? '#3d3d3d' : 'rgba(0, 0, 0, 0.5)'} />
+              <Icon
+                name={icon}
+                size="88rpx"
+                color={isActive ? '#3d3d3d' : 'var(--panel-font-lighter)'}
+              />
               <Text className={styles.text}>{text}</Text>
             </View>
           );

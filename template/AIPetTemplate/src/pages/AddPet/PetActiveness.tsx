@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Image, Text, View, getSystemInfoSync } from '@ray-js/ray';
 import clsx from 'clsx';
-import { imgArrowLeft, imgShadow } from '@/res';
+import { getCdnPath } from '@/utils';
 import { ACTIVENESSES } from '@/constant';
 import Strings from '@/i18n';
 import styles from './index.module.less';
@@ -20,7 +20,6 @@ const PetActiveness: FC<Props> = ({ petType, value, onChange, onBack }) => {
     /** 得加个View 不然现象很诡异 */
     <View className={styles.content}>
       <View className={styles.header} style={{ marginTop: screenHeight <= 736 ? 0 : undefined }}>
-        <Image src={imgArrowLeft} className={styles.back} onClick={onBack} />
         <Text className={styles.title}>{Strings.getLang('add_pet_activeness_title')}</Text>
         <Text className={styles['sub-title ']}>
           {Strings.getLang('add_pet_activeness_subTitle')}
@@ -35,7 +34,7 @@ const PetActiveness: FC<Props> = ({ petType, value, onChange, onBack }) => {
               className={clsx(styles.item, isActive && styles.active)}
               onClick={() => onChange(code)}
             >
-              <Image src={imgShadow} className={styles.shadow} />
+              <Image src={getCdnPath('shadow.png')} className={styles.shadow} />
               <Image
                 src={petType === 'cat' ? imgCat : imgDog}
                 className={styles.img}

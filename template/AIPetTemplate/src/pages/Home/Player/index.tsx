@@ -2,7 +2,7 @@ import React, { FC, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CoverView, Image, View, usePageEvent } from '@ray-js/ray';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIpcCommonValue, updateIpcCommon } from '@/redux/modules/ipcCommonSlice';
-import { useDevice, useProps, useActions } from '@ray-js/panel-sdk';
+import { useDevice, useProps } from '@ray-js/panel-sdk';
 import { IpcPlayer } from '@ray-js/components-ty-ipc';
 import { videoClarityObj } from '@/config/home';
 import {
@@ -17,20 +17,11 @@ import {
 } from '@/utils/ipc';
 import clsx from 'clsx';
 import { selectSystemInfoByKey } from '@/redux/modules/systemInfoSlice';
-import {
-  imgAlbum,
-  imgFullscreen,
-  imgMic,
-  imgRecordVideo,
-  imgScreenshot,
-  imgSpeaker,
-  imgSpeakerOn,
-} from '@/res';
 import RecordTip from '@/components/RecordTip';
 import Timer from '@/components/Timer';
 import { Icon } from '@ray-js/smart-ui';
 import { iconAngleLeft, iconExitFullScreen } from '@/res/iconsvg';
-
+import { getCdnPath } from '@/utils';
 import styles from './index.module.less';
 import Game from './Game';
 import Status from './Status';
@@ -171,7 +162,7 @@ const Player: FC = () => {
           onPlayerTap={handlePlayerClick}
           clarity={videoClarityObj[mainDeviceCameraConfig.videoClarity]}
           privateState={dpBasicPrivate ?? false}
-          playerStyle={{ borderRadius: 20 }}
+          // playerStyle={{ borderRadius: 20 }}
         />
       </View>
 
@@ -202,7 +193,7 @@ const Player: FC = () => {
               hoverClassName="touchable"
               onClick={handleFullScreen}
             >
-              <Image src={imgFullscreen} className={styles.icon} />
+              <Image src={getCdnPath('fullscreen.png')} className={styles.icon} />
             </View>
           </View>
         </CoverView>
@@ -217,7 +208,7 @@ const Player: FC = () => {
               hoverClassName="touchable"
               onClick={handleScreenshot}
             >
-              <Image src={imgScreenshot} className={styles.icon} />
+              <Image src={getCdnPath('screenshot.png')} className={styles.icon} />
             </View>
             <View
               className={clsx(styles['icon-wrapper'], btnDisabled && styles.disabled)}
@@ -227,7 +218,7 @@ const Player: FC = () => {
               {isRecording ? (
                 <View className={styles.recording} />
               ) : (
-                <Image src={imgRecordVideo} className={styles.icon} />
+                <Image src={getCdnPath('recordVideo.png')} className={styles.icon} />
               )}
             </View>
             <View
@@ -235,21 +226,24 @@ const Player: FC = () => {
               hoverClassName="touchable"
               onClick={handleTalk}
             >
-              <Image src={imgMic} className={styles.icon} />
+              <Image src={getCdnPath('mic.png')} className={styles.icon} />
             </View>
             <View
               className={styles['icon-wrapper']}
               hoverClassName="touchable"
               onClick={handleMute}
             >
-              <Image src={isMute ? imgSpeaker : imgSpeakerOn} className={styles.icon} />
+              <Image
+                src={isMute ? getCdnPath('speaker.png') : getCdnPath('speakerOn.png')}
+                className={styles.icon}
+              />
             </View>
             <View
               className={styles['icon-wrapper']}
               hoverClassName="touchable"
               onClick={handleAlbum}
             >
-              <Image src={imgAlbum} className={styles.icon} />
+              <Image src={getCdnPath('album.png')} className={styles.icon} />
             </View>
           </View>
         </CoverView>
@@ -302,7 +296,7 @@ const Player: FC = () => {
               hoverClassName="touchable"
               onClick={handleScreenshot}
             >
-              <Image src={imgScreenshot} className={styles.icon} />
+              <Image src={getCdnPath('screenshot.png')} className={styles.icon} />
             </View>
             <View
               className={clsx(styles['icon-wrapper'], btnDisabled && styles.disabled)}
@@ -312,7 +306,7 @@ const Player: FC = () => {
               {isRecording ? (
                 <View className={styles.recording} />
               ) : (
-                <Image src={imgRecordVideo} className={styles.icon} />
+                <Image src={getCdnPath('recordVideo.png')} className={styles.icon} />
               )}
             </View>
             <View
@@ -320,21 +314,24 @@ const Player: FC = () => {
               hoverClassName="touchable"
               onClick={handleTalk}
             >
-              <Image src={imgMic} className={styles.icon} />
+              <Image src={getCdnPath('mic.png')} className={styles.icon} />
             </View>
             <View
               className={styles['icon-wrapper']}
               hoverClassName="touchable"
               onClick={handleMute}
             >
-              <Image src={isMute ? imgSpeaker : imgSpeakerOn} className={styles.icon} />
+              <Image
+                src={isMute ? getCdnPath('speaker.png') : getCdnPath('speakerOn.png')}
+                className={styles.icon}
+              />
             </View>
             <View
               className={styles['icon-wrapper']}
               hoverClassName="touchable"
               onClick={handleAlbum}
             >
-              <Image src={imgAlbum} className={styles.icon} />
+              <Image src={getCdnPath('album.png')} className={styles.icon} />
             </View>
           </View>
         </CoverView>

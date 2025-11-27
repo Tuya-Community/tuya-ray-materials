@@ -1,4 +1,6 @@
 export default {
-  backgroundColor: '#fff9ef',
+  backgroundColor: '@bgColor',
+  navigationStyle: 'custom',
+  navigationBarTextStyle: '@navTxtStyle',
   hideMenuButton: false,
 };

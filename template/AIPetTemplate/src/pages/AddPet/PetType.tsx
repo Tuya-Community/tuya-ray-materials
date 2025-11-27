@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { Image, Text, View } from '@ray-js/ray';
 import clsx from 'clsx';
 
-import { imgShadow, imgCat, imgDog } from '@/res';
 import Strings from '@/i18n';
+import { getCdnPath } from '@/utils';
 import styles from './index.module.less';
 
 type Props = {
@@ -23,22 +23,22 @@ const PetType: FC<Props> = ({ value, onChange }) => {
           className={clsx(styles.item, value === 'dog' && styles.active)}
           onClick={() => onChange('dog')}
         >
-          <Image src={imgShadow} className={styles.shadow} />
+          <Image src={getCdnPath('shadow.png')} className={styles.shadow} />
 
           <View className={styles['item-wrapper']}>
             <Text className={styles.title}>{Strings.getLang('dog')}</Text>
-            <Image src={imgDog} className={styles.img} />
+            <Image src={getCdnPath('dog.png')} className={styles.img} />
           </View>
         </View>
         <View
           className={clsx(styles.item, value === 'cat' && styles.active)}
           onClick={() => onChange('cat')}
         >
-          <Image src={imgShadow} className={styles.shadow} />
+          <Image src={getCdnPath('shadow.png')} className={styles.shadow} />
 
           <View className={styles['item-wrapper']}>
             <Text className={styles.title}>{Strings.getLang('cat')}</Text>
-            <Image src={imgCat} className={styles.img} />
+            <Image src={getCdnPath('cat.png')} className={styles.img} />
           </View>
         </View>
       </View>

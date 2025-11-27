@@ -5,13 +5,18 @@ import {
   fetchDeviceFileSign,
   fetchDeviceFileUploadState,
   fetchBigPublicFileUploadState,
+  getCdnUrl,
 } from '@ray-js/ray';
 import mitt from 'mitt';
 import { throttle } from 'lodash-es';
 import dayjs from 'dayjs';
+import cdnMap from 'cdn/cdnImage.json';
 import Strings from '@/i18n';
-import { imgCat, imgDog } from '@/res';
 import { parseFileName, uploadFile } from './file';
+
+export { normalizeFilePath } from './normalizeFilePath';
+export { isInIDE } from './isInIDE';
+export { getFileNameAndExtension } from './getFileNameAndExtension';
 
 export const emitter = mitt();
 
@@ -36,6 +41,11 @@ export const JsonUtil = {
     return rst;
   },
 };
+
+// 获取CDN路径
+export function getCdnPath(path: string): string {
+  return getCdnUrl(path, cdnMap);
+}
 
 export const toHexByte = (number: number, bytes = 1) => {
   // Convert the number to a hexadecimal string and pad it with zeros
@@ -92,8 +102,8 @@ export const routerPush = (url: string) => {
 
 export const getAvatarByPetType = (type: string) => {
   return {
-    cat: imgCat,
-    dog: imgDog,
+    cat: getCdnPath('cat.png'),
+    dog: getCdnPath('dog.png'),
   }[type];
 };
 
@@ -142,10 +152,7 @@ function pollUntilTargetValue(fetchFunction, pollingToken, interval = 2500) {
     function poll() {
       fetchFunction(pollingToken)
         .then(data => {
-          console.log('===data', data);
-
           if (data?.end) {
-            console.log('');
             clearInterval(intervalTimer); // 停止轮询
             resolve(data); // 返回获取到的数据
           } else {

@@ -8,9 +8,8 @@ import { fetchPetBreedList } from '@/redux/modules/petBreedSlice';
 import { selectSelectedPet, setSelectedPetId } from '@/redux/modules/globalSlice';
 import { useSelectorWithEquality } from '@/hooks/useSelectorWithEquality';
 import Strings from '@/i18n';
-import { imgCat, imgDog } from '@/res';
 import { iconAdd, iconChange, iconCheck, iconEdit } from '@/res/iconsvg';
-import { routerPush } from '@/utils';
+import { routerPush, getCdnPath } from '@/utils';
 
 import styles from './index.module.less';
 
@@ -52,7 +51,8 @@ const Pets: FC = () => {
 
   const renderPetAvatar = () => {
     const avatarUrl =
-      selectedPet?.avatarDisplay || (selectedPet?.petType === 'cat' ? imgCat : imgDog);
+      selectedPet?.avatarDisplay ||
+      (selectedPet?.petType === 'cat' ? getCdnPath('cat.png') : getCdnPath('dog.png'));
     return (
       <View className={styles['avatar-wrapper']} onClick={handleClickChange}>
         <View className={styles['avatar-view']}>
@@ -84,7 +84,7 @@ const Pets: FC = () => {
         closeable
         round
         position="bottom"
-        customStyle={{ background: '#F8F8F8', maxHeight: '80vh' }}
+        customStyle={{ background: 'var(--panel-popup-bg)', maxHeight: '80vh' }}
         onClose={() => setVisible(false)}
         className={styles.activityPop}
         safeAreaInsetBottom={false}
@@ -105,7 +105,10 @@ const Pets: FC = () => {
                   >
                     <View className={styles['pet-info']} onClick={() => handleEdit(id)}>
                       <Image
-                        src={avatarDisplay || (petType === 'cat' ? imgCat : imgDog)}
+                        src={
+                          avatarDisplay ||
+                          (petType === 'cat' ? getCdnPath('cat.png') : getCdnPath('dog.png'))
+                        }
                         className={styles['pet-avatar']}
                         mode="aspectFill"
                       />
@@ -122,7 +125,7 @@ const Pets: FC = () => {
               })}
             </ScrollView>
             <Button
-              color="#ffffff"
+              color="var(--panel-content-bg)"
               block
               round
               size="large"

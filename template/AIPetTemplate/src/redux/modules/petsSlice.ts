@@ -49,7 +49,7 @@ export const fetchPetDetail = createAsyncThunk<
 export const addPet = createAsyncThunk<number, any, { state: ReduxState }>(
   'pets/addPet',
   async ({ ...params }, { getState, dispatch }) => {
-    const petId = await addPetApi(params);
+    const petId = await addPetApi({ ...params, dataType: 'ai_pet_center' });
     return petId;
   }
 );
@@ -57,7 +57,7 @@ export const addPet = createAsyncThunk<number, any, { state: ReduxState }>(
 export const updatePet = createAsyncThunk<void, any, { state: ReduxState }>(
   'pets/updatePet',
   async (params, { getState, dispatch }) => {
-    await updatePetApi(params);
+    await updatePetApi({ ...params, dataType: 'ai_pet_center' });
   }
 );
 
@@ -67,6 +67,7 @@ export const deletePet = createAsyncThunk<number, number, { state: ReduxState }>
     await deletePetApi({
       id: petId,
       ownerId: getState().homeInfo.homeId,
+      dataType: 'ai_pet_center',
     });
 
     /**

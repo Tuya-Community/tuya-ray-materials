@@ -31,7 +31,7 @@ type Props = {
 const AfterRecord: FC<Props> = ({ file, onRetry, onSave }) => {
   const dispatch = useDispatch();
   const { devId } = getDevInfo();
-  const audioContext = useRef<ty.CreateInnerAudioContextTask>();
+  const audioContext = useRef<CreateInnerAudioContextTask>();
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -98,7 +98,6 @@ const AfterRecord: FC<Props> = ({ file, onRetry, onSave }) => {
           showLoading({
             title: Strings.getLang('dsc_uploading'),
           });
-          console.log('====22==file', file);
 
           const { cloudKey } = await uploadAudio(
             file,

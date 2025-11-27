@@ -1,4 +1,5 @@
 declare module '*.png';
+import { getDeviceInfo, getDeviceThingModelInfo } from '@ray-js/ray';
 
 declare module '*.module.less' {
   const classes: {
@@ -32,17 +33,17 @@ type GetTTTFailData<Fn> = Parameters<GetTTTAllParams<Fn>['fail']>['0'];
 /**
  * TTT 方法统一错误码
  */
-type TTTCommonErrorCode = GetTTTFailData<typeof ty.device.getDeviceInfo>;
+type TTTCommonErrorCode = GetTTTFailData<typeof getDeviceInfo>;
 
 /**
  * 设备信息
  */
-type DevInfo = ty.device.DeviceInfo & { state: DpState };
+type DevInfo = DeviceInfo & { state: DpState };
 
 /**
  * 设备物模型信息
  */
-type ThingModelInfo = GetTTTSuccessData<typeof ty.device.getDeviceThingModelInfo>;
+type ThingModelInfo = GetTTTSuccessData<typeof getDeviceThingModelInfo>;
 
 type AtLeastOne<T extends Record<string, any>> = keyof T extends infer K
   ? K extends string

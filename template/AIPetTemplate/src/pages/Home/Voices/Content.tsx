@@ -48,7 +48,7 @@ const Volume: FC<Props> = ({ ready }) => {
         <Text className={styles.value}>{volume}%</Text>
       </View>
       <View className={styles.volumeSliderWrapper}>
-        <Icon name={iconVolumeDec} size="28rpx" color="rgba(0, 0, 0, 0.3)" />
+        <Icon name={iconVolumeDec} size="28rpx" color="var(--panel-icon-lighter)" />
         {ready && (
           <Slider
             min={0}
@@ -59,14 +59,14 @@ const Volume: FC<Props> = ({ ready }) => {
             minTrackHeight="8rpx"
             thumbHeight="40rpx"
             thumbWidth="40rpx"
-            maxTrackColor="rgba(0, 0, 0, 0.05)"
+            maxTrackColor="var(--panel-track-lighter)"
             minTrackColor={THEME_COLOR}
             enableTouch={false}
             onChange={handleChange}
             onAfterChange={handleComplete}
           />
         )}
-        <Icon name={iconVolumeInc} size="28rpx" color="rgba(0, 0, 0, 0.3)" />
+        <Icon name={iconVolumeInc} size="28rpx" color="var(--panel-icon-lighter)" />
       </View>
     </View>
   );

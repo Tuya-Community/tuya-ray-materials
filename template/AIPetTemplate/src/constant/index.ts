@@ -1,24 +1,7 @@
 import dayjs from 'dayjs';
-import {
-  imgGameBtnBottom,
-  imgGameBtnBottomPressed,
-  imgGameBtnLeft,
-  imgGameBtnLeftPressed,
-  imgGameBtnPlay,
-  imgGameBtnPlayPressed,
-  imgGameBtnRight,
-  imgGameBtnRightPressed,
-  imgGameBtnTop,
-  imgGameBtnTopPressed,
-  imgCatNormal,
-  imgDogNormal,
-  imgCatActive,
-  imgDogActive,
-  imgCatLazy,
-  imgDogLazy,
-} from '@/res';
 import { iconBoy, iconGirl, iconSterilizedBoy, iconSterilizedGirl } from '@/res/iconsvg';
 import Strings from '@/i18n';
+import { getCdnPath } from '@/utils';
 
 // 智能体 ID，修改为产品配置的智能体 ID
 export const AGENT_ID = 'xxx';
@@ -29,28 +12,28 @@ export const THEME_COLOR = '#FFD974';
 
 export const GAME_BTN_MAP = {
   top: {
-    img: imgGameBtnTop,
-    imgPressed: imgGameBtnTopPressed,
+    img: getCdnPath('gameBtnTop.png'),
+    imgPressed: getCdnPath('gameBtnTopPressed.png'),
     value: '0',
   },
   right: {
-    img: imgGameBtnRight,
-    imgPressed: imgGameBtnRightPressed,
+    img: getCdnPath('gameBtnRight.png'),
+    imgPressed: getCdnPath('gameBtnRightPressed.png'),
     value: '2',
   },
   bottom: {
-    img: imgGameBtnBottom,
-    imgPressed: imgGameBtnBottomPressed,
+    img: getCdnPath('gameBtnBottom.png'),
+    imgPressed: getCdnPath('gameBtnBottomPressed.png'),
     value: '4',
   },
   left: {
-    img: imgGameBtnLeft,
-    imgPressed: imgGameBtnLeftPressed,
+    img: getCdnPath('gameBtnLeft.png'),
+    imgPressed: getCdnPath('gameBtnLeftPressed.png'),
     value: '6',
   },
   play: {
-    img: imgGameBtnPlay,
-    imgPressed: imgGameBtnPlayPressed,
+    img: getCdnPath('gameBtnPlay.png'),
+    imgPressed: getCdnPath('gameBtnPlayPressed.png'),
   },
 } as const;
 
@@ -95,20 +78,20 @@ export const ACTIVENESSES: {
   {
     code: 1,
     text: Strings.getLang('pet_activeness_normal'),
-    imgCat: imgCatNormal,
-    imgDog: imgDogNormal,
+    imgCat: getCdnPath('catNormal.png'),
+    imgDog: getCdnPath('dogNormal.png'),
   },
   {
     code: 2,
     text: Strings.getLang('pet_activeness_active'),
-    imgCat: imgCatActive,
-    imgDog: imgDogActive,
+    imgCat: getCdnPath('catActive.png'),
+    imgDog: getCdnPath('dogActive.png'),
   },
   {
     code: 0,
     text: Strings.getLang('pet_activeness_lazy'),
-    imgCat: imgCatLazy,
-    imgDog: imgDogLazy,
+    imgCat: getCdnPath('catLazy.png'),
+    imgDog: getCdnPath('dogLazy.png'),
     styleCat: {
       height: '320rpx',
       width: '340rpx',
@@ -128,3 +111,38 @@ export const WEIGHT_COLUMN_0 = new Array(100).fill(1).map((x, i) => i);
 export const WEIGHT_COLUMN_1 = new Array(10).fill(1).map((x, i) => i);
 export const MIN_BIRTH_DAY = dayjs().subtract(20, 'year').valueOf();
 export const MAX_BIRTH_DAY = dayjs().subtract(1, 'day').valueOf();
+
+// 上传类型
+// AI助手上传 eg: 聊天问诊
+export const COMMON_BIZ_TYPE = 'pet_assistant';
+// 分析上传 eg: 正面照分析
+export const ANALYTICS_BIZ_TYPE = 'pet_frontal_image';
+/**
+ * 视频或图片标题的最大长度
+ */
+export const MAX_TITLE_NUM = 16;
+
+/**
+ * 视频的最大裁剪时长
+ */
+export const VIDEO_CLIP_MAX_TIME = 30;
+/**
+ * 从 App 相册中可选择的最大图片数量
+ */
+export const MAX_CHOOSE_IMAGE_NUM = 20;
+
+/**
+ * 从 App 相册中可选择的最大视频数量
+ */
+export const MAX_CHOOSE_VIDEO_NUM = 1;
+
+/**
+ * 可同时编辑发送的最大图片数量
+ * 直接获取云端配置
+ */
+// export const MAX_EDIT_IMAGE_NUM = 20;
+
+/**
+ * 可同时编辑发送的最大视频数量
+ */
+export const MAX_EDIT_VIDEO_NUM = 1;

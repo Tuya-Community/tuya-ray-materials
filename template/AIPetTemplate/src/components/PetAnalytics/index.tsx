@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   View,
@@ -9,19 +9,19 @@ import {
   getAnalyzePetFeatureResult,
 } from '@ray-js/ray';
 import { Button, Popup } from '@ray-js/smart-ui';
-import { imgArrowLeft, imgPetHeadSample, imgPetHeadAddition, imgSuccess, imgFailed } from '@/res';
-import { AGENT_ID } from '@/constant';
+import { AGENT_ID, ANALYTICS_BIZ_TYPE } from '@/constant';
 import CatLoading from '@/components/CatLoading';
 import useSetState from '@/hooks/useSetState';
 import { selectHomeId } from '@/redux/modules/homeInfoSlice';
 import { selectMiniAppId } from '@/redux/modules/accountInfoSlice';
-import { emitter } from '@/utils';
-import { chooseImage, uploadImage } from '@/utils/file';
+import { emitter, getCdnPath } from '@/utils';
+import { chooseImage, pictureQualityDetect, uploadImageCat } from '@/utils/file';
 import { AbortController, sleep } from '@/utils/time';
 import Strings from '@/i18n';
 import styles from './index.module.less';
 
 type Props = {
+  petType: PetType;
   onBack?: () => void;
   goNext?: () => void;
 };
@@ -32,12 +32,12 @@ enum AnalysType {
   MatchPet = '2',
 }
 
-const PetAnalytics: FC<Props> = ({ onBack, goNext }) => {
+const PetAnalytics: FC<Props> = ({ petType, onBack, goNext }) => {
   const homeId = useSelector(selectHomeId());
   const miniAppId = useSelector(selectMiniAppId());
 
   const controllerRef = useRef<AbortController>();
-
+  const [picErrorTips, setPicErrorTips] = useState('');
   usePageEvent('onUnload', () => {
     controllerRef.current?.abort();
   });
@@ -56,12 +56,18 @@ const PetAnalytics: FC<Props> = ({ onBack, goNext }) => {
     petResInfo: null,
   });
 
-  const [animClass, setAnimClass] = useSetState<{
-    upload: string;
-    analyzing: string;
-    failed: string;
-    success: string;
-  }>({
+  // const [animClass, setAnimClass] = useSetState<{
+  //   upload: string;
+  //   analyzing: string;
+  //   failed: string;
+  //   success: string;
+  // }>({
+  //   upload: styles.entered,
+  //   analyzing: styles.exited,
+  //   failed: styles.exited,
+  //   success: styles.exited,
+  // });
+  const animClass = useRef({
     upload: styles.entered,
     analyzing: styles.exited,
     failed: styles.exited,
@@ -86,19 +92,14 @@ const PetAnalytics: FC<Props> = ({ onBack, goNext }) => {
           setState({
             animating: true,
           });
-          setAnimClass({
-            [current]: styles.exit,
-          });
-          await sleep(200);
-          setAnimClass({
+          animClass.current = {
+            ...animClass.current,
             [current]: styles.exited,
-            [next]: styles.enter,
-          });
-
-          await sleep(600);
-          setAnimClass({
             [next]: styles.entered,
-          });
+          };
+          // setAnimClass({
+          //   [next]: styles.entered,
+          // });
           setState({
             stage: next,
             animating: false,
@@ -163,14 +164,16 @@ const PetAnalytics: FC<Props> = ({ onBack, goNext }) => {
 
   const handleChooseImg = async () => {
     let paths = [];
+
     try {
-      paths = await chooseImage(3);
+      // paths = await chooseImage(3);
+      paths = await chooseImage(3, () => enter('analyzing'));
     } catch (err) {
       return;
     }
 
     // 先进入下一阶段
-    enter('analyzing');
+    // enter('analyzing');
 
     setState({
       analyzingText: Strings.getLang('add_pet_analytics_upload_img'),
@@ -178,17 +181,56 @@ const PetAnalytics: FC<Props> = ({ onBack, goNext }) => {
 
     const controller = new AbortController();
     controllerRef.current = controller;
+    let tempPaths: Array<{ imagePath: string; lowQuality: boolean; lowQualityReason: number }> = [];
+    let pathList: Array<{ imagePath: string; lowQuality: boolean; lowQualityReason: number }> = [];
 
-    let images: Array<{ objectKey: string }> = [];
+    if (petType === 'cat') {
+      try {
+        tempPaths = (await Promise.all(paths.map(url => pictureQualityDetect(url)))).map(d => d);
+
+        pathList = tempPaths.filter(item => !item.lowQuality) as Array<{
+          imagePath: string;
+          lowQuality: boolean;
+          lowQualityReason: number;
+        }>;
+        const lowQualityList = tempPaths
+          .filter(item => item.lowQuality)
+          .map(item => item.lowQualityReason) as Array<number>;
+
+        if (pathList.length === 0) {
+          const errorText = Array.from(new Set(lowQualityList)).map((lowQualityItem, index) => {
+            return `${Strings.getLang(`dsc_${lowQualityItem}`)}`;
+          });
+          setPicErrorTips(errorText.join('、'));
+          setTimeout(() => {
+            enter('failed');
+          }, 1000);
+
+          return;
+        }
+      } catch (error) {
+        enter('failed');
+        return;
+      }
+    }
+
+    let images: Array<{ imageDisplayUrl: string; objectKey: string }> = [];
+
+    const pathSourceList = petType === 'cat' ? pathList.map(element => element.imagePath) : paths;
     try {
-      images = (await Promise.all(paths.map(p => uploadImage(p, 'petFeature')))).map(d => ({
+      images = (
+        await Promise.all(pathSourceList.map(p => uploadImageCat(p, ANALYTICS_BIZ_TYPE)))
+      ).map(d => ({
+        imageDisplayUrl: d.publicUrl,
         objectKey: d.cloudKey,
       }));
       if (controller.signal.aborted) {
         return;
       }
     } catch (error) {
-      enter('failed');
+      setTimeout(() => {
+        enter('failed');
+      }, 1000);
       return;
     }
 
@@ -214,7 +256,6 @@ const PetAnalytics: FC<Props> = ({ onBack, goNext }) => {
         miniAppId,
         agentId: AGENT_ID,
       });
-
       const [infoRes] = await Promise.all([
         loopGetAnalysisResult({
           taskId,
@@ -223,6 +264,11 @@ const PetAnalytics: FC<Props> = ({ onBack, goNext }) => {
         }),
       ]);
       if (infoRes) {
+        setState({
+          similarShow: true,
+          petResInfo: infoRes,
+        });
+      } else if (infoRes) {
         emitter.emit('selectProfile', infoRes);
         enter('success');
       } else {
@@ -250,16 +296,18 @@ const PetAnalytics: FC<Props> = ({ onBack, goNext }) => {
   return (
     <>
       {/* 上传前 */}
-      <View className={`${styles.upload} ${animClass.upload} `}>
+      <View className={`${styles.upload} ${animClass.current.upload} `}>
         <View className={styles.wrap}>
           <View className={styles.box}>
-            {onBack && <Image src={imgArrowLeft} className={styles.back} onClick={onBack} />}
+            {onBack && (
+              <Image src={getCdnPath('arrowLeft.png')} className={styles.back} onClick={onBack} />
+            )}
             <View className={styles['main-title']}>
               {Strings.getLang('add_pet_analytics_title')}
             </View>
             <View className={styles.desc}>{Strings.getLang('add_pet_analytics_subTitle')}</View>
             <View className={styles.sample}>
-              <Image src={imgPetHeadSample} className={styles.img} />
+              <Image src={getCdnPath('petHeadSample.png')} className={styles.img} />
               <View className={`${styles.tips} space-y-4`}>
                 <View className={styles.tip}>{Strings.getLang('add_pet_analytics_tips1')}</View>
                 <View className={styles.tip}>{Strings.getLang('add_pet_analytics_tips2')}</View>
@@ -275,7 +323,7 @@ const PetAnalytics: FC<Props> = ({ onBack, goNext }) => {
             </View>
           </View>
           <View className={styles.box}>
-            <Image className={styles['addition-img']} src={imgPetHeadAddition} />
+            <Image className={styles['addition-img']} src={getCdnPath('petHeadAddition.png')} />
             <View className={styles.desc}>{Strings.getLang('add_pet_analytics_addition_tip')}</View>
           </View>
         </View>
@@ -292,7 +340,7 @@ const PetAnalytics: FC<Props> = ({ onBack, goNext }) => {
       </View>
 
       {/* 上传中 */}
-      <View className={`${styles.analyzing} ${animClass.analyzing} `}>
+      <View className={`${styles.analyzing} ${animClass.current.analyzing} `}>
         <View className={styles.wrap}>
           <CatLoading className={styles.cat} />
           <View className={styles.desc}>{Strings.getLang('add_pet_analytics_analyzing')}</View>
@@ -302,15 +350,21 @@ const PetAnalytics: FC<Props> = ({ onBack, goNext }) => {
       </View>
 
       {/* 上传失败 */}
-      <View className={`${styles.failed} ${animClass.failed} `}>
+      <View className={`${styles.failed} ${animClass.current.failed} `}>
         <View className={styles.wrap}>
-          <Image src={imgFailed} className={styles['failed-img']} />
+          <Image src={getCdnPath('failed.png')} className={styles['failed-img']} />
           <View className={styles.desc}>{Strings.getLang('add_pet_analytics_failed')}</View>
+          <View className={styles['little-desc']}>
+            {picErrorTips !== '' ? `(${picErrorTips})` : ''}
+          </View>
           <Button
             type="primary"
             round
             onClick={() => {
               enter('upload');
+              setTimeout(() => {
+                setPicErrorTips('');
+              }, 300);
             }}
           >
             {Strings.getLang('add_pet_analytics_retry')}
@@ -328,10 +382,12 @@ const PetAnalytics: FC<Props> = ({ onBack, goNext }) => {
       </View>
 
       {/* 上传成功 */}
-      <View className={`${styles.success} ${animClass.success} `}>
-        {onBack && <Image src={imgArrowLeft} className={styles.back} onClick={onBack} />}
+      <View className={`${styles.success} ${animClass.current.success} `}>
+        {onBack && (
+          <Image src={getCdnPath('arrowLeft.png')} className={styles.back} onClick={onBack} />
+        )}
         <View className={styles.wrap}>
-          <Image src={imgSuccess} className={styles['failed-img']} />
+          <Image src={getCdnPath('success.png')} className={styles['failed-img']} />
           <View className={styles.desc}>{Strings.getLang('add_pet_analytics_success')}</View>
         </View>
       </View>

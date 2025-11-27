@@ -1,9 +1,15 @@
+import { COMMON_BIZ_TYPE } from '@/constant';
 import {
   chooseImage as originChooseImage,
+  uploadImage as originUploadImage,
   chooseCropImage as originChooseCropImage,
   uploadFile as originUploadFile,
   getPetUploadSign,
+  resizeImage,
+  ai,
 } from '@ray-js/ray';
+
+const { petsPictureQualityDetectForImage } = ai;
 
 export interface UploadFile {
   id: string;
@@ -69,6 +75,8 @@ export async function uploadFile(
 export async function uploadImage(filePath: string, bizType: UploadFileBizType) {
   const fileName = parseFileName(filePath);
   const signInfo = await getPetUploadSign({ bizType, fileName });
+  console.log('==signInfo', signInfo);
+
   const { url, objectKey } = signInfo;
 
   await uploadFile(url, filePath, fileName);
@@ -76,13 +84,83 @@ export async function uploadImage(filePath: string, bizType: UploadFileBizType) 
   return { cloudKey: objectKey };
 }
 
-export async function chooseImage(count = 1) {
+const cloudKeyCache = new Map<string, string>();
+export async function uploadMedia(type: 'video' | 'image', filePath: string, bizType: string) {
+  const filename = parseFileName(filePath);
+  const name = `${generateId()}-${filename}`;
+  console.log('[uploadMedia]', { name });
+
+  let ext = `${name.split('.').pop()}`;
+  if (ext === 'jpg') {
+    ext = 'jpeg';
+  }
+
+  const miniType = `${type}/${ext}`;
+
+  const result = await new Promise<{
+    cloudKey: string;
+    publicUrl: string;
+  }>((resolve, reject) => {
+    originUploadImage({
+      bizType,
+      filePath,
+      contentType: miniType,
+      success(res) {
+        const data = JSON.parse(res.result);
+        cloudKeyCache.set(data.bizUrl, data.publicUrl);
+        resolve({ cloudKey: data.bizUrl, publicUrl: data.publicUrl });
+      },
+      fail(err) {
+        console.error('[uploadMedia] fail', err);
+        reject(err);
+      },
+    });
+  });
+
+  return result;
+}
+
+export async function uploadImageCat(filePath: string, bizType = COMMON_BIZ_TYPE) {
+  return uploadMedia('image', filePath, bizType);
+}
+
+export async function resizeImageList(pathList: Array<string>) {
+  const resizeImageAsync = options => {
+    return new Promise((resolve, reject) => {
+      resizeImage({
+        ...options,
+        success(res) {
+          resolve(res.path);
+        },
+        fail(err) {
+          reject(err);
+        },
+      });
+    });
+  };
+
+  const resPathList = await Promise.all(
+    pathList.map(url =>
+      resizeImageAsync({
+        aspectFitWidth: 1920,
+        aspectFitHeight: 1080,
+        maxFileSize: 3145728,
+        path: url,
+      })
+    )
+  );
+  return resPathList;
+}
+
+export async function chooseImage(count = 1, successCallback) {
   const paths = await new Promise<string[]>((resolve, reject) => {
     originChooseImage({
       count,
       sizeType: ['compressed'],
-      success(res) {
-        resolve(res.tempFilePaths);
+      success: async res => {
+        successCallback();
+        const resImageList = (await resizeImageList(res.tempFilePaths)) as Array<string>;
+        resolve(resImageList);
       },
       fail(err) {
         reject(err);
@@ -107,4 +185,35 @@ export async function chooseCropImage() {
     });
   });
   return result;
+}
+
+export async function pictureQualityDetect(pathUrl: string) {
+  const result = await new Promise<{
+    imagePath: string;
+    lowQuality: boolean;
+    lowQualityReason: number;
+  }>((resolve, reject) => {
+    petsPictureQualityDetectForImage({
+      inputImagePath: pathUrl,
+      labelAllow: 1,
+      objectAreaPercent: 30,
+      objectFaceRotationAngle: 40,
+      objectFaceSideAngle: 45,
+      maximumPictureBrightness: 80,
+      minimumPictureBrightness: 0,
+      success: res => {
+        resolve(res);
+      },
+      fail: error => {
+        reject(error);
+      },
+    });
+  });
+
+  return result;
+}
+
+export function formatDuration(ms) {
+  if (ms < 1000) return `${ms}ms`;
+  return `${(ms / 1000).toFixed(2)}s`; // 转为秒并保留2位小数
 }

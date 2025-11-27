@@ -8,6 +8,8 @@ import { fetchHomeInfo } from './redux/modules/homeInfoSlice';
 import { fetchAccountInfo } from './redux/modules/accountInfoSlice';
 import store from './redux';
 import './styles/index.less';
+import { initPhotosAsync } from './redux/modules/albumSlice';
+import { setDevInfo } from './utils/devInfo';
 
 interface Props {
   devInfo: DevInfo;
@@ -33,6 +35,15 @@ const composeLayout = (SubComp: React.ComponentType<any>) => {
       dispatch(updateThemeType(theme));
       dispatch(fetchHomeInfo());
       dispatch(fetchAccountInfo());
+
+      const deviceId = object?.query?.deviceId;
+
+      devices.photoFrame.init();
+      devices.photoFrame.onInitialized(device => {
+        setDevInfo({ devId: deviceId });
+        dpKit.init(device);
+        dispatch(initPhotosAsync());
+      });
     }
 
     render() {

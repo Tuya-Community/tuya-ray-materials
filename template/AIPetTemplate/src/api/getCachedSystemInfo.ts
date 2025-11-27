@@ -1,4 +1,4 @@
-import { getSystemInfoSync } from '@ray-js/ray';
+import { getSystemInfoSync, getSystemInfo, getMobileDeviceInfo } from '@ray-js/ray';
 
 const systemInfo = getSystemInfoSync();
 

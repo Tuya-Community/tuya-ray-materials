@@ -1,6 +1,6 @@
 import React, { FC, useRef, useState } from 'react';
 import { Text, View, getRecorderManager } from '@ray-js/ray';
-import { Icon, Progress } from '@ray-js/smart-ui';
+import { Icon, Progress, Circle } from '@ray-js/smart-ui';
 import { iconVoiceMic } from '@/res/iconsvg';
 import { THEME_COLOR } from '@/constant';
 import { useInterval } from 'ahooks';
@@ -65,16 +65,31 @@ const BeforeRecord: FC<Props> = ({ onRecorded }) => {
 
   return (
     <View className={styles.beforeRecord}>
-      <View hoverClassName="touchable" onTouchStart={handleStart} onTouchEnd={handleFinish}>
-        <Progress.Circle
-          size="288rpx"
-          trackWidth="4rpx"
+      <View
+        style={{ position: 'relative', width: '100px', height: '100px' }}
+        hoverClassName="touchable"
+        onTouchStart={handleStart}
+        onTouchEnd={handleFinish}
+      >
+        <Circle
+          size={100}
+          trackWidth={4}
           trackColor="#f2f2f2"
           percent={percent}
           fillColor={THEME_COLOR}
-        >
-          <Icon name={iconVoiceMic} size="80rpx" color="rgba(0, 0, 0, 0.7)" />
-        </Progress.Circle>
+          customStyle={{ zIndex: 2 }}
+        />
+        <Icon
+          name={iconVoiceMic}
+          size="80rpx"
+          color="rgba(0, 0, 0, 0.7)"
+          customStyle={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        />
       </View>
       <Text className={styles.text}>
         {isRecording

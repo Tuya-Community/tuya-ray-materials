@@ -49,6 +49,25 @@ If you have any questions, please visit the link and submit post feedback: https
 
 ## 8. Changelog
 
+### [1.0.7] - 2024-08-19
+
+#### Updates
+
+- Added pet portrait feature (@ray-js/ray requires upgrade to version 1.7.31)
+- Added cloud storage resource encryption/decryption demo
+
+### [1.0.5] - 2024-8-8
+
+#### Updates
+
+- Upgraded pet profile functionality (@ray-js/ray requires upgrade to version 1.7.28)
+
+### [1.0.4] - 2024-7-4
+
+#### Updates
+
+- Added pet image quality detection feature on the app side
+
 ### [1.0.3] - 2024-6-4
 
 #### Changed

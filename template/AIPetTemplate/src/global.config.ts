@@ -2,7 +2,7 @@ import { GlobalConfig } from '@ray-js/types';
 
 export const tuya = {
   themeLocation: 'theme.json',
-  darkmode: false,
+  // darkmode: false,
   window: {
     backgroundColor: '#fff9ef',
     navigationBarTitleText: '',

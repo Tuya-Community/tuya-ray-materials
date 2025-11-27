@@ -12,6 +12,8 @@ import globalReducer from './modules/globalSlice';
 import accountInfoReducer from './modules/accountInfoSlice';
 import uploadFileReducer from './modules/uploadFileSlice';
 import audiosReducer from './modules/audiosSlice';
+import imgListReducer from './modules/imgSlice';
+import albumReducer from './modules/albumSlice';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -35,6 +37,8 @@ const store = configureStore({
     accountInfo: accountInfoReducer,
     uploadFile: uploadFileReducer,
     audios: audiosReducer,
+    imgInfo: imgListReducer,
+    album: albumReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({ serializableCheck: false }).concat(middlewares),

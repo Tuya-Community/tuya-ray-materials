@@ -1,10 +1,10 @@
 import React, { FC, useRef, useState } from 'react';
 import { CoverView, Image, Text, View } from '@ray-js/ray';
-import { imgChargingHalo, imgFireAnim, imgGameFood, imgGameFoodTail, imgGameTable } from '@/res';
 import { GAME_BTN_MAP } from '@/constant';
 import { useImmer } from 'use-immer';
 import { useActions } from '@ray-js/panel-sdk';
 import dpCodes from '@/config/dpCodes';
+import { getCdnPath } from '@/utils';
 import clsx from 'clsx';
 
 import styles from './index.module.less';
@@ -130,7 +130,7 @@ const Game: FC<Props> = ({ visible }) => {
   return (
     <CoverView className={styles.cover}>
       <View className={clsx(styles.container, visible && styles.anim)}>
-        <Image src={imgGameTable} className={styles.table} />
+        <Image src={getCdnPath('gameTable.png')} className={styles.table} />
         <View className={styles['btn-top']}>
           <Image src={btn.top} className={styles.img} />
           <View
@@ -184,18 +184,18 @@ const Game: FC<Props> = ({ visible }) => {
         {/* 发射枪口火焰动画 */}
         <View
           className={clsx(styles.fire, play && styles.anim)}
-          style={{ backgroundImage: `url(${imgFireAnim})` }}
+          style={{ backgroundImage: `url(${getCdnPath('fireAnim.png')})` }}
         />
 
         {/* 发射动画 */}
         <View className={clsx(styles.foodWrapper, play && styles.anim)}>
-          <Image src={imgGameFood} className={styles.food} />
-          <Image src={imgGameFoodTail} className={styles.tail} />
+          <Image src={getCdnPath('gameFood.png')} className={styles.food} />
+          <Image src={getCdnPath('gameFoodTail.png')} className={styles.tail} />
         </View>
 
         {/* 蓄力光环 */}
         <Image
-          src={imgChargingHalo}
+          src={getCdnPath('chargingHalo.png')}
           className={clsx(styles.chargingHalo, charging && styles.anim)}
         />
 

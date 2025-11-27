@@ -1,0 +1,157 @@
+@video-clipper-thumb-width: 112rpx;
+@video-clipper-thumb-height: 102rpx;
+@video-clipper-indicator-width: 8rpx;
+@video-clipper-indicator-height: 120rpx;
+@video-clipper-indicator-radius: 4rpx;
+@video-clipper-time-height: 28rpx;
+@video-clipper-time-margin-top: 6rpx;
+@video-clipper-width: 686rpx;
+@video-clipper-height: 120rpx;
+
+@video-clipper-handle-width: 32rpx;
+@video-clipper-bg-width: @video-clipper-width - @video-clipper-handle-width * 2;
+
+.video-clipper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  &__loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__content {
+    position: relative;
+    width: var(--video-clipper-width, @video-clipper-width);
+    height: var(--video-clipper-height, @video-clipper-height);
+    background-color: #fff;
+    border-radius: 16rpx;
+  }
+
+  &__handler {
+    position: relative;
+    width: 100%;
+    // background-color: #FFD974;
+    height: @video-clipper-height;
+    border-radius: 16rpx;
+    overflow: hidden;
+  }
+
+  &__handler-left,
+  &__handler-right {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: @video-clipper-handle-width;
+    height: 100%;
+    background-color: #ffd974;
+    z-index: 9;
+    will-change: transform;
+
+    // 通过伪类扩大点击区域
+    &::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      bottom: -12px;
+      left: -12px;
+    }
+
+    &::after {
+      content: '';
+      width: 8rpx;
+      height: 8rpx;
+      border-radius: 100%;
+      background: #fff;
+    }
+  }
+
+  &__handler-left {
+    left: 0;
+  }
+
+  &__handler-right {
+    right: 0;
+  }
+
+  &__overlay-left,
+  &__overlay-right {
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: var(--video-clipper-height, @video-clipper-height);
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 16rpx;
+    will-change: width;
+  }
+
+  &__overlay-left {
+    left: 0;
+  }
+
+  &__overlay-right {
+    right: 0;
+  }
+
+  &__track {
+    position: absolute;
+    width: @video-clipper-bg-width;
+    top: 8rpx;
+    left: @video-clipper-handle-width;
+    overflow: hidden;
+  }
+
+  &__bg {
+    display: flex;
+    will-change: transform;
+  }
+
+  &__time {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 20rpx;
+    line-height: @video-clipper-time-height;
+    margin-top: @video-clipper-time-margin-top;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  @keyframes append-animate {
+    from {
+      opacity: 0.3;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  &__thumb {
+    width: var(--video-clipper-thumb-width, @video-clipper-thumb-width);
+    height: var(--video-clipper-thumb-height, @video-clipper-thumb-height);
+    animation: append-animate 0.3s linear;
+    will-change: opacity;
+  }
+
+  &__indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--video-clipper-indicator-width, @video-clipper-indicator-width);
+    height: var(--video-clipper-indicator-height, @video-clipper-indicator-height);
+    background-color: var(--video-clipper-indicator-background, #ffffff);
+    border-radius: var(--video-clipper-indicator-radius, @video-clipper-indicator-radius);
+    box-shadow: 0px 0px 10rpx #888;
+    opacity: 1;
+    transition: background-color ease-in 0.2s;
+    will-change: transform background-color;
+    z-index: 10;
+  }
+}

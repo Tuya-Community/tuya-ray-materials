@@ -1,0 +1,6 @@
+<view class="list-item" id="{{_chunkPrefix+chunkId}}" style="min-height: {{height}}px;">
+  <!-- 不能用block -->
+  <view class="item-wrapper" ty:if="{{showChunk}}">
+    <slot></slot>
+  </view>
+</view>

@@ -1,18 +1,19 @@
 import React, { FC, useEffect, useState } from 'react';
-import { View, Image, getSystemInfoSync } from '@ray-js/ray';
-import { imgArrowLeft } from '@/res';
+import { View, getSystemInfoSync, ai } from '@ray-js/ray';
 
 import PetAnalytics from '@/components/PetAnalytics';
 import { emitter } from '@/utils';
 import styles from './index.module.less';
 
+const { petsDetectCreate, petsDetectDestory } = ai;
+
 type Props = {
-  componentId: string;
+  petType: PetType;
   onBack: () => void;
   goNext?: () => void;
 };
 
-const PetProfile: FC<Props> = ({ componentId, onBack, goNext }) => {
+const PetProfile: FC<Props> = ({ petType, onBack, goNext }) => {
   const { screenHeight } = getSystemInfoSync();
   const [showBack, setShowBack] = useState<boolean>(true);
 
@@ -28,17 +29,16 @@ const PetProfile: FC<Props> = ({ componentId, onBack, goNext }) => {
     };
   }, []);
 
+  useEffect(() => {
+    petsDetectCreate();
+    return () => {
+      petsDetectDestory();
+    };
+  }, []);
+
   return (
     <View className={styles['pet-profile-wrapper']}>
-      {showBack && (
-        <Image
-          src={imgArrowLeft}
-          className={styles.back}
-          onClick={onBack}
-          style={{ marginTop: screenHeight <= 736 ? 0 : undefined }}
-        />
-      )}
-      <PetAnalytics componentId={componentId} goNext={goNext} />
+      <PetAnalytics petType={petType} goNext={goNext} />
     </View>
   );
 };

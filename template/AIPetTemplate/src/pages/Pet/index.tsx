@@ -1,5 +1,14 @@
 import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
-import { Image, Text, View, navigateBack, router, showLoading, hideLoading } from '@ray-js/ray';
+import {
+  Image,
+  Text,
+  View,
+  navigateBack,
+  router,
+  showLoading,
+  hideLoading,
+  nativeDisabled,
+} from '@ray-js/ray';
 import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
@@ -16,7 +25,6 @@ import {
 
 import BgBones from '@/components/BgBones';
 import TopBar from '@/components/TopBar';
-import { imgAngleRight, imgCamera, imgCat, imgDog } from '@/res';
 import Strings from '@/i18n';
 import { AppDispatch, ReduxState, getHomeId } from '@/redux';
 import { deletePet, selectPetById, updatePet, fetchPetDetail } from '@/redux/modules/petsSlice';
@@ -26,6 +34,7 @@ import {
   emitter,
   formatTimeDifference,
   routerPush,
+  getCdnPath,
 } from '@/utils';
 import { chooseCropImage, uploadImage } from '@/utils/file';
 import {
@@ -44,7 +53,7 @@ const PetEdit: FC<{
 }> = ({ pet }) => {
   const dispatch = useDispatch();
   const [avatar, setAvatar] = useState(
-    pet.avatarDisplay || (pet.petType === 'cat' ? imgCat : imgDog)
+    pet.avatarDisplay || (pet.petType === 'cat' ? getCdnPath('cat.png') : getCdnPath('dog.png'))
   );
   const [name, setName] = useState(pet.name);
   const [breedCode, setBreedCode] = useState(pet.breedCode);
@@ -109,7 +118,7 @@ const PetEdit: FC<{
   }, []);
 
   const handleBindProfile = () => {
-    routerPush('/addProfile');
+    routerPush(`/addProfile?petType=${pet.petType}`);
   };
 
   const handleDelete = async () => {
@@ -285,8 +294,8 @@ const PetEdit: FC<{
             hoverClassName="touchable"
             onClick={handleAvatar}
           >
-            <Image src={avatar ?? imgCat} className={styles.img} mode="aspectFill" />
-            <Image src={imgCamera} className={styles.camera} />
+            <Image src={avatar ?? getCdnPath('cat.png')} className={styles.img} mode="aspectFill" />
+            <Image src={getCdnPath('camera.png')} className={styles.camera} />
           </View>
           <View className={styles['block-row']}>
             <View className={styles.block} hoverClassName="touchable" onClick={handleAge}>
@@ -312,22 +321,22 @@ const PetEdit: FC<{
           <View className={styles.row} hoverClassName="touchable" onClick={handleName}>
             <Text className={styles.label}>{Strings.getLang('pet_info_name')}</Text>
             <Text className={styles.value}>{name}</Text>
-            <Image src={imgAngleRight} className={styles.arrow} />
+            <Image src={getCdnPath('angleRight.png')} className={styles.arrow} />
           </View>
           <View className={styles.row} hoverClassName="touchable" onClick={handlePetBreed}>
             <Text className={styles.label}>{Strings.getLang('pet_info_type')}</Text>
             <Text className={styles.value}>{breedName}</Text>
-            <Image src={imgAngleRight} className={styles.arrow} />
+            <Image src={getCdnPath('angleRight.png')} className={styles.arrow} />
           </View>
           <View className={styles.row} hoverClassName="touchable" onClick={handleSex}>
             <Text className={styles.label}>{Strings.getLang('pet_info_sex')}</Text>
             <Text className={styles.value}>{sexLabel}</Text>
-            <Image src={imgAngleRight} className={styles.arrow} />
+            <Image src={getCdnPath('angleRight.png')} className={styles.arrow} />
           </View>
           <View className={styles.row} hoverClassName="touchable" onClick={handleAge}>
             <Text className={styles.label}>{Strings.getLang('pet_info_birthday')}</Text>
             <Text className={styles.value}>{dayjs(birthday).format('YYYY-MM-DD')}</Text>
-            <Image src={imgAngleRight} className={styles.arrow} />
+            <Image src={getCdnPath('angleRight.png')} className={styles.arrow} />
           </View>
 
           {pet.rfid && (
@@ -343,7 +352,11 @@ const PetEdit: FC<{
                 ? Strings.getLang('pet_info_collected')
                 : Strings.getLang('pet_info_not_collected')}
             </Text>
-            <Image src={imgAngleRight} className={styles.arrow} style={{ marginLeft: '16rpx' }} />
+            <Image
+              src={getCdnPath('angleRight.png')}
+              className={styles.arrow}
+              style={{ marginLeft: '16rpx' }}
+            />
           </View>
         </View>
 
@@ -462,7 +475,7 @@ const Pet: FC<{
   const [initialed, setInitialed] = useState(false);
 
   useEffect(() => {
-    ty.nativeDisabled(true);
+    nativeDisabled(true);
     getData();
   }, []);
 

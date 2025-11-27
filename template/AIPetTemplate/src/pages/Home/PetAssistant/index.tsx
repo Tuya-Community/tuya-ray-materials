@@ -41,6 +41,7 @@ const PetAssistant: FC = () => {
         endTime: endOfDay,
         pageNo,
         pageSize: 100,
+        dataType: 'ai_pet_center',
       };
       const { pageNo: pageNumber, hasNext, data = [] } = await getPetEatingList(eatParams);
       setRefreshing(false);

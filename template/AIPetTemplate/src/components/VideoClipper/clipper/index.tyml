@@ -1,0 +1,88 @@
+<sjs src="./index.sjs" module="computed"></sjs>
+<sjs src="./style.sjs" module="style"></sjs>
+
+<view
+  id="video-clipper"
+  class='video-clipper'
+  style="{{style}}"
+  isReady="{{isReady}}"
+  change:isReady="{{computed.onReady}}"
+  data-clip-times="{{clipTimes}}"
+  data-clip-min-time="{{clipMinTime}}"
+  data-clip-max-time="{{clipMaxTime}}"
+  data-clip-start-time="{{clipStartTime}}"
+  data-clip-end-time="{{clipEndTime}}"
+  data-clip-moved-time="{{clipMovedTime}}"
+  data-clip-width="{{clipperWidth}}"
+  data-clip-handler-width="{{clipHandlerWidth}}"
+  data-clip-track-width="{{clipperTrackWidth}}"
+  data-indicator-width="{{indicatorWidth}}"
+  data-duration="{{duration}}"
+  data-total-pages="{{totalPages}}"
+  data-offset-left="{{offsetLeft}}"
+  data-offset-right="{{offsetRight}}"
+>
+  <view class="video-clipper__content">
+    <view class="video-clipper__handler">
+      <view
+        class="video-clipper__handler-left"
+        data-tag="left"
+        data-clip-min-time="{{clipMinTime}}"
+        data-clip-max-time="{{clipMaxTime}}"
+        catch:touchstart="{{computed.onHandlerTouchStart}}"
+        catch:touchmove="{{computed.onHandlerTouchMove}}"
+        catch:touchend="{{computed.onHandlerTouchEnd}}"
+      />
+      <view
+        class="video-clipper__handler-right"
+        data-tag="right"
+        data-clip-min-time="{{clipMinTime}}"
+        data-clip-max-time="{{clipMaxTime}}"
+        catch:touchstart="{{computed.onHandlerTouchStart}}"
+        catch:touchmove="{{computed.onHandlerTouchMove}}"
+        catch:touchend="{{computed.onHandlerTouchEnd}}"
+      />
+    </view>
+    <smart-loading custom-class="video-clipper__loading" />
+    <view class='video-clipper__track'>
+      <view
+        style="width:{{totalThumbnailsWidth}}px"
+        class='video-clipper__bg'
+        data-duration="{{duration}}"
+        data-clip-max-time="{{clipMaxTime}}"
+        data-thumbnail-width="{{thumbnailWidth}}"
+        data-thumbnail-count="{{thumbnailCount}}"
+        data-total-thumbnails="{{totalThumbnails}}"
+        data-total-thumbnails-width="{{totalThumbnailsWidth}}"
+        catch:touchstart="{{totalPages > 1 ? computed.onBgTouchStart : computed.noop}}"
+        catch:touchmove="{{totalPages > 1 ? computed.onBgTouchMove : computed.noop}}"
+        catch:touchend="{{totalPages > 1 ? computed.onBgTouchEnd : computed.noop}}"
+      >
+        <image
+          ty:for="{{thumbImages}}"
+          ty:for-index="idx"
+          ty:for-item="thumbImage"
+          ty:key="idx"
+          src="{{thumbImage}}"
+          class="video-clipper__thumb"
+          style="width:{{thumbnailWidth}}px"
+          mode="aspectFill"
+        />
+      </view>
+    </view>
+    <view class="video-clipper__overlay-left" />
+    <view class="video-clipper__overlay-right" />
+    <view
+      style="transform:translateX({{clipHandlerWidth}}px)"
+      class='video-clipper__indicator'
+    />
+  </view>
+  <view class='video-clipper__time'>
+    <text class='video-clipper__time-start'>
+      {{style.formatStartTimeText({ duration, totalPages, clipStartTime, clipMovedTime })}}
+    </text>
+    <text class='video-clipper__time-end'>
+      {{style.formatEndTimeText({ duration, totalPages, clipEndTime, clipMovedTime })}}
+    </text>
+  </view>
+</view>

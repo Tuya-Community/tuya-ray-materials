@@ -30,7 +30,12 @@ const Sub: FC<PropsSub> = ({ title, backgroundColor }) => {
       className={clsx(styles['top-bar'], styles.sub)}
       style={{ paddingTop: `${safeArea?.top ?? 48}px`, backgroundColor }}
     >
-      <Icon name={iconAngleLeft} size="64rpx" color="rgba(0, 0, 0, 0.7)" onClick={handleBack} />
+      <Icon
+        name={iconAngleLeft}
+        size="64rpx"
+        color="var(--panel-font-light)"
+        onClick={handleBack}
+      />
       <Text className={styles['sub-title']}>{title}</Text>
       <Icon name={iconAngleLeft} size="64rpx" customStyle={{ opacity: 0 }} />
     </View>

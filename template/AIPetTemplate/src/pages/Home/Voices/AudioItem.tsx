@@ -21,6 +21,7 @@ import dpCodes from '@/config/dpCodes';
 import clsx from 'clsx';
 import Checkbox from '@/components/Checkbox';
 
+import { CreateInnerAudioContextTask } from '@/types';
 import styles from './index.module.less';
 import { VoiceContext } from '.';
 
@@ -42,7 +43,7 @@ const AudioItem: FC<Props> = memo(({ data, current, onPlay }) => {
   const [btnStatus, setBtnStatus] = useState(0);
 
   const downloadTimer = useRef<NodeJS.Timeout>();
-  const audioContext = useRef<ty.CreateInnerAudioContextTask>();
+  const audioContext = useRef<CreateInnerAudioContextTask>();
   const [name, duration] = fileName.split('_@_');
 
   useEffect(() => {
@@ -204,7 +205,7 @@ const AudioItem: FC<Props> = memo(({ data, current, onPlay }) => {
               <Icon
                 name={iconClock}
                 size="24rpx"
-                color="rgba(0, 0, 0, 0.4)"
+                color="var(--panel-icon-lighter)"
                 customStyle={{ marginRight: '16rpx' }}
               />
               <Text className={styles.desc}>{Math.round(+duration / 1000)}s</Text>

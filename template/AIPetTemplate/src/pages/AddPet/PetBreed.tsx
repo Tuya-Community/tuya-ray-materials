@@ -4,7 +4,6 @@ import { Image, Text, View, getSystemInfoSync } from '@ray-js/ray';
 import * as icons from '@tuya-miniapp/icons';
 import { Cell, IndexBar, IndexAnchor, Icon } from '@ray-js/smart-ui';
 
-import { imgArrowLeft } from '@/res';
 import Strings from '@/i18n';
 import { selectPetBreed } from '@/redux/modules/petBreedSlice';
 import { THEME_COLOR } from '@/constant';
@@ -34,7 +33,6 @@ const PetBreed: FC<Props> = ({ petType, value, onBack, onChange }) => {
         }}
       />
       <View className={styles.header}>
-        <Image src={imgArrowLeft} className={styles.back} onClick={onBack} />
         <Text className={styles.title}>{Strings.getLang('add_pet_breed_title')}</Text>
       </View>
       <View className={styles['index-bar-wrapper']}>

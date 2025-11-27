@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Text, View } from '@ray-js/ray';
+import { router, Text, View } from '@ray-js/ray';
 import { useProps } from '@ray-js/panel-sdk';
 import Strings from '@/i18n';
 import dpCodes from '@/config/dpCodes';
@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import Battery from '@/components/Battery';
 import { Icon } from '@ray-js/smart-ui';
-import { iconVoiceMic } from '@/res/iconsvg';
+import { aiIcon, iconVoiceMic } from '@/res/iconsvg';
 import Pets from '../Pets';
 
 import styles from './index.module.less';
@@ -29,8 +29,19 @@ const Status: FC<Props> = ({ showVoice }) => {
         <View className={styles.divider} />
         <Battery />
       </View>
-      <View className={styles.settingWrapper} hoverClassName="touchable" onClick={showVoice}>
-        <Icon name={iconVoiceMic} size="40rpx" color="#FFB53E" />
+      <View className={styles.btnBox}>
+        <View className={styles.settingWrapper} hoverClassName="touchable" onClick={showVoice}>
+          <Icon name={iconVoiceMic} size="40rpx" color="#FFB53E" />
+        </View>
+        <View
+          className={styles.settingWrapper}
+          hoverClassName="touchable"
+          onClick={() => {
+            router.push('/selectImage');
+          }}
+        >
+          <Icon name={aiIcon} size="40rpx" color="#FFB53E" />
+        </View>
       </View>
     </View>
   );

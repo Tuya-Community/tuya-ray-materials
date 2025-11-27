@@ -1,0 +1,59 @@
+let startTime = 0;
+let endTime = 15;
+let movedTime = 0;
+
+// index.rjs
+export default Render({
+  init(id, sTime = 0, eTime = 15, mTime = 0) {
+    startTime = sTime;
+    endTime = eTime;
+    movedTime = mTime;
+    let animationId;
+    this.instance.getVideoById(id).then(video => {
+      const startAnimation = () => {
+        animationId = requestAnimationFrame(() => {
+          const currentTime = video.currentTime;
+          // console.log('🚀 ~ animationId=requestAnimationFrame ~ startTime:', startTime);
+          /**
+           * 当前时长超过结束时长，重置为开始时长
+           */
+          if (currentTime >= endTime + movedTime) {
+            video.currentTime = startTime + movedTime;
+            this.instance.eventChannel.emit('videoTimeUpdate', {
+              currentTime: startTime + movedTime,
+            });
+          }
+          this.instance.eventChannel.emit('videoTimeUpdate', { currentTime });
+          startAnimation();
+        });
+      };
+
+      const stopAnimation = () => {
+        animationId && cancelAnimationFrame(animationId);
+      };
+
+      video.addEventListener('seeked', event => {
+        const currentTime = video.currentTime;
+        this.instance.eventChannel.emit('videoTimeUpdate', { currentTime });
+      });
+      video.addEventListener('play', event => {
+        startAnimation();
+      });
+      video.addEventListener('pause', event => {
+        stopAnimation();
+      });
+    });
+  },
+
+  updateStartTime(time) {
+    startTime = time;
+  },
+
+  updateEndTime(time) {
+    endTime = time;
+  },
+
+  updateMovedTime(time) {
+    movedTime = time;
+  },
+});

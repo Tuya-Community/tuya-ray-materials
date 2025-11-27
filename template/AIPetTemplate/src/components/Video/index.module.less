@@ -1,0 +1,114 @@
+@video-width: 686rpx;
+@video-height: 420rpx;
+@video-radius: 0;
+
+.video {
+  position: relative;
+  margin: auto;
+  width: var(--video-width, @video-width);
+  height: var(--video-height, @video-height);
+
+  &-player {
+    width: var(--video-width, @video-width);
+    height: var(--video-height, @video-height);
+    border-radius: var(--video-radius, @video-radius);
+  }
+
+  &-play-pause-btn {
+    position: absolute;
+    width: 211rpx;
+    height: 211rpx;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 11;
+  }
+
+  &-previewer {
+    --video-seeker-bg-radius: 16rpx;
+    padding: 22rpx 32rpx;
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  &-selector {
+    --button-default-height: 58rpx;
+    --button-border-radius: 56rpx;
+    margin-bottom: 18rpx;
+    padding: 0 32rpx 22rpx;
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+    background-color: #fff;
+    box-shadow: 0px -0.5px 0px 0px rgba(0, 0, 0, 0.1);
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      font-size: 28rpx;
+      font-weight: 500;
+      color: #3d3d3d; // TODO: theme
+    }
+  
+    &__time {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6rpx;
+      margin-bottom: 18rpx;
+      font-size: 20rpx;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  &-editor {
+    margin: auto auto 32rpx;
+    width: 686rpx;
+
+    &__trimmer {
+      height: 120rpx;
+      padding: 10rpx 32rpx;
+      border-radius: 16rpx;
+      background: #FFFFFF;
+    }
+
+    &__time {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6rpx;
+      font-size: 20rpx;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    &__input {
+      margin: 40rpx auto 32rpx;
+      height: 102rpx;
+      padding: 32rpx 24rpx;
+      border: none;
+      border-radius: 16rpx;
+      background-color: #fff;
+      font-size: 28rpx;
+      color: rgba(0, 0, 0, 1);
+    }
+
+    &__sender {
+      width: 100%;
+      padding: 26rpx 32rpx;
+      padding-bottom: calc(constant(safe-area-inset-bottom) + 26rpx);
+      padding-bottom: calc(env(safe-area-inset-bottom) + 26rpx);
+      background: #ffffff;
+      backdrop-filter: blur(40rpx);
+      box-shadow: 0px -1rpx 0px 0px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+:global(.smart-button .smart-icon) {
+  font-size: 16px !important;
+}

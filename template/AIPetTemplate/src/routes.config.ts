@@ -22,4 +22,14 @@ export const routes: Routes = [
     route: '/selectPetBreed',
     path: '/pages/SelectPetBreed/index',
   },
+  {
+    route: '/selectImage',
+    path: '/pages/SelectImage/index',
+    name: 'AiFilter',
+  },
+  {
+    route: '/aiFilter',
+    path: '/pages/AIFilter/index',
+    name: 'AiFilter',
+  },
 ];

@@ -17,10 +17,9 @@ import {
   Picker,
   ToastInstance,
 } from '@ray-js/smart-ui';
-import { imgCat, imgDog, imgCamera, imgAngleRight } from '@/res';
 import { chooseCropImage, uploadImage } from '@/utils/file';
 
-import { authorizeAlbum, authorizeCamera, errorToast, routerPush } from '@/utils';
+import { authorizeAlbum, authorizeCamera, errorToast, routerPush, getCdnPath } from '@/utils';
 
 import { MAX_BIRTH_DAY, MIN_BIRTH_DAY, WEIGHT_COLUMN_0, WEIGHT_COLUMN_1 } from '@/constant';
 import { addPet, fetchPetDetail } from '@/redux/modules/petsSlice';
@@ -49,6 +48,7 @@ const PetInfo: FC<Props> = ({ petType, breed, sex, activeness, profile }) => {
   const tempWeight = useRef(weight);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showWeightPicker, setShowWeightPicker] = useState(false);
+  const [weightPopDomShow, setWeightPopDomShow] = useState(false);
 
   const weights = weight.toFixed(1).split('.');
 
@@ -167,6 +167,7 @@ const PetInfo: FC<Props> = ({ petType, breed, sex, activeness, profile }) => {
   const handleWeight = () => {
     tempBirthday.current = weight;
     setShowWeightPicker(true);
+    setWeightPopDomShow(true);
   };
 
   const handleWeightChange = e => {
@@ -186,18 +187,21 @@ const PetInfo: FC<Props> = ({ petType, breed, sex, activeness, profile }) => {
           hoverClassName="touchable"
           onClick={handleAvatar}
         >
-          <Image src={avatar ?? (petType === 'cat' ? imgCat : imgDog)} className={styles.img} />
-          <Image src={imgCamera} className={styles.camera} />
+          <Image
+            src={avatar ?? (petType === 'cat' ? getCdnPath('cat.png') : getCdnPath('dog.png'))}
+            className={styles.img}
+          />
+          <Image src={getCdnPath('camera.png')} className={styles.camera} />
         </View>
         <View className={styles.row} hoverClassName="touchable" onClick={handleName}>
           <Text className={styles.label}>{Strings.getLang('pet_info_name')}</Text>
           <Text className={styles.value}>{name}</Text>
-          <Image src={imgAngleRight} className={styles.arrow} />
+          <Image src={getCdnPath('angleRight.png')} className={styles.arrow} />
         </View>
         <View className={styles.row} hoverClassName="touchable" onClick={handleAge}>
           <Text className={styles.label}>{Strings.getLang('pet_info_birthday')}</Text>
           <Text className={styles.value}>{dayjs(birthday).format('YYYY-MM-DD')}</Text>
-          <Image src={imgAngleRight} className={styles.arrow} />
+          <Image src={getCdnPath('angleRight.png')} className={styles.arrow} />
         </View>
         <View className={styles.row} hoverClassName="touchable" onClick={handleWeight}>
           <Text className={styles.label}>{Strings.getLang('pet_info_weight')}</Text>
@@ -205,7 +209,7 @@ const PetInfo: FC<Props> = ({ petType, breed, sex, activeness, profile }) => {
             {weight}
             {Strings.getLang('kg')}
           </Text>
-          <Image src={imgAngleRight} className={styles.arrow} />
+          <Image src={getCdnPath('angleRight.png')} className={styles.arrow} />
         </View>
         <View className={styles.item} hoverClassName="touchable" onClick={handleBindProfile}>
           <Text className={styles.label}>{Strings.getLang('pet_info_facial_collect')}</Text>
@@ -214,7 +218,11 @@ const PetInfo: FC<Props> = ({ petType, breed, sex, activeness, profile }) => {
               ? Strings.getLang('pet_info_collected')
               : Strings.getLang('pet_info_not_collected')}
           </Text>
-          <Image src={imgAngleRight} className={styles.arrow} style={{ marginLeft: '16rpx' }} />
+          <Image
+            src={getCdnPath('angleRight.png')}
+            className={styles.arrow}
+            style={{ marginLeft: '16rpx' }}
+          />
         </View>
       </View>
       <View className={styles['save-btn']} hoverClassName="touchable" onClick={handleSave}>
@@ -251,23 +259,27 @@ const PetInfo: FC<Props> = ({ petType, breed, sex, activeness, profile }) => {
           setShowWeightPicker(false);
         }}
         onConfirm={handleWeightPickerConfirm}
+        onAfterLeave={() => setWeightPopDomShow(false)}
       >
         <Picker
-          key={String(showWeightPicker)}
-          columns={[
-            {
-              values: WEIGHT_COLUMN_0,
-              activeIndex: weights[0],
-            },
-            {
-              values: ['.'],
-            },
-            {
-              values: WEIGHT_COLUMN_1,
-              activeIndex: weights[1],
-              unit: Strings.getLang('kg'),
-            },
-          ]}
+          columns={
+            weightPopDomShow
+              ? [
+                  {
+                    values: WEIGHT_COLUMN_0,
+                    defaultIndex: weights[0],
+                  },
+                  {
+                    values: ['.'],
+                  },
+                  {
+                    values: WEIGHT_COLUMN_1,
+                    defaultIndex: weights[1],
+                    unit: Strings.getLang('kg'),
+                  },
+                ]
+              : []
+          }
           onChange={handleWeightChange}
           customClass={styles['weight-picker']}
         />
