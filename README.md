@@ -268,17 +268,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="GyroSweeperTemplate">2025/06</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/GyroSweeperTemplate">GyroSweeperTemplate</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=GyroSweeperTemplate" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="LampCirclePickerWhite">2025/07</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/LampCirclePickerWhite">LampCirclePickerWhite</a></td>
   <td>
@@ -758,6 +747,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <img src="./qrCode/template-PanelAiPicture.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="GyroSweeperTemplate">2025/11</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/GyroSweeperTemplate">GyroSweeperTemplate</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=GyroSweeperTemplate" target="_blank">View Details</a>
   </details>
   </td>
 </tr>

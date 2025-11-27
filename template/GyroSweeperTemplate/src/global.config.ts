@@ -1,7 +1,7 @@
 import { GlobalConfig } from '@ray-js/types';
 
 export const tuya = {
-  darkmode: false,
+  darkmode: 'light',
   themeLocation: 'theme.json',
   window: {
     backgroundColor: '#f6f8fa',

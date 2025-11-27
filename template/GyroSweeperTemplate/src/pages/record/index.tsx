@@ -10,8 +10,8 @@ import {
   ToastInstance,
 } from '@ray-js/smart-ui';
 import Strings from '@/i18n';
+import dayjs from 'dayjs';
 import { deleteCleanRecordsApi, fetchCleanRecordsApi } from '@/api/request';
-import moment from 'moment';
 import { scaleNumber } from '@/utils';
 import { devices } from '@/devices';
 import clsx from 'clsx';
@@ -52,7 +52,7 @@ function Record() {
     const { value, gmtCreate, versionV3 } = logData;
 
     // 默认使用创建时间作为日期
-    const momentDate = moment(gmtCreate);
+    const momentDate = dayjs(gmtCreate);
     let dayDate = momentDate.format('YYYY-MM-DD');
     let timeDate = momentDate.format('HH:mm');
     let timestamp = gmtCreate; // 默认使用gmtCreate作为时间戳
@@ -77,7 +77,7 @@ function Record() {
 
         // 从value中解析出来的日期时间生成时间戳
         const dateTimeString = `${year}-${month}-${day} ${hour}:${minute}:00`;
-        timestamp = moment(dateTimeString, 'YYYY-MM-DD HH:mm:ss').valueOf();
+        timestamp = dayjs(dateTimeString, 'YYYY-MM-DD HH:mm:ss').valueOf();
 
         time = scaleNumber(timeScale, parseInt(value.slice(12, 15), 10));
         area = scaleNumber(areaScale, parseInt(value.slice(15, 18), 10));
@@ -101,7 +101,7 @@ function Record() {
 
       // 从value中解析出来的日期时间生成时间戳
       const dateTimeString = `${year}-${month}-${day} ${hour}:${minute}:00`;
-      timestamp = moment(dateTimeString, 'YYYY-MM-DD HH:mm:ss').valueOf();
+      timestamp = dayjs(dateTimeString, 'YYYY-MM-DD HH:mm:ss').valueOf();
 
       time = scaleNumber(timeScale, parseInt(value.slice(12, 15), 10));
       area = scaleNumber(areaScale, parseInt(value.slice(15, 18), 10));
@@ -113,7 +113,7 @@ function Record() {
     }
 
     // 格式化简短日期（如 "5-28 17:00"）
-    const shortDate = `${moment(dayDate, 'YYYY-MM-DD').format('M-D')}`;
+    const shortDate = `${dayjs(dayDate, 'YYYY-MM-DD').format('M-D')}`;
 
     return {
       date: shortDate,

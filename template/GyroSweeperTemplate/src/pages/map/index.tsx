@@ -5,8 +5,8 @@ import { NavBar } from '@ray-js/smart-ui';
 import GridMap from '@/components/GridMap';
 import CoverageMap from '@/components/CoverageMap';
 import { useProps } from '@ray-js/panel-sdk';
-import moment from 'moment';
 import Loading from '@/components/Loading';
+import dayjs from 'dayjs';
 
 import styles from './index.module.less';
 import Header from './Header';
@@ -50,7 +50,7 @@ const Map: FC<Props> = ({ location }) => {
 
       <Text className={styles.subTitle}>
         {isRecord
-          ? moment(Number(timestamp)).format('YYYY-MM-DD HH:mm')
+          ? dayjs(Number(timestamp)).format('YYYY-MM-DD HH:mm')
           : Strings.getDpLang('status', dpStatus)}
       </Text>
 
