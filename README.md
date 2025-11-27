@@ -675,17 +675,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="PanelOutdoorCycle">2025/09</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PanelOutdoorCycle">PanelOutdoorCycle</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-PanelOutdoorCycle.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="AIDentalMirrorTemplate">2025/10</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/AIDentalMirrorTemplate">AIDentalMirrorTemplate</a></td>
   <td>
@@ -747,6 +736,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <img src="./qrCode/template-SphygmometerHealthTemplate.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="PanelOutdoorCycle">2025/11</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/PanelOutdoorCycle">PanelOutdoorCycle</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-PanelOutdoorCycle.png" width="100" height="100">
   </details>
   </td>
 </tr>

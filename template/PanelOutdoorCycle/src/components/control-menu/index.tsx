@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from 'react';
-import _ from 'lodash';
+import { debounce } from 'lodash';
 import { hideLoading, showLoading, Text, View, router } from '@ray-js/ray';
 import { useProps, useActions, useDevice } from '@ray-js/panel-sdk';
 import { supportDp, hasCommonDps, moreUnlockDPs, lightCheckShow } from '@/utils';
@@ -49,7 +49,7 @@ export const ControlMenu: React.FC<MenuProps> = React.memo(
 
     const SwitchOpenColor = '#36D100'; // 控制开关默认颜色
 
-    const goToMorePage = _.debounce(menuKey => {
+    const goToMorePage = debounce(menuKey => {
       router.push(`/more?theme=${theme}&menuKey=${menuKey}`);
     }, 500);
 

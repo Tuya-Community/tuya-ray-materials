@@ -7,19 +7,9 @@ export const routes: Routes = [
     name: 'Home',
   },
   {
-    route: '/more',
-    path: '/pages/more/index',
-    name: 'More',
-  },
-  {
-    route: '/alarm',
-    path: '/pages/alarm/index',
-    name: 'Alarm',
-  },
-  {
-    route: '/control',
-    path: '/pages/control/index',
-    name: 'Control',
+    route: '/infoDetail',
+    path: '/pages/infoDetail/index',
+    name: 'InfoDetail',
   },
   {
     route: '/light',
@@ -27,13 +17,23 @@ export const routes: Routes = [
     name: 'Light',
   },
   {
-    route: '/devInfo',
-    path: '/pages/devInfo/index',
-    name: 'DevInfo',
+    route: '/productInfo',
+    path: '/pages/productInfo/index',
+    name: 'ProductInfo',
   },
   {
-    route: '/infoDetail',
-    path: '/pages/infoDetail/index',
-    name: 'InfoDetail',
+    route: '/alarm',
+    path: '/pages/alarm/index',
+    name: 'Alarm',
+  },
+  {
+    route: '/more',
+    path: '/pages/more/index',
+    name: 'More',
+  },
+  {
+    route: '/control',
+    path: '/pages/control/index',
+    name: 'Control',
   },
 ];

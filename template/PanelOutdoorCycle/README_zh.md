@@ -71,3 +71,12 @@
 
 - 更新 `@ray-js/ray` 版本至 `1.7.41`
 - 移除 OutdoorKit 支持涂鸦智能 APP
+
+### [2.2.0] - 2025-11-07
+
+#### Feature
+
+- 更新 `@ray-js/ray` 版本至 `1.7.55`
+- 更新 `@ray-js/cli` 版本至 `1.7.55`
+- 更新 `@ray-js/smart-ui` 版本至 `2.7.2`
+- 组件 `@ray-js/components-ty-cell` 替换

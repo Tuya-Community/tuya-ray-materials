@@ -13,23 +13,12 @@ export const OutdoorTop = () => {
   const devInfo = useDevInfo() || { devId: '', name: '' };
   const theme = useSelector(selectThemeType);
 
-  const goToDeviceDetailPage = _.debounce(() => {
-    ty.navigateTo({
-      url: `functional://settings/detail?deviceId=${devInfo.devId}`,
-    });
-  }, 500);
-
   return (
     <View className={styles.topBarWrap}>
       <View className={styles.statusBar} style={{ height: `${statusBarHeight}px` }} />
       <View className={styles.topBar}>
         <Text className={styles.topBarText}>{devInfo.name}</Text>
         <View style={{ flex: 1 }} />
-        {/* <Image
-          src={theme === 'dark' ? set : setLight}
-          className={styles.icon}
-          onClick={goToDeviceDetailPage}
-        /> */}
       </View>
     </View>
   );

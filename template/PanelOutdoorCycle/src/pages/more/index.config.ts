@@ -3,6 +3,6 @@ export default {
   navigationBarBackgroundColor: '@navBgColor',
   navigationBarTextStyle: '@navTxtStyle',
   navigationBarTitleText: '更多',
-  navigationStyle: 'custom',
+  // navigationStyle: 'custom',
   // disableScroll: true,
 };

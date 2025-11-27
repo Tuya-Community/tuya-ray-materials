@@ -12,12 +12,10 @@
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
-    "@ray-js/components-ty-cell": "^0.0.19",
-    "@ray-js/icons": "^1.7.20",
-    "@ray-js/panel-sdk": "^1.10.0",
-    "@ray-js/ray": "^1.7.41",
-    "@ray-js/ray-error-catch": "^0.0.23",
-    "@ray-js/smart-ui": "^2.5.0",
+    "@ray-js/panel-sdk": "^1.14.0",
+    "@ray-js/ray": "^1.7.55",
+    "@ray-js/ray-error-catch": "^0.0.26",
+    "@ray-js/smart-ui": "^2.7.2",
     "@ray-js/svg": "^0.2.0",
     "@reduxjs/toolkit": "^1.9.3",
     "clsx": "^1.2.1",
@@ -28,7 +26,7 @@
   "devDependencies": {
     "@commitlint/cli": "^7.2.1",
     "@commitlint/config-conventional": "^9.0.1",
-    "@ray-js/cli": "^1.7.23",
+    "@ray-js/cli": "^1.7.55",
     "@types/lodash-es": "^4.17.6",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Swiper, Image } from '@ray-js/ray';
-import _ from 'lodash';
+import { isEmpty } from 'lodash';
 import styles from './index.module.less';
 
 export const SwiperView = ({ bannerData = [] }) => {
@@ -12,8 +12,8 @@ export const SwiperView = ({ bannerData = [] }) => {
   };
   return (
     <View className={styles.container}>
-      {_.isEmpty(bannerData) && <View />}
-      {!_.isEmpty(bannerData) && (
+      {isEmpty(bannerData) && <View />}
+      {!isEmpty(bannerData) && (
         <View className={styles.bannerContainer}>
           {bannerData.length > 1 && (
             <Swiper

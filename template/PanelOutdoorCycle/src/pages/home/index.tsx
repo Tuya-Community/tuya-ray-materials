@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import _ from 'lodash';
+import { isEmpty, debounce } from 'lodash';
 import { useSelector } from 'react-redux';
 import {
   Text,
@@ -20,7 +20,8 @@ import {
   unsubscribeBLEConnectStatus,
   getDeviceInfo,
 } from '@ray-js/ray';
-import { Icon } from '@ray-js/icons';
+import { Icon } from '@ray-js/smart-ui';
+import warningIcon from '@tuya-miniapp/icons/dist/svg/Warning';
 import {
   SwiperView,
   OutdoorTop,
@@ -224,7 +225,7 @@ export function Home() {
     try {
       // 获取 扩展模组关联事件配置
       const extConfigRes = await getExtendedModuleExtConfig(devId);
-      if (!_.isEmpty(extConfigRes) && typeof extConfigRes === 'object' && extConfigRes !== null) {
+      if (!isEmpty(extConfigRes) && typeof extConfigRes === 'object' && extConfigRes !== null) {
         dispatch(updateCommonInfo({ ...extConfigRes }));
       }
     } catch (error) {
@@ -236,7 +237,7 @@ export function Home() {
   const getCarLocation = () => {
     getCarLatestLocation(devId)
       .then(res => {
-        if (_.isEmpty(res)) return;
+        if (isEmpty(res)) return;
         const { lat, lon } = res;
         setCarLocation({ latitude: lat, longitude: lon });
       })
@@ -247,7 +248,7 @@ export function Home() {
   const getDeviceCloudImg = () => {
     getDeviceIcon(devId)
       .then(res => {
-        if (_.isEmpty(res)) return;
+        if (isEmpty(res)) return;
         const { icon } = res[productId];
         setCloudImg(icon);
       })
@@ -258,7 +259,7 @@ export function Home() {
   const getBannerData = () => {
     getBanner()
       .then(res => {
-        if (_.isEmpty(res)) return;
+        if (isEmpty(res)) return;
         const filteredData = res.filter(item => item.activityType === 1);
         const newData = filteredData.length > 3 ? filteredData.slice(0, 3) : filteredData;
         setBannerData(newData);
@@ -274,18 +275,18 @@ export function Home() {
   };
 
   // 定位二级页
-  const goToPositionPage = _.debounce(() => {
+  const goToPositionPage = debounce(() => {
     goToRNPage('000001isb3');
   }, 500);
 
   const bannerMenuContent = useCallback(() => {
     return (
       <>
-        {!_.isEmpty(bannerData) && <SwiperView bannerData={bannerData} />}
+        {!isEmpty(bannerData) && <SwiperView bannerData={bannerData} />}
         <View className={styles.menuBg}>
           <ControlMenu
             theme={theme}
-            isHideMap={screenHeight <= 800 && !_.isEmpty(bannerData)}
+            isHideMap={screenHeight <= 800 && !isEmpty(bannerData)}
             goToRNPage={goToPositionPage}
             showChangeMode={() => {
               checkPermissions({
@@ -305,7 +306,7 @@ export function Home() {
   }, [bannerData, isBleOnline]);
 
   const mapContent = useCallback(() => {
-    const isHideMap = screenHeight <= 800 && !_.isEmpty(bannerData);
+    const isHideMap = screenHeight <= 800 && !isEmpty(bannerData);
     if (isHideMap) return null;
     return (
       <View className={styles.mapView}>
@@ -444,7 +445,7 @@ export function Home() {
       {isBleXDevice && !isActive && activeType === 'manual_active' && (
         <View className={styles.toastView} style={{ top: `${(statusBarHeight + 44) * 2}rpx` }}>
           <View className={styles.toastLeft}>
-            <Icon size={22} type="icon-warning" color="#ffa000" />
+            <Icon size={22} name={warningIcon} color="#ffa000" />
             <Text className={styles.toastText}>{Strings.getLang('expansionInsert')}</Text>
           </View>
           <View
@@ -459,7 +460,7 @@ export function Home() {
       {!inService && isPidHadVAS && (
         <View className={styles.toastView} style={{ top: `${statusBarHeight + 39}px` }}>
           <View className={styles.toastLeft}>
-            <Icon size={22} type="icon-warning" color="#FF4444" />
+            <Icon size={22} name={warningIcon} color="#FF4444" />
             <Text className={styles.toastText}>
               {commodityUrl && commodityUrl !== ''
                 ? Strings.getLang('serviceExpire')

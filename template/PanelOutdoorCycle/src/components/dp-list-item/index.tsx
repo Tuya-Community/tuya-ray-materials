@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Text, View } from '@ray-js/ray';
 import { useActions, useDevice, useProps, utils } from '@ray-js/panel-sdk';
-import { Switch } from '@ray-js/smart-ui';
+import { Switch, CellGroup, Cell } from '@ray-js/smart-ui';
 import { IconSvg, ActionSheetEnum } from '@/components';
-import List from '@ray-js/components-ty-cell';
 import { useSelector } from 'react-redux';
 import { selectThemeType } from '@/redux/modules/themeSlice';
 import { icons } from '@/res';
@@ -71,15 +70,36 @@ export const DpListItem: React.FC<Props> = props => {
   const itemDisabled = mode === 'ro' || type === 'bool';
   return (
     <>
-      <List.Item
-        key={code}
-        className={styles.listItem}
-        style={{ pointerEvents: itemDisabled ? 'none' : 'auto' }}
-        title={Strings.getDpLang(code)}
-        gap="10px"
-        content={type === 'bool' ? BoolItem : CommonItem}
-        onClick={() => type !== 'bool' && onItemClick()}
-      />
+      <View className={styles.listItem} key={code} onClick={() => type !== 'bool' && onItemClick()}>
+        <CellGroup inset>
+          <Cell
+            title={Strings.getDpLang(code)}
+            value={
+              type === 'bool'
+                ? ''
+                : type === 'value'
+                ? `${scaleNumber(scale, dpState[code])}${unit}`
+                : [dpCodes.speedLimitEnum, dpCodes.speedLimitE].indexOf(code) !== -1
+                ? Strings.getLang(`speedLimit_${dpState[code]}_${dpState[dpCodes.unitSet]}` as any)
+                : Strings.getDpLang(code, dpState[code] as string)
+            }
+            isLink={type !== 'bool'}
+          >
+            {type === 'bool' && (
+              <Switch
+                style={{ pointerEvents: 'auto' }}
+                disabled={mode === 'ro'}
+                checked={dpState[code] as boolean}
+                activeColor="var(--app-M1)"
+                onChange={event => {
+                  const action = actions[code];
+                  action.set(event.detail);
+                }}
+              />
+            )}
+          </Cell>
+        </CellGroup>
+      </View>
 
       {/* 枚举值 */}
       <ActionSheetEnum

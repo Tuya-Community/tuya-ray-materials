@@ -3,6 +3,6 @@ export default {
   navigationBarBackgroundColor: '@navBgColor',
   navigationBarTextStyle: '@navTxtStyle',
   navigationBarTitleText: '',
-  navigationStyle: 'custom',
-  disableScroll: true,
+  // navigationStyle: 'custom',
+  // disableScroll: true,
 };

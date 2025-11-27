@@ -71,3 +71,12 @@ If you have any questions, please visit the link and submit post feedback: https
 
 - Updated `@ray-js/ray` version to `1.7.41`
 - Remove OutdoorKit and support Tuya Smart App
+
+### [2.2.0] - 2025-11-07
+
+#### Feature
+
+- Updated `@ray-js/ray` version to `1.7.55`
+- Updated `@ray-js/cli` version to `1.7.41`
+- Updated `@ray-js/smart-ui` version to `2.7.2`
+- Replace `@ray-js/components-ty-cell`

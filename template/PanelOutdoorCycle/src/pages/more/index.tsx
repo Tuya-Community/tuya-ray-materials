@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDevice, useProps, useActions } from '@ray-js/panel-sdk';
-import List from '@ray-js/components-ty-cell';
-import { View, Text, platform, ScrollView, location, router } from '@ray-js/ray';
-import { Icon } from '@ray-js/icons';
-import { TopBar, DpListItem } from '@/components';
+import { View, platform, location, router, setNavigationBarTitle } from '@ray-js/ray';
+import { Cell, CellGroup } from '@ray-js/smart-ui';
 import Strings from '@/i18n';
+import { DpListItem } from '@/components';
 import { supportDp, hasCommonDps, moreUnlockDPs } from '@/utils';
 import { getNgData } from '@/api/atop';
 import useJumpPage from '@/hooks/useJumpPage';
@@ -29,6 +28,7 @@ export function MorePage() {
 
   useEffect(() => {
     getNgRawDatas(); // 获取元数据
+    setNavigationBarTitle({ title: Strings.getLang('moreTitle') });
   }, []);
 
   // 获取对应NG元数据
@@ -77,7 +77,7 @@ export function MorePage() {
         key: 'info',
         onclick: () => {
           // 产品信息二级页 支持车辆管理平台则走自己的页面  不支持跳转rn页面
-          isSupportCarInfo ? router.push(`/devInfo?theme=${theme}`) : goToRNPage('000001e2ge');
+          isSupportCarInfo ? router.push(`/productInfo?theme=${theme}`) : goToRNPage('000001e2ge');
         },
         isShow: true,
       },
@@ -188,42 +188,25 @@ export function MorePage() {
 
   return (
     <View className={styles.container}>
-      <TopBar title={Strings.getLang('moreTitle')} />
-      <ScrollView scrollY>
-        <List
-          style={{
-            marginTop: '19px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-          rowKey={(_, i) => i}
-          dataSource={data}
-          renderItem={item =>
-            item?.showDpItem ? (
-              <DpListItem code={item.key} key={item.key} />
-            ) : (
-              <List.Item
-                gap="5px"
-                className={styles.listItem}
+      {data.map(item => {
+        return item?.showDpItem ? (
+          <DpListItem code={item.key} key={item.key} />
+        ) : (
+          <View
+            className={styles.settingItem}
+            key={item.key}
+            onClick={() => item.onclick && item.onclick()}
+          >
+            <CellGroup inset>
+              <Cell
                 title={item.key === 'mode' ? Strings.getDpLang('mode') : Strings.getLang(item.key)}
-                titleStyle={{ color: 'var(--app-B1-N1)', fontSize: '16px', fontWeight: 500 }}
-                onClick={item.onclick}
-                content={
-                  <View>
-                    {item.key === 'mode' && (
-                      <Text style={{ color: 'var(--app-B1-N4)' }}>
-                        {Strings.getDpLang('mode', mode)}
-                      </Text>
-                    )}
-                    <Icon type="icon-right" color="var(--app-B1-N4)" size={18} />
-                  </View>
-                }
+                value={item.key === 'mode' ? Strings.getDpLang('mode', mode) : ''}
+                isLink={item.key !== 'mode'}
               />
-            )
-          }
-        />
-      </ScrollView>
+            </CellGroup>
+          </View>
+        );
+      })}
     </View>
   );
 }

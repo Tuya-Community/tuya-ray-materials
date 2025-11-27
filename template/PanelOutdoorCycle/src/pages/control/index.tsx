@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { View } from '@ray-js/ray';
-import { TopBar, DpListItem } from '@/components';
+import { View, setNavigationBarTitle } from '@ray-js/ray';
+import { DpListItem } from '@/components';
 import { useDevice } from '@ray-js/panel-sdk';
 import Strings from '@/i18n';
 import dpCodes from '@/constant/dpCodes';
@@ -10,7 +10,7 @@ export function ControlPage() {
   const devInfo = useDevice(device => device.devInfo);
 
   useEffect(() => {
-    ty.hideMenuButton();
+    setNavigationBarTitle({ title: Strings.getLang('controlTitle') });
   }, []);
 
   const dataSource = devInfo.schema.filter(
@@ -27,12 +27,9 @@ export function ControlPage() {
 
   return (
     <View className={styles.container}>
-      <TopBar title={Strings.getLang('controlTitle')} />
-      <View className={styles.content}>
-        {dataSource.map(i => (
-          <DpListItem code={i.code} key={i.code} />
-        ))}
-      </View>
+      {dataSource.map(i => (
+        <DpListItem code={i.code} key={i.code} />
+      ))}
     </View>
   );
 }

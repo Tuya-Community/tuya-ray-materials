@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash';
-import { View, Image, location, ScrollView } from '@ray-js/ray';
+import { pickBy, isEmpty } from 'lodash';
+import { View, Image, location, setNavigationBarTitle } from '@ray-js/ray';
 import { useSelector } from 'react-redux';
-import { TopBar } from '@/components';
-import List from '@ray-js/components-ty-cell';
+import { CellGroup, Cell } from '@ray-js/smart-ui';
 import Strings from '@/i18n';
 import { getCarImgUrl } from '@/api/atop';
 import { selectCarInfoByKey } from '@/redux/modules/carInfoSlice';
@@ -15,13 +14,14 @@ const InfoDetailPage = React.memo(() => {
   const [imgUrl, setUrl] = useState('');
 
   useEffect(() => {
-    ty.hideMenuButton();
     getImg();
+    setNavigationBarTitle({ title: Strings.getLang(`carInfo_${key}`) });
   }, []);
+
   const getImg = () => {
     const info = detail;
-    const filterOj = _.pickBy(info, item => item.isPic === true);
-    if (!_.isEmpty(filterOj)) {
+    const filterOj = pickBy(info, item => item.isPic === true);
+    if (!isEmpty(filterOj)) {
       ty.showLoading({
         title: 'Loading...',
         mask: true,
@@ -47,52 +47,31 @@ const InfoDetailPage = React.memo(() => {
       }
       return acc;
     }, {});
+
     const listData = Object.keys(transformedVcuInfo).map(i => ({
       key: `${key}_${i}`,
-      title: (
-        <View>
-          <View style={{ color: 'var(--app-B1-N1)', fontSize: '16px', fontWeight: 500 }}>
-            {Strings.getLang(`${key}_${i}`)}
-          </View>
-          <View
-            style={{
-              color: 'var(--app-B1-N3)',
-              fontSize: '14px',
-              fontWeight: 400,
-              marginTop: '6px',
-            }}
-          >
-            {transformedVcuInfo[i]}
-          </View>
-        </View>
-      ),
+      title: Strings.getLang(`${key}_${i}`),
+      label: transformedVcuInfo[i],
     }));
     return listData;
   };
 
   return (
     <View className={styles.container}>
-      <TopBar title={Strings.getLang(`carInfo_${key}`)} />
-      <ScrollView scrollY>
-        {imgUrl !== '' && (
-          <View className={styles.imageView}>
-            <Image src={imgUrl} mode="aspectFit" />
+      {imgUrl !== '' && (
+        <View className={styles.imageView}>
+          <Image src={imgUrl} mode="aspectFit" />
+        </View>
+      )}
+      {getInfoDetail().map(item => {
+        return (
+          <View className={styles.settingItem} key={item.key}>
+            <CellGroup inset>
+              <Cell title={item.title} label={item.label} />
+            </CellGroup>
           </View>
-        )}
-        <List
-          style={{
-            marginTop: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-          rowKey={(_, i) => i}
-          dataSource={getInfoDetail()}
-          renderItem={item => (
-            <List.Item gap="5px" className={styles.listItem} title={item.title} />
-          )}
-        />
-      </ScrollView>
+        );
+      })}
     </View>
   );
 });
