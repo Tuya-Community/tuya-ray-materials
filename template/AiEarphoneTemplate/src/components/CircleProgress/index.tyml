@@ -1,0 +1,1 @@
+<canvas style="width: {{size}}px; height: {{size}}px;" id="circleProgress" canvas-id="circleProgress"></canvas>

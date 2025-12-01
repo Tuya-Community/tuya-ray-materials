@@ -1,0 +1,33 @@
+.btnGroupContainer {
+  display: flex;
+  width: 100%;
+  padding-bottom: 10px;
+  flex-direction: column;
+  .btnItem {
+    margin-right: 6px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 14px 8px;
+    border-radius: 8px;
+    .btnItemText {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.8);
+    }
+  }
+  .btnItemActive {
+    background: rgba(54, 120, 227, 0.1);
+    border-color: rgba(54, 120, 227, 1);
+    color: rgba(54, 120, 227, 1);
+  }
+  .btnItemTextActive {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(54, 120, 227, 1);
+  }
+}

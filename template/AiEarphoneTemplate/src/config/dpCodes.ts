@@ -1,0 +1,34 @@
+// 示例 请驼峰Code命名
+// export const switchCode = 'switch';
+
+export const broadcastModeCode = 'broadcast_mode';
+export const batteryPercentageCode = 'battery_percentage';
+export const leftearBatteryPercentageCode = 'leftear_battery_percentage';
+export const rightearBatteryPercentageCode = 'rightear_battery_percentage';
+export const volumeSetCode = 'volume_set';
+export const changeControlCode = 'change_control';
+export const playCode = 'play';
+export const noiseModeCode = 'noise_mode';
+export const noiseScenesCode = 'noise_scenes';
+export const transparencyScenesCode = 'transparency_scenes';
+export const noiseSetCode = 'noise_set';
+export const deviceFindCode = 'device_find';
+export const breakReminderCode = 'break_reminder';
+export const reconnectReminderCode = 'reconnect_reminder';
+export const phoneDisconAlarmCode = 'phone_discon_alarm';
+export const phoneReconAlarmCode = 'phone_recon_alarm';
+export const eqModeCode = 'eq_mode';
+export const eqDataCode = 'eq_data';
+export const leftButton1Code = 'left_button_1';
+export const rightButton1Code = 'right_button_1';
+export const buttonResetCode = 'button_reset';
+export const bluetoothStateCode = 'bluetooth_state';
+export const resetCode = 'reset';
+export const bluetoothNameCode = 'bluetooth_name';
+export const eqSwitchCode = 'eq_switch';
+export const trnSetCode = 'trn_set';
+export const factoryResetCode = 'factory_reset';
+export const softVersionCode = 'soft_version';
+export const recordInterruptCode = 'record_interrupt';
+export const recordControlCode = 'record_control';
+export const aiModeCode = 'ai_mode';

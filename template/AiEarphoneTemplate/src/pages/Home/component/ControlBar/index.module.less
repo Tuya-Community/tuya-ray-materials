@@ -1,0 +1,33 @@
+@import '@/variables.less';
+@import '@/mixins.less';
+
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  // height: 55px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  // padding-bottom: 40px;
+  background: linear-gradient(180deg, #fbfcfd 0%, #e3e7ec 100%);
+
+  .safe-area-padding-bottom();
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    height: 100%;
+    padding: 8px 0;
+    .icon {
+      width: 22px;
+      height: 22px;
+    }
+    .title {
+      font-size: 12px;
+    }
+  }
+}

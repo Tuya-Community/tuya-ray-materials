@@ -1,0 +1,2 @@
+<canvas style="width: {{width}}px; height: 240px;" id="waveAnimCanvas" canvas-id="waveAnimCanvas"></canvas>
+<!-- <text style="position: absolute;left:50%">{{width}}</text> -->

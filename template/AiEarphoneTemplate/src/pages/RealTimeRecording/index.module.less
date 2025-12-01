@@ -1,0 +1,329 @@
+@import '@/variables.less';
+@import '@/mixins.less';
+
+page {
+  font-family: 'PingFang SC', Arial, Helvetica, sans-serif;
+  font-size: 24rpx;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  .safe-area-padding-bottom();
+
+  .waveBox {
+    width: 140px;
+    height: 42px;
+    border-radius: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: '#19191b';
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100vw;
+    padding: 0 16px;
+    position: relative;
+
+    .content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 14px;
+      border-radius: 16px;
+      background-color: #fff;
+      margin-bottom: 12px;
+
+      .emptyBox {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        .emptyImg {
+          width: 116px;
+          height: 116px;
+        }
+
+        .emptyText {
+          font-size: 14px;
+          font-weight: 400;
+          text-align: center;
+        }
+      }
+
+      .scroll {
+        width: 100%;
+        height: calc(100vh - 748rpx);
+
+        .realTimeText {
+          display: block;
+          font-size: 14px;
+          font-weight: 400;
+          opacity: 0.9;
+          margin-bottom: 20px;
+        }
+      }
+    }
+
+    .controlArea {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+
+      .startBtn {
+        flex: 1;
+        height: 56px;
+        border-radius: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #3678e3;
+
+        .icon {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      .stopBtn {
+        flex: 1;
+        height: 56px;
+        border-radius: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #ff2e2e;
+        flex-direction: row;
+        margin-right: 12px;
+
+        .icon {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .pauseBtn {
+        flex: 1;
+        height: 56px;
+        border-radius: 28px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        background-color: #3678e3;
+
+        .icon {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .time {
+        margin-left: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+      }
+    }
+  }
+
+  .changeRecordChannelBtn {
+    margin-bottom: 24rpx;
+    width: 306rpx;
+    height: 60rpx;
+    border-radius: 104rpx;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .transIcon {
+    width: 24rpx;
+    height: 24rpx;
+    margin-left: 4rpx;
+  }
+
+  .configBox {
+    min-height: 142rpx;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 52rpx;
+
+    .inputType {
+      width: 244rpx;
+      height: 100%;
+      background: #fff;
+      border-radius: 32rpx;
+      padding: 36rpx 24rpx;
+    }
+
+    .langSwitch {
+      width: 420rpx;
+      height: 100%;
+      background: #fff;
+      border-radius: 32rpx;
+      padding: 36rpx 24rpx;
+    }
+
+    .configTitle {
+      color: rgba(0, 0, 0, .6);
+      font-size: 24rpx;
+      margin-bottom: 8rpx;
+    }
+
+    .configContent {
+      font-size: 28rpx;
+      color: #000;
+    }
+  }
+
+  .inputContentBox {
+    padding: 36rpx 32rpx;
+
+    .inputContentTitle {
+      font-size: 32rpx;
+      color: #000;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 64rpx;
+    }
+
+    .transContentTitle {
+      font-size: 32rpx;
+      color: #000;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .radioBox {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 32rpx;
+      margin-bottom: 80rpx;
+    }
+
+    .btnConfirm {
+      width: 686rpx;
+      position: absolute;
+      border-radius: 40rpx;
+      bottom: 96rpx;
+    }
+
+    .bigTransIcon {
+      width: 168rpx;
+      height: 168rpx;
+      margin: 36rpx auto 20rpx auto;
+      display: block;
+    }
+
+    .transResult {
+      padding: 24rpx;
+      font-size: 28rpx;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .blueText {
+      color: #3678E3;
+    }
+
+    .line {
+      display: inline-block;
+      height: 16rpx;
+      width: 2rpx;
+      background: rgba(0, 0, 0, .1);
+      border-radius: 12px;
+      margin: 0 12rpx;
+    }
+
+    .rightArrow {
+      width: 24rpx;
+      height: 24rpx;
+      margin: 0 24rpx;
+    }
+
+    .langScroll {
+      width: 100%;
+      height: 510rpx;
+      margin-top: 40rpx;
+    }
+
+    @media screen and (max-height: 750px) {
+      .langScroll {
+        height: 240rpx;
+      }
+    }
+
+    .langInputBox {
+      padding: 44rpx 24rpx;
+      height: max-content;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 24rpx;
+      margin-bottom: 24rpx;
+    }
+
+    .langTop {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .langTag {
+      padding: 8rpx 16rpx;
+      background: #eee;
+      border-radius: 8rpx;
+      font-size: 26rpx;
+    }
+
+    .langInputTitle {
+      font-size: 28rpx;
+      color: #000;
+      font-weight: 600;
+    }
+
+    .item {
+      width: 100%;
+      height: 88rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 0.5px rgba(0, 0, 0, 0.1) solid;
+
+      .text {
+        font-size: 16px;
+        font-weight: 400;
+        text-align: center;
+        color: #aaa;
+      }
+    }
+
+
+  }
+
+  .gray {
+    opacity: .4;
+  }
+}

@@ -1,0 +1,69 @@
+@import '@/mixins.less';
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // height: 360px;
+  .safe-area-padding-bottom();
+
+  .scrollView {
+    width: 100%;
+    height: 330px;
+    margin-bottom: 38px;
+    .text {
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.7);
+      line-height: 17px;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .inlineText {
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.7);
+      line-height: 17px;
+    }
+  }
+
+  .bottom {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-bottom: 10px;
+
+    .cancelBtn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 56px;
+      border-radius: 28px;
+      background: rgba(234, 234, 234, 1);
+      .cancelBtnText {
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(51, 51, 51, 1);
+      }
+    }
+
+    .confirmBtn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 56px;
+      border-radius: 28px;
+      background: rgba(54, 120, 227, 1);
+      .confirmBtnText {
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+      }
+    }
+  }
+}

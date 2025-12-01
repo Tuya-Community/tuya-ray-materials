@@ -1,0 +1,87 @@
+{
+  "name": "ai-earphone-template",
+  "version": "1.0.0",
+  "description": "ai earphone template",
+  "license": "MIT",
+  "author": "Tuya.inc",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "watch": "ray start --target=tuya",
+    "build": "ray build --target=tuya",
+    "start": "ray start --target=tuya"
+  },
+  "dependencies": {
+    "@ray-js/battery": "^0.0.5",
+    "@ray-js/components-ty-input": "^0.0.5",
+    "@ray-js/components-ty-loading": "^0.1.1",
+    "@ray-js/components-ty-popup": "2.0.0-beta-1",
+    "@ray-js/components-ty-slider": "^0.2.8",
+    "@ray-js/components-ty-swipeout": "^0.0.7",
+    "@ray-js/components-ty-tabs": "^0.0.16",
+    "@ray-js/gesture": "^0.1.4",
+    "@ray-js/icons": "^1.7.16",
+    "@ray-js/lamp-touch-slider": "^0.0.10",
+    "@ray-js/panel-sdk": "^1.10.0",
+    "@ray-js/ray": "^1.7.15",
+    "@ray-js/ray-error-catch": "^0.0.20",
+    "@ray-js/smart-ui": "^2.7.3",
+    "@ray-js/tuya-dp-kit": "^0.0.9",
+    "@ray-js/ty-notification": "0.0.3-beta-1",
+    "@reduxjs/toolkit": "^1.8.4",
+    "@tweenjs/tween.js": "^18.6.4",
+    "ahooks": "^3.7.0",
+    "clsx": "^1.2.1",
+    "color": "^4.2.3",
+    "dayjs": "^1.11.11",
+    "js-base64": "^3.7.2",
+    "lodash-es": "^4.17.21",
+    "markdown-it": "^10.0.0",
+    "react-redux": "^7",
+    "redux": "^4.1.2",
+    "redux-actions": "^2.6.5",
+    "redux-logger": "^3.0.6",
+    "redux-observable": "^2.0.0",
+    "redux-thunk": "^2.4.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "@ray-js/cli": "^1.7.55",
+    "@types/lodash": "^4.14.182",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "@types/redux-logger": "^3.0.9",
+    "core-js": "^3.29.1",
+    "eslint-config-tuya-panel": "^0.4.1",
+    "husky": "^1.2.0",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.7.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "typescript": "^4.4.3"
+  },
+  "resolutions": {
+    "@ray-js/components-ty-slider": "0.3.7",
+    "ahooks": "3.9.6",
+    "dayjs": "1.11.19",
+    "redux": "5.0.1"
+  },
+  "private": true,
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS --config commitlint.config.js",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+.langSwitchBtnBox {
+  &.langSwitchBtnBoxDisable {
+    opacity: 0.5;
+  }
+
+  display: flex;
+  margin-top: 12px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+
+  .langTransIcon {
+    width: 14px;
+    height: 14px;
+    margin: 0 2px;
+  }
+
+
+  .triangleDown {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid rgba(0, 0, 0, 0.5);
+    margin-left: 4px;
+  }
+
+  .langSwitchBtn {
+    min-width: 96px;
+    height: 38px;
+    border-radius: 19px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 14px;
+
+    .langText {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  .faceLangSwitchBtn {
+    width: 289rpx;
+    height: 104rpx;
+    border-radius: 32rpx;
+    background: #fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .lrIcon {
+    width: 40rpx;
+    height: 40rpx;
+    line-height: 40rpx;
+    border-radius: 8rpx;
+    background: rgba(54, 120, 227, 0.1);
+    text-align: center;
+  }
+
+  .transImgBox {
+    height: 100%;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

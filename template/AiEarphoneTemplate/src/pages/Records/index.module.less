@@ -1,0 +1,92 @@
+@import '@/mixins.less';
+
+page {
+  font-family: 'PingFang SC', Arial, Helvetica, sans-serif;
+  font-size: 24rpx;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  // .safe-area-padding-bottom();
+  .header {
+    width: 100%;
+    height: 17px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    margin-top: 16px;
+    padding: 0 16px;
+    .timeLabel {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.5;
+    }
+    .consumingLabel {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.5;
+    }
+  }
+  .main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    padding: 0 16px;
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+      padding: 16px 0;
+      .time {
+        flex: 1;
+        display: block;
+        height: 17px;
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 0.6;
+        text-align: center;
+      }
+      .consuming {
+        flex: 1;
+        display: block;
+        height: 17px;
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 0.6;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.shopTypeTab {
+  background-color: rgba(0, 0, 0, 0.06);
+  width: calc(100% - 32px);
+  align-self: center;
+}
+.shopTypeText {
+  color: #000;
+}
+.shopTypeItemActive {
+  background-color: #333;
+}
+.shopTypeTextActive {
+  color: #fff;
+}

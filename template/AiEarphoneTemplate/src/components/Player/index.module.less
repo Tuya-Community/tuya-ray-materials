@@ -1,0 +1,107 @@
+.player {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .waveformBox {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    .waveform {
+      position: absolute;
+      width: 100%;
+      height: 85px;
+      background: rgba(241, 241, 241, 1);
+      border-radius: 12px;
+      margin-bottom: 4px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      overflow: hidden;
+      .waveBar {
+        width: 1;
+        background-color: rgba(255, 70, 70, 1);
+      }
+    }
+    .waveMask {
+      position: absolute;
+      right: 0;
+      // z-index: 5;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: saturate(0);
+      transition: width 200ms linear;
+    }
+    .timeBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 11px;
+      .time {
+        font-size: 11px;
+        font-weight: 400;
+        color: rgba(0, 0, 0, 0.4);
+      }
+    }
+  }
+  .controlBox {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    .controlBtn {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+      .startIcon {
+        width: 30px;
+        height: 30px;
+      }
+      .rateText {
+        font-size: 18px;
+        font-weight: 600;
+        color: #000;
+      }
+    }
+  }
+
+  .btnGroupContainer {
+    display: flex;
+    width: 100%;
+    padding-bottom: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .btnItem {
+      margin-right: 6px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 14px 8px;
+      border-radius: 8px;
+      .btnItemText {
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(0, 0, 0, 0.8);
+      }
+    }
+    .btnItemActive {
+      background: rgba(54, 120, 227, 0.1);
+      border-color: rgba(54, 120, 227, 1);
+      color: rgba(54, 120, 227, 1);
+    }
+  }
+}

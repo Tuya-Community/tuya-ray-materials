@@ -1,0 +1,20 @@
+{
+  "projectname": "AI耳机模板",
+  "i18n": false,
+  "description": "AI耳机模板",
+  "miniprogramRoot": "./dist/tuya",
+  "publicRoot": "cdn/",
+  "productId": "8fi2hn0nxndzm9rm",
+  "dependencies": {
+    "BaseKit": "3.0.6",
+    "MiniKit": "3.9.8",
+    "DeviceKit": "4.14.0",
+    "BizKit": "3.0.4",
+    "WearKit": "1.1.5"
+  },
+  "devMode": "ray",
+  "baseversion": "2.27.1",
+  "compileType": "miniprogram",
+  "remoteDebug": "mqtt",
+  "remoteVersion": "1.0"
+}

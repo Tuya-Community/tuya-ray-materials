@@ -1,0 +1,66 @@
+let width = 375;
+const height = 240;
+const barWidth = 2; // 柱状体宽度
+let speed = 0;
+let bars = [];
+
+// test初始化柱状条数组
+// const numBars = 100; // 柱状条数量
+// for (let i = 0; i < numBars; i++) {
+//   bars.push({
+//     x: width + i * (barWidth + 10),
+//     height: Math.random() * (height - 50) + 50, // 随机高度
+//   });
+// }
+
+export default Render({
+  init(w) {
+    width = w;
+  },
+  updateBar(percent) {
+    bars.push({
+      x: width,
+      height: Math.max(240 * percent, 1),
+    });
+  },
+  updateSpeedValue(v) {
+    speed = v;
+  },
+  pageDraw() {
+    getCanvasById('waveAnimCanvas', this).then(canvas => {
+      const ctx = canvas.getContext('2d');
+      // const height = canvas.height;
+      // 绘制柱状条
+      function drawBars() {
+        ctx.clearRect(0, 0, width, height); // 清除画布
+
+        bars.forEach(bar => {
+          ctx.fillStyle = 'rgb(255, 70, 70)';
+          ctx.fillRect(bar.x, (height - bar.height) / 2, barWidth, bar.height); // 绘制柱状条
+        });
+      }
+      // 更新柱状条位置
+      function updatePositions() {
+        if (!bars.length) return;
+        bars.forEach((bar, idx) => {
+          // console.log('bar', bar.x);
+          bar.x -= speed;
+          if (bar.x < -barWidth) {
+            // 出屏幕后移除
+            bars.splice(idx, 1);
+          }
+        });
+      }
+
+      // 动画循环
+      function animate() {
+        updatePositions();
+        drawBars();
+        requestAnimationFrame(animate); // 请求下一帧
+      }
+
+      // 启动动画
+      animate();
+    });
+  },
+});

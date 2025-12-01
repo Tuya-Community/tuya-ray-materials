@@ -1,0 +1,34 @@
+@import '@/variables.less';
+@import '@/mixins.less';
+
+
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  .safe-area-padding-bottom();
+
+  .title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: '#19191b';
+  }
+
+  .swiper {
+    width: 100vw;
+    height: 1140rpx;
+  }
+}
+
+.swiperItemBox {
+  width: 618rpx;
+  height: 994rpx;
+  border-radius: 16px;
+  padding-top: 28px;
+  margin: 0 auto;
+  margin-top: 84rpx;
+  background: #fff;
+  box-shadow: 0px 1px 16px 0px rgba(0, 0, 0, 0.04)
+}

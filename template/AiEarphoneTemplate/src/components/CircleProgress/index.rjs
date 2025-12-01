@@ -1,0 +1,26 @@
+export default Render({
+  pageDraw(progress, sRadius, sStrokeWidth, color, strokeStyle ) {
+    getCanvasById('circleProgress', this).then(canvas => {
+      const radius = sRadius * 4;
+      const strokeWidth = sStrokeWidth * 4;
+      const ctx = canvas.getContext('2d');
+      const center = radius + strokeWidth;
+      const circumference = 2 * Math.PI * radius;
+      // 清空画布
+      ctx.clearRect(0, 0, center, center);
+      // 绘制背景圆
+      ctx.beginPath();
+      ctx.arc(center, center, radius, 0, 2 * Math.PI);
+      ctx.lineWidth = strokeWidth;
+      ctx.strokeStyle = strokeStyle;
+      ctx.stroke();
+
+      // 绘制进度圆
+      ctx.beginPath();
+      ctx.arc(center, center, radius, -Math.PI / 2, (2 * Math.PI * progress) / 100 - Math.PI / 2);
+      ctx.lineWidth = strokeWidth;
+      ctx.strokeStyle = color;
+      ctx.stroke();
+    });
+  },
+});

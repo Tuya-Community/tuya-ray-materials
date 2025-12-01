@@ -1,0 +1,174 @@
+@import '@/mixins.less';
+
+page {
+  font-family: 'PingFang SC', Arial, Helvetica, sans-serif;
+  font-size: 24rpx;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+
+  .status {
+    width: 100vw;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 10px 16px;
+
+    .batteryBox {
+      display: flex;
+      align-items: center;
+
+      .batteryIcon {
+        margin-right: 16px;
+      }
+
+      .batteryText {
+        font-size: 12px;
+        font-weight: 600;
+        margin-right: 12px;
+      }
+    }
+
+    .typeBtn {
+      background-color: transparent;
+      height: 22px;
+      border-radius: 11px;
+      padding: 0 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #000;
+
+      .typeText {
+        font-size: 12px;
+        font-weight: 600;
+        color: #000;
+      }
+    }
+  }
+
+  .chartBox {
+    width: 100vw;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    // justify-content: center;
+    // background-color: #0f0;
+    .chart {
+      margin-top: 7px;
+      width: 100vw;
+      height: 244px;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .waveAnimBox {
+        position: absolute;
+        left: calc(50vw - 375px);
+      }
+    }
+
+    .centerMark {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 3px;
+        background-color: rgba(255, 70, 70, 1);
+      }
+
+      .centerLine {
+        width: 1.5px;
+        height: 244px;
+        background-color: rgba(255, 70, 70, 1);
+      }
+
+      .triangle {
+        margin-top: 2px;
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 10px solid #000;
+      }
+    }
+  }
+
+  .controlArea {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .time {
+      font-size: 38px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .controlBtn {
+      margin-top: 12px;
+      margin-bottom: 24px;
+      width: 138px;
+      height: 56px;
+      border-radius: 28px;
+      border: 2px solid rgba(175, 175, 175, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+
+      .icon {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .save {
+      font-size: 18px;
+      font-weight: 600;
+      color: rgba(54, 120, 227, 1);
+    }
+  }
+
+  .changeRecordChannelBtn {
+    margin-top: 46rpx;
+    width: 306rpx;
+    height: 60rpx;
+    border-radius: 104rpx;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .transIcon {
+    width: 24rpx;
+    height: 24rpx;
+    margin-left: 4rpx;
+  }
+
+  .gray {
+    opacity: .4;
+  }
+}

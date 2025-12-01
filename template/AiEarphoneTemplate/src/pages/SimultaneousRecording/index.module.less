@@ -1,0 +1,122 @@
+@import '@/variables.less';
+@import '@/mixins.less';
+
+page {
+  font-family: 'PingFang SC', Arial, Helvetica, sans-serif;
+  font-size: 24rpx;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  .safe-area-padding-bottom();
+
+  .bg {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .topBox {
+    .topTime {
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+
+  .title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: '#19191b';
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100vw;
+    padding: 0 16px;
+    height: 100%;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+
+    .langSwitchBtnBox {
+      display: flex;
+      justify-content: center;
+      margin-top: 12px;
+
+      .langSwitchBtn {
+        min-width: 96px;
+        height: 38px;
+        border-radius: 19px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 14px;
+
+        .langTransIcon {
+          width: 14px;
+          height: 14px;
+          margin: 0 2px;
+        }
+
+        .langText {
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        .triangleDown {
+          width: 0;
+          height: 0;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 6px solid rgba(0, 0, 0, 0.5);
+          margin-left: 4px;
+        }
+      }
+    }
+
+    .startBox {
+      display: flex;
+      width: 100%;
+      margin-bottom: 84px;
+      flex-direction: column;
+      align-items: center;
+
+      .startBtn {
+        width: 88px;
+        height: 88px;
+        border-radius: 44px;
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        background: #dce5f8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 17px;
+
+        .startIcon {
+          width: 36px;
+          height: 36px;
+        }
+      }
+
+      .startTip {
+        font-size: 16px;
+        font-weight: 500;
+        text-align: center;
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+.bluetoothIcon {
+  width: 22px;
+  height: 22px;
+}
