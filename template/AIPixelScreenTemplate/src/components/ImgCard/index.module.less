@@ -1,0 +1,59 @@
+.imgCardWrap {
+  height: 308rpx;
+  position: relative;
+  .grid {
+    position: absolute;
+    width: 308rpx;
+    height: 308rpx;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
+  .cardImg {
+    width: 308rpx;
+    height: 308rpx;
+    border-radius: 16rpx;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .cardActions {
+    position: absolute;
+    right: 0;
+    bottom: 16rpx;
+    z-index: 3;
+    height: 56rpx;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 16rpx;
+    .like {
+      width: 56rpx;
+      height: 56rpx;
+      border-radius: 16rpx;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      .likeIcon {
+        width: 24.5rpx;
+        height: 21rpx;
+      }
+    }
+    .preview {
+      width: 56rpx;
+      height: 56rpx;
+      border-radius: 16rpx;
+      background-color: rgba(0, 0, 0, 0.4);
+      margin-left: 16rpx;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      .previewIcon {
+        width: 24rpx;
+        height: 24rpx;
+      }
+    }
+  }
+}

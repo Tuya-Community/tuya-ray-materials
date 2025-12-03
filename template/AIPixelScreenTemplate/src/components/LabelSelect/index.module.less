@@ -1,0 +1,98 @@
+.labelSelectwrapper {
+  flex: 1;
+  width: 100vw;
+  color: #ffffff;
+  .tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100%;
+    padding: 40rpx 32rpx calc(env(safe-area-inset-bottom) + 40rpx);
+    .tab {
+      flex-shrink: 0;
+      padding: 16rpx 48rpx;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 24rpx;
+      margin-right: 16rpx;
+      font-size: 28rpx;
+      line-height: 40rpx;
+      box-sizing: border-box;
+      transition: all 0.2s;
+    }
+    .tab:active {
+      color: var(--app-M1);
+      border-color: var(--app-M1);
+      background: var(--app-M1_1);
+    }
+    .tab:last-child {
+      margin-right: 0;
+    }
+  }
+  .bottomSheetWrapper {
+    background: #1f1e34;
+    z-index: 100;
+    --bottom-sheet-padding: 0;
+    .hearder {
+      padding: 48rpx 32rpx;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .tabName {
+        font-size: 28rpx;
+        font-weight: 600;
+        color: #ffffff;
+      }
+      .closeBox {
+        height: 54rpx;
+        width: 54rpx;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 40rpx;
+        background-image: url(../../assets/images/close.png);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
+    }
+    .listWrapper {
+      width: 100vw;
+      overflow-x: auto;
+    }
+    .labelList {
+      width: 1000rpx;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0 16rpx 0 32rpx;
+      .labelItem {
+        padding: 16rpx 32rpx;
+        border-radius: 58rpx;
+        box-sizing: border-box;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 24rpx;
+        line-height: 24rpx;
+        color: #ffffff;
+        margin: 0 16rpx 32rpx 0;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        .labelIcon {
+          height: 34rpx;
+          width: 34rpx;
+        }
+        .title {
+          margin: 0 4rpx;
+        }
+        .arrow {
+          height: 32rpx;
+          width: 32rpx;
+          background-image: url(../../assets/images/right-arrow.png);
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+        }
+      }
+      .labelItem:active {
+        border-color: var(--app-M1);
+        background: var(--app-M1_1);
+      }
+    }
+  }
+}

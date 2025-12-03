@@ -1,0 +1,13 @@
+<view class="smear-wrap">
+	<canvas
+	 type="2d"
+	 canvas-id="sourceCanvas"
+	 style="width: {{realWidth}}px; height: {{realHeight}}px"
+	/>
+</view>
+
+<canvas
+  type="2d"
+  canvas-id="targetCanvas"
+  style="width: {{pixelCount}}px; height: {{pixelCount}}px; position: fixed; top: 0; left: -1000px;"
+/>

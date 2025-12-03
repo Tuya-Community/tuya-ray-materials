@@ -1,0 +1,48 @@
+.pageWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  color: #fff;
+  background-image: url(../../assets/images/bg.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 156rpx);
+}
+
+.navBar {
+  --nav-bar-background-color: transparent;
+  width: 100vw;
+}
+
+.container {
+  flex: 1;
+  padding: 32rpx 16rpx;
+  overflow-y: scroll;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .aiBox {
+    width: 686rpx;
+    height: 120rpx;
+    border-radius: 52rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(../../assets/images/ai-bg.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin-bottom: 64rpx;
+    .aiIcon {
+      width: 40rpx;
+      height: 40rpx;
+    }
+    .aiTitle {
+      font-size: 28rpx;
+      margin-left: 16rpx;
+    }
+  }
+}

@@ -1,0 +1,50 @@
+import { GifWriter } from 'omggif';
+import { arrayBufferToBase64, quantizeColors } from '@/utils/genImgData';
+
+export default Render({
+  async draw({ width, height, imgSrc }) {
+    let self = this;
+    let canvas = await getCanvasById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = width;
+    canvas.height = height;
+    this.canvas = canvas;
+    this.ctx = ctx;
+
+    const img = canvas.createImage();
+    await new Promise(r => {
+      img.onload = r;
+      img.src = imgSrc;
+    });
+
+    ctx.clearRect(0, 0, width, height);
+    ctx.drawImage(img, 0, 0, width, height);
+
+    // 图片转为单帧 gif
+    const imageData = ctx.getImageData(0, 0, width, height);
+    // 使用自定义方法把 RGBA 转成索引色
+    const { indexedPixels, palette } = quantizeColors(imageData);
+
+    // 计算 buffer 大小
+    const buffer = new Uint8Array(width * height * 5);
+    const gif = new GifWriter(buffer, width, height, { loop: 0, palette });
+    gif.addFrame(0, 0, width, height, indexedPixels, {
+      delay: 5,
+      palette: palette,
+    });
+
+    const gifData = buffer.subarray(0, gif.end());
+
+    // 将 GIF 数据转换为 base64
+    const base64String = arrayBufferToBase64(gifData);
+    const base64Data = `data:image/gif;base64,${base64String}`;
+
+    self.callMethod('genImageData', {
+      base64Data,
+    });
+  },
+  // 清除画布
+  clear() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  },
+});

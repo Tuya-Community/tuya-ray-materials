@@ -1,0 +1,28 @@
+.myPageWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  color: #fff;
+  font-size: 28rpx;
+  background-image: url(../../assets/images/bg.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  .navBar {
+    --nav-bar-background-color: transparent;
+    width: 100vw;
+  }
+  .container {
+    flex: 1;
+    width: 100%;
+    position: relative;
+    padding: 16px 8px;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 78px);
+    overflow: hidden;
+    display: flex;
+    .tabs {
+      flex: 1;
+    }
+  }
+}

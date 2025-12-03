@@ -1,0 +1,71 @@
+.pageWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  color: #fff;
+  background-image: url(../../assets/images/bg.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.navBar {
+  --nav-bar-background-color: transparent;
+  width: 100vw;
+}
+
+.tips {
+  font-size: 12px;
+  line-height: 14px;
+  color: rgba(255, 255, 255, 0.5);
+}
+.pageContainer {
+  position: relative;
+  width: 100vw;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+}
+.freeChatContainer {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+  .messageListContainer {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+  }
+
+  .emptyBox {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    touch-action: none;
+    .emptyImg {
+      width: 214rpx;
+      height: 170rpx;
+      margin-bottom: 32rpx;
+    }
+    .emptyText {
+      font-size: 24rpx;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+}

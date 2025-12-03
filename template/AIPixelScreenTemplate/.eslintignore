@@ -1,0 +1,9 @@
+dist
+typings
+node_modules
+src/app.config.ts
+src/components/DiySmear/index.js
+src/components/PixelImage/index.js
+src/components/TextCreation/index.js
+src/components/PixelGraffiti/index.js
+src/utils/genImgData.ts

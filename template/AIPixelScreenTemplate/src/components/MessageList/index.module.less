@@ -1,0 +1,216 @@
+.messageListWrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.messageList {
+  flex: 1;
+  padding: 20rpx;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  .listBox {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    justify-content: flex-start;
+  }
+}
+
+.messageItem {
+  margin-bottom: 32rpx;
+  display: flex;
+  width: 100%;
+}
+
+.userMessage {
+  justify-content: flex-end;
+}
+
+.assistantMessage {
+  justify-content: flex-start;
+}
+
+.messageContent {
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.userMessage .messageContent {
+  align-items: flex-end;
+}
+
+.assistantMessage .messageContent {
+  align-items: flex-start;
+}
+
+.messageBubble {
+  padding: 32rpx;
+  border-radius: 32rpx;
+  position: relative;
+}
+
+.userMessage .messageBubble {
+  background: var(--app-M1);
+  color: white;
+  border-bottom-right-radius: 8rpx;
+}
+
+.assistantMessage .messageBubble {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--app-M1);
+  border-bottom-left-radius: 8rpx;
+}
+
+.lastImageMessage {
+  .assistantMessage,
+  .messageBubble {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.messageText {
+  font-size: 28rpx;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.assistantMessage {
+  color: rgba(44, 62, 80, 0.6);
+}
+
+/* 滚动条样式 */
+.messageList::-webkit-scrollbar {
+  width: 8rpx;
+}
+
+.messageList::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4rpx;
+}
+
+.messageList::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4rpx;
+}
+
+.messageList::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.loadingBox {
+  width: 308rpx;
+  height: 308rpx;
+  border-radius: 16rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  // background-image: url('../../assets/images/imgBg.gif');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  .genIcon {
+    width: 48rpx;
+    height: 48rpx;
+    margin-bottom: 8rpx;
+    background-image: url('../../assets/images/genIcon.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+  .loadingText {
+    font-size: 24rpx;
+    color: #ffffff;
+  }
+}
+
+.actionBar {
+  height: 88rpx;
+  width: 372rpx;
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-bottom-right-radius: 32rpx;
+  border-bottom-left-radius: 8rpx;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.2);
+  .regenerate {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .messageArrow {
+      width: 24rpx;
+      height: 24rpx;
+      margin-right: 8rpx;
+      mask-image: url('../../assets/images/refresh.png');
+      -webkit-mask-image: url('../../assets/images/refresh.png');
+      mask-size: cover;
+      background-color: var(--app-M1);
+    }
+    .action {
+      font-size: 24rpx;
+      color: var(--app-M1);
+    }
+  }
+  .loading {
+    .messageArrow {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    .action {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+/* 响应式设计 */
+// @media (max-width: 750rpx) {
+//   .messageContent {
+//     max-width: 85%;
+//   }
+
+//   .messageBubble {
+//     padding: 20rpx 28rpx;
+//   }
+
+//   .messageText {
+//     font-size: 26rpx;
+//   }
+
+//   .header {
+//     padding: 16rpx 24rpx;
+//   }
+// }
+
+/* 动画效果 */
+// .messageItem {
+//   animation: fadeInUp 0.3s ease-out;
+// }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// .messageBubble {
+//   animation: scaleIn 0.2s ease-out;
+// }
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

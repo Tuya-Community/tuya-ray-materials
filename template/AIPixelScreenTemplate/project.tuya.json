@@ -1,0 +1,23 @@
+{
+  "name": "端侧AI文生图",
+  "type": "panel-app",
+  "ownerType": "tuya-official",
+  "i18n": false,
+  "description": "",
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.29.1",
+    "BizKit": "4.10.0",
+    "DeviceKit": "4.6.1",
+    "HomeKit": "3.4.0",
+    "MiniKit": "3.12.0",
+    "AIKit": "1.8.1"
+  },
+  "baseversion": "2.29.18",
+  "projectname": "端侧AI文生图",
+  "devMode": "ray",
+  "compileType": "miniprogram",
+  "publicRoot": "/cdn",
+  "remoteDebug": "mqtt",
+  "remoteVersion": "2.0"
+}

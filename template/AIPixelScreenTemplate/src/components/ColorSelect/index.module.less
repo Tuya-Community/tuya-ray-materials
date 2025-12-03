@@ -1,0 +1,44 @@
+.colorSelect {
+  width: 100%;
+  height: 100%;
+  border-radius: 32rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .colorList {
+    height: 50rpx;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32rpx;
+    margin-bottom: 46rpx;
+    .colorBox {
+      height: 50rpx;
+      width: 50rpx;
+      position: relative;
+    }
+    .color {
+      height: 100%;
+      width: 100%;
+      border-radius: 100%;
+    }
+    .icon {
+      width: 22rpx;
+      height: 16rpx;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  .hueSlider,
+  .saturationSlider {
+    height: 68rpx;
+  }
+  .hueSlider {
+    margin-bottom: 32rpx;
+  }
+}

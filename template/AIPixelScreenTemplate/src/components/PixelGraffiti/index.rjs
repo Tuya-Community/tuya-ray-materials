@@ -1,0 +1,229 @@
+import { GifWriter } from 'omggif';
+import { arrayBufferToBase64, quantizeColors } from '@/utils/genImgData';
+
+const pixelRatio = Math.floor(getSystemInfo().pixelRatio) || 1; // 分辨率, 整数
+
+export default Render({
+  async initPanel({
+    width,
+    height,
+    mode,
+    gridSize,
+    pixelSize,
+    pixelGap,
+    pixelShape,
+    pixelColor,
+    penColor,
+  }) {
+    let canvas = await getCanvasById('sourceCanvas');
+
+    // 根据屏幕分辨率动态计算canvas尺寸
+    if (mode === 'grid') {
+      const gridModeSize = (pixelSize + pixelGap) * gridSize + pixelGap;
+      canvas.width = gridModeSize * pixelRatio;
+      canvas.height = gridModeSize * pixelRatio;
+      canvas.style.width = gridModeSize + 'px';
+      canvas.style.height = gridModeSize + 'px';
+    } else {
+      canvas.width = width * pixelRatio;
+      canvas.height = height * pixelRatio;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+    }
+
+    const ctx = canvas.getContext('2d');
+    ctx.scale(pixelRatio, pixelRatio);
+    this.canvas = canvas;
+    this.ctx = ctx;
+
+    this.mode = mode;
+    this.gridSize = gridSize;
+    this.pixelSize = pixelSize;
+    this.pixelGap = pixelGap;
+    this.pixelShape = pixelShape;
+    this.pixelColor = pixelColor;
+    this.penColor = penColor;
+
+    // 初始化画布, 绘制像素点
+    this.createPixel(pixelColor);
+
+    // 用于存储触摸开始到结束经过的方格坐标数组集合
+    const touchedSquaresSet = new Set();
+    // 记录触摸是否开始
+    let isTouchStarted = false;
+
+    const handleTouchstart = e => {
+      touchedSquaresSet.clear();
+      isTouchStarted = true;
+      const touch = e.changedTouches[0];
+      const rect = canvas.getBoundingClientRect();
+      const x = Math.floor((touch.pageX - rect.left - pixelGap) / (pixelSize + pixelGap));
+      const y = Math.floor((touch.pageY - rect.top - pixelGap) / (pixelSize + pixelGap));
+      const coordinate = `${x},${y}`;
+      if (!touchedSquaresSet.has(coordinate)) {
+        touchedSquaresSet.add(coordinate);
+        this.fillPixel(x, y, this.penColor);
+      }
+    };
+    const handleTouchmove = e => {
+      e.preventDefault();
+      if (isTouchStarted) {
+        const touch = e.changedTouches[0];
+        const rect = canvas.getBoundingClientRect();
+        const x = Math.floor((touch.pageX - rect.left - pixelGap) / (pixelSize + pixelGap));
+        const y = Math.floor((touch.pageY - rect.top - pixelGap) / (pixelSize + pixelGap));
+        const coordinate = `${x},${y}`;
+        if (!touchedSquaresSet.has(coordinate)) {
+          touchedSquaresSet.add(coordinate);
+          this.fillPixel(x, y, this.penColor);
+        }
+      }
+    };
+    const handleTouchend = e => {
+      isTouchStarted = false;
+      const touchedSquares = [];
+      for (const coordinateStr of touchedSquaresSet) {
+        const [x, y] = coordinateStr.split(',');
+        touchedSquares.push({ x: Number(x), y: Number(y) });
+      }
+      this.callMethod('touchend', touchedSquares);
+    };
+    canvas.addEventListener('touchstart', handleTouchstart, false);
+    canvas.addEventListener('touchmove', handleTouchmove, false);
+    canvas.addEventListener('touchend', handleTouchend, false);
+
+    ctx.imageSmoothingEnabled = true; // 开启抗锯齿
+    ctx.imageSmoothingQuality = 'high'; // 高质量抗锯齿
+  },
+  createPixel(pixelColor) {
+    const { pixelSize, pixelGap, gridSize } = this;
+    let gridSizeX = gridSize;
+    let gridSizeY = gridSize;
+    if (this.mode !== 'grid') {
+      gridSizeX = this.canvas.width / (pixelSize + pixelGap);
+      gridSizeY = this.canvas.height / (pixelSize + pixelGap);
+    }
+    for (let x = 0; x < gridSizeX; x++) {
+      for (let y = 0; y < gridSizeY; y++) {
+        this.fillPixel(x, y, pixelColor);
+      }
+    }
+  },
+  fillPixel(x, y, color) {
+    const { ctx, pixelSize, pixelGap, pixelShape } = this;
+    const offsetX = pixelGap + x * (pixelSize + pixelGap);
+    const offsetY = pixelGap + y * (pixelSize + pixelGap);
+    // 清除原有填充颜色
+    ctx.clearRect(offsetX, offsetY, pixelSize, pixelSize);
+    ctx.fillStyle = color; // 填充颜色
+    if (pixelShape === 'rect') {
+      ctx.fillRect(offsetX, offsetY, pixelSize, pixelSize);
+    } else {
+      const radius = pixelSize / 2;
+      // 开始绘制路径
+      ctx.beginPath();
+      // 使用arc方法绘制圆形，传入圆心x坐标、圆心y坐标、半径、起始角度（弧度制）、结束角度（弧度制）
+      ctx.arc(offsetX + radius, offsetY + radius, radius, 0, Math.PI * 2);
+      // 关闭路径
+      ctx.closePath();
+
+      // 执行填充操作，将圆形内部填充为设定的颜色
+      ctx.fill();
+    }
+  },
+  // 改变画笔颜色
+  updateColor(color) {
+    this.penColor = color;
+  },
+  // 橡皮擦
+  eraser() {
+    // 橡皮擦颜色与格子默认色一致
+    this.penColor = this.pixelColor;
+  },
+  // 油漆桶
+  changeBg(color) {
+    this.penColor = color;
+    this.createPixel(color);
+  },
+  // 清除画布
+  clear() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.createPixel(this.pixelColor);
+  },
+  async save() {
+    // 获取源canvas和目标canvas的上下文
+    const sourceCanvas = this.canvas;
+    let targetCanvas = this.targetCanvas;
+    let targetCtx = this.targetCtx;
+
+    const gridSize = this.gridSize;
+    let gridSizeX = gridSize;
+    let gridSizeY = gridSize;
+    if (this.mode !== 'grid') {
+      gridSizeX = this.canvas.width / (pixelSize + pixelGap);
+      gridSizeY = this.canvas.height / (pixelSize + pixelGap);
+    }
+
+    if (!targetCtx) {
+      targetCanvas = await getCanvasById('targetCanvas');
+      targetCtx = targetCanvas.getContext('2d');
+      this.targetCanvas = targetCanvas;
+      this.targetCtx = targetCtx;
+      targetCanvas.width = gridSizeX;
+      targetCanvas.height = gridSizeY;
+      targetCanvas.style.width = `${gridSizeX}px`;
+      targetCanvas.style.height = `${gridSizeY}px`;
+    }
+
+    targetCtx.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
+
+    // 获取源canvas的宽高
+    const sourceWidth = sourceCanvas.width;
+    const sourceHeight = sourceCanvas.height;
+
+    // 获取目标canvas的宽高
+    const targetWidth = targetCanvas.width;
+    const targetHeight = targetCanvas.height;
+
+    targetCtx.fillStyle = '#000000';
+    targetCtx.fillRect(0, 0, targetWidth, targetHeight);
+
+    targetCtx.drawImage(
+      sourceCanvas,
+      0,
+      0,
+      sourceWidth,
+      sourceHeight,
+      0,
+      0,
+      targetWidth,
+      targetHeight
+    );
+
+    targetCtx.imageSmoothingEnabled = true; // 开启抗锯齿
+    targetCtx.imageSmoothingQuality = 'high'; // 高质量抗锯齿
+
+    // 图片转为单帧 gif
+    const imageData = targetCtx.getImageData(0, 0, targetWidth, targetHeight);
+    // 使用自定义方法把 RGBA 转成索引色
+    const { indexedPixels, palette } = quantizeColors(imageData);
+
+    // 计算 buffer 大小
+    const buffer = new Uint8Array(targetWidth * targetHeight * 5);
+    const gif = new GifWriter(buffer, targetWidth, targetHeight, { loop: 0, palette });
+    gif.addFrame(0, 0, targetWidth, targetHeight, indexedPixels, {
+      delay: 5,
+      palette: palette,
+    });
+
+    const gifData = buffer.subarray(0, gif.end());
+
+    // 将 GIF 数据转换为 base64
+    const base64String = arrayBufferToBase64(gifData);
+    const base64Data = `data:image/gif;base64,${base64String}`;
+
+    this.callMethod('genImageData', {
+      base64Data,
+    });
+  },
+});

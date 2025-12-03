@@ -1,0 +1,50 @@
+.pageWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  color: #fff;
+  background-image: url(../../assets/images/bg.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.tabBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 156rpx;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: #121127;
+  border-top: 2rpx solid rgba(255, 255, 255, 0.1);
+  z-index: 10;
+  box-sizing: content-box;
+  .tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .icon {
+      width: 50rpx;
+      height: 50rpx;
+    }
+    .text {
+      font-size: 28rpx;
+      line-height: 40rpx;
+      margin-top: 10rpx;
+      color: rgba(255, 255, 255, 0.5);
+    }
+    .textActive {
+      font-size: 28rpx;
+      line-height: 40rpx;
+      margin-top: 10rpx;
+      color: #1082fe;
+    }
+  }
+}
