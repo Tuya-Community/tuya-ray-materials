@@ -85,6 +85,17 @@ If you have any questions, please visit the link and submit a post for feedback:
 
 ## Changelog
 
+### [1.0.6] - 2025-12-12
+
+#### Added
+
+- Optimized the display of multiple maps & added width and height parameters
+- Fixed the endTime parameter format issue of fetchCleanRecords
+
+#### Changed
+
+- @ray-js/robot-map updated to **0.0.2-beta-53**, fixing several issues.
+
 ### [1.0.4] - 2025-11-13
 
 #### Changed

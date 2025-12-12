@@ -43,7 +43,16 @@ const taskQueue = createAsyncQueue(
         });
 
         // 将快照存储到 Redux store
-        store.dispatch(upsertSnapshotImage({ key: filePathKey, snapshotImage }));
+        store.dispatch(
+          upsertSnapshotImage({
+            key: filePathKey,
+            snapshotImage: {
+              image: snapshotImage,
+              mapWidth: decodeMapHeader(data.originMap)?.mapWidth ?? 0,
+              mapHeight: decodeMapHeader(data.originMap)?.mapHeight ?? 0,
+            },
+          })
+        );
       }
     } catch (err) {
       console.error(err);
@@ -222,7 +231,7 @@ const multiMapsSlice = createSlice({
   name: 'multiMaps',
   initialState: {
     list: multiMapsAdapter.getInitialState(),
-    snapshotImageMap: {} as Record<string, string>,
+    snapshotImageMap: {} as Record<string, { image: string; mapWidth: number; mapHeight: number }>,
   },
   reducers: {
     updateMultiMap: (state, action: PayloadAction<MultiMap>) => {
@@ -234,7 +243,10 @@ const multiMapsSlice = createSlice({
     deleteMultiMap: (state, action: PayloadAction<string>) => {
       multiMapsAdapter.removeOne(state.list, action.payload);
     },
-    setSnapshotImageMap: (state, action: PayloadAction<Record<string, string>>) => {
+    setSnapshotImageMap: (
+      state,
+      action: PayloadAction<Record<string, { image: string; mapWidth: number; mapHeight: number }>>
+    ) => {
       state.snapshotImageMap = action.payload;
     },
     /**
@@ -242,7 +254,13 @@ const multiMapsSlice = createSlice({
      * @param state 当前状态
      * @param action 包含快照键和图片数据的 action
      */
-    upsertSnapshotImage: (state, action: PayloadAction<{ key: string; snapshotImage: string }>) => {
+    upsertSnapshotImage: (
+      state,
+      action: PayloadAction<{
+        key: string;
+        snapshotImage: { image: string; mapWidth: number; mapHeight: number };
+      }>
+    ) => {
       state.snapshotImageMap[action.payload.key] = action.payload.snapshotImage;
     },
   },

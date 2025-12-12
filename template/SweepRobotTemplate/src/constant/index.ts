@@ -72,7 +72,8 @@ export const MAP_CONFIG: DeepPartialAppConfig = {
     containerWidth: '100%',
   },
   map: {
-    autoPaddingPercent: 0.02,
+    autoPaddingHorizontalPercent: 0.02,
+    autoPaddingVerticalPercent: 0.02,
     obstacleColor: '#b9c4d0',
   },
   snapshot: {

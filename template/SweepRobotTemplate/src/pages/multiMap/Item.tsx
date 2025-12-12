@@ -30,7 +30,7 @@ const Item: FC<Props> = ({ data }) => {
   const actions = useActions();
   const { mapId, id, bucket, title, time, robotUseFile, filePathKey } = data;
 
-  const snapshotImage = useSelector(
+  const { image, mapWidth, mapHeight } = useSelector(
     (state: ReduxState) => state.multiMaps.snapshotImageMap[filePathKey]
   );
 
@@ -144,11 +144,9 @@ const Item: FC<Props> = ({ data }) => {
         </View>
       </View>
       <View className={styles.mapWrapper}>
-        {snapshotImage && (
-          <Image className={styles.mapImage} src={snapshotImage} mode="aspectFit" />
-        )}
+        {image && <Image className={styles.mapImage} src={image} mode="aspectFit" />}
 
-        <Loading isLoading={!snapshotImage} />
+        <Loading isLoading={!image} />
       </View>
     </View>
   );

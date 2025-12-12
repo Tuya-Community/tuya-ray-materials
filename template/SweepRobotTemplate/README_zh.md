@@ -84,6 +84,17 @@ $ npx serve node_modules/@ray-js/robot-map-sdk/dist-docs
 
 ## Changelog
 
+### [1.0.6] - 2025-12-12
+
+#### Added
+
+- 优化多地图的显示 & 增加宽高参数
+- 修复 fetchCleanRecords 的 endTime 参数格式问题
+
+#### Changed
+
+- @ray-js/robot-map 更新到 **0.0.2-beta-53**，修复了若干问题。
+
 ### [1.0.4] - 2025-11-13
 
 #### Changed

@@ -2568,10 +2568,10 @@
     react "^17.0.2"
     react-dom "^17.0.2"
 
-"@ray-js/robot-map-sdk@0.0.3-beta-58":
-  version "0.0.3-beta-58"
-  resolved "https://registry.npmjs.org/@ray-js/robot-map-sdk/-/robot-map-sdk-0.0.3-beta-58.tgz#18fc2bcd2af8045bf8b005966508fac79d5f3a04"
-  integrity sha512-pAmyGIMj7ItSxO+WhcPadfPxB+iuIj4728M1r3mUbLWG+nQNH0bIP9rWDW36MGKbD3plZEG/f40QOBkITU3Q8Q==
+"@ray-js/robot-map-sdk@0.0.3-beta-59":
+  version "0.0.3-beta-59"
+  resolved "https://registry.npmjs.org/@ray-js/robot-map-sdk/-/robot-map-sdk-0.0.3-beta-59.tgz#adc6e040da68403c890339787b4c09f456f9fa39"
+  integrity sha512-yKBW0fS0Z7KX4h+aj3ZPB+TfhVHJFVdyzYHbYC/0yBygMVr+3DCPp0P446Nur0eh63AazlpFC7Tmgypyu6acjA==
   dependencies:
     "@ray-js/robot-protocol" "^1.0.1"
     "@ray-js/webview-invoke" "^0.0.3"
@@ -2584,12 +2584,12 @@
     pixi.js "^8.14.0"
     valtio "^2.1.7"
 
-"@ray-js/robot-map@0.0.2-beta-52":
-  version "0.0.2-beta-52"
-  resolved "https://registry.npmjs.org/@ray-js/robot-map/-/robot-map-0.0.2-beta-52.tgz#fa6abe3237699d567c24eaf2dc937142157cb270"
-  integrity sha512-8Bq/8PnxU0utmnkfko6v93zD05V5DwV2cF6or3Vh+q03l/Ekffb1B2JSFZQbHdiQ9QtiyX3073mqqJqeKzoRbQ==
+"@ray-js/robot-map@0.0.2-beta-53":
+  version "0.0.2-beta-53"
+  resolved "https://registry.npmjs.org/@ray-js/robot-map/-/robot-map-0.0.2-beta-53.tgz#823d56a2aaa4155a7147f6d489b0eb825f0f5427"
+  integrity sha512-dkNoXfOlDSWdU7U/rYEfEvq9U3i8lb4JdZWXR0wvSscV3hNau7w/z2dvEXMyT+PPjce+lOQRXEWjs/J9PScDNg==
   dependencies:
-    "@ray-js/robot-map-sdk" "0.0.3-beta-58"
+    "@ray-js/robot-map-sdk" "0.0.3-beta-59"
     clsx "^1.2.1"
     nanoid "^5.1.6"
 
