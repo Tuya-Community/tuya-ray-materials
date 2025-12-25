@@ -1,0 +1,20 @@
+module.exports = {
+  extends: ['tuya-panel'],
+  rules: {
+    camelcase: 0,
+    'no-self-compare': 0,
+    'no-console': 0,
+    'react/no-unused-prop-types': 0,
+    'react/no-array-index-key': 0,
+    'import/no-unresolved': 0,
+    '@typescript-eslint/ban-ts-comment': 0,
+    '@typescript-eslint/explicit-module-boundary-types': 0,
+    '@typescript-eslint/no-unused-vars': 0,
+    'react/require-default-props': 0,
+    'no-param-reassign': 0,
+    'no-empty-pattern': 0,
+    '@typescript-eslint/no-empty-interface': 0,
+    'no-restricted-syntax': 0,
+    'consistent-return': 0,
+  },
+};

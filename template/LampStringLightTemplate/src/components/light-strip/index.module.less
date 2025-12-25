@@ -1,0 +1,158 @@
+.lightStripWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100% - 16px);
+  margin: 0 auto;
+  padding: 0 16px;
+  padding-bottom: 3px;
+  background: #191919;
+  // min-height: 159px;
+  border-radius: 13px 13px 0px 0px;
+}
+
+.lightEleWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 341px;
+  position: relative;
+  left: 6px;
+  top: 2px;
+}
+
+.iconStart {
+  width: 29px;
+  height: 12px;
+  position: relative;
+  top: 22px;
+  margin-left: 18px;
+}
+
+.lightEleTopContainer {
+  display: flex;
+  height: 69px;
+}
+
+.lightEleMiddleContainer {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 69px;
+  position: relative;
+  left: -6px;
+  top: -2px;
+}
+
+.lightEleBottomContainer {
+  display: flex;
+  position: relative;
+  left: -6px;
+  top: -4px;
+  height: 48px;
+
+  .lightEleItemWrapper:last-child {
+    .lightBrightness {
+      position: relative;
+      left: -4px;
+    }
+  }
+}
+
+.sectionLayerWrapper {
+  width: 327px;
+  height: 48px;
+  border-radius: 26px;
+  margin-top: 7px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.controllerWrapper {
+  display: flex;
+  margin-top: 7px;
+  margin-bottom: 14px;
+}
+
+.checkWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkTextWrapper {
+  min-width: 50px;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.checkText {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 26px;
+  max-width: 60px;
+  overflow: hidden;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 21px;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  font-size: 9px;
+  font-weight: 500;
+  display: flex;
+  border-radius: 9px;
+  padding: 0 8px;
+  z-index: 10;
+}
+
+.sectionIcon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.gradientLayerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 327px;
+  margin-bottom: 16px;
+  color: #fff;
+  margin-top: 20px;
+  margin-bottom: 28px;
+}
+
+.gradientTitleWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 8px;
+  font-size: 28rpx;
+}
+
+.gradientIcon {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+}
+
+.lightStripContainer {
+  transition: all 0.3s linear;
+  overflow: hidden;
+  display: flex;
+  width: 706rpx;
+  position: relative;
+  top: 3px;
+  border-radius: 13px;
+  background: #040404;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

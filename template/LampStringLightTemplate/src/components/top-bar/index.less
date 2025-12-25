@@ -1,0 +1,149 @@
+.top-bar {
+  position: relative;
+  width: 750rpx;
+  .action-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 32rpx;
+    height: 130rpx;
+    position: relative;
+    z-index: 10;
+    .left-action {
+      width: 24px;
+      height: 24px;
+      .left-icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    .right-action {
+      width: 200rpx;
+      height: 92rpx;
+      transform-origin: 70% 34%;
+      transform: rotate(-270deg);
+      position: absolute;
+      top: 56rpx;
+      right: -6rpx;
+      z-index: 100;
+      overflow: hidden;
+      .right-icon {
+        width: 380rpx;
+        height: 304rpx;
+        position: absolute;
+        right: 0;
+        top: -14px;
+      }
+    }
+    .setting-icon-wrapper {
+      position: absolute;
+      top: 8rpx;
+      left: 108rpx;
+      width: 80rpx;
+      height: 80rpx;
+    }
+    .setting-icon {
+      width: 40rpx;
+      height: 40rpx;
+      position: absolute;
+      top: 20rpx;
+      right: 20rpx;
+      transform: rotate(45deg);
+    }
+
+    .setting-icon-vertical {
+      width: 40rpx;
+      height: 40rpx;
+      position: absolute;
+      top: 20rpx;
+      right: 20rpx;
+      transform: rotate(90deg);
+    }
+    .setting-cross {
+      width: 40rpx;
+      height: 40rpx;
+      position: absolute;
+      top: 20rpx;
+      right: 20rpx;
+      transform: rotate(45deg);
+    }
+    .setting-list {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      position: absolute;
+      top: 100rpx;
+      left: -172rpx;  
+      height: 140rpx;
+      width: 366rpx;
+      padding: 16rpx 32rpx;
+      font-size: 32rpx;
+      font-weight: 500;
+      .setting-item {
+        height: 64rpx;
+        display: flex;
+        align-items: center;
+      }
+      .setting-item-icon {
+        width: 86rpx;
+        height: 86rpx;
+        margin-right: 20rpx;
+      }
+    }
+    .action-title {
+      font-size: 32rpx;
+      color: var(--index-title-color);
+      text-align: center;
+    }
+    .absolute-mask {
+      position: fixed;
+      right: 0;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 1;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+  .ellipsis {
+    width: 600rpx;
+    overflow: hidden;
+    /*文本不会换行*/
+    white-space: nowrap;
+    /*当文本溢出包含元素时，以省略号表示超出的文本*/
+    text-overflow: ellipsis;
+  }
+  .top-bar-bg {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 340rpx;
+    height: 172rpx;
+  }
+}
+
+@keyframes rotateAnimation {
+  from {
+    transform: rotate(-90deg);
+  }
+  to {
+    transform: rotate(0);
+  }
+}
+
+@keyframes rotateAnimationReverse {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(-90deg);
+  }
+}
+
+.rotateAnimationClass {
+  animation: rotateAnimation .3s forwards;
+}
+.rotateAnimationReverseClass {
+  animation: rotateAnimationReverse .3s forwards;
+}

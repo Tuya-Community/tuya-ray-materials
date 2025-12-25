@@ -1,0 +1,22 @@
+{
+  "name": "wifi-ble_v6",
+  "type": "panel-app",
+  "ownerType": "tuya-official",
+  "i18n": false,
+  "description": "",
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.0",
+    "MiniKit": "3.0.7",
+    "DeviceKit": "4.6.1",
+    "BizKit": "4.2.0",
+    "MediaKit": "3.2.2",
+    "HomeKit": "3.0.2"
+  },
+  "publicRoot": "cdn/",
+  "baseversion": "2.29.8",
+  "projectname": "【对外模版】wifi-ble 幻彩串灯 V6 ",
+  "compileType": "miniprogram",
+  "remoteDebug": "lan",
+  "remoteVersion": "2.0"
+}

@@ -1,0 +1,65 @@
+.contain {
+  background-color: #3b3b3b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 32rpx;
+  height: 88rpx;
+  border-radius: 24rpx;
+  padding-left: 40rpx;
+  padding-right: 24rpx;
+}
+
+.title {
+  font-weight: 400;
+  font-size: 14px;
+  color: #fff;
+}
+
+.icon {
+  width: 42rpx;
+  height: 42rpx;
+}
+
+.modalTitle {
+  font-weight: 400;
+  font-size: 16px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent {
+  padding: 32rpx 20rpx;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.row:nth-child(n + 2) {
+  margin-top: 16rpx;
+}
+
+.item {
+  width: 204rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  border-radius: 32rpx;
+  text-align: center;
+
+  font-weight: 400;
+  font-size: 14px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.9);
+
+  display: -webkit-box; /* 需要组合使用 */
+  -webkit-box-orient: vertical; /* 设置垂直排列子元素 */
+  -webkit-line-clamp: 1; /* 显示的行数 */
+  overflow: hidden; /* 隐藏超出内容 */
+  text-overflow: ellipsis; /* 显示省略号 */
+}
+
+.item:nth-child(n + 2) {
+  margin-left: 14rpx;
+}

@@ -1,0 +1,97 @@
+.smear-point-wrapper {
+  height: 390rpx;
+  overflow: hidden;
+}
+
+.smear-point-container {
+  height: 100%;
+  color: white;
+  position: relative;
+  /* 直接计算 580rpx 在部分手机上会有误差, 导致灯珠排布不准确 */
+  /* 按照实际元素，单个计算相加 */
+  width: calc(60rpx + 44rpx + 60rpx + 44rpx + 60rpx + 44rpx + 60rpx + 44rpx + 60rpx + 44rpx + 60rpx);
+
+  &.smear-small-point-container {
+    /* 小于6个时 居中显示 */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .smear-point-item-line-box {
+    width: 100%;
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+
+    &.smear-point-small-item-line-box {
+      width: auto;
+      position: static;
+    }
+  }
+  .smear-point-flex-reverse {
+    flex-direction: row-reverse;
+  }
+
+
+  .smear-point-item-box-flex {
+    display: flex;
+  }
+
+  .smear-point-item-box {
+    order: 0;
+    flex: none;
+  }
+  .smear-point-item {
+    flex: none;
+    width: 60rpx;
+    height: 60rpx;
+    overflow: hidden;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .smear-point-bg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 72rpx;
+    height: 72rpx;
+  }
+  .smear-point-color {
+    width: 72rpx;
+    height: 72rpx;
+    background-image: url(/src/res/colour/point_color.png), linear-gradient(#f00, #f00);
+    background-blend-mode: lighten;
+    background-size: cover;
+  }
+  .smear-point-item-line {
+    height: 4rpx;
+    width: 44rpx;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-top: 28rpx;
+  }
+  .smear-point-item-line-bottom {
+    height: 44rpx;
+    width: 4rpx;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-left: 28rpx;
+  }
+  .smear-point-item-select {
+    position: relative;
+    &::after{
+      position: absolute;
+      content: '';
+      top: 0;
+      left: 0;
+      border: 1px solid white;
+      width: calc(100% - 2px);
+      height: calc(100% - 2px);
+      border-radius: 50%;
+    }
+  }
+}

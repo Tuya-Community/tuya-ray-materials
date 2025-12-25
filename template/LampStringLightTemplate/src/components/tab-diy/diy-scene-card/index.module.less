@@ -1,0 +1,74 @@
+.contain {
+  border-radius: 32rpx;
+  overflow: hidden;
+  width: 320rpx;
+  border: 1px solid transparent;
+}
+
+.head {
+  background-color: #111111;
+  height: 156rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom {
+  background-color: #0b0b0b;
+  height: 82rpx;
+  display: flex;
+  position: relative;
+}
+
+.bottomText {
+  font-weight: 400;
+  font-size: 12px;
+  color: #fff;
+  width: 50%;
+  text-align: center;
+  line-height: 82rpx;
+}
+
+.bottomDiv {
+  width: 2rpx;
+  height: 34rpx;
+  background: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.bottomShow {
+  background-color: #0b0b0b;
+  height: 82rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24rpx;
+}
+
+.bottomShowLabel {
+  font-weight: 400;
+  font-size: 12px;
+  color: #fff;
+  display: -webkit-box; /* 需要组合使用 */
+  -webkit-box-orient: vertical; /* 设置垂直排列子元素 */
+  -webkit-line-clamp: 2; /* 显示的行数 */
+  overflow: hidden; /* 隐藏超出内容 */
+  text-overflow: ellipsis; /* 显示省略号 */
+}
+.bottomShowIcon {
+  width: 40rpx;
+  height: 40rpx;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottomShowIconImg {
+  width: 24rpx;
+  height: 20rpx;
+}

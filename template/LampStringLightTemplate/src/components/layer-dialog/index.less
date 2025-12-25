@@ -1,0 +1,62 @@
+.layer-dialog-wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  .layer-dialog-mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+  }
+  .layer-dialog-content-wrapper {
+    position: absolute;
+    bottom: 38px;
+    width: 686rpx;
+    border-radius: 32rpx;
+    margin-left: 32rpx;
+    background: rgba(255, 255, 255, 1);
+    .layer-dialog-bg {
+      position: absolute;
+      top: 0;
+      width: 686rpx;
+      height: 187px;
+    }
+    .layer-dialog-content {
+      padding: 0 24px;
+      padding-top: 32px;
+      padding-bottom: 42px;
+    }
+    .layer-dialog-content-title {
+      color: rgba(0, 0, 0, 1);
+      font-size: 56rpx;
+      font-weight: 500;
+      margin-bottom: 36px;
+    }
+    .layer-dialog-content-text {
+      font-size: 28rpx;
+      color: rgba(0, 0, 0, 0.9);
+    }
+    .layer-dialog-btn-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .layer-dialog-btn {
+      margin-bottom: 24px;
+      border-radius: 24px;
+      width: 207px;
+      height: 48px;
+      line-height: 48px;
+      text-align: center;
+      color: #fff;
+      font-size: 28rpx;
+      font-weight: 600;
+      background: rgba(13, 132, 255, 1);
+    }
+  }
+}

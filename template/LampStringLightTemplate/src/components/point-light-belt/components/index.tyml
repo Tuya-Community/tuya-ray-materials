@@ -1,0 +1,49 @@
+<sjs src="./index.sjs" module="computed"></sjs>
+
+<view
+  class="smear-point-wrapper"
+>
+  <view
+    id="{{instanceId}}"
+    class="smear-point-container {{className}} {{ length < 6 ? 'smear-small-point-container' : '' }}"
+    style="height: {{mapLight.length * 104 - 22}}rpx;{{contentStyle}}"
+
+    instanceId="{{instanceId}}"
+    change:instanceId="{{computed.init}}"
+    data-eventchannelname="{{eventChannelName}}"
+    data-eventslidermovename="{{eventSliderMoveName}}"
+    data-length="{{length}}"
+    length="{{length}}"
+    change:length="{{computed.resetLampPosition(instanceId)}}"
+
+    catchtouchstart="{{computed.touchChange}}"
+    catchtouchmove="{{computed.touchChange}}"
+    catchtouchend="{{computed.touchEnd}}"
+  >
+    <view
+    ty:for="{{mapLight}}"
+    class="smear-point-item-line-box {{index%2 ? 'smear-point-flex-reverse' : ''}} {{ length < 6 ? 'smear-point-small-item-line-box' : '' }}"
+    style="transform: translateY({{item.y}}rpx);"
+    >
+      <view
+      ty:for="{{item.list}}"
+      ty:for-item="itemData"
+      class="{{itemData.direction === 'left' || itemData.direction === 'right' ? 'smear-point-item-box smear-point-item-box-flex' : 'smear-point-item-box'}}"
+      >
+        <view ty:if="{{itemData.direction === 'left'}}" class="smear-point-item-line"></view>
+        <view
+          ty:if="{{ itemData && itemData.color }}"
+          class="smear-point-item {{selectMap[itemData.index] ? 'smear-point-item-select' : ''}}"
+          data-selectlist="{{selectList}}"
+          data-indexdata="{{itemData.index}}"
+          id="{{'smear-point-item-index' + instanceId + itemData.index}}"
+          >
+          <image class="smear-point-bg" src="{{curtainImage}}" mode='scaleToFill' />
+          <view class="smear-point-color" style="background-image: url(/src/res/colour/point_color.png), linear-gradient({{itemData.color}}, {{itemData.color}});" />
+        </view>
+        <view ty:if="{{itemData.direction === 'right'}}" class="smear-point-item-line"></view>
+        <view ty:if="{{itemData.direction === 'bottom'}}" class="smear-point-item-line-bottom"></view>
+      </view>
+    </view>
+  </view>
+</view>
