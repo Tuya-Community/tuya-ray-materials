@@ -32,7 +32,7 @@ const Item: FC<Props> = ({ data }) => {
 
   const { image, mapWidth, mapHeight } = useSelector(
     (state: ReduxState) => state.multiMaps.snapshotImageMap[filePathKey]
-  );
+  ) ?? { image: undefined, mapWidth: 0, mapHeight: 0 };
 
   const timerRef = useRef<NodeJS.Timeout>(null);
 

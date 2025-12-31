@@ -2568,10 +2568,10 @@
     react "^17.0.2"
     react-dom "^17.0.2"
 
-"@ray-js/robot-map-sdk@0.0.3-beta-59":
-  version "0.0.3-beta-59"
-  resolved "https://registry.npmjs.org/@ray-js/robot-map-sdk/-/robot-map-sdk-0.0.3-beta-59.tgz#adc6e040da68403c890339787b4c09f456f9fa39"
-  integrity sha512-yKBW0fS0Z7KX4h+aj3ZPB+TfhVHJFVdyzYHbYC/0yBygMVr+3DCPp0P446Nur0eh63AazlpFC7Tmgypyu6acjA==
+"@ray-js/robot-map-sdk@0.0.4-beta.3":
+  version "0.0.4-beta.3"
+  resolved "https://registry.npmjs.org/@ray-js/robot-map-sdk/-/robot-map-sdk-0.0.4-beta.3.tgz#52549d5e7510483847d159b985905267c7ff5a68"
+  integrity sha512-NFl9gpKvBMOOWexjVTXWlyBvBQJu0NKm3JtLAwEjC3yidTTuJcbrRxTw9Ehdy+6mvcdpgNN7lF8TBi/Abbe3rA==
   dependencies:
     "@ray-js/robot-protocol" "^1.0.1"
     "@ray-js/webview-invoke" "^0.0.3"
@@ -2581,15 +2581,15 @@
     nanoid "^5.1.5"
     normalize.css "^8.0.1"
     patch-package "^8.0.0"
-    pixi.js "^8.14.0"
+    pixi.js "8.14.3"
     valtio "^2.1.7"
 
-"@ray-js/robot-map@0.0.2-beta-53":
-  version "0.0.2-beta-53"
-  resolved "https://registry.npmjs.org/@ray-js/robot-map/-/robot-map-0.0.2-beta-53.tgz#823d56a2aaa4155a7147f6d489b0eb825f0f5427"
-  integrity sha512-dkNoXfOlDSWdU7U/rYEfEvq9U3i8lb4JdZWXR0wvSscV3hNau7w/z2dvEXMyT+PPjce+lOQRXEWjs/J9PScDNg==
+"@ray-js/robot-map@0.0.5-beta.3":
+  version "0.0.5-beta.3"
+  resolved "https://registry.npmjs.org/@ray-js/robot-map/-/robot-map-0.0.5-beta.3.tgz#da94731f1b41c8428e4104ccfdd611a132b3cc1a"
+  integrity sha512-xaoSvoEabOiIiPbsLaha79FP/FtWlXCVqlfcESH5InLJIQ6cAXJPTVajt78rmGqILqu9Qy1rHmcK47gFx9AREw==
   dependencies:
-    "@ray-js/robot-map-sdk" "0.0.3-beta-59"
+    "@ray-js/robot-map-sdk" "0.0.4-beta.3"
     clsx "^1.2.1"
     nanoid "^5.1.6"
 
@@ -10453,10 +10453,10 @@ pirates@^4.0.1, pirates@^4.0.6:
   resolved "https://registry.npmjs.org/pirates/-/pirates-4.0.7.tgz#643b4a18c4257c8a65104b73f3049ce9a0a15e22"
   integrity sha512-TfySrs/5nm8fQJDcBDuUng3VOUKsd7S+zqvbOTiGXHfxX4wK31ard+hoNuvkicM/2YFzlpDgABOevKSsB4G/FA==
 
-pixi.js@^8.14.0:
-  version "8.14.0"
-  resolved "https://registry.npmjs.org/pixi.js/-/pixi.js-8.14.0.tgz#a4eec937cab5f7b1072edf321be704e55aa88cce"
-  integrity sha512-ituDiEBb1Oqx56RYwTtC6MjPUhPfF/i15fpUv5oEqmzC/ce3SaSumulJcOjKG7+y0J0Ekl9Rl4XTxaUw+MVFZw==
+pixi.js@8.14.3:
+  version "8.14.3"
+  resolved "https://registry.npmjs.org/pixi.js/-/pixi.js-8.14.3.tgz#8f40cdad541f4d9eae72a792b784a3c1b1a75d0d"
+  integrity sha512-6xGYARV8D9E/fO1c2NmYn+k2dQ5oZldVm5tNlLQJ8obTlOQXdL5QpMc217qTpRyHVDFaw5eoFCLF1gr6p5ZcjQ==
   dependencies:
     "@pixi/colord" "^2.9.6"
     "@types/css-font-loading-module" "^0.0.12"

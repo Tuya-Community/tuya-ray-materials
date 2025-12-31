@@ -85,6 +85,18 @@ If you have any questions, please visit the link and submit a post for feedback:
 
 ## Changelog
 
+### [1.0.8] - 2025-12-30
+
+#### Fixed
+
+- Fixed a memory leak issue in the map component, which may cause the map to become blank after long-term operation.
+
+### [1.0.7] - 2025-12-16
+
+#### Fixed
+
+- Fixed the issue where multiple maps might not load properly
+
 ### [1.0.6] - 2025-12-12
 
 #### Added
