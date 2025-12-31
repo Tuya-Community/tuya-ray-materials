@@ -1,0 +1,16 @@
+{
+  "projectname": "AI 生成式灯光场景",
+  "i18n": true,
+  "description": "AI 生成式灯光场景",
+  "baseversion": "2.29.16",
+  "devMode": "ray",
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "AIKit": "1.9.1",
+    "BaseKit": "3.10.6",
+    "BizKit": "3.5.0",
+    "HomeKit": "3.1.2",
+    "MiniKit": "3.0.0"
+  },
+  "compileType": "miniprogram"
+}

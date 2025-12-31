@@ -1,0 +1,434 @@
+.pageWrapper {
+  width: 100vw;
+  height: 100vh;
+  color: #ffffff;
+  font-size: 14px;
+  background-image: url(../../imgs/auto_bg.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.pageContainer {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  padding-bottom: calc(56px + env(safe-area-inset-bottom));
+  @media (min-width: 768px) {
+    padding-bottom: 90px;
+  }
+  .title {
+    width: 100%;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 45px;
+    margin-bottom: 8px;
+  }
+  .desc {
+    width: 100%;
+    font-size: 12px;
+    line-height: 17px;
+    margin-bottom: 32px;
+    @media (min-width: 768px) {
+      font-size: 14px;
+      line-height: 20px;
+      margin-bottom: 86px;
+    }
+    @media (min-width: 1024px) {
+      margin-bottom: 44px;
+    }
+  }
+  .main {
+    height: 344px;
+    width: 343px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    @media (min-width: 768px) and (max-width: 1023px) {
+      width: 516px;
+      height: 516px;
+      border-radius: 36px;
+    }
+    .skeletonList {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 16px 0 0 16px;
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      transform: translateZ(0);
+      @media (min-width: 768px) and (max-width: 1023px) {
+        padding: 24px 0 0 24px;
+        border-radius: 36px;
+      }
+      &.skeletonMain {
+        &::before {
+          content: '';
+          position: absolute;
+          top: -272px;
+          left: -74.5px;
+          width: 117px;
+          height: 512px;
+          background: rgba(255, 255, 255, 0.4);
+          filter: blur(30px);
+          transform: rotate(45deg);
+          animation: mainShimmer 1.2s 0s ease-in infinite;
+          z-index: 1;
+          @media (min-width: 768px) and (max-width: 1023px) {
+            top: -385px;
+            left: -87px;
+            width: 175px;
+            height: 769px;
+            animation: mainShimme_768_1023 1.2s 0s ease-in infinite;
+          }
+        }
+        &::after {
+          content: '';
+          position: absolute;
+          top: -272px;
+          left: -74.5px;
+          width: 117px;
+          height: 512px;
+          background: rgba(255, 255, 255, 0.4);
+          filter: blur(30px);
+          transform: rotate(45deg);
+          animation: mainShimmer 1.2s 0.6s ease-in infinite;
+          z-index: 1;
+          @media (min-width: 768px) and (max-width: 1023px) {
+            top: -385px;
+            left: -87px;
+            width: 175px;
+            height: 769px;
+            animation: mainShimme_768_1023 1.2s 0.6s ease-in infinite;
+          }
+        }
+      }
+      .skeletonItem {
+        width: 96px;
+        height: 96px;
+        margin-right: 11px;
+        margin-bottom: 11px;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        position: relative;
+        z-index: 0;
+        @media (min-width: 768px) and (max-width: 1023px) {
+          width: 144px;
+          height: 144px;
+          border-radius: 24px;
+          margin-right: 18px;
+          margin-bottom: 18px;
+        }
+      }
+    }
+    .sceneList {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 16px 0 0 16px;
+      position: relative;
+      align-content: flex-start;
+      @media (min-width: 768px) and (max-width: 1023px) {
+        padding: 24px 0 0 24px;
+      }
+      .sceneItem {
+        width: 96px;
+        height: 96px;
+        margin-right: 11px;
+        margin-bottom: 11px;
+        position: relative;
+        display: inline-block;
+        @media (min-width: 768px) and (max-width: 1023px) {
+          width: 144px;
+          height: 144px;
+          border-radius: 24px;
+          margin-right: 18px;
+          margin-bottom: 18px;
+        }
+        .content {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          padding: 8px;
+          border-radius: 16px;
+          transition: all 0.2s;
+          position: relative;
+        }
+        .canActive:active {
+          transition: all 0s;
+          opacity: 0.7 !important;
+        }
+        .name {
+          position: absolute;
+          bottom: 8px;
+          left: 8px;
+          width: 80px;
+          font-family: PingFang SC;
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 17px;
+          letter-spacing: normal;
+          color: rgba(255, 255, 255, 0.9);
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          word-break: break-all;
+          pointer-events: none;
+          @media (min-width: 768px) {
+            font-size: 14px;
+            line-height: 18px;
+          }
+        }
+        .refreshIconWrapper {
+          height: 40px;
+          width: 45px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 10;
+        }
+        .loadingWrapper {
+          width: 19px;
+          height: 19px;
+          position: absolute;
+          top: 8px;
+          left: 8px;
+          border-radius: 100%;
+          background-color: rgba(0, 0, 0, 0.15);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .loadingIcon {
+            width: 9px;
+            height: 9px;
+            position: absolute;
+            &.hidden {
+              opacity: 0;
+            }
+          }
+          .rotating {
+            animation: rotate 0.5s linear infinite;
+          }
+          .tickIcon {
+            width: 19px;
+            height: 19px;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            &.visible {
+              opacity: 1;
+            }
+          }
+        }
+        .selectIconBox {
+          height: 40px;
+          width: 45px;
+          position: absolute;
+          top: 0;
+          right: 0;
+          z-index: 10;
+        }
+        .selectIconWrapper {
+          width: 19px;
+          height: 19px;
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          .unSelectBox {
+            width: 19px;
+            height: 19px;
+            border-radius: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+          }
+          .selectBox {
+            width: 19px;
+            height: 19px;
+            border-radius: 100%;
+            .gouIcon {
+              width: 19px;
+              height: 19px;
+              margin: auto;
+            }
+          }
+        }
+      }
+    }
+    .empty {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0 52px;
+      box-sizing: border-box;
+      text-align: center;
+      .emptyIcon {
+        width: 88px;
+        height: 88px;
+        margin-bottom: 16px;
+        @media (min-width: 768px) and (max-width: 1023px) {
+          width: 132px;
+          height: 132px;
+        }
+      }
+      .emptyText {
+        width: 238px;
+        font-size: 14px;
+        line-height: 20px;
+        color: rgba(0, 0, 0, 0.5);
+        @media (min-width: 768px) and (max-width: 1023px) {
+          width: 272px;
+          font-size: 16px;
+          line-height: 22px;
+        }
+      }
+    }
+  }
+  .actionBar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4px;
+    @media (min-width: 768px) and (max-width: 1023px) {
+      margin-top: 29px;
+    }
+    .selectAll,
+    .refresh {
+      height: 38px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 18px;
+      color: rgba(0, 0, 0, 0.9);
+      padding: 10px 16px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #ffffff;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .icon {
+        width: 18px;
+        height: 18px;
+        margin-right: 4px;
+        &.rotating {
+          animation: rotate 0.5s linear infinite;
+        }
+      }
+      @media (min-width: 768px) {
+        font-size: 14px;
+      }
+    }
+    .refresh {
+      margin-left: 17px;
+    }
+  }
+}
+
+.footer {
+  width: 100vw;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 24px calc(8px + env(safe-area-inset-bottom));
+  @media (min-width: 768px) {
+    padding-bottom: 36px;
+  }
+  .btn {
+    width: 327px;
+    height: 48px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background-image: url(../../imgs/auto_btn.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    box-shadow: 0px 3px 6px 0px rgba(84, 107, 219, 0.62);
+    @media (min-width: 768px) {
+      width: 360px;
+      height: 54px;
+      font-size: 16px;
+      border-radius: 32px;
+      background-size: 100% 150%;
+      background-position: 0 50%;
+    }
+    @media (min-width: 1024px) {
+      width: 491px;
+      height: 54px;
+      font-size: 16px;
+      border-radius: 32px;
+      background-size: 100% 150%;
+      background-position: 0 50%;
+    }
+    .icon {
+      width: 28px;
+      height: 28px;
+      margin-right: 4px;
+    }
+  }
+  .btn:active {
+    opacity: 0.7 !important;
+  }
+}
+
+.btn_disabled {
+  opacity: 0.4;
+}
+
+.btn_disabled_event_none {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes mainShimmer {
+  0% {
+    transform: translate(-117px, -117px) rotate(45deg);
+  }
+  100% {
+    transform: translate(485px, 485px) rotate(45deg);
+  }
+}
+
+@keyframes mainShimme_768_1023 {
+  0% {
+    transform: translate(-175px, -175px) rotate(45deg);
+  }
+  100% {
+    transform: translate(769px, 769px) rotate(45deg);
+  }
+}

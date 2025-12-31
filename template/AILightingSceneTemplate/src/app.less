@@ -1,0 +1,40 @@
+:root {
+  --theme-text-color: #1989fa;
+  --home-background-color: linear-gradient(180deg, #e1eefc 0%, rgba(246, 247, 251, 0) 100%);
+  --card-background-color: #fff;
+  --device-pos-bg-color: rgba(0, 0, 0, 0.05);
+  --img-bg-color: rgba(240, 240, 240, 1);
+  --config-area-bg: #f7f7f9;
+  --no-room-device-bg: rgba(0, 0, 0, 0.03);
+}
+
+:root[theme='dark'] {
+  --theme-text-color: #1989fa;
+  --home-background-color: #000;
+  --card-background-color: rgba(255, 255, 255, 0.12);
+  --device-pos-bg-color: rgba(255, 255, 255, 0.05);
+  --img-bg-color: rgba(15, 15, 15, 1);
+  --config-area-bg: rgba(255, 255, 255, 0.05);
+  --no-room-device-bg: rgba(255, 255, 255, 0.03);
+}
+
+page {
+  background-color: var(--app-B1);
+  --t-agent-safe-bottom: 0;
+  --t-agent-safe-bottom: constant(safe-area-inset-bottom);
+  --t-agent-safe-bottom: env(safe-area-inset-bottom);
+}
+
+.custom_navBar {
+  background-color: var(--app-B3) !important;
+  .smart-nav-bar__title {
+    max-width: 250px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+    @media (min-width: 768px) {
+      width: 350px;
+    }
+  }
+}

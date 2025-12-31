@@ -1,0 +1,8 @@
+.ray
+dist/
+dist
+node_modules/
+app.config.ts
+.DS_Store
+typings/tuya_*
+typings/tuya-*

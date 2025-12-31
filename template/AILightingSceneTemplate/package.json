@@ -1,0 +1,55 @@
+{
+  "name": "ai-lighting-scene",
+  "version": "1.0.0",
+  "description": "AI Lighting Scene",
+  "private": true,
+  "author": "Tuya.inc",
+  "license": "MIT",
+  "scripts": {
+    "start": "ray start --target tuya",
+    "build": "ray build --target tuya",
+    "lint": "eslint \"src\" --ext .js,.jsx,.ts,.tsx --fix"
+  },
+  "dependencies": {
+    "@ray-js/ray": "^1.7.58",
+    "@ray-js/ray-error-catch": "^0.0.26",
+    "@ray-js/smart-ui": "^2.8.0",
+    "@tuya-miniapp/cloud-api": "^1.2.0",
+    "clsx": "^2.1.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "@eslint/eslintrc": "^3.3.3",
+    "@ray-js/cli": "^1.7.58",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "@typescript-eslint/eslint-plugin": "^8.50.1",
+    "@typescript-eslint/parser": "^8.50.1",
+    "core-js": "^3.29.1",
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-config-tuya-panel": "^0.4.1",
+    "husky": "^1.2.0",
+    "lint-staged": "^10.2.11",
+    "prettier": "^3.6.2",
+    "typescript": "^4.4.3",
+    "typescript-eslint": "^8.50.1"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS --config commitlint.config.js",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "yarn lint",
+      "git add"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
