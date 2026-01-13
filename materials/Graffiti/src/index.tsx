@@ -29,6 +29,9 @@ const RayGraffiti: React.FC<IProps> = props => {
     needStroke,
     saveTrigger,
     clearTrigger,
+    scale,
+    isDragging,
+    drawData,
     onStrokeChange,
     onSaveData,
   } = props;
@@ -52,6 +55,9 @@ const RayGraffiti: React.FC<IProps> = props => {
         needStroke={needStroke}
         saveTrigger={saveTrigger}
         clearTrigger={clearTrigger}
+        scale={scale}
+        isDragging={isDragging}
+        drawData={drawData}
         bindstrokeChange={e => onStrokeChange(e.detail)}
         bindsaveData={e => onSaveData(e.detail)}
       />

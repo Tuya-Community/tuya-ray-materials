@@ -213,17 +213,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="Graffiti">2025/05</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/Graffiti">Graffiti</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/materials-Graffiti.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="AiAgentTemplate">2025/05</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/AiAgentTemplate">AiAgentTemplate</a></td>
   <td>
@@ -824,6 +813,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=AILightingSceneTemplate" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="Graffiti">2026/01</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=materials/Graffiti">Graffiti</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/materials-Graffiti.png" width="100" height="100">
   </details>
   </td>
 </tr>

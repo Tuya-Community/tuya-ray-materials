@@ -1,6 +1,9 @@
-<canvas
-  canvasClassName
-  type="2d"
-  canvas-id="{{`${canvasIdPrefix}-sourceCanvas`}}"
-  style="width: {{realWidth}}px; height: {{realHeight}}px"
-/>
+<view class="pixelGraffiti_container" id="{{`${canvasIdPrefix}-container`}}" style="width: {{width}}px; height: {{height}}px">
+  <view class="smear-wrap">
+    <canvas
+    type="2d"
+    canvas-id="{{`${canvasIdPrefix}-sourceCanvas`}}"
+    style="width: {{realWidth}}px; height: {{realHeight}}px"
+    />
+  </view>
+</view>

@@ -2,7 +2,7 @@
   "projectname": "@ray-js/graffiti",
   "i18n": false,
   "description": "画布涂鸦",
-  "baseversion": "2.26.2",
+  "baseversion": "2.29.18",
   "miniprogramRoot": "./example/dist/tuya",
   "dependencies": {
     "BaseKit": "3.0.1",

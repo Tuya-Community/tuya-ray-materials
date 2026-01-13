@@ -31,8 +31,10 @@ yarn start:tuya
 - 通过改变操作类型可以切换为, pencil 画笔模式, eraser 橡皮擦模式, paint 油漆桶模式
 - 通过改变 `penColor`, 可以传入不同的画笔颜色
 - `needStroke` 为 `true`, 开启监听每一画笔数据, 可以通过 `onStrokeChange` 获取每一笔画笔经过的 x,y 坐标路径数据
-- 通过更新`saveTrigger`的值可以触发画布保存, 返回画布的 base64 数据
+- 通过更新`saveTrigger`的值可以触发画布保存, 返回画布的 `base64` 数据和 `gridData` 格子颜色数据
 - 通过更新`clearTrigger`的值可以触发画布清除
+- 通过 `scale` 可画布缩放
+- 通过 `isDragging` 禁止绘制, 画布超出时可拖动画布
 
 ```tsx
 import React, { useState } from 'react';
@@ -52,6 +54,8 @@ export function Home() {
   const [color, setColor] = useState('rgba(255, 0, 0, 1)');
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [clearTrigger, setClearTrigger] = useState(0);
+  const [scale, setScale] = useState<number>(1);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const reset = () => {
     setClearTrigger(clearTrigger + 1);
@@ -77,6 +81,8 @@ export function Home() {
         actionType={actionType}
         saveTrigger={saveTrigger}
         clearTrigger={clearTrigger}
+        scale={scale}
+        isDragging={isDragging}
         onStrokeChange={handleStrokeChange}
         onSaveData={handleSaveData}
       />

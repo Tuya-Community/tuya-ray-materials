@@ -31,8 +31,10 @@ yarn start:tuya
 - By changing the operation type, you can switch to pencil mode, eraser mode, paint bucket mode
 - By changing `penColor`, you can pass in different pen colors
 - `needStroke` is `true`, start monitoring each brush data, and get the x, y coordinate path data of each brush stroke through `onStrokeChange`
-- By updating the value of `saveTrigger`, you can trigger canvas saving and return the base64 data of the canvas
-- By updating the value of `clearTrigger`, you can trigger canvas clearing
+- Updating the `saveTrigger` value triggers canvas saving, returning the canvas's base64 data and grid color data.
+- Updating the `clearTrigger` value triggers canvas clearing.
+- The `scale` function allows scaling the canvas.
+- `isDragging` disables drawing; the canvas can be dragged when it exceeds the limit.
 
 ```tsx
 import React, { useState } from 'react';
@@ -52,6 +54,8 @@ export function Home() {
   const [color, setColor] = useState('rgba(255, 0, 0, 1)');
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [clearTrigger, setClearTrigger] = useState(0);
+  const [scale, setScale] = useState<number>(1);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const reset = () => {
     setClearTrigger(clearTrigger + 1);
@@ -77,6 +81,8 @@ export function Home() {
         actionType={actionType}
         saveTrigger={saveTrigger}
         clearTrigger={clearTrigger}
+        scale={scale}
+        isDragging={isDragging}
         onStrokeChange={handleStrokeChange}
         onSaveData={handleSaveData}
       />

@@ -14,7 +14,13 @@ export default Render({
     pixelShape,
     pixelColor,
     penColor,
+    scale,
+    isDragging,
+    boxRect,
   }) {
+    this.scale = scale || 1;
+    this.isDragging = isDragging || false;
+    this.boxRect = boxRect || null;
     let canvas = await getCanvasById(`${canvasIdPrefix}-sourceCanvas`);
 
     // 根据屏幕分辨率动态计算canvas尺寸
@@ -54,8 +60,22 @@ export default Render({
     // 记录触摸是否开始
     this.isTouchStarted = false;
 
+    this.gridData = {};
+
+    // 缩放拖动相关
+    this.offsetX = 0;
+    this.offsetY = 0;
+    this.lastX = 0;
+    this.lastY = 0;
+    // 计算缩放后格子尺寸
+    this.scalePixelSizeX = this.pixelSizeX * scale;
+    this.scalePixelSizeY = this.pixelSizeY * scale;
+    this.scalePixelGap = this.pixelGap * scale;
+
     // 初始化画布, 绘制像素点
     this.createPixel(pixelColor);
+
+    this.updateScale(scale);
 
     canvas.addEventListener('touchstart', this.handleTouchstart, false);
     canvas.addEventListener('touchmove', this.handleTouchmove, false);
@@ -65,13 +85,32 @@ export default Render({
     ctx.imageSmoothingQuality = 'high'; // 高质量抗锯齿
   },
   handleTouchstart(e) {
-    const { canvas, pixelGap, pixelSizeX, pixelSizeY } = this;
+    const {
+      canvas,
+      pixelGap,
+      pixelSizeX,
+      pixelSizeY,
+      isDragging,
+      scalePixelSizeX,
+      scalePixelSizeY,
+      scalePixelGap,
+    } = this;
+    if (isDragging) {
+      const touch = e.changedTouches[0];
+      this.lastX = touch.pageX;
+      this.lastY = touch.pageY;
+      return;
+    }
     this.touchedSquaresSet.clear();
     this.isTouchStarted = true;
     const touch = e.changedTouches[0];
     const rect = canvas.getBoundingClientRect();
-    const x = Math.floor((touch.pageX - rect.left - pixelGap) / (pixelSizeX + pixelGap));
-    const y = Math.floor((touch.pageY - rect.top - pixelGap) / (pixelSizeY + pixelGap));
+    const x = Math.floor(
+      (touch.pageX - rect.left - scalePixelGap) / (scalePixelSizeX + scalePixelGap)
+    );
+    const y = Math.floor(
+      (touch.pageY - rect.top - scalePixelGap) / (scalePixelSizeY + scalePixelGap)
+    );
     const coordinate = `${x},${y}`;
     if (!this.touchedSquaresSet.has(coordinate)) {
       this.touchedSquaresSet.add(coordinate);
@@ -79,13 +118,58 @@ export default Render({
     }
   },
   handleTouchmove(e) {
-    const { canvas, pixelGap, pixelSizeX, pixelSizeY } = this;
+    const {
+      canvas,
+      pixelGap,
+      pixelSizeX,
+      pixelSizeY,
+      scalePixelGap,
+      scalePixelSizeX,
+      scalePixelSizeY,
+    } = this;
     e.preventDefault();
+    if (this.isDragging) {
+      const touch = e.changedTouches[0];
+      const rect = canvas.getBoundingClientRect();
+      const dx = touch.pageX - this.lastX;
+      const dy = touch.pageY - this.lastY;
+      this.offsetX += dx;
+      this.offsetY += dy;
+      this.lastX = touch.pageX;
+      this.lastY = touch.pageY;
+
+      // 获取容器大小
+      const boxWidth = this.boxRect?.width;
+      const boxHeight = this.boxRect?.height;
+
+      // 缩放后的画布内容尺寸
+      const displayWidth = rect.width;
+      const displayHeight = rect.height;
+      // 边界限制
+      if (displayWidth <= boxWidth) {
+        this.offsetX = 0;
+      } else {
+        const maxOffsetX = (displayWidth - boxWidth) / 2;
+        this.offsetX = Math.max(-maxOffsetX, Math.min(maxOffsetX, this.offsetX));
+      }
+      if (displayHeight <= boxHeight) {
+        this.offsetY = 0;
+      } else {
+        const maxOffsetY = (displayHeight - boxHeight) / 2;
+        this.offsetY = Math.max(-maxOffsetY, Math.min(maxOffsetY, this.offsetY));
+      }
+      canvas.style.transform = `translate(${this.offsetX}px, ${this.offsetY}px) scale(${this.scale})`;
+      return;
+    }
     if (this.isTouchStarted) {
       const touch = e.changedTouches[0];
       const rect = canvas.getBoundingClientRect();
-      const x = Math.floor((touch.pageX - rect.left - pixelGap) / (pixelSizeX + pixelGap));
-      const y = Math.floor((touch.pageY - rect.top - pixelGap) / (pixelSizeY + pixelGap));
+      const x = Math.floor(
+        (touch.pageX - rect.left - scalePixelGap) / (scalePixelSizeX + scalePixelGap)
+      );
+      const y = Math.floor(
+        (touch.pageY - rect.top - scalePixelGap) / (scalePixelSizeY + scalePixelGap)
+      );
       const coordinate = `${x},${y}`;
       if (!this.touchedSquaresSet.has(coordinate)) {
         this.touchedSquaresSet.add(coordinate);
@@ -94,6 +178,9 @@ export default Render({
     }
   },
   handleTouchend() {
+    if (this.isDragging) {
+      return;
+    }
     this.isTouchStarted = false;
     const touchedSquares = [];
     for (const coordinateStr of this.touchedSquaresSet) {
@@ -143,6 +230,7 @@ export default Render({
       // 执行填充操作，将圆形内部填充为设定的颜色
       ctx.fill();
     }
+    this.gridData[`${x}_${y}`] = color;
   },
   // 改变画笔颜色
   updateColor(color) {
@@ -153,13 +241,43 @@ export default Render({
     this.penColor = color;
     this.createPixel(color);
   },
+  updateScale(scale) {
+    const { canvas } = this;
+    if (canvas && scale) {
+      canvas.style.transform = `scale(${scale})`;
+      this.scale = scale;
+      this.scalePixelSizeX = this.pixelSizeX * scale;
+      this.scalePixelSizeY = this.pixelSizeY * scale;
+      this.scalePixelGap = this.pixelGap * scale;
+    }
+  },
+  setDragging(isDragging) {
+    this.isDragging = isDragging;
+    const { canvas } = this;
+    if (canvas) {
+      if (isDragging) {
+        canvas.style.touchAction = 'none'; // 禁用默认的触摸行为，防止页面滚动
+      } else {
+        canvas.style.touchAction = 'auto'; // 恢复默认的触摸行为
+      }
+    }
+  },
   // 清除画布
   clear() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.createPixel(this.pixelColor);
   },
   save() {
+    const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    console.log('render save imageData', imageData);
     const base64 = this.canvas.toDataURL('image/png');
-    this.callMethod('genImageData', { base64 });
+    this.callMethod('genImageData', { base64, gridData: this.gridData });
+  },
+
+  drawData(list) {
+    console.log('render drawData', list);
+    for (const item of list) {
+      this.fillPixel(item.x, item.y, item.color);
+    }
   },
 });

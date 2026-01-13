@@ -117,6 +117,27 @@ export interface IProps {
   clearTrigger?: number;
 
   /**
+   * @description.zh 画布缩放比例
+   * @description.en Canvas scaling ratio
+   * @default 1
+   */
+  scale?: number;
+
+  /**
+   * @description.zh 禁止绘制, 画布超出时可拖动画布
+   * @description.en Draggable canvas, while disabling brush drawing
+   * @default false
+   */
+  isDragging?: boolean;
+
+  /**
+   * @description.zh 初始绘制数据
+   * @description.en Initial drawing data
+   * @default undefined
+   */
+  drawData?: Array<{ x: number; y: number; color: string }>;
+
+  /**
    * @description.zh 画笔数据更新时触发, 返回画笔经过的x,y坐标路径数据
    * @description.en Triggered when the brush data is updated, returns the x,y coordinate path data of the brush.
    * @default () => null
@@ -124,8 +145,8 @@ export interface IProps {
   onStrokeChange?: (data: IStrokeData) => void;
 
   /**
-   * @description.zh 保存数据时触发, 返回画布的base64数据
-   * @description.en Triggered when saving data, return canvas base64 data
+   * @description.zh 保存数据时触发, 返回画布的 base64 数据和格子颜色数据(gridData, key 为 格子坐标 "x_y"，value 为 颜色值)
+   * @description.en Triggered when saving data, return canvas base64 data and grid color data
    * @default () => null
    */
   onSaveData?: (data: IData) => void;
@@ -137,6 +158,7 @@ export type IStrokeData = {
 
 export type IData = {
   base64: string; // 画布数据
+  gridData: Record<string, string>; // 格子颜色数据，key 为 格子坐标 "x_y"，value 为 颜色值
 };
 
 export const defaultProps: IProps = {
@@ -156,6 +178,8 @@ export const defaultProps: IProps = {
   needStroke: false,
   saveTrigger: 0,
   clearTrigger: 0,
+  scale: 1,
+  isDragging: false,
   onStrokeChange: () => null,
   onSaveData: () => null,
 };

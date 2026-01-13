@@ -1,5 +1,5 @@
 import Render from './index.rjs';
-import { getSystemInfoSync } from '@ray-js/ray';
+import { getSystemInfoSync, getElementById, getBoundingClientRect } from '@ray-js/ray';
 
 let _systemInfoResult = null;
 export const getSystemInfoResult = () => {
@@ -130,6 +130,35 @@ Component({
         }
       },
     },
+    scale: {
+      // 画布缩放比例
+      type: Number,
+      value: 1,
+      observer(newValue) {
+        if (newValue && this.render) {
+          this.render.updateScale(newValue);
+        }
+      },
+    },
+    isDragging: {
+      // 可拖动画布, 同时禁止绘制
+      type: Boolean,
+      value: false,
+      observer(newValue) {
+        if (this.render) {
+          this.render.setDragging(newValue);
+        }
+      },
+    },
+    drawData: {
+      // 初始绘制数据
+      type: null,
+      observer(newValue) {
+        if (newValue && this.render) {
+          this.render.drawData(newValue);
+        }
+      },
+    },
   },
   data: {
     realWidth: WIDTH,
@@ -139,7 +168,7 @@ Component({
     created() {
       this.render = new Render(this);
     },
-    ready() {
+    async ready() {
       let {
         canvasIdPrefix,
         width,
@@ -150,6 +179,8 @@ Component({
         pixelSizeY,
         pixelGap,
         mode,
+        scale,
+        isDragging,
       } = this.data;
       width = getDeviceRealPx(width);
       height = getDeviceRealPx(height);
@@ -174,6 +205,9 @@ Component({
           realHeight: height,
         });
       }
+      const ele = await getElementById(`${canvasIdPrefix}-container`);
+      const rect = await getBoundingClientRect(ele);
+
       this.render.initPanel({
         canvasIdPrefix: canvasIdPrefix,
         width: width,
@@ -187,7 +221,13 @@ Component({
         pixelShape: this.data.pixelShape,
         pixelColor: this.data.pixelColor,
         penColor: this.data.penColor,
+        scale: scale,
+        isDragging: isDragging,
+        boxRect: rect,
       });
+      if (this.data.drawData) {
+        this.render.drawData(this.data.drawData);
+      }
     },
   },
   methods: {

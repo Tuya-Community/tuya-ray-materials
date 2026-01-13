@@ -13,20 +13,42 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 32rpx;
+  padding: 0 32rpx;
   position: relative;
-  overflow-y: auto;
-  overflow-x: hidden;
-  .actionWrap {
-    margin-top: 40rpx;
+  overflow: hidden;
+  .pixelGraffitiBox {
+    width: 100%;
     display: flex;
     justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+  .actionBox {
+    width: 700rpx;
+    background-color: #242424;
+    border-radius: 30rpx;
+    margin-top: 738rpx;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: 32rpx;
+    margin-bottom: 16rpx;
+  }
+  .actionWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .toolBox {
+      display: flex;
+      justify-content: center;
+    }
     .btns {
       width: 120rpx;
       height: 354rpx;
       border-radius: 32rpx;
-      border: 2rpx solid rgba(255, 255, 255, 0.1);
-      margin-left: 16rpx;
+      padding: 24rpx 0;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -43,14 +65,63 @@
   }
 }
 
+.zoomWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+  font-size: 28rpx;
+  color: #fff;
+  height: 80rpx;
+  width: 658rpx;
+  margin-right: -10rpx;
+  line-height: 120rpx;
+  background-color: #1a1a1a;
+  border-radius: 30rpx;
+  .moveIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 140rpx;
+    height: 100%;
+    .hand {
+      width: 48rpx;
+      height: 50rpx;
+    }
+  }
+  .zoomBtns {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    overflow: hidden;
+
+    .zonmBtn {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      overflow: hidden;
+      .icon {
+        width: 45rpx;
+        height: 45rpx;
+      }
+    }
+    .disabled {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+  }
+}
+
 .footer {
   width: 100%;
   position: fixed;
   left: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.05);
   z-index: 10;
-  border-top: 1rpx solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;

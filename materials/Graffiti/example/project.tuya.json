@@ -1,7 +1,7 @@
 {
   "projectname": "@ray-js/graffiti",
   "i18n": false,
-  "description": "@ray-js/graffiti",
+  "description": "画布涂鸦",
   "baseversion": "2.10.4",
   "miniprogramRoot": "./dist/tuya",
   "dependencies": {
@@ -9,5 +9,7 @@
     "BizKit": "3.0.7",
     "DeviceKit": "3.0.2",
     "MiniKit": "3.0.2"
-  }
+  },
+  "compileType": "miniprogram",
+  "devMode": "ray"
 }
