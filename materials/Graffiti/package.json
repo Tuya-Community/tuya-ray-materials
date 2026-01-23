@@ -1,6 +1,6 @@
 {
   "name": "@ray-js/graffiti",
-  "version": "1.1.4",
+  "version": "1.1.6",
   "description": "画布涂鸦组件",
   "main": "lib/index",
   "files": [

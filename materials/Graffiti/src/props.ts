@@ -180,6 +180,7 @@ export const defaultProps: IProps = {
   clearTrigger: 0,
   scale: 1,
   isDragging: false,
+  drawData: [],
   onStrokeChange: () => null,
   onSaveData: () => null,
 };

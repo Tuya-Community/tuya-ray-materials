@@ -18,6 +18,7 @@ import {
   HandActive,
   Hand,
 } from '../assets/images';
+import { mockData } from './mock';
 
 import styles from './index.module.less';
 
@@ -45,10 +46,9 @@ export function Home() {
   const [saveTrigger, setSaveTrigger] = useState(0);
   const [clearTrigger, setClearTrigger] = useState(0);
   const [isOpenPaint, setIsOpenPaint] = useState(false);
-  const [drawData, setDrawData] = useState<any>();
+  const [drawData, setDrawData] = useState<Array<any>>(mockData);
   const [scale, setScale] = useState<number>(1);
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  console.log('[drawData]:', drawData);
 
   const rgbColor = useMemo(() => {
     const rgbArr = utils.hsv2rgb(colour.hue, colour.saturation, colour.value);
@@ -123,6 +123,7 @@ export function Home() {
               onStrokeChange={handleStrokeChange}
               onSaveData={handleSaveData}
               drawData={drawData}
+              key={JSON.stringify(drawData)}
               scale={scale}
               isDragging={isDragging}
             />
@@ -201,7 +202,6 @@ export function Home() {
       </View>
       <Decoder
         onCodeChange={data => {
-          console.log(`[Decoder]`, data);
           try {
             const result =
               typeof data === 'string' ? JSON.parse(data) : Array.isArray(data) ? data : null;

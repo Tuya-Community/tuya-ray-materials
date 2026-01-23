@@ -17,6 +17,7 @@ export default Render({
     scale,
     isDragging,
     boxRect,
+    drawData,
   }) {
     this.scale = scale || 1;
     this.isDragging = isDragging || false;
@@ -74,6 +75,9 @@ export default Render({
 
     // 初始化画布, 绘制像素点
     this.createPixel(pixelColor);
+
+    // 初始化传入的绘制数据
+    this.initDrawData(Array.isArray(drawData) ? drawData : []);
 
     this.updateScale(scale);
 
@@ -274,8 +278,7 @@ export default Render({
     this.callMethod('genImageData', { base64, gridData: this.gridData });
   },
 
-  drawData(list) {
-    console.log('render drawData', list);
+  initDrawData(list) {
     for (const item of list) {
       this.fillPixel(item.x, item.y, item.color);
     }

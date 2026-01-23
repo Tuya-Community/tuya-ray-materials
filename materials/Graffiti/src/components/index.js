@@ -152,12 +152,8 @@ Component({
     },
     drawData: {
       // 初始绘制数据
-      type: null,
-      observer(newValue) {
-        if (newValue && this.render) {
-          this.render.drawData(newValue);
-        }
-      },
+      type: Array,
+      value: [],
     },
   },
   data: {
@@ -181,6 +177,7 @@ Component({
         mode,
         scale,
         isDragging,
+        drawData,
       } = this.data;
       width = getDeviceRealPx(width);
       height = getDeviceRealPx(height);
@@ -224,10 +221,8 @@ Component({
         scale: scale,
         isDragging: isDragging,
         boxRect: rect,
+        drawData: drawData,
       });
-      if (this.data.drawData) {
-        this.render.drawData(this.data.drawData);
-      }
     },
   },
   methods: {
