@@ -84,6 +84,16 @@ $ npx serve node_modules/@ray-js/robot-map-sdk/dist-docs
 
 ## Changelog
 
+### [1.0.9] - 2026-01-28
+
+#### Added
+
+- 增加多地图使用 RjsRobotMap 渲染的示例
+
+#### Changed
+
+- @ray-js/robot-map 更新到 **0.0.5-beta.15**，修复了若干问题。
+
 ### [1.0.8] - 2025-12-30
 
 #### Fixed

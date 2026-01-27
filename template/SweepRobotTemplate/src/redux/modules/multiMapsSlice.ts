@@ -7,7 +7,7 @@ import {
 import dayjs from 'dayjs';
 import Strings from '@/i18n';
 import store, { ReduxState } from '..';
-import { getMultipleMapFiles, getStorageSync, setStorage } from '@ray-js/ray';
+import { getMultipleMapFiles } from '@ray-js/ray';
 import { decodeAreas, fetchMapFile } from '@/utils';
 import ossApiInstance from '@/api/ossApi';
 import { decodeMapHeader, getFeatureProtocolVersion } from '@ray-js/robot-protocol';
@@ -15,6 +15,8 @@ import { base64ToRaw } from '@ray-js/panel-sdk/lib/utils';
 import { createAsyncQueue } from '@/utils/createAsyncQueue';
 import { devices } from '@/devices';
 import { decodeRoomProperties, SpotParam, VirtualWallParam, ZoneParam } from '@ray-js/robot-map';
+
+import { USE_RJS_MAP_FOR_MULTI_MAP } from '@/constant';
 
 const taskQueue = createAsyncQueue(
   async (params: { filePathKey: string; bucket: string; file: string; realTimeMapId: string }) => {
@@ -33,16 +35,19 @@ const taskQueue = createAsyncQueue(
       const homeMapApi = store.getState().mapApis.home;
 
       if (homeMapApi) {
-        // 生成快照图片
-        const snapshotImage = await homeMapApi.snapshotByData({
-          map: data.originMap,
-          roomProperties: decodeRoomProperties(data.originMap),
-          virtualWalls,
-          forbiddenMopZones,
-          forbiddenSweepZones,
-        });
+        let snapshotImage = '';
+        if (!USE_RJS_MAP_FOR_MULTI_MAP) {
+          // 生成快照图片
+          snapshotImage = await homeMapApi.snapshotByData({
+            map: data.originMap,
+            roomProperties: decodeRoomProperties(data.originMap),
+            virtualWalls,
+            forbiddenMopZones,
+            forbiddenSweepZones,
+          });
+        }
 
-        // 将快照存储到 Redux store
+        // 将快照及地图数据存储到 Redux store
         store.dispatch(
           upsertSnapshotImage({
             key: filePathKey,
@@ -50,6 +55,11 @@ const taskQueue = createAsyncQueue(
               image: snapshotImage,
               mapWidth: decodeMapHeader(data.originMap)?.mapWidth ?? 0,
               mapHeight: decodeMapHeader(data.originMap)?.mapHeight ?? 0,
+              map: data.originMap,
+              roomProperties: decodeRoomProperties(data.originMap),
+              virtualWalls,
+              forbiddenMopZones,
+              forbiddenSweepZones,
             },
           })
         );
@@ -58,14 +68,7 @@ const taskQueue = createAsyncQueue(
       console.error(err);
     }
   },
-  () => {
-    const { snapshotImageMap } = store.getState().multiMaps;
-
-    setStorage({
-      key: `snapshotImageMap_${devices.common.getDevInfo().devId}`,
-      data: JSON.stringify(snapshotImageMap),
-    });
-  }
+  null
 );
 
 const getAreasFromMixedCommand = (command: string) => {
@@ -152,34 +155,10 @@ export const getMapInfoFromCloudFile = async (history: {
 
 export const fetchMultiMaps = createAsyncThunk<MultiMap[], void, { state: ReduxState }>(
   'multiMaps/fetchMultiMaps',
-  async (nothing, { getState, dispatch }) => {
-    const storagedMultiMapsJSONString = getStorageSync({
-      key: `snapshotImageMap_${devices.common.getDevInfo().devId}`,
-    }) as string | null;
-
-    const storagedMultiMaps = storagedMultiMapsJSONString
-      ? JSON.parse(storagedMultiMapsJSONString)
-      : {};
-
+  async (nothing, { getState }) => {
     const { datas } = await getMultipleMapFiles({
       devId: devices.common.getDevInfo().devId,
     });
-
-    if (Object.keys(storagedMultiMaps).length > 0) {
-      Object.keys(storagedMultiMaps).forEach(key => {
-        const isExist = datas.some(item => {
-          const { file, time } = item;
-          const [_, appUseFile] = file.split(',');
-          const filePathKey = `${time}_${appUseFile}`;
-          return key === filePathKey;
-        });
-        if (!isExist) {
-          delete storagedMultiMaps[key];
-        }
-      });
-
-      dispatch(setSnapshotImageMap(storagedMultiMaps));
-    }
 
     const { mapId: realTimeMapId } = getState().mapState;
 
@@ -231,7 +210,19 @@ const multiMapsSlice = createSlice({
   name: 'multiMaps',
   initialState: {
     list: multiMapsAdapter.getInitialState(),
-    snapshotImageMap: {} as Record<string, { image: string; mapWidth: number; mapHeight: number }>,
+    snapshotImageMap: {} as Record<
+      string,
+      {
+        image: string;
+        mapWidth: number;
+        mapHeight: number;
+        map?: string;
+        roomProperties?: any[];
+        virtualWalls?: any[];
+        forbiddenSweepZones?: any[];
+        forbiddenMopZones?: any[];
+      }
+    >,
   },
   reducers: {
     updateMultiMap: (state, action: PayloadAction<MultiMap>) => {
@@ -245,7 +236,21 @@ const multiMapsSlice = createSlice({
     },
     setSnapshotImageMap: (
       state,
-      action: PayloadAction<Record<string, { image: string; mapWidth: number; mapHeight: number }>>
+      action: PayloadAction<
+        Record<
+          string,
+          {
+            image: string;
+            mapWidth: number;
+            mapHeight: number;
+            map?: string;
+            roomProperties?: any[];
+            virtualWalls?: any[];
+            forbiddenSweepZones?: any[];
+            forbiddenMopZones?: any[];
+          }
+        >
+      >
     ) => {
       state.snapshotImageMap = action.payload;
     },
@@ -258,7 +263,16 @@ const multiMapsSlice = createSlice({
       state,
       action: PayloadAction<{
         key: string;
-        snapshotImage: { image: string; mapWidth: number; mapHeight: number };
+        snapshotImage: {
+          image: string;
+          mapWidth: number;
+          mapHeight: number;
+          map?: string;
+          roomProperties?: any[];
+          virtualWalls?: any[];
+          forbiddenSweepZones?: any[];
+          forbiddenMopZones?: any[];
+        };
       }>
     ) => {
       state.snapshotImageMap[action.payload.key] = action.payload.snapshotImage;

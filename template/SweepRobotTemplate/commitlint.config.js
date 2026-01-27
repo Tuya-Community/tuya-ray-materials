@@ -6,5 +6,6 @@ module.exports = {
     'scope-case': [1, 'always', 'pascal-case'],
     'subject-case': [0],
     'subject-full-stop': [0],
+    'header-max-length': [2, 'always', 120],
   },
 };

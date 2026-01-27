@@ -2568,12 +2568,12 @@
     react "^17.0.2"
     react-dom "^17.0.2"
 
-"@ray-js/robot-map-sdk@0.0.4-beta.3":
-  version "0.0.4-beta.3"
-  resolved "https://registry.npmjs.org/@ray-js/robot-map-sdk/-/robot-map-sdk-0.0.4-beta.3.tgz#52549d5e7510483847d159b985905267c7ff5a68"
-  integrity sha512-NFl9gpKvBMOOWexjVTXWlyBvBQJu0NKm3JtLAwEjC3yidTTuJcbrRxTw9Ehdy+6mvcdpgNN7lF8TBi/Abbe3rA==
+"@ray-js/robot-map-sdk@0.0.6-beta.2":
+  version "0.0.6-beta.2"
+  resolved "https://registry.npmjs.org/@ray-js/robot-map-sdk/-/robot-map-sdk-0.0.6-beta.2.tgz#7759afca354d7821168f39651deb804c1f346b58"
+  integrity sha512-JihRZuMrGrCscuzyl1IIUlggxQELNlwTAqsHtxihQl8xwZWBM4q7Ad7DII6UNfxRPiGm2G+eTa79gIx2w7lBjA==
   dependencies:
-    "@ray-js/robot-protocol" "^1.0.1"
+    "@ray-js/robot-protocol" "^1.0.3"
     "@ray-js/webview-invoke" "^0.0.3"
     gifuct-js "^2.1.2"
     lodash-es "^4.17.21"
@@ -2584,24 +2584,19 @@
     pixi.js "8.14.3"
     valtio "^2.1.7"
 
-"@ray-js/robot-map@0.0.5-beta.3":
-  version "0.0.5-beta.3"
-  resolved "https://registry.npmjs.org/@ray-js/robot-map/-/robot-map-0.0.5-beta.3.tgz#da94731f1b41c8428e4104ccfdd611a132b3cc1a"
-  integrity sha512-xaoSvoEabOiIiPbsLaha79FP/FtWlXCVqlfcESH5InLJIQ6cAXJPTVajt78rmGqILqu9Qy1rHmcK47gFx9AREw==
+"@ray-js/robot-map@0.0.5-beta.15":
+  version "0.0.5-beta.15"
+  resolved "https://registry.npmjs.org/@ray-js/robot-map/-/robot-map-0.0.5-beta.15.tgz#7a6c15bf128b56b373d2306edcbd352c169331b0"
+  integrity sha512-kOxwKJgOIAEUz42AD3yWCd8wL5s27Sify7JYZ92HCeDO5vhKDzy4eys4oWIsZx3fzQijSGskRWqbVgVgXigDHQ==
   dependencies:
-    "@ray-js/robot-map-sdk" "0.0.4-beta.3"
+    "@ray-js/robot-map-sdk" "0.0.6-beta.2"
     clsx "^1.2.1"
     nanoid "^5.1.6"
 
-"@ray-js/robot-protocol@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@ray-js/robot-protocol/-/robot-protocol-1.0.0.tgz#3a4cc3dc061c02853dee7649e5c9ddbbd19a2cf9"
-  integrity sha512-HF7mtLaEmba/qQJhCl6+oZRNjWeoOdb4H6+90xKQ76VWEiuZILCZXr+nNNvKWJGlCxWJaur3vmMPFXYjGym+tg==
-
-"@ray-js/robot-protocol@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/@ray-js/robot-protocol/-/robot-protocol-1.0.1.tgz#826c6a6f906bf487ff585270e0c4bf1c84f6e404"
-  integrity sha512-Hq2UhMsxCxHxnJ1beX1XYbQHoh8uLLbx9n7Ajn2J3yCrj+tSnSqJDLqpYcm+7X3L5vtjuXvIVi5c0tpNsjdTcg==
+"@ray-js/robot-protocol@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@ray-js/robot-protocol/-/robot-protocol-1.0.3.tgz#ecf203c4c2924709041d8f5e4cbbf4dc972e9e9f"
+  integrity sha512-h5foE21CBSys7JwDOV0tQteAVfPB26E/6fEpqaI15t2JDyWKY4nOY8VQ6sQMg5GB1jQLFh37yc39w46wE+q14Q==
 
 "@ray-js/router-mp@1.7.55":
   version "1.7.55"
@@ -3264,11 +3259,6 @@
   version "2.0.3"
   resolved "https://registry.npmjs.org/@types/stack-utils/-/stack-utils-2.0.3.tgz#6209321eb2c1712a7e7466422b8cb1fc0d9dd5d8"
   integrity sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==
-
-"@types/tinycolor2@^1.4.6":
-  version "1.4.6"
-  resolved "https://registry.npmjs.org/@types/tinycolor2/-/tinycolor2-1.4.6.tgz#670cbc0caf4e58dd61d1e3a6f26386e473087f06"
-  integrity sha512-iEN8J0BoMnsWBqjVbWH/c0G0Hh7O21lpR2/+PrvAVgWdzL7eexIFm4JN/Wn10PTcmNdtS6U67r499mlWMXOxNw==
 
 "@types/ws@^8.5.5":
   version "8.18.1"
@@ -7086,7 +7076,7 @@ glob@^10.3.7:
     package-json-from-dist "^1.0.0"
     path-scurry "^1.11.1"
 
-glob@^7.0.0, glob@^7.0.3, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6, glob@^7.2.0:
+glob@^7.0.3, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6, glob@^7.2.0:
   version "7.2.3"
   resolved "https://registry.npmjs.org/glob/-/glob-7.2.3.tgz#b8df0fb802bbfa8e89bd1d938b4e16578ed44f2b"
   integrity sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==
@@ -7716,11 +7706,6 @@ internal-slot@^1.1.0:
     es-errors "^1.3.0"
     hasown "^2.0.2"
     side-channel "^1.1.0"
-
-interpret@^1.0.0:
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/interpret/-/interpret-1.4.0.tgz#665ab8bc4da27a774a40584e812e3e0fa45b1a1e"
-  integrity sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==
 
 intersection-observer@^0.12.0:
   version "0.12.2"
@@ -11330,13 +11315,6 @@ readdirp@~3.6.0:
   dependencies:
     picomatch "^2.2.1"
 
-rechoir@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.npmjs.org/rechoir/-/rechoir-0.6.2.tgz#85204b54dba82d5742e28c96756ef43af50e3384"
-  integrity sha512-HFM8rkZ+i3zrV+4LQjwQ0W+ez98pApMGM3HUrN04j3CqzPOzl9nmP15Y8YXNm8QHGv/eacOVEjqhmWpkRV0NAw==
-  dependencies:
-    resolve "^1.1.6"
-
 redent@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/redent/-/redent-2.0.0.tgz#c1b2007b42d57eb1389079b3c8333639d5e1ccaa"
@@ -11575,7 +11553,7 @@ resolve-url@^0.2.1:
   resolved "https://registry.npmjs.org/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
   integrity sha512-ZuF55hVUQaaczgOIwqWzkEcEidmlD/xl44x1UZnhOXcYuFN2S6+rcxpG+C1N3So0wvNI3DmJICUFfu2SxhBmvg==
 
-resolve@^1.1.6, resolve@^1.10.0, resolve@^1.12.0, resolve@^1.13.1, resolve@^1.18.1, resolve@^1.19.0, resolve@^1.22.0, resolve@^1.22.10, resolve@^1.22.4:
+resolve@^1.10.0, resolve@^1.12.0, resolve@^1.13.1, resolve@^1.18.1, resolve@^1.19.0, resolve@^1.22.0, resolve@^1.22.10, resolve@^1.22.4:
   version "1.22.11"
   resolved "https://registry.npmjs.org/resolve/-/resolve-1.22.11.tgz#aad857ce1ffb8bfa9b0b1ac29f1156383f68c262"
   integrity sha512-RfqAvLnMl313r7c9oclB1HhUEAezcpLjz95wFH4LVuhk9JF/r22qmVP9AMmOU4vMX7Q8pN8jwNg/CSpdFnMjTQ==
@@ -12039,15 +12017,6 @@ shell-quote@1.7.3, shell-quote@^1.6.1, shell-quote@^1.8.3:
   version "1.7.3"
   resolved "https://registry.npmjs.org/shell-quote/-/shell-quote-1.7.3.tgz#aa40edac170445b9a431e17bb62c0b881b9c4123"
   integrity sha512-Vpfqwm4EnqGdlsBFNmHhxhElJYrdfcxPThu+ryKS5J8L/fhAwLazFZtq+S+TWZ9ANj2piSQLGj6NQg+lKPmxrw==
-
-shelljs@^0.8.5:
-  version "0.8.5"
-  resolved "https://registry.npmjs.org/shelljs/-/shelljs-0.8.5.tgz#de055408d8361bed66c669d2f000538ced8ee20c"
-  integrity sha512-TiwcRcrkhHvbrZbnRcFYMLl30Dfov3HKqzp5tO5b4pt6G/SezKcYhmDg15zXVBswHmctSAQKznqNW2LO5tTDow==
-  dependencies:
-    glob "^7.0.0"
-    interpret "^1.0.0"
-    rechoir "^0.6.2"
 
 shellwords@^0.1.1:
   version "0.1.1"
@@ -12821,11 +12790,6 @@ tiny-warning@^1.0.0:
   version "1.0.3"
   resolved "https://registry.npmjs.org/tiny-warning/-/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"
   integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==
-
-tinycolor2@^1.4.2:
-  version "1.6.0"
-  resolved "https://registry.npmjs.org/tinycolor2/-/tinycolor2-1.6.0.tgz#f98007460169b0263b97072c5ae92484ce02d09e"
-  integrity sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==
 
 tmp@^0.2.4:
   version "0.2.5"

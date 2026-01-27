@@ -14,6 +14,10 @@ export const APP_MULTIPLE_MAP_CACHE_DIR = (ty as any).env.USER_DATA_PATH + '/';
  * 指令协议版本 0 | 1
  */
 export const PROTOCOL_VERSION = '1';
+/**
+ * 多地图管理是否使用 RjsRobotMap 组件进行渲染
+ */
+export const USE_RJS_MAP_FOR_MULTI_MAP = true;
 
 export const MODE_VALUE_MAP = {
   0: 'smart',
@@ -70,6 +74,7 @@ export const MAP_CONFIG: DeepPartialAppConfig = {
   global: {
     containerHeight: '100%',
     containerWidth: '100%',
+    enableLogger: true,
   },
   map: {
     autoPaddingHorizontalPercent: 0.02,

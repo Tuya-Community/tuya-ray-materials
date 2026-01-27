@@ -85,6 +85,16 @@ If you have any questions, please visit the link and submit a post for feedback:
 
 ## Changelog
 
+### [1.0.9] - 2026-01-28
+
+#### Added
+
+- Added an example of using RjsRobotMap to render multiple maps.
+
+#### Changed
+
+- @ray-js/robot-map updated to **0.0.5-beta.15**, fixing several issues.
+
 ### [1.0.8] - 2025-12-30
 
 #### Fixed
