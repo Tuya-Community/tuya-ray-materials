@@ -1,0 +1,65 @@
+.container {
+  position: relative;
+  .popupContainer {
+    width: 100vw;
+    height: calc(100vh - 50px);
+    display: flex;
+    flex-direction: column;
+    .popupHeader {
+      font-size: 34rpx;
+      line-height: 60rpx;
+      font-weight: 600;
+      color: #000000;
+      padding: 38rpx 0;
+      text-align: center;
+    }
+  }
+  .card {
+    border-radius: 16rpx;
+    background: #ffffff;
+    padding: 0 32rpx;
+    margin-bottom: 28rpx;
+  }
+  .title {
+    font-size: 32rpx;
+    line-height: 40rpx;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 12rpx;
+  }
+  .input {
+    border-radius: 16rpx;
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: transparent;
+    font-size: 32rpx;
+    line-height: 40rpx;
+    color: #000000;
+    height: 104rpx;
+    padding: 0 32rpx;
+  }
+  .buttonContainer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 32rpx 0 64rpx 0;
+    background: #ffffff;
+    z-index: 10;
+    .button {
+      margin: 0 auto;
+      display: block;
+      width: 686rpx;
+      height: 96rpx;
+      border-radius: 200rpx;
+      background: #239c8e;
+      border-color: #239c8e;
+      :global(.smart-button__text) {
+        font-size: 32rpx;
+        line-height: 90rpx;
+        font-weight: normal;
+        color: #ffffff;
+      }
+    }
+  }
+}

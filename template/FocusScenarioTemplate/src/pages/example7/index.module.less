@@ -1,0 +1,65 @@
+.container {
+  position: relative;
+  background: linear-gradient(180deg, #daecf6 0%, rgba(242, 244, 245, 0) 100%),
+    rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  .content {
+    flex: 1;
+    padding: 0 32rpx;
+  }
+  .split {
+    height: 32rpx;
+  }
+  .card {
+    padding: 32rpx;
+    border-radius: 16rpx;
+    background: #ffffff;
+    margin-bottom: 20rpx;
+    --field-textarea-padding: 0;
+    .textarea {
+      font-size: 28rpx;
+      line-height: 40rpx;
+      color: rgba(0, 0, 0, 0.9);
+      font-weight: 500;
+    }
+    :global(.smart-field--textarea) {
+      padding: 0;
+    }
+    .title {
+      margin-bottom: 16rpx;
+      font-size: 28rpx;
+      line-height: 40rpx;
+      font-weight: 500;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #000000;
+    }
+    .input {
+      border-radius: 24rpx;
+      background: rgba(0, 0, 0, 0.03);
+      padding: 0 32rpx;
+      height: 88rpx;
+      font-size: 28rpx;
+      color: #000000;
+    }
+  }
+  .buttonContainer {
+    padding: 32rpx 0 64rpx 0;
+    .button {
+      margin: 0 auto;
+      display: block;
+      width: 686rpx;
+      height: 96rpx;
+      border-radius: 200rpx;
+      background: #239c8e;
+      border-color: #239c8e;
+      :global(.smart-button__text) {
+        font-size: 32rpx;
+        line-height: 90rpx;
+        font-weight: normal;
+        color: #ffffff;
+      }
+    }
+  }
+}

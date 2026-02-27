@@ -1,0 +1,14 @@
+{
+  "projectname": "聚焦模版",
+  "i18n": false,
+  "description": "",
+  "baseversion": "2.27.0",
+  "devMode": "ray",
+  "miniprogramRoot": "./dist/tuya",
+  "dependencies": {
+    "BaseKit": "3.0.0",
+    "MiniKit": "3.0.0",
+    "BizKit": "3.0.1"
+  },
+  "compileType": "miniprogram"
+}

@@ -1,0 +1,38 @@
+.container {
+  position: relative;
+  height: 100vh;
+  background-color: #f8f8f8;
+  --tabs-card-text-active-color: #239c8e;
+  --tabs-card-height: 90rpx;
+  --tabs-card-padding: 8rpx;
+
+  :global(.smart-field--textarea) {
+    padding: 0;
+  }
+  .bodyContent {
+    padding: 32rpx;
+    .tabs {
+      margin-bottom: 32rpx;
+      display: block;
+    }
+    .textarea {
+      height: 500rpx;
+      font-size: 28rpx;
+      line-height: 56rpx;
+      color: rgba(0, 0, 0, 0.7);
+      font-weight: normal;
+    }
+  }
+  .button {
+    position: absolute;
+    bottom: 112rpx;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 276rpx;
+    height: 112rpx;
+    text-align: center;
+    background: #239c8e;
+    border-radius: 200rpx;
+    color: #ffffff;
+  }
+}

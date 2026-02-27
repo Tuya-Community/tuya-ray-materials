@@ -1,0 +1,57 @@
+/*
+ * @Author: mjh
+ * @Date: 2025-04-29 16:06:11
+ * @LastEditors: mjh
+ * @LastEditTime: 2026-02-25 11:25:35
+ * @Description:
+ */
+import React, { useEffect, useState } from 'react'
+import { Input, ScrollView, View, hideMenuButton, navigateBack, showMenuButton } from '@ray-js/ray'
+import { Button, NavBar, Popup } from '@ray-js/smart-ui'
+import styles from './index.module.less'
+
+export default function Demo() {
+  const [showPopup, setShowPopup] = useState(true)
+
+  useEffect(() => {
+    hideMenuButton()
+    return () => {
+      showMenuButton()
+    }
+  }, [])
+
+  return (
+    <View className={styles.container}>
+      <NavBar title="浮层表单聚焦" leftArrow onClickLeft={() => navigateBack()} />
+      <Button type="primary" onClick={() => setShowPopup(true)}>
+        显示弹窗
+      </Button>
+      <Popup
+        lockScroll={false}
+        position="bottom"
+        round
+        show={showPopup}
+        closeable
+        onClose={() => setShowPopup(false)}
+      >
+        <View className={styles.popupContainer}>
+          <View className={styles.popupHeader}>创建联系人</View>
+          <ScrollView scrollY className={styles.popupContent}>
+            {new Array(7).fill(0).map((item, index) => (
+              <View className={styles.card} key={`${item}-${index}`}>
+                <View className={styles.title}>名称</View>
+                <Input placeholder="请输入内容" className={styles.input} />
+              </View>
+            ))}
+            <View className={styles.split} style={{ height: 192 }} />
+          </ScrollView>
+          <View className={styles.buttonContainer}>
+            <Button type="primary" customClass={styles.button}>
+              保存
+            </Button>
+          </View>
+        </View>
+      </Popup>
+    </View>
+  )
+}
