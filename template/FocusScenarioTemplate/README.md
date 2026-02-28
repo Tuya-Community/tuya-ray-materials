@@ -21,10 +21,6 @@ Before using this template for development, it is important to have a basic unde
   - MiniKit: 3.0.7,
   - DeviceKit: 4.6.0,
   - BizKit: 4.2.0
-- Functional Page Dependencies
-  - Device Detail Functional Page: settings => 'tycryc71qaug8at6yt'
-  - Timer Countdown Circadian Rhythm Functional Page: LampScheduleSetFunction => 'ty56cr7pi6rxiucspo'
-  - Cool Play Functional Page: rayPlayCoolFunctional => 'tyg0szxsm3vog8nf6n'
 
 ## 4. Panel Functionality
 

@@ -2,7 +2,7 @@
  * @Author: mjh
  * @Date: 2025-04-29 16:06:11
  * @LastEditors: mjh
- * @LastEditTime: 2026-02-12 14:57:22
+ * @LastEditTime: 2026-02-28 15:50:48
  * @Description:
  */
 import React, { useEffect, useState } from 'react'
@@ -36,27 +36,27 @@ export default function Demo() {
       <NavBar
         background="transparent"
         leftArrow
-        title="留言内容设置"
+        title={I18n.t('nav_message_settings')}
         onClickLeft={() => {
           navigateBack()
         }}
       />
       <View className={styles.bodyContent}>
         <Tabs type="card" active="4" className={styles.tabs}>
-          <Tab name="1" title="原声录制" />
-          <Tab name="2" title="文字转语音" />
+          <Tab name="1" title={I18n.t('tab_record')} />
+          <Tab name="2" title={I18n.t('tab_tts')} />
         </Tabs>
         <Field
           inputClass={styles.textarea}
           type="textarea"
           hiddenLabel
-          value={new Array(110).fill('测试').join('')}
-          maxlength={400}
+          value={new Array(110).fill(I18n.t('test')).join(' ')}
+          maxlength={600}
           onFocus={onTextareaFocus}
           showWordLimit
-          placeholder="请输入留言内容"
+          placeholder={I18n.t('placeholder_message')}
         />
-        <Button customClass={styles.button}>生成</Button>
+        <Button customClass={styles.button}>{I18n.t('btn_generate')}</Button>
       </View>
     </View>
   )

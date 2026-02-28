@@ -21,10 +21,6 @@
   - MiniKit: 3.0.7,
   - DeviceKit: 4.6.0,
   - BizKit: 4.2.0
-- 功能页依赖
-  - 设备详情功能页：settings => 'tycryc71qaug8at6yt'
-  - 定时倒计时生物节律功能页：LampScheduleSetFunction => 'ty56cr7pi6rxiucspo'
-  - 酷玩吧功能页：rayPlayCoolFunctional => 'tyg0szxsm3vog8nf6n'
 
 ## 4. 面板功能
 

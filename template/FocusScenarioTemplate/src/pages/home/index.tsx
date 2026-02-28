@@ -2,7 +2,7 @@
  * @Author: mjh
  * @Date: 2026-02-25 19:34:50
  * @LastEditors: mjh
- * @LastEditTime: 2026-02-26 09:55:25
+ * @LastEditTime: 2026-02-28 16:39:44
  * @Description:
  */
 import React from 'react'
@@ -13,23 +13,25 @@ export default function Demo() {
   return (
     <View className={styles.container}>
       <Button onClick={() => navigateTo({ url: '/pages/example1/index' })}>
-        1. Browse / Lightweight Input Box Form + Keyboard Auto-Collapse
+        1. {I18n.t('btn_form_single_auto')}
       </Button>
       <Button onClick={() => navigateTo({ url: '/pages/example2/index' })}>
-        2. Multiple input box form type + fixed keyboard
+        2. {I18n.t('btn_form_multi_fixed')}
       </Button>
       <Button onClick={() => navigateTo({ url: '/pages/example3/index' })}>
-        3. Lightweight input box form type + keyboard automatically hides
+        3. {I18n.t('btn_popup_single_auto')}
       </Button>
       <Button onClick={() => navigateTo({ url: '/pages/example4/index' })}>
-        4. Popup with multiple input fields form + keyboard fixed
+        4. {I18n.t('btn_popup_multi_fixed')}
       </Button>
-      <Button onClick={() => navigateTo({ url: '/pages/example5/index' })}>5. Popup Focus</Button>
+      <Button onClick={() => navigateTo({ url: '/pages/example5/index' })}>
+        5. {I18n.t('btn_popup_focus')}
+      </Button>
       <Button onClick={() => navigateTo({ url: '/pages/example6/index' })}>
-        6. Fixed card height + fixed one screen + fixed keyboard
+        6. {I18n.t('btn_card_fixed')}
       </Button>
       <Button onClick={() => navigateTo({ url: '/pages/example7/index' })}>
-        7. Card height auto-adjusts + Scrolls beyond one screen + Keyboard fixed
+        7. {I18n.t('btn_card_scroll')}
       </Button>
     </View>
   )

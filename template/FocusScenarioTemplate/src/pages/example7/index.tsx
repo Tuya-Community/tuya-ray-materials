@@ -2,7 +2,7 @@
  * @Author: mjh
  * @Date: 2025-04-29 16:06:11
  * @LastEditors: mjh
- * @LastEditTime: 2026-02-25 13:54:23
+ * @LastEditTime: 2026-02-28 15:50:57
  * @Description:
  */
 import React, { useEffect, useState } from 'react'
@@ -24,7 +24,7 @@ export default function Demo() {
     <View className={styles.container} style={{ height }}>
       <NavBar
         background="transparent"
-        title="添加留言"
+        title={I18n.t('nav_add_message')}
         leftArrow
         onClickLeft={() => navigateBack()}
       />
@@ -37,32 +37,32 @@ export default function Demo() {
           }}
         />
         <View className={styles.card}>
-          <View className={styles.title}>开场白</View>
+          <View className={styles.title}>{I18n.t('label_opening')}</View>
           <Field
             inputClass={styles.textarea}
             type="textarea"
             hiddenLabel
-            value={new Array(20).fill('测试').join('')}
+            value={new Array(20).fill(I18n.t('test')).join(' ')}
             autosize={{
               maxHeight: '436rpx',
               minHeight: '80rpx',
             }}
             onFocus={onTextareaFocus}
-            placeholder="请输入留言内容"
+            placeholder={I18n.t('placeholder_message')}
           />
         </View>
         <View className={styles.card}>
-          <View className={styles.title}>开场白</View>
+          <View className={styles.title}>{I18n.t('label_opening')}</View>
           <Field
             inputClass={styles.textarea}
             type="textarea"
             hiddenLabel
-            value={new Array(200).fill('测试').join('')}
+            value={new Array(200).fill(I18n.t('test')).join(' ')}
             autosize={{
               maxHeight: '436rpx',
               minHeight: '80rpx',
             }}
-            placeholder="请输入留言内容"
+            placeholder={I18n.t('placeholder_message')}
           />
         </View>
         <View
@@ -74,7 +74,7 @@ export default function Demo() {
       </ScrollView>
       <View className={styles.buttonContainer}>
         <Button type="primary" customClass={styles.button}>
-          保存
+          {I18n.t('btn_save')}
         </Button>
       </View>
     </View>

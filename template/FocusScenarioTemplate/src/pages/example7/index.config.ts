@@ -12,4 +12,4 @@ export default {
   navigationStyle: 'custom',
   navigationBarTitleText: 'HomeHomeHomeHomeHome',
   disableScroll: false,
-};
+}

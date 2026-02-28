@@ -41,24 +41,24 @@ export default function Demo() {
   }
   return (
     <View className={styles.container}>
-      <NavBar title="浮层表单聚焦" leftArrow onClickLeft={() => navigateBack()} />
+      <NavBar title={I18n.t('nav_overlay_form')} leftArrow onClickLeft={() => navigateBack()} />
       <Button type="primary" onClick={() => setShowPopup(true)}>
-        显示弹窗
+        {I18n.t('btn_show_popup')}
       </Button>
       <Popup position="bottom" round show={showPopup} closeable onClose={() => setShowPopup(false)}>
         <View className={styles.popupContainer} onTouchMove={() => focus && setFocus(false)}>
-          <View className={styles.popupHeader}>创建联系人</View>
+          <View className={styles.popupHeader}>{I18n.t('popup_header_contact')}</View>
           <ScrollView scrollY className={styles.popupContent}>
             <View className={styles.card}>
-              <View className={styles.title}>名称</View>
+              <View className={styles.title}>{I18n.t('label_name')}</View>
               <Input
                 // @ts-ignore
                 focus={focus}
-                value="名称名称名称"
+                value={I18n.t('label_name') + I18n.t('label_name') + I18n.t('label_name')}
                 className={styles.input}
                 onFocus={onInputFocus}
                 onBlur={() => setFocus(false)}
-                placeholder="请输入内容"
+                placeholder={I18n.t('placeholder_input')}
               />
             </View>
             {new Array(6).fill(0).map((item, index) => (
@@ -79,7 +79,7 @@ export default function Demo() {
             }}
           >
             <Button type="primary" customClass={styles.button}>
-              保存
+              {I18n.t('btn_save')}
             </Button>
           </View>
         </View>

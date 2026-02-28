@@ -5,7 +5,7 @@
  * @LastEditTime: 2026-02-25 13:46:43
  * @Description:
  */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { getSystemInfoSync, Input, navigateBack, ScrollView, View } from '@ray-js/ray'
 import { NavBar, Button } from '@ray-js/smart-ui'
 import styles from './index.module.less'
@@ -31,22 +31,22 @@ export default function Demo() {
     >
       <NavBar
         background="transparent"
-        title="添加留言"
+        title={I18n.t('nav_add_message')}
         leftArrow
         onClickLeft={() => navigateBack()}
       />
       <ScrollView scrollY className={styles.content}>
         <View className={styles.split} />
         <View className={styles.card}>
-          <View className={styles.title}>名称</View>
+          <View className={styles.title}>{I18n.t('label_name')}</View>
           <Input
             // @ts-ignore
             focus={focus}
-            value="名称名称名称"
+            value={I18n.t('label_name') + I18n.t('label_name') + I18n.t('label_name')}
             className={styles.input}
             onFocus={onInputFocus}
             onBlur={() => setFocus(false)}
-            placeholder="请输入内容"
+            placeholder={I18n.t('placeholder_input')}
           />
         </View>
         {new Array(7).fill(0).map((item, index) => (
@@ -61,7 +61,7 @@ export default function Demo() {
       </ScrollView>
       <View className={styles.buttonContainer}>
         <Button type="primary" customClass={styles.button}>
-          保存
+          {I18n.t('btn_save')}
         </Button>
       </View>
     </View>

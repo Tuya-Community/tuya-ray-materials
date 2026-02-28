@@ -12,4 +12,4 @@ export default {
   navigationBarTitleText: '添加留言',
   navigationStyle: 'custom',
   disableScroll: true,
-};
+}

@@ -1,2 +1,4 @@
 dist
 src/app.config.ts
+
+index.d.ts

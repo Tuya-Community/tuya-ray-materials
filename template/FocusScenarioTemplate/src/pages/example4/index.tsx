@@ -22,9 +22,9 @@ export default function Demo() {
 
   return (
     <View className={styles.container}>
-      <NavBar title="浮层表单聚焦" leftArrow onClickLeft={() => navigateBack()} />
+      <NavBar title={I18n.t('nav_overlay_form')} leftArrow onClickLeft={() => navigateBack()} />
       <Button type="primary" onClick={() => setShowPopup(true)}>
-        显示弹窗
+        {I18n.t('btn_show_popup')}
       </Button>
       <Popup
         lockScroll={false}
@@ -35,19 +35,19 @@ export default function Demo() {
         onClose={() => setShowPopup(false)}
       >
         <View className={styles.popupContainer}>
-          <View className={styles.popupHeader}>创建联系人</View>
+          <View className={styles.popupHeader}>{I18n.t('popup_header_contact')}</View>
           <ScrollView scrollY className={styles.popupContent}>
             {new Array(7).fill(0).map((item, index) => (
               <View className={styles.card} key={`${item}-${index}`}>
-                <View className={styles.title}>名称</View>
-                <Input placeholder="请输入内容" className={styles.input} />
+                <View className={styles.title}>{I18n.t('label_name')}</View>
+                <Input placeholder={I18n.t('placeholder_input')} className={styles.input} />
               </View>
             ))}
             <View className={styles.split} style={{ height: 192 }} />
           </ScrollView>
           <View className={styles.buttonContainer}>
             <Button type="primary" customClass={styles.button}>
-              保存
+              {I18n.t('btn_save')}
             </Button>
           </View>
         </View>

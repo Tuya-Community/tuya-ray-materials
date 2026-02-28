@@ -2,7 +2,7 @@
  * @Author: mjh
  * @Date: 2025-04-29 16:06:11
  * @LastEditors: mjh
- * @LastEditTime: 2026-02-26 09:56:20
+ * @LastEditTime: 2026-02-28 15:50:31
  * @Description:
  */
 import React, { useEffect, useState } from 'react'
@@ -17,10 +17,12 @@ export default function Demo() {
     //   scrollEnable: false,
     // });
     DialogInstance.input({
-      title: '标题',
+      title: I18n.t('dialog_title'),
       value: '123',
-      placeholder: '请输入',
+      placeholder: I18n.t('placeholder_enter'),
       selector: '#custom',
+      cancelButtonText: I18n.t('cancel'),
+      confirmButtonText: I18n.t('confirm'),
     })
       .then((res) => {
         console.log(res, '--res')
@@ -43,8 +45,8 @@ export default function Demo() {
   }, [])
   return (
     <View className={styles.container}>
-      <NavBar leftArrow title="home" onClickLeft={() => navigateBack()} />
-      <Button onClick={showDialog}>出现弹框</Button>
+      <NavBar leftArrow title={I18n.t('nav_home')} onClickLeft={() => navigateBack()} />
+      <Button onClick={showDialog}>{I18n.t('btn_show_dialog')}</Button>
       <Dialog id="custom" />
     </View>
   )

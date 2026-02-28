@@ -2,7 +2,7 @@
  * @Author: mjh
  * @Date: 2025-10-31 15:52:21
  * @LastEditors: mjh
- * @LastEditTime: 2026-02-25 19:40:16
+ * @LastEditTime: 2026-02-28 15:55:30
  * @Description:
  */
 export default {
@@ -10,6 +10,6 @@ export default {
   navigationBarBackgroundColor: '--app-B2',
   navigationBarTextStyle: '--app-B2-N1',
   // navigationStyle: 'custom',
-  navigationBarTitleText: 'HomeHomeHomeHomeHome',
+  navigationBarTitleText: 'Home',
   // disableScroll: true,
 }

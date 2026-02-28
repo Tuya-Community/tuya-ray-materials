@@ -1,6 +1,6 @@
 {
   "projectname": "聚焦模版",
-  "i18n": false,
+  "I18n": false,
   "description": "",
   "baseversion": "2.27.0",
   "devMode": "ray",
