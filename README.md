@@ -818,23 +818,23 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="SweepRobotTemplate">2026/01</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SweepRobotTemplate">SweepRobotTemplate</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=SweepRobotTemplate" target="_blank">View Details</a>
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="FocusScenarioTemplate">2026/02</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/FocusScenarioTemplate">FocusScenarioTemplate</a></td>
   <td>
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=FocusScenarioTemplate" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="SweepRobotTemplate">2026/03</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SweepRobotTemplate">SweepRobotTemplate</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=SweepRobotTemplate" target="_blank">View Details</a>
   </details>
   </td>
 </tr>

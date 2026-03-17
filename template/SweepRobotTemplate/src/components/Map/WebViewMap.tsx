@@ -72,7 +72,11 @@ const WebViewMap: React.FC<Props> = React.memo(
   },
   (prevProps, nextProps) => {
     if (nextProps.map !== undefined && prevProps.map !== undefined) {
-      return prevProps.map === nextProps.map && prevProps.path === nextProps.path;
+      return (
+        prevProps.map === nextProps.map &&
+        prevProps.path === nextProps.path &&
+        prevProps.runtime === nextProps.runtime
+      );
     }
     return false;
   }
