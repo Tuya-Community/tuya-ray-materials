@@ -74,7 +74,12 @@ export const MAP_CONFIG: DeepPartialAppConfig = {
   global: {
     containerHeight: '100%',
     containerWidth: '100%',
-    enableLogger: true,
+  },
+  logger: {
+    enabled: false,
+    hostSinkEnabled: false,
+    hostLevels: ['debug', 'warn', 'error'],
+    tag: 'ray-robot-map-sdk',
   },
   map: {
     autoPaddingHorizontalPercent: 0.02,

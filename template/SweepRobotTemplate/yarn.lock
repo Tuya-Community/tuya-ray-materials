@@ -2611,10 +2611,10 @@
     react "^17.0.2"
     react-dom "^17.0.2"
 
-"@ray-js/robot-map-sdk@0.0.14-beta.4":
-  version "0.0.14-beta.4"
-  resolved "https://registry.npmjs.org/@ray-js/robot-map-sdk/-/robot-map-sdk-0.0.14-beta.4.tgz#4ab016f2fe0b2beb73184b49a89a07e3e318b625"
-  integrity sha512-4Rnks2Ux/of4BQ1R164F3W+B6zHxFr/2Z3+DbBcUGGDLAnE2q8frJuL/j6LbvXv1pCL3zXfO2p5jgo6yNE7mZQ==
+"@ray-js/robot-map-sdk@0.0.15-beta.4":
+  version "0.0.15-beta.4"
+  resolved "https://registry.npmjs.org/@ray-js/robot-map-sdk/-/robot-map-sdk-0.0.15-beta.4.tgz#d0af933bc46494130796e39e800d6697827601ed"
+  integrity sha512-bO8zvzSl9JiPzJzRKqke2H3mM2PSsp3z8Qbz2CjTCgmRf/VKa7vJ63GZQEC9rFg/OUxwCCmLNP2tcTfuIzZqlw==
   dependencies:
     "@ray-js/robot-protocol" "^1.0.6"
     "@ray-js/webview-invoke" "^0.0.3"
@@ -2628,12 +2628,12 @@
     reka-ui "^2.9.0"
     valtio "^2.1.7"
 
-"@ray-js/robot-map@0.0.8-beta.4":
-  version "0.0.8-beta.4"
-  resolved "https://registry.npmjs.org/@ray-js/robot-map/-/robot-map-0.0.8-beta.4.tgz#12c0e4a25b1e9a8c05eb36cfb9541f3f8b52b490"
-  integrity sha512-f7UyLquWYERqAP3IG6M3e2xpBbddkpRlOT4tOjL6EltMBcxwnrtYeUQ7KT1BbRW9wyYXUoPd4d7BXZGQ46uQRg==
+"@ray-js/robot-map@0.0.9-beta.2":
+  version "0.0.9-beta.2"
+  resolved "https://registry.npmjs.org/@ray-js/robot-map/-/robot-map-0.0.9-beta.2.tgz#1bb29b209e1f67d3d1811e3723c101381a6c9216"
+  integrity sha512-WB5Evr4ovAhDM6FX3Ql1ZXSWa8VDT301AV2+mV0BxZNayxzBk0KBnBu/Pnva2KX0eGOXdoDMi44gKzC8rGWbDw==
   dependencies:
-    "@ray-js/robot-map-sdk" "0.0.14-beta.4"
+    "@ray-js/robot-map-sdk" "0.0.15-beta.4"
     clsx "^1.2.1"
     nanoid "^5.1.6"
 

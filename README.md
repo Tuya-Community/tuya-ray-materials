@@ -829,7 +829,7 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="SweepRobotTemplate">2026/03</td>
+  <td id="SweepRobotTemplate">2026/05</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/SweepRobotTemplate">SweepRobotTemplate</a></td>
   <td>
   <details>

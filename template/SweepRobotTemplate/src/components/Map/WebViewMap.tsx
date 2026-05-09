@@ -1,15 +1,17 @@
 import { View, getSystemInfoSync } from '@ray-js/ray';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import log4js from '@ray-js/log4js';
 import { RobotMap } from '@ray-js/robot-map';
 import { useSelector } from 'react-redux';
 import { selectMapStateByKey } from '@/redux/modules/mapStateSlice';
-import { MAP_CONFIG } from '@/constant';
+import { APP_LOG_TAG, MAP_CONFIG } from '@/constant';
 
 import EmptyMap from '../EmptyMap';
 import Loading from '../Loading';
 import styles from './index.module.less';
 
 type RobotMapProps = React.ComponentProps<typeof RobotMap>;
+type LoggerPayload = Parameters<NonNullable<RobotMapProps['onLogger']>>[0];
 
 type Props = {
   style?: React.CSSProperties;
@@ -36,11 +38,24 @@ const WebViewMap: React.FC<Props> = React.memo(
       config = MAP_CONFIG,
       onMapFirstDrawed,
       onMapDrawed,
+      onLogger,
       ...restProps
     } = props;
 
     const isIDE = getSystemInfoSync().brand === 'devtools';
     const isLoading = isIDE ? !mapLoadEnd : !mapLoadEnd || !map;
+
+    const handleLogger = useCallback(
+      (payload: LoggerPayload) => {
+        log4js.info?.(
+          `[${APP_LOG_TAG}][MapSDK][${payload.tag}] ${payload.message}`,
+          ...payload.data
+        );
+
+        onLogger?.(payload);
+      },
+      [onLogger]
+    );
 
     return (
       <View className={styles.container} style={style}>
@@ -50,6 +65,7 @@ const WebViewMap: React.FC<Props> = React.memo(
           roomProperties={roomProperties}
           detectedObjects={detectedObjects}
           config={config}
+          onLogger={handleLogger}
           onMapFirstDrawed={mapState => {
             setMapLoadEnd(true);
             onMapFirstDrawed?.(mapState);
