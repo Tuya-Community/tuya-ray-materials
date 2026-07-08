@@ -1,0 +1,38 @@
+{
+  "name": "public-ray-template",
+  "version": "1.0.0",
+  "description": "Panel Ray Template",
+  "private": true,
+  "author": "Tuya.inc",
+  "license": "MIT",
+  "scripts": {
+    "start": "ray start --target tuya",
+    "build": "ray build --target tuya",
+    "lint": "eslint \"src\" --ext .js,.jsx,.ts,.tsx --fix",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@ray-js/ray": "latest"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "@ray-js/cli": "latest",
+    "@types/react": "^18.2.0",
+    "eslint-config-tuya-panel": "^0.4.2",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.3.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "yarn lint",
+      "git add"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}

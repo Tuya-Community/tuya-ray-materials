@@ -1,0 +1,42 @@
+{
+  "light": {
+    "navBgColor": "#ffffff",
+    "navTxtStyle": "black",
+    "bgColor": "#f2f4f6",
+    "bgStyle": "light",
+    "bgTxtStyle": "ff592a",
+    "bgColorTop": "#ffffff",
+    "bgColorBottom": "#f2f4f6",
+    "tabFontColor": "#333333",
+    "tabSelectedColor": "#ff592a",
+    "tabBgColor": "#ffffff",
+    "tabBorderStyle": "black",
+    "primaryColor": "#1890ff",
+    "secondaryColor": "#666666",
+    "textColor": "#333333",
+    "textColorSecondary": "#666666",
+    "borderColor": "#e5e5e5",
+    "cardBgColor": "#ffffff",
+    "shadowColor": "rgba(0, 0, 0, 0.1)"
+  },
+  "dark": {
+    "navBgColor": "#1c1c1e",
+    "navTxtStyle": "white",
+    "bgColor": "#000000",
+    "bgStyle": "light",
+    "bgTxtStyle": "dark",
+    "bgColorTop": "#1c1c1e",
+    "bgColorBottom": "#000000",
+    "tabFontColor": "#ffffff",
+    "tabSelectedColor": "#ff592a",
+    "tabBgColor": "#1c1c1e",
+    "tabBorderStyle": "white",
+    "primaryColor": "#1890ff",
+    "secondaryColor": "#8e8e93",
+    "textColor": "#ffffff",
+    "textColorSecondary": "#8e8e93",
+    "borderColor": "#38383a",
+    "cardBgColor": "#1c1c1e",
+    "shadowColor": "rgba(255, 255, 255, 0.1)"
+  }
+}
