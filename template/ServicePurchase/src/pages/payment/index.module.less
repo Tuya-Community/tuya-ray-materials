@@ -1,0 +1,210 @@
+
+
+
+
+.container {
+  --page-bg-image: url('../../static/img/page-bg-1.png');
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  background-image: var(--page-bg-image);
+  background-size: contain;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+:root[theme='dark'] {
+  .container  {
+    --page-bg-image: url('../../static/img/page-bg-1-dark.png');
+  }
+}
+
+.main {
+  flex: 1;
+}
+
+.mainContent {
+  padding: 40rpx 32rpx;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32rpx;
+}
+
+.logo {
+  background-image: url('../../static/img/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 128rpx;
+  height: 128rpx;
+  margin-bottom: 28rpx;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 48rpx;
+}
+.titleText {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  &.titleTextPlus {
+    background: linear-gradient(99deg, #7422FF 17%, #B850E2 55%, #FF80C4 94%), linear-gradient(96deg, #7623FE 3%, #2D0188 99%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      right: -16px;
+      width: 16px;
+      height: 16px;
+      background-image: url('../../static/img/star.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+  
+}
+
+.cardTitle {
+  padding: 16rpx 32rpx;
+  font-size: 14px;
+  color: var(--text-color-05);
+}
+
+.listItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  &:not(:last-child) {
+    margin-bottom: 48rpx;
+  }
+  .itemLeft {
+    color: var(--app-B3-N1);
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-start;
+    margin-right: 32rpx;
+  }
+  .itemRight {
+    display: flex;
+    align-items: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  .itemTitle {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    letter-spacing: normal;
+    color: var(--text-color-09);
+  }
+}
+
+.benefitCount {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 20px;
+  background: linear-gradient(116deg, #7422FF 17%, #B850E2 59%, #FF80C4 102%), linear-gradient(106deg, #3350FD 4%, #2D0188 96%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  margin-right: 16rpx;
+}
+
+.unlimited {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  background-image: url('../../static/img/unlimited.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 4px;
+}
+.beta {
+  font-size: 10px;
+  line-height: 11px;
+  display: flex;
+  flex-direction: column;
+  padding: 1px 3px 1px 4px;
+  gap: 10px;
+  z-index: 1;
+  border-radius: 6px 6px 6px 0px;
+  background: #1989FA;
+  margin-left: 8rpx;
+  color: #FFF;
+}
+
+.noProductText {
+  height: 24px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.footerPrice {
+  font-weight: 700;
+  height: 24px;
+  font-size: 20px;
+  line-height: 24px;
+}
+.footerUnit {
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: 3px;
+  margin-left: 4px;
+}
+
+.footerTips {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--text-color-05);
+  margin-top: 20rpx;
+}
+
+.footerTipsV2 {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-color-05);
+  margin: 16rpx 0 16rpx 0;
+}
+
+.agreement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--text-color-05);
+  margin-top: 20rpx;
+  gap: 24rpx;
+}
+
+:global(.strong-price) {
+  color: var(--text-color-09);
+  font-weight: bold;
+}

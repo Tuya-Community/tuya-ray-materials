@@ -1,0 +1,264 @@
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32rpx;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32rpx;
+}
+
+.titleText {
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  color: var(--text-color-09);
+}
+
+.upgradeCard {
+  border-radius: 32rpx;
+  position: relative;
+  background: var(--card-bg-color);
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 32rpx;
+}
+
+.planBlock {
+  flex: 1;
+  padding: 30rpx 0 36rpx 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.planLabel {
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--text-color-05);
+  margin-bottom: 3px;
+}
+
+.planValueRow {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 5px;
+}
+
+.planValue {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 30px;
+  color: var(--text-color-05);
+  // font-family: SF Pro;
+}
+
+.planUnit {
+  font-size: 24rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  color: #6b21a8;
+}
+
+.planPeriod {
+  font-size: 24rpx;
+  color: var(--text-color-05);
+}
+
+.planPlus {
+  .planLabel {
+    background: linear-gradient(135deg, #7422ff 0%, #b850e2 62%, #ff80c4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+  }
+  .planValue {
+    background: linear-gradient(135deg, #7422ff 0%, #b850e2 62%, #ff80c4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+  }
+}
+
+.planTransfer {
+  width: 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+}
+
+.planTransferBadge {
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(180deg);
+}
+
+.cardTitle {
+  padding-left: 16rpx;
+  margin-bottom: 16rpx;
+  font-weight: bold;
+  font-size: 15px;
+  color: var(--text-color-09);
+}
+
+.featuresList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.featureItem {
+  flex: 1 1 calc(50% - 12rpx);
+  min-width: calc(50% - 12rpx);
+  border-radius: 32rpx;
+  padding: 32rpx 24rpx 24rpx;
+  background: var(--card-bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+}
+
+.featureIcon {
+  width: 64rpx;
+  height: 64rpx;
+  object-fit: contain;
+}
+
+.featureTitle {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-color-09);
+}
+
+.listItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  &:not(:last-child) {
+    margin-bottom: 48rpx;
+  }
+  .itemLeft {
+    color: var(--app-B3-N1);
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-start;
+    margin-right: 32rpx;
+  }
+  .itemRight {
+    display: flex;
+    align-items: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  .itemTitle {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    letter-spacing: normal;
+    color: var(--text-color-09);
+  }
+}
+
+.benefitCount {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 20px;
+  background: linear-gradient(116deg, #7422FF 17%, #B850E2 59%, #FF80C4 102%), linear-gradient(106deg, #3350FD 4%, #2D0188 96%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  margin-right: 16rpx;
+}
+
+.unlimited {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  background-image: url('../../../static/img/unlimited.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 4px;
+}
+
+.beta {
+  font-size: 10px;
+  line-height: 11px;
+  display: flex;
+  flex-direction: column;
+  padding: 1px 3px 1px 4px;
+  gap: 10px;
+  z-index: 1;
+  border-radius: 6px 6px 6px 0px;
+  background: #1989FA;
+  margin-left: 8rpx;
+  color: #FFF;
+}
+
+.noProductText {
+  height: 24px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.footerPrice {
+  font-weight: bold;
+  font-weight: 700;
+  height: 24px;
+  font-size: 20px;
+  line-height: 24px;
+}
+.footerUnit {
+  font-weight: bold;
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: 3px;
+  margin-left: 4px;
+}
+
+.footerTips {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--text-color-05);
+  margin-top: 20rpx;
+}
+
+.agreement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--text-color-05);
+  margin-top: 20rpx;
+  gap: 24rpx;
+}

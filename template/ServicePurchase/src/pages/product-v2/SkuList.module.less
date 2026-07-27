@@ -1,0 +1,116 @@
+.skuBox {
+  padding: 0 40rpx;
+}
+
+.skuItemBorder {
+  padding: 2px;
+  border-radius: 16px;
+  margin-bottom: 24rpx;
+  background: var(--sku-card-bg);
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  background-image: var(--sku-border-bg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position-x: -100vw;
+  &.selected {
+    background-position-x: 0;
+    .skuItem {
+      background: var(--card-bg-color);
+    }
+    .checkbox {
+      background: var(--dark-checkbox-bg);
+    }
+  }
+}
+
+.skuItem {
+  width: 100%;
+  padding: 20px 16px;
+  border-radius: 14px;
+  position: relative;
+  background: var(--page-color);
+
+  .itemContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .itemLeft {
+    display: flex;
+    align-items: center;
+  }
+
+  .checkbox {
+    width: 32rpx;
+    height: 32rpx;
+    border-radius: 50%;
+    border: 2rpx solid var(--dark-checkbox-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 32rpx;
+    margin-right: 16rpx;
+  }
+
+  .skuTitle {
+    // font-family: SF Pro Display;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .term-of-validity {
+    opacity: 0.5;
+    font-size: 28rpx;
+    font-weight: 600;
+  }
+
+  .sign {
+    // font-family: SF UI Display;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text-color-09);
+  }
+  .price {
+    // font-family: SF UI Display;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--text-color-09);
+  }
+  .originPriceLine {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    margin-top: 12rpx;
+    line-height: 14px;
+  }
+  .originPrice {
+    // font-family: SF Pro Display;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: line-through;
+    color: var(--text-color-05);
+    margin-right: 8rpx;
+  }
+  .smallPrice {
+    // font-family: SF Pro Display;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-color-09);
+  }
+}
+
+.coner {
+  // font-family: SF Pro Display;
+  position: absolute;
+  top: -7px;
+  right: 0;
+  border-radius: 6px 6px 0px 6px;
+  background: var(--sku-coner-bg);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 6px;
+}

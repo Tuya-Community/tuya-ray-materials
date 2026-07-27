@@ -1,0 +1,52 @@
+{
+  "name": "service-purchase-demo",
+  "version": "0.0.1",
+  "description": "Ray Service Purchase Demo — a paywall / IAP template for Tuya miniapps",
+  "private": true,
+  "author": "Tuya.inc",
+  "license": "ISC",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "start": "ray start --target tuya",
+    "build": "ray build --target tuya",
+    "lint": "eslint \"src\" --ext .js,.jsx,.ts,.tsx --fix"
+  },
+  "dependencies": {
+    "@hookstate/core": "^4.0.2",
+    "@ray-js/ray": "^1.7.81",
+    "@ray-js/smart-ui": "^2.13.2",
+    "@tuya-miniapp/cloud-api": "^1.6.1",
+    "classnames": "^2.5.1",
+    "lodash": "^4.18.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
+    "@ray-js/cli": "^1.7.81",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "eslint-config-tuya-panel": "^0.4.2",
+    "husky": "^1.2.0",
+    "lint-staged": "^10.2.11",
+    "prettier": "^3.0.0",
+    "typescript": "^4.4.3"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS --config commitlint.config.js",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "yarn lint",
+      "git add"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}

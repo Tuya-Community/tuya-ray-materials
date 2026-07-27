@@ -1,0 +1,23 @@
+.svg {
+  display: inline-flex;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  filter: var(--filter-inverse);
+  &.noInverse {
+    filter: none;
+  }
+}
+
+.loading {
+  animation: loading 1s infinite linear;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

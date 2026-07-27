@@ -1,0 +1,101 @@
+.navBar {
+	--nav-height: 44px;
+}
+
+.wrapper {
+  position: fixed;
+  top: 0;
+	left: 0;
+	right: 0;
+  z-index: 97;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: content-box;
+  width: 100%;
+  height: var(--nav-height);
+  color: var(--text-color-diyheader, rgba(0,0,0,0.9));
+  padding-top: var(--status-bar-height);
+}
+
+.topSpace {
+  height: var(--nav-height);
+  box-sizing: content-box;
+}
+
+.center {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+
+.title {
+  display: block;
+  max-width: 480rpx;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 16px;
+	font-weight: bold;
+
+	&.titlePlus {
+		background: linear-gradient(99deg, #7422FF 17%, #B850E2 55%, #FF80C4 94%), linear-gradient(96deg, #7623FE 3%, #2D0188 99%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		text-fill-color: transparent;
+		position: relative;
+		&::after {
+			content: '';
+			position: absolute;
+			top: 2px;
+			right: -10px;
+			width: 10px;
+			height: 10px;
+			background-image: url('../../static/img/star.svg');
+			background-size: contain;
+			background-repeat: no-repeat;
+			background-position: center;
+			z-index: 1;
+		}
+	}
+
+}
+
+.navBtn {
+	width: var(--nav-height);
+	height: var(--nav-height);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	&.backBtn {
+		color: var(--text-color-07, rgba(0,0,0,0.7));
+	}
+	&.rightBtn {
+		color: var(--text-color-07, rgba(0,0,0,0.7));
+	}
+}
+
+.navWarp {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	position: fixed;
+	z-index: 98;
+	top: ~"max(20px, env(safe-area-inset-top))";
+	height: var(--nav-height);
+	&.backWarp {
+		left: 0;
+		padding-left: 6px;
+	}
+
+	&.rightWarp {
+		right: 0;
+		justify-content: flex-end;
+		padding-right: 6px;
+	}
+}

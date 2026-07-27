@@ -1,0 +1,209 @@
+
+
+.payTip {
+  color: var(--text-color-05);
+  font-size: 24rpx;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0 20rpx 10rpx;
+}
+
+.payChannel {
+  --loading-spinner-color: #fff;
+  padding: 80rpx 40rpx 40rpx;
+  padding-bottom: 12px;
+  padding-bottom: ~"max(env(safe-area-inset-bottom), 20px)";
+  
+  .payChannelDes {
+    font-size: 32rpx;
+    color: var(--text-color-09);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: 500;
+
+    .price {
+      white-space: nowrap;
+    }
+  }
+  
+  .payChannelBtn {
+    background: var(--common-btn-color);
+    color: #fff;
+    border-radius: 16rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 96rpx;
+    margin-top: 48rpx;
+  }
+  
+  .payChannelList {
+    margin-top: 24rpx;
+    background: var(--pay-channel-bg);
+    border-radius: 24rpx;
+    
+    .payChannelListItem {
+      padding: 40rpx 40rpx 30rpx 20rpx;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      
+      .payChannelListItemFront {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      
+      .payChannelListItemFrontIcon {
+        width: 48rpx;
+        height: 48rpx;
+        align-items: flex-end;
+      }
+      
+      .payIcon {
+        width: 56rpx;
+        height: 56rpx;
+      }
+      
+      .payText {
+        font-weight: 400;
+        font-size: 32rpx;
+        line-height: 48rpx;
+        color: var(--text-color-09);
+        margin-left: 24rpx;
+      }
+
+      .paySub {
+        margin-left: 24rpx;
+        margin-top: 8rpx;
+      }
+    }
+  }
+}
+
+.paySubItemIcon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 16rpx;
+}
+
+.selectedIcon {
+  width: 48rpx;
+  height: 48rpx;
+  background-color: var(--selected-icon-bg);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &.selected {
+    background-color: #1989FA;
+  }
+}
+
+.googlePayIcon {
+  height: 56rpx;
+  width: 105rpx;
+  margin-right: 30rpx;
+}
+
+.name {
+  max-width: 60%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.payContainerPriceBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 20rpx 30rpx 20rpx;
+  
+  .left {
+    opacity: 0.5;
+    font-size: 28rpx;
+  }
+  
+  .right {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    
+    .originPrice {
+      font-size: 22rpx;
+      opacity: 0.5;
+      margin-bottom: 7rpx;
+    }
+  }
+}
+
+.payContainerPriceMoneyBox {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-left: 12rpx;
+
+  .sign {
+    font-size: 32rpx;
+    margin-bottom: 5rpx;
+  }
+  
+  .money {
+    font-size: 44rpx;
+    font-weight: 700;
+  }
+}
+
+.iapBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.iapTip {
+  font-size: 24rpx;
+  line-height: 32rpx;
+  margin-top: 24rpx;
+  color: var(--text-color-05);
+}
+
+.iapButton {
+  background-color: var(--app-B1);
+  color: white;
+  width: 686rpx;
+  height: 118rpx;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 38rpx;
+  line-height: 54rpx;
+  border-radius: 102rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24rpx;
+}
+
+.iapGmark {
+  width: 31rpx;
+  height: 31rpx;
+  margin-left: 10rpx;
+  margin-right: 6rpx;
+}
+
+.payButton {
+  height: 118rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 102rpx;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 38rpx;
+  line-height: 54rpx;
+  
+}

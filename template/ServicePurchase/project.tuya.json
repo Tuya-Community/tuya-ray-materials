@@ -1,0 +1,17 @@
+{
+  "projectname": "service-purchase-demo",
+  "i18n": false,
+  "description": "服务购买模板项目",
+  "baseversion": "2.29.0",
+  "devMode": "ray",
+  "miniprogramRoot": "dist/tuya",
+  "publicRoot": "./src/static/img/",
+  "dependencies": {
+    "BaseKit": "3.0.0",
+    "MiniKit": "3.0.0",
+    "BizKit": "3.0.1",
+    "HomeKit": "3.0.2"
+  },
+  "compileType": "miniprogram",
+  "remoteVersion": "2.0"
+}

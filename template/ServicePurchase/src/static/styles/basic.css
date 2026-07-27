@@ -1,0 +1,135 @@
+:root {
+	--primary-color: var(--app-M1, #FF4800);
+	--primary-fade-color: var(--app-M1_1, #FFECE8);
+	/* 主背景色 */
+	--page-color: var(--app-B1, #f5f5f5);
+
+	/* 卡片背景 */
+	--card-bg-color: var(--app-B3, #fff);
+	--card-border-color: var(--app-B3-N7, rgba(0, 0, 0, 0.1));
+	--border-color: rgba(0, 0, 0, 0.03);
+
+	/* 区域背景 */
+	--free-btn-bg: rgba(0, 0, 0, 0.09);
+
+	--pay-channel-bg: var(--app-B1, #f5f5f5);
+
+	--selected-icon-bg: rgba(0, 0, 0, 0.1);
+
+	/* 文字 */
+	--text-color-09: var(--app-B1-N1, rgba(0, 0, 0, 0.9));
+	--text-color-07: var(--app-B1-N2, rgba(0, 0, 0, 0.7));
+	--text-color-05: var(--app-B1-N3, rgba(0, 0, 0, 0.5));
+	--text-color-03: var(--app-B1-N4, rgba(0, 0, 0, 0.3));
+
+	--text-color-input: var(--app-B1-N1, rgba(0, 0, 0, 0.9));
+	--text-placeholder: var(--app-B1-N4, rgba(0, 0, 0, 0.3));
+	--text-color-diyheader: var(--app-B2-N1, rgba(0, 0, 0, 0.9));
+	--text-color-homeheader: rgba(0, 0, 0, 0.9);
+	--text-color-link: #1989FA;
+
+	--footer-btn-disabled-bg: var(--app-B1-N4, rgba(0, 0, 0, 0.3));
+
+	/* drawer */
+	color: var(--text-color-07, rgba(0, 0, 0, 0.7));
+
+	/* icon 图片兼容深色 */
+	--filter-inverse: initial;
+
+	/* checkbox */
+	--dark-checkbox-bg: var(--app-B1-N1, rgba(0, 0, 0, 0.9));
+	--dark-checkbox-border: var(--app-B1-N1, rgba(0, 0, 0, 0.9));
+
+	/* sku-card */
+	--sku-card-bg: rgba(0, 0, 0, 0.05);
+
+	/** smart-ui */
+	--button-primary-background-color: var(--primary-color);
+	--button-primary-border-color: var(--primary-color);
+	--field-input-text-color: var(--text-color-09);
+	--cell-font-size: 28rpx;
+	--popup-close-icon-margin: 32rpx;
+	--popup-close-icon-size: 40rpx;
+	--popup-close-icon-color: var(--app-B1-N2, rgba(0, 0, 0, 0.7));
+	--button-default-height: 80rpx;
+	--switch-on-background-color: var(--primary-color);
+	--button-normal-font-size: 16px;
+	--toast-default-width: auto;
+}
+
+
+/* 暗黑模式 */
+:root[theme='dark'] {
+	--page-color: var(--app-B1, #000);
+	--card-bg-color: var(--app-B3, rgba(26, 26, 26, 1));
+	--tap-bg: rgba(0, 0, 0, 0.8);
+
+	/* botton */
+	--free-btn-bg: rgba(255, 255, 255, 0.1);
+
+	--pay-channel-bg: var(--app-B1, #f5f5f5);
+
+	--selected-icon-bg: rgba(255, 255, 255, 0.1);
+
+	/* 文字 */
+	--text-color-09: var(--app-B1-N1, rgba(255, 255, 255, 1));
+	--text-color-07: var(--app-B1-N2, rgba(255, 255, 255, 0.7));
+	--text-color-05: var(--app-B1-N3, rgba(255, 255, 255, 0.5));
+	--text-color-03: var(--app-B1-N4, rgba(255, 255, 255, 0.3));
+
+	--text-color-input: var(--app-B1-N1, rgba(255, 255, 255, 1));
+	--text-placeholder: var(--app-B1-N4, rgba(255, 255, 255, 0.3));
+	--text-color-homeheader: #fff;
+
+	--sku-card-bg: var(--app-B1-N4, rgba(0, 0, 0, 0.3));
+
+	--footer-btn-disabled-bg: var(--app-B1-N4, rgba(255, 255, 255, 0.3));
+
+	/* icon */
+	--filter-inverse: invert(1);
+}
+
+.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	word-break: break-word;
+}
+
+.ellipsis2 {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	overflow-wrap: break-word;
+	word-break: break-word;
+}
+
+.ellipsis3 {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	overflow-wrap: break-word;
+	word-break: break-word;
+}
+
+/* 点击效果 */
+
+.clickable {
+	transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+	&:active {
+		scale: 0.96;
+		opacity: 0.9;
+	}
+}
+
+.clickable-mini {
+	transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+	&:active {
+		scale: 0.98;
+		opacity: 0.9;
+	}
+}

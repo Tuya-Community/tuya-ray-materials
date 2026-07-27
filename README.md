@@ -849,5 +849,16 @@ Tuya Ray Materials
   </details>
   </td>
 </tr>
+
+<tr>
+  <td id="ServicePurchase">2026/07</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/ServicePurchase">ServicePurchase</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=ServicePurchase" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
 </table>
 <!-- txp-asset-qrcode-end -->
