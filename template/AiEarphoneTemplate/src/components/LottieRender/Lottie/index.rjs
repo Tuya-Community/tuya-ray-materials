@@ -1,0 +1,28 @@
+import lottie from 'lottie-miniapp'
+
+export default Render({
+  async renderLottie(canvasId, lottieData, isPlay = true) {
+    if(!lottieData) return
+    let canvas5 = await getCanvasById(canvasId)
+    let canvasContext = canvas5.getContext('2d')
+    lottie.loadAnimation({
+      renderer: 'canvas', // 只支持canvas
+      loop: true,
+      autoplay: isPlay,
+      animationData: lottieData,
+      rendererSettings: {
+        // 这里需要填 canvas
+        canvas: canvas5,
+        context: canvasContext,
+        clearCanvas: true,
+      },
+    })
+  },
+  play() {
+    lottie.play()
+  },
+  stop() {
+    lottie.pause()
+  },
+})
+

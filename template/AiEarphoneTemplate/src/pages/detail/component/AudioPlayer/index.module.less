@@ -1,0 +1,279 @@
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  .downloadIcon {
+    width: 36rpx;
+    height: 36rpx;
+  }
+
+  .blue {
+    --loading-spinner-color: var(--color-primary);
+  }
+
+  .white {
+    --loading-spinner-color: var(--color-bg-primary);
+  }
+}
+
+.miniPlayer {
+  width: 372rpx;
+  height: 80rpx;
+  border-radius: 80rpx;
+  background: var(--color-bg-primary);
+  padding: 6rpx 20rpx 6rpx 6rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 12rpx;
+  z-index: 100;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.2s linear;
+
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .button {
+    flex: 0 0 68rpx;
+    width: 68rpx;
+    height: 68rpx;
+    background: var(--color-bg-primary-transparent-1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-button-text);
+  }
+
+  .progress {
+    flex: 1;
+    height: 68rpx;
+  }
+}
+
+.miniWaveForm {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  justify-content: space-between;
+
+  &_bar {
+    width: 2rpx;
+    border-radius: 1px;
+    transition: background-color 0.2s;
+  }
+}
+
+@keyframes scale-show {
+  0% {
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+    top: 0;
+    visibility: hidden;
+  }
+
+  20% {
+    transform: translateX(-50%) scale(0.2);
+    opacity: 0.5;
+    top: 40rpx;
+    visibility: visible;
+  }
+
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+    top: 104rpx;
+    visibility: visible;
+  }
+}
+
+@keyframes scale-hidden {
+  0% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+    top: 104rpx;
+    visibility: visible;
+  }
+
+  20% {
+    transform: translateX(-50%) scale(0.8);
+    opacity: 0.5;
+    top: 40rpx;
+    visibility: visible;
+  }
+
+  100% {
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+    top: 0;
+    visibility: hidden;
+  }
+}
+
+.player {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) scale(0.3);
+  transform-origin: center top;
+  display: flex;
+  flex-direction: column;
+  width: 686rpx;
+  height: fit-content;
+  overflow: hidden;
+  padding: 24rpx 24rpx 40rpx;
+  border-radius: 32rpx;
+  background-color: var(--color-bg-topbar);
+  z-index: 100;
+
+  &.showAnimation {
+    animation: scale-show 0.2s ease-out forwards;
+  }
+
+  &.hiddenAnimation {
+    animation: scale-hidden 0.2s ease-out forwards;
+  }
+
+  &.hidden {
+    visibility: hidden;
+  }
+
+  .cancelBar {
+    padding: 12rpx 10rpx;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .bar {
+      width: 40rpx;
+      height: 2px;
+      border-radius: 272rpx;
+      background: var(--color-gray-d9);
+    }
+  }
+
+  .waveformBox {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+
+    .waveform {
+      position: absolute;
+      width: 100%;
+      height: 85px;
+      background: var(--color-gray-f9);
+      border-radius: 12px;
+      margin-bottom: 4px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      overflow: hidden;
+
+      .waveBar {
+        width: 1px;
+        border-radius: 1px;
+        // transition: all 0.1s;
+        background-color: var(--color-error-solid);
+      }
+    }
+
+    .timeBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8rpx 0 16rpx;
+      line-height: normal;
+
+      .time {
+        font-size: 11px;
+        color: var(--color-text-tertiary);
+      }
+    }
+  }
+
+  .controlBox {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+
+    .controlBtn {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background-color: transparent;
+
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .startIcon {
+        width: 30px;
+        height: 30px;
+      }
+
+      .rateIcon {
+        width: 44rpx;
+        height: 44rpx;
+      }
+    }
+
+    .playBtn {
+      padding: 0;
+      width: 64rpx;
+      height: 64rpx;
+      background: var(--color-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .btnGroupContainer {
+    display: flex;
+    width: 100%;
+    padding-bottom: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .btnItem {
+      margin-right: 6px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+      border: 1px solid var(--color-border-light);
+      padding: 14px 8px;
+      border-radius: 8px;
+
+      .btnItemText {
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--color-text-secondary);
+      }
+    }
+
+    .btnItemActive {
+      background: var(--color-bg-primary-transparent-1);
+      border-color: var(--color-primary-solid);
+      color: var(--color-primary-solid);
+    }
+  }
+}

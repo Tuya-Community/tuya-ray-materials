@@ -1,0 +1,30 @@
+.navBar {
+  z-index: 100; // 降低层级， 1000 会影响语言选择
+  
+  .title {
+    overflow: unset;
+  }
+
+  .rightBox {
+    // padding-right: 30rpx;
+    // display: inline-block;
+    .icons {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .save {
+    font-size: 32rpx;
+    font-weight: 500;
+    color: var(--color-primary);
+  }
+
+  .icon {
+    font-size: 48rpx;
+
+    &:first-child {
+      margin-right: 16rpx;
+    }
+  }
+}

@@ -1,0 +1,126 @@
+@import '@/mixins.less';
+
+.container {
+  background: var(--color-bg-page);
+  min-height: 100vh;
+
+  .list {
+    padding: 24rpx 32rpx;
+  }
+
+  .topTip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 84rpx;
+    padding: 0 24rpx;
+    margin-bottom: 24rpx;
+    border-radius: 18rpx;
+    background: rgba(255, 154, 60, 0.1);
+    border: 2rpx solid #FF9A3C;
+  }
+
+  .topTipText {
+    font-size: 26rpx;
+    color: var(--color-text-secondary-6);
+  }
+
+  .topTipCount {
+    font-size: 26rpx;
+    color: #FF9A3C;
+  }
+
+  .listItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40rpx 36rpx;
+    margin-bottom: 24rpx;
+    background: var(--color-bg-primary);
+    border-radius: 24rpx;
+  }
+
+  .itemLeft {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .itemIcon {
+    width: 44rpx;
+    height: 44rpx;
+    margin-right: 20rpx;
+    flex-shrink: 0;
+  }
+
+  .itemInfo {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .itemName {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: var(--color-text-secondary-9);
+    .textHidden();
+    line-height: normal;
+    letter-spacing: normal;
+  }
+
+  .itemPrompt {
+    font-size: 26rpx;
+    color: var(--color-text-tertiary);
+    margin-top: 4rpx;
+    .textHidden();
+
+    font-weight: normal;
+    line-height: normal;
+    letter-spacing: normal;
+  }
+
+  .chevron {
+    font-size: 44rpx;
+    color: var(--color-arrow);
+    margin-left: 16rpx;
+  }
+
+  .empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .emptyText {
+    font-size: 28rpx;
+    color: var(--color-text-tertiary);
+  }
+
+  .bottomBar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20rpx 36rpx;
+    padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+    background: var(--color-bg-page);
+  }
+
+  .createBtn {
+    width: 100%;
+    height: 104rpx;
+    border-radius: 88rpx;
+    font-size: 32rpx;
+    font-weight: 500;
+    background-color: var(--color-primary);
+    border: none;
+    color: #FFFFFF;
+
+    &:disabled {
+      background: var(--color-bg-primary-transparent-3);
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+}

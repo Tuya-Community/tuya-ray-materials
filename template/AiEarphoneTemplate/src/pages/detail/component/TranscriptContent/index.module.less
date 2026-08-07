@@ -1,0 +1,199 @@
+.content {
+  display: flex;
+  flex-direction: column;
+
+  .list {
+    margin-top: 32rpx;
+    padding: 0 32rpx;
+  }
+
+  .skeleton {
+    --skeleton-padding: 0;
+  }
+
+  .bottom {
+    padding: 4rpx 32rpx;
+    text-align: center;
+  }
+
+
+  .sttItem {
+    margin-bottom: 30rpx;
+
+    .header {
+      display: flex;
+      align-items: center;
+      padding-left: 6rpx;
+
+      .timeText {
+        font-size: 28rpx;
+        font-weight: 400;
+        color: var(--color-text-tertiary);
+      }
+    }
+
+    .speaker {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 24rpx;
+      font-size: 26rpx;
+      font-weight: 500;
+      padding: 6rpx 16rpx;
+      border-radius: 88rpx;
+      background-color: var(--speaker-bg-color);
+    }
+
+    .textareaText {
+      font-size: 32rpx;
+      font-weight: 400;
+      line-height: 48rpx;
+      color: var(--color-text-primary);
+      border: none;
+      background: var(--color-bg-primary-transparent-1);
+      padding: 0 6rpx;
+      box-sizing: border-box;
+      overflow-wrap: break-word;
+    }
+
+    .sttText {
+      font-size: 32rpx;
+      font-weight: 400;
+      line-height: 48rpx;
+      color: var(--color-text-primary);
+      padding: 6rpx;
+      box-sizing: border-box;
+      overflow-wrap: break-word;
+    }
+  }
+
+  .partial {
+    margin: 20rpx 32rpx 0;
+    padding: 22rpx 32rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 32rpx;
+    background: var(--color-bg-primary-transparent-08);
+
+    .tip {
+      flex: 1;
+      color: var(--color-primary);
+      font-size: 26rpx;
+      line-height: 36rpx;
+    }
+
+    .toTranscribeBtn {
+      margin-left: 36rpx;
+      flex-shrink: 0;
+      padding: 12rpx 24rpx;
+      background: var(--color-primary);
+      color: var(--color-button-text);
+      font-size: 24rpx;
+      font-weight: 600;
+      border-radius: 36rpx;
+      height: auto;
+    }
+  }
+
+  .outline {
+    margin: 32rpx auto 0;
+  }
+
+  .loading {
+    text-align: center;
+    padding-bottom: env(safe-area-inset-bottom, 48rpx);
+  }
+}
+
+.animationLoading {
+  position: fixed;
+  bottom: 200rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  height: 104rpx;
+
+  .gradientBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 206rpx;
+    background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-primary-light) 49%, var(--color-purple-ef3eff) 100%);
+    filter: blur(100rpx);
+    animation: gradient 2s linear infinite;
+    z-index: -1;
+  }
+
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 20rpx;
+    border-radius: 206rpx;
+    width: 100%;
+    height: 100%;
+    background: var(--color-bg-primary);
+    padding: 20rpx 48rpx 20rpx 20rpx;
+    color: var(--color-text-secondary);
+    font-size: 24rpx;
+
+    .img {
+      flex-shrink: 0;
+      width: 64rpx;
+      height: 64rpx;
+      animation: rotate 1.5s linear infinite;
+    }
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes gradient {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.5;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+.backToPlayBtn {
+  position: fixed;
+  bottom: 200rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10; // 去掉好像也没有什么影响，待@远生确认
+  padding: 24rpx 40rpx 24rpx 24rpx;
+  border-radius: 58rpx;
+  background: #FFFFFF;
+  box-shadow: 0rpx 8rpx 20rpx 0rpx rgba(0, 0, 0, 0.05);
+  background: var(--color-bg-topbar);
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  .icon {
+    width: 48rpx;
+    height: 48rpx;
+    margin-right: 8rpx;
+    flex-shrink: 0;
+  }
+}

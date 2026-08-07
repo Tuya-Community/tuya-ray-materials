@@ -1,0 +1,523 @@
+@import '@/variables.less';
+@import '@/mixins.less';
+
+page {
+  font-family: 'PingFang SC', Arial, Helvetica, sans-serif;
+  font-size: 24rpx;
+}
+
+@bottom-container-height: 90rpx;
+
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  padding-top: 16px;
+  overflow: hidden;
+  background-color: var(--color-bg-page);
+  .safe-area-padding-bottom();
+
+  .waveBox {
+    width: 140px;
+    height: 42px;
+    border-radius: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-primary);
+    overflow: hidden;
+  }
+
+  .title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: var(--color-gray-171717);
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100vw;
+    padding: 0 16px;
+    position: relative;
+
+    .header {
+      position: relative;
+      width: 100%;
+      height: 92rpx;
+      border-radius: 32rpx 32rpx 0 0;
+      background-color: var(--color-bg-primary);
+      overflow: hidden;
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .timeBox {
+        display: flex;
+        align-items: center;
+        padding: 24rpx 28rpx;
+
+        .time {
+          margin-left: 4px;
+          font-size: 32rpx;
+          font-weight: 600;
+          color: var(--color-text-primary);
+        }
+      }
+
+      .close {
+        padding: 24rpx;
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        .closeIcon {
+          width: 40rpx;
+          height: 40rpx;
+        }
+      }
+    }
+
+    .scroll {
+      width: 100%;
+      position: relative;
+      background-color: var(--color-bg-primary);
+      transition: height 0.2s ease-out;
+      display: flex;
+      flex-direction: column;
+
+      .scrollContent {
+        padding: 0 28rpx 90rpx;
+        min-height: 100%;
+        position: relative;
+      }
+
+      .emptyBox {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        position: absolute;
+        padding-bottom: @bottom-container-height;
+        top: 0;
+        left: 0;
+        margin: auto;
+
+        .emptyImg {
+          width: 116px;
+          height: 116px;
+        }
+
+        .emptyText {
+          font-size: 14px;
+          font-weight: 500;
+          text-align: center;
+          color: var(--color-text-tertiary);
+        }
+      }
+
+      .realTimeText {
+        display: block;
+        font-size: 16px;
+        font-weight: 500;
+        opacity: 0.9;
+        margin-bottom: 24px;
+      }
+
+      .lastRealTimeText {
+        display: inline;
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--color-text-primary);
+        white-space: normal;
+        font-weight: 700;
+      }
+
+      .originText {
+        font-size: 15px;
+        color: var(--color-text-tertiary);
+      }
+
+      .firstLine {
+        font-size: 15px;
+        color: var(--color-text-tertiary);
+        margin-bottom: 8px;
+        white-space: pre-wrap;
+        font-weight: 500;
+        display: block;
+      }
+
+      .initRealTimeText {
+        // display: block;
+        font-size: 16px;
+        font-weight: 500;
+        padding-bottom: 4px;
+        color: var(--color-text-primary);
+      }
+
+      .newChars {
+        // 组合动画：淡入 + 渐变消失
+        animation: fadeInUp 0.2s ease, removeGradient 0.5s ease 0.5s forwards;
+      }
+
+      .ogrinNewChars {
+        // 组合动画：淡入 + 渐变消失
+        animation: fadeInUp 0.2s ease, removeOriginGradient 0.5s ease 0.5s forwards;
+      }
+
+      .ogrinNewChars,
+      .newChars {
+        // 回退纯色（不支持背景裁剪时显示）
+        color: var(--color-blue-515aff);
+        /* 渐变文本 */
+        background: linear-gradient(
+          92deg,
+          var(--color-blue-515aff) 0%,
+          var(--color-purple-da9bff) 102%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        will-change: background, color;
+      }
+
+      .toEndBox {
+        height: 38px;
+        width: 38px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+        bottom: 62px;
+      }
+
+      .toEndIcon {
+        width: 38px;
+        height: 38px;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0.1;
+          // transform: translateY(6px);
+        }
+
+        to {
+          opacity: 1;
+          // transform: translateY(0);
+        }
+      }
+
+      @keyframes removeGradient {
+        from {
+          background: linear-gradient(
+            92deg,
+            var(--color-blue-515aff) 0%,
+            var(--color-purple-da9bff) 102%
+          );
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        to {
+          background: none;
+          -webkit-background-clip: unset;
+          background-clip: unset;
+          -webkit-text-fill-color: var(--color-text-tertiary);
+          color: var(--color-text-tertiary);
+        }
+      }
+
+      @keyframes removeOriginGradient {
+        from {
+          background: linear-gradient(
+            92deg,
+            var(--color-blue-515aff) 0%,
+            var(--color-purple-da9bff) 102%
+          );
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        to {
+          background: none;
+          -webkit-background-clip: unset;
+          background-clip: unset;
+          -webkit-text-fill-color: var(--color-text-primary);
+          color: var(--color-text-primary);
+        }
+      }
+    }
+
+    .btmContainer {
+      width: 100%;
+      height: @bottom-container-height;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28rpx;
+      border-radius: 0 0 32rpx 32rpx;
+      background-color: var(--color-bg-primary);
+    }
+
+    .langBox {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    // 箭头两侧语言：等分剩余空间，使中间箭头始终水平居中、两侧距离一致
+    .langSide {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    // 左侧语言贴近中间箭头（右对齐）
+    .langSideLeft {
+      justify-content: flex-end;
+    }
+
+    // 右侧语言贴近中间箭头（左对齐），并在尾部展示选择箭头
+    .langSideRight {
+      justify-content: flex-start;
+    }
+
+    .langText {
+      font-size: 28rpx;
+      color: var(--color-text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    // 「不翻译」等禁用态文字颜色
+    .langTextDisabled {
+      color: var(--color-text-disabled);
+    }
+
+    // 中间语言交换箭头：等比尺寸（图源 54x38）、水平居中、两侧等距
+    .langArrowIcon {
+      flex-shrink: 0;
+      width: 40rpx;
+      height: 28rpx;
+      margin: 0 48rpx;
+    }
+
+    // 同声传译模式下的语言交换图标
+    .switchLangIcon {
+      flex-shrink: 0;
+      width: 64rpx;
+      height: 38rpx;
+      margin: 0 32rpx;
+    }
+
+    // 语言文案右侧向下箭头
+    .langArrowBottomIcon {
+      flex-shrink: 0;
+      width: 24rpx;
+      height: 24rpx;
+      margin-left: 8rpx;
+    }
+  }
+
+  .changeRecordChannelBtn {
+    margin-bottom: 24rpx;
+    width: 306rpx;
+    height: 60rpx;
+    border-radius: 104rpx;
+    background: var(--color-bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .transIcon {
+    width: 24rpx;
+    height: 24rpx;
+    margin-left: 4rpx;
+  }
+
+  .configBox {
+    min-height: 142rpx;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 52rpx;
+
+    .inputType {
+      width: 244rpx;
+      height: 100%;
+      background: var(--color-bg-primary);
+      border-radius: 32rpx;
+      padding: 36rpx 24rpx;
+    }
+
+    .langSwitch {
+      width: 420rpx;
+      height: 100%;
+      background: var(--color-bg-primary);
+      border-radius: 32rpx;
+      padding: 36rpx 24rpx;
+    }
+
+    .configTitle {
+      color: var(--color-text-secondary-6);
+      font-size: 24rpx;
+      margin-bottom: 8rpx;
+    }
+
+    .configContent {
+      font-size: 28rpx;
+      color: var(--color-text-primary);
+    }
+  }
+
+  .inputContentBox {
+    padding: 36rpx 32rpx;
+
+    .inputContentTitle {
+      font-size: 32rpx;
+      color: var(--color-text-primary);
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 64rpx;
+    }
+
+    .transContentTitle {
+      font-size: 32rpx;
+      color: var(--color-text-primary);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .radioBox {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 32rpx;
+      margin-bottom: 80rpx;
+    }
+
+    .btnConfirm {
+      width: 686rpx;
+      position: absolute;
+      border-radius: 40rpx;
+      bottom: 96rpx;
+    }
+
+    .bigTransIcon {
+      width: 168rpx;
+      height: 168rpx;
+      margin: 36rpx auto 20rpx auto;
+      display: block;
+    }
+
+    .transResult {
+      padding: 24rpx;
+      font-size: 28rpx;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .blueText {
+      color: var(--color-primary);
+    }
+
+    .line {
+      display: inline-block;
+      height: 16rpx;
+      width: 2rpx;
+      background: var(--color-border-light);
+      border-radius: 12px;
+      margin: 0 12rpx;
+    }
+
+    .rightArrow {
+      width: 24rpx;
+      height: 24rpx;
+      margin: 0 24rpx;
+    }
+
+    .langScroll {
+      width: 100%;
+      height: 510rpx;
+      margin-top: 40rpx;
+    }
+
+    @media screen and (max-height: 750px) {
+      .langScroll {
+        height: 240rpx;
+      }
+    }
+
+    .langInputBox {
+      padding: 44rpx 24rpx;
+      height: max-content;
+      border: 1px solid var(--color-border-light);
+      border-radius: 24rpx;
+      margin-bottom: 24rpx;
+    }
+
+    .langTop {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .langTag {
+      padding: 8rpx 16rpx;
+      background: var(--color-gray-eee);
+      border-radius: 8rpx;
+      font-size: 26rpx;
+    }
+
+    .langInputTitle {
+      font-size: 28rpx;
+      color: var(--color-text-primary);
+      font-weight: 600;
+    }
+
+    .item {
+      width: 100%;
+      height: 88rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 0.5px var(--color-border-light) solid;
+
+      .text {
+        font-size: 16px;
+        font-weight: 400;
+        text-align: center;
+        color: var(--color-gray-aaa);
+      }
+    }
+  }
+
+  .gray {
+    opacity: 0.4;
+  }
+}
+
+.ttsIconBox {
+  padding: 12rpx;
+  display: flex;
+  align-items: center;
+
+  // 喇叭按钮渲染在 TopBar/NavBar 的 right slot 内（.main 作用域之外），放在顶层
+  .ttsIcon {
+    width: 20px;
+    height: 20px;
+  }
+}

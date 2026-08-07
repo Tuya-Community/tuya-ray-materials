@@ -1,0 +1,135 @@
+.container {
+  --bottom-sheet-max-height: auto;
+  --bottom-sheet-padding: 0;
+  position: relative;
+
+  .close {
+    position: absolute;
+    top: 20rpx;
+    right: 20rpx;
+  }
+
+  .videoWrapper {
+    width: 100%;
+    height: 456rpx;
+    position: relative;
+  }
+
+  .video {
+    width: 100%;
+    height: 456rpx;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: var(--color-blue-0151cb);
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .swiperWrapper {
+    width: 100%;
+    margin-top: -30rpx; // 向上移动，与上方内容重叠
+    background-color: var(--color-bg-primary);
+
+    // 使用 clip-path 创建顶部内凹弧度
+    // 创建一个平滑的内凹曲线，从两侧向中心凹陷
+    // 中心点 Y 值更大（向下），两侧 Y 值更小（向上），形成内凹
+    clip-path: polygon(
+      0% 0%,
+      8% 1%,
+      20% 2.5%,
+      35% 3.5%,
+      50% 4%,
+      65% 3.5%,
+      80% 2.5%,
+      92% 1%,
+      100% 0%,
+      100% 100%,
+      0% 100%
+    );
+  }
+
+  .content {
+    height: 480rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80rpx 75rpx 68rpx;
+    position: relative;
+    background-color: var(--color-bg-primary);
+    padding-bottom: 75px;
+  }
+
+  .title {
+    font-size: 36rpx;
+    font-weight: 600;
+    line-height: 44rpx;
+    color: var(--color-text-primary);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .desc {
+    margin-top: 16rpx;
+    font-size: 28rpx;
+    line-height: 44rpx;
+    color: var(--color-text-tertiary);
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+  }
+
+  .bottom {
+    position: absolute;
+    bottom: 48rpx;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 480rpx;
+
+    .next {
+      border-radius: 50%;
+      background: linear-gradient(131deg, var(--color-blue-367bea) 6%, var(--color-purple-8673ff) 89%);
+      width: 96rpx;
+      height: 96rpx;
+      line-height: 96rpx;
+      padding: 0;
+      font-size: 28rpx;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .experience {
+      width: 480rpx;
+      border-radius: 568rpx;
+      color: var(--color-button-text);
+    }
+
+    .dots {
+      margin-top: 48rpx;
+      display: flex;
+
+      .dot {
+        margin-right: 6rpx;
+        width: 40rpx;
+        height: 6rpx;
+        background: var(--color-bg-primary-transparent-1);
+        transition: all 0.3s ease-in-out;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        &.active {
+          background: var(--color-primary);
+        }
+      }
+    }
+  }
+}

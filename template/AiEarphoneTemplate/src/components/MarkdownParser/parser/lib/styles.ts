@@ -51,7 +51,7 @@ export const styles = {
 
   // Horizontal Rule
   hr: {
-    backgroundColor: '#000000',
+    backgroundColor: 'var(--color-gray-000)',
     height: '1px',
   },
 
@@ -71,8 +71,8 @@ export const styles = {
 
   // Blockquotes
   blockquote: {
-    backgroundColor: '#F5F5F5',
-    borderColor: '#CCC',
+    backgroundColor: 'var(--color-gray-f5)',
+    borderColor: 'var(--color-gray-ccc)',
     borderLeftWidth: '4px',
     marginLeft: '5px',
     paddingHorizontal: '5px',
@@ -110,8 +110,8 @@ export const styles = {
   // Code
   code_inline: {
     borderWidth: '1px',
-    borderColor: '#CCCCCC',
-    backgroundColor: '#f5f5f5',
+    borderColor: 'var(--color-gray-ccc)',
+    backgroundColor: 'var(--color-gray-f5)',
     padding: '10px',
     borderRadius: '4px',
     // ...Platform.select({
@@ -125,8 +125,8 @@ export const styles = {
   },
   code_block: {
     borderWidth: '1px',
-    borderColor: '#CCCCCC',
-    backgroundColor: '#f5f5f5',
+    borderColor: 'var(--color-gray-ccc)',
+    backgroundColor: 'var(--color-gray-f5)',
     padding: '10px',
     borderRadius: '4px',
     // ...Platform.select({
@@ -140,8 +140,8 @@ export const styles = {
   },
   fence: {
     borderWidth: '1px',
-    borderColor: '#CCCCCC',
-    backgroundColor: '#f5f5f5',
+    borderColor: 'var(--color-gray-ccc)',
+    backgroundColor: 'var(--color-gray-f5)',
     padding: '10px',
     borderRadius: '4px',
     // ...Platform.select({

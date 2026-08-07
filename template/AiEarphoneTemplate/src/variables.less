@@ -1,22 +1,891 @@
-@theme-color: #6395f6;
-
-// font
-@font-gray-0: #040a23;
-@font-gray-1: #656979;
-@font-gray-2: #9aa0b1;
-@font-gray-3: #e1e5ec;
-
-@ease-base-out: cubic-bezier(0.7, 0.3, 0.1, 1);
-@ease-base-in: cubic-bezier(0.9, 0, 0.3, 0.7);
-@ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
-@ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
 @ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
-@ease-out-back: cubic-bezier(0.12, 0.4, 0.29, 1.46);
-@ease-in-back: cubic-bezier(0.71, -0.46, 0.88, 0.6);
-@ease-in-out-back: cubic-bezier(0.71, -0.46, 0.29, 1.46);
-@ease-out-circ: cubic-bezier(0.08, 0.82, 0.17, 1);
-@ease-in-circ: cubic-bezier(0.6, 0.04, 0.98, 0.34);
-@ease-in-out-circ: cubic-bezier(0.78, 0.14, 0.15, 0.86);
-@ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
-@ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-@ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
+
+:root {
+  /* ============ 品牌色 ============ */
+  --color-primary: #3678e3;
+  /* 主题色-浅背景 */
+  --color-primary-light-bg: rgba(54, 120, 227, 0.1);
+  /* 主题色 */
+  --color-primary-light: #6395f6;
+  /* 主题色-浅 */
+  --color-primary-lighter: #d6e6ff;
+  /* 主题色-更浅 */
+  --color-primary-dark: #286bd8;
+  /* 主题色-深 */
+  --color-primary-bg: rgba(54, 120, 227, 0.1);
+  /* 主题色浅背景（面对面录音按钮等） */
+  --color-primary-bg-hover: rgba(54, 120, 227, 0.15);
+
+  /* ============ 功能色 ============ */
+  --color-success: #54800f;
+  /* 成功 */
+  --color-success-light: #01b05c;
+  /* 成功-浅（面对面朋友语言等） */
+  --color-warning: #ffb534;
+  /* 警告 */
+  --color-danger: #ff4444;
+  /* 危险 */
+  --color-error: #d91212;
+  /* 错误 */
+
+  /* ============ 状态颜色 ============ */
+  --color-status-generating: #6a5acd;
+  /* 生成中状态 */
+  --color-status-complete: #4caf50;
+  /* 完成状态 */
+
+  /* ============ 中性色 ============ */
+  --color-button-text: #ffffff;
+  --color-text-white: #ffffff;
+  /* 白色文字 */
+  --color-text-primary: #000000;
+  --color-text-home: rgba(0, 0, 0, 0.9);
+  --color-text-home-dark: rgba(0, 0, 0, 0.3);
+  /* 主文字 */
+  --color-text-secondary: rgba(0, 0, 0, 0.8);
+  /* 次要文字 */
+  --color-text-tertiary: rgba(0, 0, 0, 0.5);
+  /* 三级文字 */
+  --color-text-disabled: rgba(0, 0, 0, 0.3);
+  /* 禁用文字 */
+  --color-text-secondary-6: rgba(0, 0, 0, 0.6);
+  /* 次要文字60% */
+  --color-text-secondary-9: rgba(0, 0, 0, 0.9);
+  /* 次要文字90% */
+  --color-text-white-5: rgba(255, 255, 255, 0.5);
+  /* 白色文字50% */
+  --color-text-white-7: rgba(255, 255, 255, 0.7);
+  /* 白色文字70% */
+  --color-text-white-66: rgba(248, 248, 248, 0.66);
+  /* 白色文字66% */
+  --color-text-dark-5: rgba(23, 23, 23, 0.5);
+  /* 深色文字50% */
+  --color-text-blue-5: rgba(17, 76, 173, 0.5);
+  /* 蓝色文字50% */
+  --color-arrow: rgba(0, 0, 0, 0.2);
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-black-60: rgba(0, 0, 0, 0.6);
+  --color-black-10: rgba(0, 0, 0, 0.1);
+  --color-black-04: rgba(0, 0, 0, 0.04);
+
+  /* ============ 背景色 ============ */
+  /* B1–B7 设计规范 */
+  --color-bg-b1: #f6f7fb; /* 背景色 */
+  --color-bg-b2: #ffffff; /* 顶部导航栏 */
+  --color-bg-b3: var(--color-bg-b2); /* 卡片 */
+  --color-bg-b4: var(--color-bg-b2); /* 弹窗 */
+  --color-bg-b5: var(--color-bg-b2); /* 底部导航栏 */
+  --color-bg-b6: var(--color-bg-b2); /* 列表 */
+  --color-bg-b7: #00000066; /* 遮罩 #000000 40% */
+
+  --color-bg-page: #f6f7fb;
+  --color-bg-bottom-bar: #e4e8ed;
+  /* 页面背景 */
+  --color-bg-primary: #ffffff;
+  /* 主背景/卡片背景 */
+  --color-bg-secondary: #f6f7fb;
+  --color-bg-white: #ffffff;
+  /* 次级背景 */
+  --color-bg-tertiary: #f0f0f0;
+  /* 三级背景/次要背景 */
+  --color-bg-hover: rgba(0, 0, 0, 0.05);
+  /* 悬停背景 */
+  --color-bg-topbar: #ffffff;
+  /* 顶部栏背景 */
+  --color-bg-navbar: #ffffff;
+  /* 导航栏/Tab 激活态背景 */
+  --color-bg-card: #ffffff;
+  /* 卡片背景 */
+  --color-bg-button: #e9ebf4;
+  /* 按钮浅底 */
+  --color-bg-dark: #19191b;
+  /* 深色背景文案色 */
+  --color-bg-bottomnav: #ffffff;
+  /* 底部导航背景 */
+  --color-bg-primary-button: #e9f0fe;
+  /* 主要按钮背景 */
+  --color-bg-cloud-sync: #343b4e;
+  /* 云同步卡片背景 */
+  --color-bg-overlay: rgba(0, 0, 0, 0.35);
+  /* 遮罩背景 */
+  --color-bg-white-transparent-05: rgba(255, 255, 255, 0.05);
+  /* 白色5%透明背景 */
+  --color-bg-white-transparent-06: rgba(255, 255, 255, 0.06);
+  /* 白色6%透明背景 */
+  --color-bg-white-transparent-08: rgba(255, 255, 255, 0.08);
+  /* 白色8%透明背景 */
+  --color-bg-white-transparent-2: rgba(255, 255, 255, 0.2);
+  /* 白色20%透明背景 */
+  --color-bg-white-transparent-24: rgba(255, 255, 255, 0.24);
+  /* 白色24%透明背景 */
+  --color-bg-white-transparent-3: rgba(255, 255, 255, 0.3);
+  /* 白色30%透明背景 */
+  --color-bg-white-transparent-8: rgba(255, 255, 255, 0.8);
+  /* 白色80%透明背景 */
+  --color-bg-primary-transparent-08: rgba(54, 120, 227, 0.08);
+  /* 主色8%透明背景 */
+  --color-bg-primary-transparent-1: rgba(54, 120, 227, 0.1);
+  /* 主色10%透明背景 */
+  --color-bg-primary-transparent-15: rgba(54, 120, 227, 0.15);
+  /* 主色15%透明背景 */
+  --color-bg-primary-transparent-3: rgba(54, 120, 227, 0.3);
+  /* 主色30%透明背景 */
+  --color-bg-error-transparent-1: rgba(255, 68, 68, 0.1);
+  /* 错误色10%透明背景 */
+  --color-bg-error-transparent-8: rgba(255, 70, 70, 0.8);
+  /* 错误色80%透明背景 */
+  --color-bg-warning-transparent-1: rgba(244, 139, 27, 0.1);
+  /* 警告色10%透明背景 */
+  --color-bg-gray-transparent-1: rgba(123, 123, 126, 0.1);
+  /* 灰色10%透明背景 */
+  --color-bg-blue-transparent-1: rgba(64, 119, 227, 0.1);
+  /* 蓝色10%透明背景 */
+  --color-bg-black-transparent-08: rgba(0, 0, 0, 0.08);
+  /* 黑色8%透明背景 */
+
+  /* ============ 高亮卡片颜色 ============ */
+  --color-highlight-card-bg: #4a2e70;
+  /* 高亮卡片背景 */
+  --color-highlight-card-text-primary: #ffffff;
+  /* 高亮卡片主文字 */
+  --color-highlight-card-text-secondary: #b3a8c6;
+  /* 高亮卡片次要文字 */
+
+  /* ============ 图标颜色 ============ */
+  --color-icon-primary: #000000;
+  /* 主要图标 */
+  --color-icon-secondary: #888888;
+  /* 次要图标 */
+  --color-icon-inactive: #5e5e5e;
+  /* 非活动图标 */
+  --color-icon-cloud-sync: #add8e6;
+  /* 云同步图标 */
+
+  /* ============ 边框颜色 ============ */
+  --color-border-light: rgba(0, 0, 0, 0.1);
+  /* 浅色边框 */
+  --color-border-base: #e5e5e5;
+  /* 基础边框 */
+  --color-border-medium: #d8d8d8;
+  /* 中等边框 */
+  --color-border-dark: #cccccc;
+  /* 深色边框 */
+  --color-border-active: #3678e3;
+  /* 激活边框 */
+  --color-border-divider: rgba(0, 0, 0, 0.08);
+  /* 分割线边框 */
+  --color-border-white: rgba(255, 255, 255, 0.43);
+  /* 白色边框 */
+  --color-border-white-light: rgba(255, 255, 255, 0.2);
+  /* 白色浅边框 */
+  --color-border-gray: rgba(175, 175, 175, 0.5);
+  /* 灰色边框 */
+  --color-border-gray-light: #e1e1e1;
+  /* 浅灰边框 */
+  --color-divider: #dce5f8;
+  /* 分割线 */
+  --color-divider-light: #edeef1;
+  /* 浅分割线 / Tab 轨道背景 */
+  --color-danger-bg: rgba(255, 68, 68, 0.1);
+  /* 危险背景 */
+  --color-blue-light: #427ff7;
+  --color-blue-lighter: #528af7;
+  --color-blue-bg: rgba(64, 119, 227, 0.1);
+
+  /* ============ 阴影 ============ */
+  --color-shadow-light: rgba(0, 0, 0, 0.06);
+  /* 轻阴影 */
+  --color-shadow-base: rgba(0, 0, 0, 0.12);
+  /* 基础阴影 */
+  --color-shadow-card: rgba(0, 0, 0, 0.09);
+  /* 卡片阴影 */
+  --color-shadow-modal: rgba(0, 0, 0, 0.1);
+  /* 弹窗阴影 */
+  --color-shadow-button: rgba(0, 0, 0, 0.08);
+  /* 按钮阴影 */
+  --color-shadow-float: rgba(0, 0, 0, 0.08);
+  /* 浮动元素阴影 */
+  --color-shadow-primary: rgba(53, 129, 248, 0.2);
+  /* 主色阴影 */
+  --color-shadow-blue: rgba(47, 99, 184, 0.2);
+  /* 蓝色阴影 */
+  --color-shadow-blue-light: rgba(47, 99, 184, 0.25);
+  /* 蓝色浅阴影 */
+  --color-shadow-purple: rgba(73, 93, 222, 0.27);
+  /* 紫色阴影 */
+  --color-shadow-dark: rgba(0, 0, 0, 0.35);
+  /* 深色遮罩阴影 */
+
+  /* ============ 波形相关颜色 ============ */
+  --color-waveform-gradient-start: #3caaff;
+  /* 波形渐变起始色 */
+  --color-waveform-gradient-end: #a259ff;
+  /* 波形渐变结束色 */
+  --color-waveform-inactive: #d8d8d8;
+  /* 非活动波形颜色 */
+  --color-marker-red: #ff1111;
+  /* 红色标记线 */
+
+  /* ============ 说话人颜色 ============ */
+  --color-speaker-1: #ff8800;
+  /* 说话人1（橙色） */
+  --color-speaker-2: #00cc00;
+  /* 说话人2（绿色） */
+  --color-speaker-3: #0000ff;
+  /* 说话人3（蓝色） */
+
+  /* ============ 按钮文字颜色 ============ */
+  --color-button-text-primary: #ffffff;
+  /* 按钮主文字（在蓝色背景上） */
+
+  /* ============ 纯色 rgba 变量 ============ */
+  --color-primary-solid: rgba(54, 120, 227, 1);
+  /* 主色纯色 */
+  --color-error-solid: rgba(255, 70, 70, 1);
+  /* 错误色纯色 */
+  --color-error-red-solid: rgba(242, 32, 32, 1);
+  /* 错误红色纯色 */
+  --color-white-solid: rgba(255, 255, 255, 1);
+  /* 白色纯色 */
+  --color-gray-solid: rgba(234, 234, 234, 1);
+  /* 灰色纯色 */
+  --color-dark-solid: rgba(51, 51, 51, 1);
+  /* 深色纯色 */
+
+  /* ============ 特殊色 ============ */
+  --color-vip-gold: #ffb534;
+  /* VIP金色 */
+  --color-vip-gold-light: #ffcd90;
+  /* VIP金色-浅 */
+
+  /* ============ 常用灰色系 ============ */
+  --color-gray-000: #000000;
+  /* 纯黑 */
+  --color-gray-333: #333333;
+  /* 深灰 */
+  --color-gray-aaa: #aaaaaa;
+  /* 中灰 */
+  --color-gray-ccc: #cccccc;
+  /* 浅灰 */
+  --color-gray-d1: #d1d1d1;
+  /* 浅灰 */
+  --color-gray-d8: #d8d8d8;
+  /* 浅灰 */
+  --color-gray-d9: #d9d9d9;
+  /* 浅灰 */
+  --color-gray-e3: #e3e3e3;
+  /* 浅灰 */
+  --color-gray-e4: #e4e8ed;
+  /* 浅灰 */
+  --color-gray-e8: #e8efff;
+  /* 浅灰 */
+  --color-gray-e9: #e9ecf0;
+  /* 浅灰 */
+  --color-gray-eee: #eeeeee;
+  /* 浅灰 */
+  --color-gray-f0: #f0f0f0;
+  /* 浅灰 */
+  --color-gray-f0f2f5: #f0f2f5;
+  /* 浅灰背景 */
+  --color-gray-f2: #f2f4f6;
+  /* 浅灰 */
+  --color-gray-f5: #f5f5f5;
+  /* 浅灰 */
+  --color-gray-f6: #f6f7fb;
+  /* 浅灰背景 */
+
+  --color-gray-f9: #f9f9f9;
+  /* 浅灰 */
+  --color-gray-8c: #8c8c8c;
+  /* 中灰 */
+  --color-gray-8f: #8f8f8f;
+  /* 中灰 */
+  --color-gray-171717: #171717;
+  /* 深灰 */
+  --color-gray-2b: #2b2b2b;
+  /* 深灰 */
+  --color-gray-282727: #282727;
+  /* 深灰 */
+  --color-gray-0c0d0e: #0c0d0e;
+  /* 深灰 */
+  --color-gray-222: #222222;
+  /* 深灰 */
+  --color-gray-ca: #cacaca;
+  /* 浅灰 */
+
+  /* ============ 常用彩色 ============ */
+  --color-blue-114cad: #114cad;
+  /* 蓝色 */
+  --color-blue-0151cb: #0151cb;
+  /* 蓝色 */
+  --color-blue-007cff: #007cff;
+  /* 蓝色 */
+  --color-blue-01b05c: #01b05c;
+  /* 蓝绿色 */
+  --color-blue-7ba4f8: #7ba4f8;
+  /* 浅蓝色 */
+  --color-blue-427ff7: #427ff7;
+  /* 蓝色 */
+  --color-blue-3c56ff: #3c56ff;
+  /* 蓝色 */
+  --color-blue-515aff: #515aff;
+  /* 蓝紫色 */
+  --color-blue-579dff: #579dff;
+  /* 蓝色 */
+  --color-blue-3dcad4: #3dcad4;
+  /* 青色 */
+  --color-blue-46f9ff: #46f9ff;
+  /* 青色 */
+  --color-purple-da9bff: #da9bff;
+  /* 紫色 */
+  --color-purple-ef3eff: #ef3eff;
+  /* 紫色 */
+  --color-purple-8673ff: #8673ff;
+  /* 紫色 */
+  --color-green-00b25c: #00b25c;
+  /* 绿色 */
+  --color-green-01b05c: #01b05c;
+  /* 绿色 */
+  --color-red-ff2e2e: #ff2e2e;
+  /* 红色 */
+  --color-red-ff4646: #ff4646;
+  /* 红色 */
+  --color-red-ff5252: #ff5252;
+  /* 红色 */
+  --color-red-ff6060: #ff6060;
+  /* 红色 */
+  --color-orange-ffb64f: #ffb64f;
+  /* 橙色 */
+  --color-orange-f48b1b: #f48b1b;
+  /* 橙色 */
+  --color-yellow-fff193: #fff193;
+  /* 黄色 */
+  --color-yellow-ffcd57: #ffcd57;
+  /* 黄色 */
+  --color-yellow-ffd690: #ffd690;
+  /* 黄色 */
+  --color-yellow-ffe0aa: #ffe0aa;
+  /* 黄色 */
+  --color-brown-673f04: #673f04;
+  /* 棕色 */
+  --color-brown-363226: #363226;
+  /* 深棕色 */
+  --color-cream-fffcf8: #fffcf8;
+  /* 米白色 */
+  --color-bg-e2eaf8: #e2eaf8;
+  /* 浅蓝背景 */
+  --color-bg-e3e7ec: #e3e7ec;
+  /* 浅灰背景 */
+  --color-bg-fbfcfd: #fbfcfd;
+  /* 浅灰背景 */
+  --color-blue-367bea: #367bea;
+  /* 蓝色 */
+  --color-purple-7d51ff: #7d51ff;
+  /* 紫色 */
+  --color-blue-6f9fff: #6f9fff;
+  /* 蓝色 */
+  --color-blue-2979ff: #2979ff;
+  /* 蓝色 */
+  --color-blue-006aff: #006aff;
+  --color-blue-3582FA: #3582FA;
+  --color-purple-b85aff: #b85aff;
+  --color-gray-66666: #666666;
+  --color-gray-ddd: #dddddd;
+  --color-gray-778899: #778899;
+  --color-bg-f8f8f8: #f8f8f8;
+  --color-success-00c800: #00c800;
+  --color-warning-faae17: #faae17;
+  --color-error-f4182c: #f4182c;
+  --color-red-ff0000: #ff0000;
+  --color-bg-e3eef6: #e3eef6;
+  --color-speaker-0: #ff9a3c;
+  --color-speaker-1: #14b031;
+  --color-speaker-2: #515aff;
+  --color-speaker-3: #f71bb5;
+  --color-speaker-4: #1bb2f7;
+  --color-speaker-5: #a25104;
+  --color-speaker-6: #0b02ac;
+  --color-speaker-7: #ff5555;
+  --color-speaker-8: #0078b0;
+  --color-speaker-9: #00b0aa;
+  --color-gray-efefef: #efefef;
+  --color-gray-eaea: #eaeaea;
+  --color-gray-3d3d3d: #3d3d3d;
+  --color-blue-3f76e3: #3f76e3;
+  --color-blue-5e9bff: #5e9bff;
+  --color-gray-cfcfcf: #cfcfcf;
+  --color-purple-494090: #494090;
+  --color-gray-161b27: #161b27;
+  --color-bg-e2edff: #e2edff;
+  /* 浅蓝背景 */
+  --color-purple-b85aff: #b85aff;
+  /* 紫色 */
+  --color-gray-66666: #666666;
+  /* 灰色 */
+  --color-gray-ddd: #dddddd;
+  /* 浅灰 */
+  --color-gray-778899: #778899;
+  /* 石板灰 */
+  --color-bg-f8f8f8: #f8f8f8;
+  /* 浅灰背景（品牌色/背景色） */
+  --color-success-00c800: #00c800;
+  /* 成功颜色 */
+  --color-warning-faae17: #faae17;
+  /* 警告颜色 */
+  --color-error-f4182c: #f4182c;
+  /* 错误颜色 */
+  --color-red-ff0000: #ff0000;
+  /* 纯红色 */
+  --color-bg-e3eef6: #e3eef6;
+  /* 浅蓝灰背景 */
+  --color-speaker-0: #ff9a3c;
+  /* 说话人0（橙色） */
+  --color-speaker-1: #14b031;
+  /* 说话人1（绿色） */
+  --color-speaker-2: #515aff;
+  /* 说话人2（蓝紫色） */
+  --color-speaker-3: #f71bb5;
+  /* 说话人3（粉色） */
+  --color-speaker-4: #1bb2f7;
+  /* 说话人4（蓝色） */
+  --color-speaker-5: #a25104;
+  /* 说话人5（棕色） */
+  --color-speaker-6: #0b02ac;
+  /* 说话人6（深蓝） */
+  --color-speaker-7: #ff5555;
+  /* 说话人7（红色） */
+  --color-speaker-8: #0078b0;
+  /* 说话人8（蓝色） */
+  --color-speaker-9: #00b0aa;
+  /* 说话人9（青色） */
+  --color-gray-efefef: #efefef;
+  --color-gray-eaea: #eaeaea;
+  --color-blue-3f76e3: #3f76e3;
+  --color-blue-5e9bff: #5e9bff;
+  --color-gray-cfcfcf: #cfcfcf;
+  --color-purple-494090: #494090;
+  --color-gray-161b27: #161b27;
+  --color-bg-e2edff: #e2edff;
+  /* 说话人11（青色） */
+  --color-gray-efefef: #efefef;
+  /* 浅灰 */
+  --color-gray-eaea: #eaeaea;
+  /* 浅灰 */
+  /* 深灰 */
+  --color-blue-3f76e3: #3f76e3;
+  /* 蓝色 */
+  --color-blue-5e9bff: #5e9bff;
+  /* 蓝色 */
+  --color-gray-cfcfcf: #cfcfcf;
+  /* 浅灰 */
+  --color-purple-494090: #494090;
+  /* 紫色 */
+  --color-gray-161b27: #161b27;
+  /* 深灰 */
+  --color-bg-e2edff: #e2edff;
+  /* 浅蓝背景 */
+
+  /* ============ 渐变色 ============ */
+  --gradient-primary: linear-gradient(277deg, #6093e5 4%, #286bd8 97%);
+  --gradient-gold: linear-gradient(90deg, #ffcd90 0%, #ffb534 100%);
+  --gradient-btn: radial-gradient(92% 95% at 38% 17%, #3678e3 0%, #3584ff 80%, #46f9ff 100%);
+  --gradient-waveform: linear-gradient(90deg, #3caaff 0%, #a259ff 100%);
+  /* 波形渐变 */
+
+  --btmBg-img: url('@/res/btmBg.png');
+
+  --color-bg-tag: #f6f7fb;
+  /* 列表项标签背景 */
+  --color-text-tag: rgba(0, 0, 0, 0.7);
+  /* 列表项标签文字 */
+  --color-bg-edit-box: #F6F7FB;
+  /* 编辑框背景 */
+  --color-bg-tag-popup: #FFFFFF;
+  /* 标签弹窗背景 */
+  --color-bg-tag-add: rgba(25, 137, 250, 0.05);
+  /* 标签添加按钮背景 */
+  --color-border-tag-add: rgba(25, 137, 250, 0.1);
+  /* 标签添加按钮边框 */
+}
+
+:root[theme='dark'] {
+  /* ============ 品牌色 (深色模式保持不变) ============ */
+  --color-primary: #3678e3;
+  /* 主题色-浅背景 */
+  --color-primary-light-bg: rgba(54, 120, 227, 0.1);
+  --color-primary-light: #6395f6;
+  --color-primary-lighter: #1a3a6e;
+  /* 深色模式调整 */
+  --color-primary-dark: #286bd8;
+  --color-primary-bg: rgba(54, 120, 227, 0.1);
+  --color-primary-bg-hover: rgba(54, 120, 227, 0.15);
+
+  /* ============ 功能色 (深色模式保持不变) ============ */
+  --color-success: #54800f;
+  --color-success-light: #01b05c;
+  --color-warning: #ffb534;
+  --color-danger: #ff4444;
+  --color-error: #d91212;
+
+  /* ============ 状态颜色 (深色模式保持不变) ============ */
+  --color-status-generating: #6a5acd;
+  /* 生成中状态 */
+  --color-status-complete: #4caf50;
+  /* 完成状态 */
+
+  /* ============ 中性色 (深色模式反转) ============ */
+  --color-button-text: #ffffff;
+  --color-text-white: #ffffff;
+  --color-text-primary: #ffffff;
+  /* 主文字 */
+  --color-text-secondary: rgba(255, 255, 255, 0.8);
+  /* 次要文字 */
+  --color-text-tertiary: rgba(255, 255, 255, 0.5);
+  /* 三级文字 */
+  --color-text-disabled: rgba(255, 255, 255, 0.3);
+  /* 禁用文字 */
+  --color-text-secondary-6: rgba(255, 255, 255, 0.6);
+  /* 次要文字60% */
+  --color-text-secondary-9: rgba(255, 255, 255, 0.9);
+  /* 次要文字90% */
+  --color-text-white-5: rgba(255, 255, 255, 0.5);
+  /* 白色文字50% */
+  --color-text-white-7: rgba(255, 255, 255, 0.7);
+  /* 白色文字70% */
+  --color-text-white-66: rgba(248, 248, 248, 0.66);
+  /* 白色文字66% */
+  --color-text-dark-5: rgba(255, 255, 255, 0.5);
+  /* 深色文字50% */
+  --color-text-blue-5: rgba(255, 255, 255, 0.5);
+  /* 蓝色文字50% */
+  --color-white: #000000;
+  --color-black: #ffffff;
+  --color-black-60: rgba(255, 255, 255, 0.6);
+  --color-black-10: rgba(255, 255, 255, 0.1);
+  --color-black-04: rgba(255, 255, 255, 0.04);
+
+  /* ============ 背景色 (深色模式) ============ */
+  /* B1–B7 设计规范 */
+  --color-bg-b1: #000000; /* 背景色 */
+  --color-bg-b2: #1f1f1f; /* 顶部导航栏（#FFFFFF 12% on #000000 等效色）*/
+  --color-bg-b3: var(--color-bg-b2); /* 卡片 */
+  --color-bg-b4: #333333; /* 弹窗（#FFFFFF 20% on #000000 等效色）*/
+  --color-bg-b5: var(--color-bg-b2); /* 底部导航栏 */
+  --color-bg-b6: var(--color-bg-b2); /* 列表 */
+  --color-bg-b7: #ffffffb3; /* 遮罩 #FFFFFF 70%（保留透明度）*/
+
+  --color-bg-page: #000000;
+  --color-bg-bottom-bar: #191919;
+  /* 页面背景 */
+  --color-bg-primary: rgba(255, 255, 255, 0.12);
+  /* 主背景/卡片背景 */
+  --color-bg-secondary: #000000;
+  --color-bg-white: #000000;
+  /* 次级背景 */
+  --color-bg-tertiary: #2a2a2a;
+  /* 三级背景/次要背景 */
+  --color-bg-hover: rgba(255, 255, 255, 0.05);
+  /* 悬停背景 */
+  --color-bg-topbar: #2c2c2c;
+  /* 顶部栏背景 */
+  --color-bg-navbar: rgba(255, 255, 255, 0.12);
+  /* 导航栏/Tab 激活态背景 */
+  --color-bg-card: rgba(255, 255, 255, 0.12);
+  /* 卡片背景 */
+  --color-bg-button: rgba(255, 255, 255, 0.12);
+  /* 按钮浅底 */
+  --color-bg-dark: #e6e6e6;
+  /* 深色背景文案色 */
+  --color-bg-bottomnav: #2c2c2c;
+  /* 底部导航背景 */
+  --color-bg-primary-button: #1e3b70;
+  /* 主要按钮背景 */
+  --color-bg-cloud-sync: #343b4e;
+  /* 云同步卡片背景 */
+  --color-bg-overlay: rgba(0, 0, 0, 0.6);
+  /* 遮罩背景 */
+  --color-bg-white-transparent-05: rgba(255, 255, 255, 0.05);
+  /* 白色5%透明背景 */
+  --color-bg-white-transparent-06: rgba(255, 255, 255, 0.06);
+  /* 白色6%透明背景 */
+  --color-bg-white-transparent-08: rgba(255, 255, 255, 0.08);
+  /* 白色8%透明背景 */
+  --color-bg-white-transparent-2: rgba(255, 255, 255, 0.2);
+  /* 白色20%透明背景 */
+  --color-bg-white-transparent-24: rgba(255, 255, 255, 0.24);
+  /* 白色24%透明背景 */
+  --color-bg-white-transparent-3: rgba(255, 255, 255, 0.3);
+  /* 白色30%透明背景 */
+  --color-bg-white-transparent-8: rgba(255, 255, 255, 0.8);
+  /* 白色80%透明背景 */
+  --color-bg-primary-transparent-08: rgba(54, 120, 227, 0.2);
+  /* 主色8%透明背景 */
+  --color-bg-primary-transparent-1: rgba(54, 120, 227, 0.1);
+  /* 主色10%透明背景 */
+  --color-bg-primary-transparent-15: rgba(54, 120, 227, 0.15);
+  /* 主色15%透明背景 */
+  --color-bg-primary-transparent-3: rgba(54, 120, 227, 0.3);
+  /* 主色30%透明背景 */
+  --color-bg-error-transparent-1: rgba(255, 68, 68, 0.1);
+  /* 错误色10%透明背景 */
+  --color-bg-error-transparent-8: rgba(255, 70, 70, 0.8);
+  /* 错误色80%透明背景 */
+  --color-bg-warning-transparent-1: rgba(244, 139, 27, 0.1);
+  /* 警告色10%透明背景 */
+  --color-bg-gray-transparent-1: rgba(255, 255, 255, 0.12);
+  /* 灰色10%透明背景 */
+
+  --color-bg-blue-transparent-1: rgba(64, 119, 227, 0.1);
+  /* 蓝色10%透明背景 */
+  --color-bg-black-transparent-08: rgba(0, 0, 0, 0.08);
+  /* 黑色8%透明背景 */
+  --color-arrow: rgba(255, 255, 255, 0.2);
+  /* ============ 高亮卡片颜色 (深色模式保持不变) ============ */
+  --color-highlight-card-bg: #4a2e70;
+  /* 高亮卡片背景 */
+  --color-highlight-card-text-primary: #ffffff;
+  /* 高亮卡片主文字 */
+  --color-highlight-card-text-secondary: #b3a8c6;
+  /* 高亮卡片次要文字 */
+
+  /* ============ 图标颜色 (深色模式) ============ */
+  --color-icon-primary: #ffffff;
+  /* 主要图标 */
+  --color-icon-secondary: #a0a0a0;
+  /* 次要图标 */
+  --color-icon-inactive: #8c8c8c;
+  /* 非活动图标 */
+  --color-icon-cloud-sync: #add8e6;
+  /* 云同步图标 */
+
+  /* ============ 边框颜色 (深色模式) ============ */
+  --color-border-light: rgba(255, 255, 255, 0.1);
+  /* 浅色边框 */
+  --color-border-base: rgba(255, 255, 255, 0.2);
+  /* 基础边框 */
+  --color-border-medium: rgba(255, 255, 255, 0.25);
+  /* 中等边框 */
+  --color-border-dark: rgba(255, 255, 255, 0.3);
+  /* 深色边框 */
+  --color-border-active: #3678e3;
+  /* 激活边框 */
+  --color-border-divider: rgba(255, 255, 255, 0.1);
+  /* 分割线边框 */
+  --color-border-white: rgba(255, 255, 255, 0.43);
+  /* 白色边框 */
+  --color-border-white-light: rgba(255, 255, 255, 0.2);
+  /* 白色浅边框 */
+  --color-border-gray: rgba(175, 175, 175, 0.5);
+  /* 灰色边框 */
+  --color-border-gray-light: rgba(255, 255, 255, 0.18);
+  /* 浅灰边框 */
+  --color-divider: #1a3a6e;
+  /* 分割线 */
+  --color-divider-light: #2a2a2a;
+  /* 浅分割线 / Tab 轨道背景 */
+  --color-danger-bg: rgba(255, 68, 68, 0.1);
+  /* 危险背景 */
+  --color-blue-light: #427ff7;
+  --color-blue-lighter: #528af7;
+  --color-blue-bg: rgba(64, 119, 227, 0.1);
+
+  /* ============ 阴影 (深色模式) ============ */
+  --color-text-home: #ffffff;
+  --color-text-home-dark: rgba(255, 255, 255, 0.3);
+  --color-shadow-light: rgba(0, 0, 0, 0.3);
+  /* 轻阴影 */
+  --color-shadow-base: rgba(0, 0, 0, 0.5);
+  /* 基础阴影 */
+  --color-shadow-card: rgba(0, 0, 0, 0.3);
+  /* 卡片阴影 */
+  --color-shadow-modal: rgba(0, 0, 0, 0.5);
+  /* 弹窗阴影 */
+  --color-shadow-button: rgba(0, 0, 0, 0.3);
+  /* 按钮阴影 */
+  --color-shadow-float: rgba(0, 0, 0, 0.3);
+  /* 浮动元素阴影 */
+  --color-shadow-primary: rgba(54, 120, 208, 0.3);
+  /* 主色阴影 */
+  --color-shadow-blue: rgba(47, 99, 184, 0.2);
+  /* 蓝色阴影 */
+  --color-shadow-blue-light: rgba(47, 99, 184, 0.25);
+  /* 蓝色浅阴影 */
+  --color-shadow-purple: rgba(73, 93, 222, 0.27);
+  /* 紫色阴影 */
+  --color-shadow-dark: rgba(0, 0, 0, 0.6);
+  /* 深色遮罩阴影 */
+
+  /* ============ 波形相关颜色 (深色模式保持不变) ============ */
+  --color-waveform-gradient-start: #3caaff;
+  /* 波形渐变起始色 */
+  --color-waveform-gradient-end: #a259ff;
+  /* 波形渐变结束色 */
+  --color-waveform-inactive: #333333;
+  /* 非活动波形颜色 */
+  --color-marker-red: #ff1111;
+  /* 红色标记线 */
+
+  /* ============ 说话人颜色 (深色模式保持不变) ============ */
+  --color-speaker-0: #ff9a3c;
+  /* 说话人0（橙色） */
+  --color-speaker-1: #14b031;
+  /* 说话人1（绿色） */
+  --color-speaker-2: #515aff;
+  /* 说话人2（蓝紫色） */
+  --color-speaker-3: #f71bb5;
+  /* 说话人3（粉色） */
+  --color-speaker-4: #1bb2f7;
+  /* 说话人4（蓝色） */
+  --color-speaker-5: #a25104;
+  /* 说话人5（棕色） */
+  --color-speaker-6: #0b02ac;
+  /* 说话人6（深蓝） */
+  --color-speaker-7: #ff5555;
+  /* 说话人7（红色） */
+  --color-speaker-8: #0078b0;
+  /* 说话人8（蓝色） */
+  --color-speaker-9: #00b0aa;
+  /* 说话人9（青色） */
+
+  /* ============ 按钮文字颜色 (深色模式保持不变) ============ */
+  --color-button-text-primary: #ffffff;
+  /* 按钮主文字（在蓝色背景上） */
+
+  /* ============ 纯色 rgba 变量 (深色模式保持不变) ============ */
+  --color-primary-solid: rgba(54, 120, 227, 1);
+  /* 主色纯色 */
+  --color-error-solid: rgba(255, 70, 70, 1);
+  /* 错误色纯色 */
+  --color-error-red-solid: rgba(242, 32, 32, 1);
+  /* 错误红色纯色 */
+  --color-white-solid: rgba(255, 255, 255, 1);
+  /* 白色纯色 */
+  --color-gray-solid: rgba(234, 234, 234, 1);
+  /* 灰色纯色 */
+  --color-dark-solid: rgba(51, 51, 51, 1);
+  /* 深色纯色 */
+
+  /* ============ 特殊色 (深色模式保持不变) ============ */
+  --color-vip-gold: #ffb534;
+  --color-vip-gold-light: #ffcd90;
+
+  /* ============ 常用灰色系 (深色模式保持不变) ============ */
+  --color-gray-000: #000000;
+  --color-gray-333: #333333;
+  --color-gray-aaa: #aaaaaa;
+  --color-gray-ccc: #cccccc;
+  --color-gray-d1: rgba(255, 255, 255, 0.12);
+  --color-gray-d8: #d8d8d8;
+  --color-gray-d9: #d9d9d9;
+  --color-gray-e3: #e3e3e3;
+  --color-gray-e4: linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+  --color-gray-e8: #e8efff;
+  --color-gray-e9: rgba(255, 255, 255, 0.12);
+  --color-gray-eee: #eeeeee;
+  --color-gray-f0: rgba(255, 255, 255, 0.12);
+  --color-gray-f0f2f5: #f0f2f5;
+  --color-gray-f2: #f2f4f6;
+  --color-gray-f5: #f5f5f5;
+  --color-gray-f6: #f6f7fb;
+  --color-gray-f9: #171717;
+  --color-gray-8c: #8c8c8c;
+  --color-gray-8f: #8f8f8f;
+  --color-gray-171717: #171717;
+  --color-gray-2b: #2b2b2b;
+  --color-gray-282727: #282727;
+  --color-gray-0c0d0e: #0c0d0e;
+  --color-gray-222: #ffffff;
+  --color-gray-ca: #cacaca;
+
+  /* ============ 常用彩色 (深色模式保持不变) ============ */
+  --color-blue-114cad: #114cad;
+  --color-blue-0151cb: #0151cb;
+  --color-blue-007cff: #007cff;
+  --color-blue-01b05c: #01b05c;
+  --color-blue-7ba4f8: #7ba4f8;
+  --color-blue-427ff7: #427ff7;
+  --color-blue-3c56ff: #3c56ff;
+  --color-blue-515aff: #515aff;
+  --color-blue-579dff: #579dff;
+  --color-blue-3dcad4: #3dcad4;
+  --color-blue-46f9ff: #46f9ff;
+  --color-purple-da9bff: #da9bff;
+  --color-purple-ef3eff: #ef3eff;
+  --color-purple-8673ff: #8673ff;
+  --color-green-00b25c: #00b25c;
+  --color-green-01b05c: #01b05c;
+  --color-red-ff2e2e: #ff2e2e;
+  --color-red-ff4646: #ff4646;
+  --color-red-ff5252: #ff5252;
+  --color-red-ff6060: #ff6060;
+  --color-orange-ffb64f: #ffb64f;
+  --color-orange-f48b1b: #f48b1b;
+  --color-yellow-fff193: #fff193;
+  --color-yellow-ffcd57: #ffcd57;
+  --color-yellow-ffd690: #ffd690;
+  --color-yellow-ffe0aa: #ffe0aa;
+  --color-brown-673f04: #673f04;
+  --color-brown-363226: #363226;
+  --color-cream-fffcf8: #fffcf8;
+  --color-bg-e2eaf8: rgba(54, 120, 227, 0.2);
+  --color-bg-e3e7ec: #e3e7ec;
+  --color-bg-fbfcfd: #fbfcfd;
+  --color-blue-367bea: #367bea;
+  --color-purple-7d51ff: #7d51ff;
+  --color-blue-6f9fff: #6f9fff;
+  --color-blue-2979ff: #2979ff;
+  --color-blue-006aff: #006aff;
+  --color-blue-3582FA: #3582FA;
+  --color-purple-b85aff: #b85aff;
+  --color-gray-66666: #666666;
+  --color-gray-ddd: #dddddd;
+  --color-gray-778899: #778899;
+  --color-bg-f8f8f8: #f8f8f8;
+  --color-success-00c800: #00c800;
+  --color-warning-faae17: #faae17;
+  --color-error-f4182c: #f4182c;
+  --color-red-ff0000: #ff0000;
+  --color-bg-e3eef6: #e3eef6;
+  --color-speaker-0: #ff9a3c;
+  --color-speaker-1: #14b031;
+  --color-speaker-2: #515aff;
+  --color-speaker-3: #f71bb5;
+  --color-speaker-4: #1bb2f7;
+  --color-speaker-5: #a25104;
+  --color-speaker-6: #0b02ac;
+  --color-speaker-7: #ff5555;
+  --color-speaker-8: #0078b0;
+  --color-speaker-9: #00b0aa;
+  --color-gray-efefef: #efefef;
+  --color-gray-eaea: #eaeaea;
+  --color-gray-3d3d3d: #ffffff;
+  --color-blue-3f76e3: #3f76e3;
+  --color-blue-5e9bff: #5e9bff;
+  --color-gray-cfcfcf: #cfcfcf;
+  --color-purple-494090: #494090;
+  --color-gray-161b27: #161b27;
+  --color-bg-e2edff: #e2edff;
+
+  /* ============ 渐变色 (深色模式保持不变) ============ */
+  --gradient-primary: linear-gradient(277deg, #6093e5 4%, #286bd8 97%);
+  --gradient-gold: linear-gradient(90deg, #ffcd90 0%, #ffb534 100%);
+  --gradient-btn: radial-gradient(92% 95% at 38% 17%, #3678e3 0%, #3584ff 80%, #46f9ff 100%);
+  --gradient-waveform: linear-gradient(90deg, #3caaff 0%, #a259ff 100%);
+  /* 波形渐变 */
+
+  --btmBg-img: url('@/res/btmBg_dark.png');
+
+  --color-bg-tag: rgba(255, 255, 255, 0.12);
+  /* 列表项标签背景（深色模式） */
+  --color-text-tag: rgba(255, 255, 255, 0.7);
+  /* 列表项标签文字（深色模式） */
+  --color-bg-edit-box: rgba(0, 0, 0, 0.2);
+  /* 编辑框背景 */
+  --color-bg-tag-popup: rgba(255, 255, 255, 0.2);
+  /* 标签弹窗背景 */
+  --color-bg-tag-add: rgba(25, 137, 250, 0.1);
+  /* 标签添加按钮背景 */
+  --color-border-tag-add: rgba(25, 137, 250, 0.2);
+  /* 标签添加按钮边框 */
+}

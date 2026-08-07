@@ -1,0 +1,131 @@
+.bottomSheet {
+  --bottom-sheet-header-height: 94rpx;
+  --bottom-sheet-max-height: 90vh;
+  --bottom-sheet-padding: 0 32rpx 48rpx;
+  --popup-background-color: var(--color-gray-f9);
+
+  .listItem {
+    width: 100%;
+    height: 104rpx;
+    padding: 32rpx;
+    background: var(--color-bg-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 28rpx;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    // border-radius: 24rpx;
+    // margin-bottom: 24rpx;
+
+    &.disabled {
+      opacity: 0.6;
+    }
+
+    .label {
+      display: flex;
+      align-items: center;
+      column-gap: 12rpx;
+      font-size: 28rpx;
+
+      .icon {
+        width: 40rpx;
+        height: 40rpx;
+      }
+
+      .iconIcon {
+        font-size: 40rpx;
+      }
+    }
+
+    .rightIcon {
+      font-size: 40rpx;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .group {
+    width: 100%;
+    background: var(--color-bg-primary);
+    border-radius: 24rpx;
+    overflow: hidden;
+    margin-bottom: 24rpx;
+
+    .listItem {
+      border-radius: 0;
+      margin-bottom: 0;
+
+      &:first-child {
+        border-top-left-radius: 24rpx;
+        border-top-right-radius: 24rpx;
+      }
+
+      &:last-child {
+        border-bottom-left-radius: 24rpx;
+        border-bottom-right-radius: 24rpx;
+      }
+    }
+  }
+
+  .divider {
+    width: 100%;
+    height: 24rpx;
+  }
+}
+
+.exportContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+
+  .exportRow {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .exportLeft {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .exportIcon {
+        width: 20px;
+        height: 20px;
+        margin-right: 6px;
+      }
+
+      .exportText {
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+
+    .checkbox {
+      display: flex;
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      border: 1px solid var(--color-gray-cfcfcf);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .checkSelectBox {
+      display: flex;
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      background: var(--color-primary);
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+

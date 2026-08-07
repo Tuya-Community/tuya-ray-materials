@@ -73,7 +73,7 @@
     left: 0;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: var(--color-text-tertiary);
     z-index: -1;
     opacity: 0;
     transition: all 0.3s @ease-in-out;
@@ -84,7 +84,7 @@
     flex-direction: column;
     align-items: center;
     width: 100vw;
-    background-color: #fff;
+    background-color: var(--color-bg-primary);
     border-radius: 32rpx 32rpx 0 0;
 
     transition: all 0.3s @ease-in-out;
@@ -99,7 +99,7 @@
       height: 6rpx;
       width: 80rpx;
       border-radius: 18rpx;
-      background-color: fade(@theme-color, 30);
+      background-color: var(--color-bg-primary-transparent-3);
     }
   }
 }

@@ -1,66 +1,465 @@
-let width = 375;
-const height = 240;
+// 获取实际屏幕宽度
+let width = (() => {
+  try {
+    // 在 RenderJS 中，可以使用 ty.getSystemInfoSync() 获取系统信息
+    // eslint-disable-next-line no-undef
+    const systemInfo = ty.getSystemInfoSync();
+    return systemInfo?.windowWidth || systemInfo?.screenWidth || 375;
+  } catch (e) {
+    return 375;
+  }
+})();
 const barWidth = 2; // 柱状体宽度
+
 let speed = 0;
 let bars = [];
+let inactiveBars = []; // 右侧灰色波纹数组
+let animationId = null;
+let ctx = null;
+let destroyed = false;
+let centerLineColor = '#FF1111';
+let timelineContentHeight = 16;
+let timelineContentTop = 14;
+let centerLineHeight = 140;
+const height = 230;
+let barGap = 3;
+let msWidth = 60; // 定义每秒之间的距离 不允许改变
+let timelineTextColor = '#3D3D3D'; // 时间刻度文字颜色
+let centerX = width / 2;
+let frameWidth = 1;
+let frameCount = 0;
+const defaultBarHeight = 8;
+// 缓存对象，避免每帧重新创建
+let cachedGradient = null;
+let cachedFont = null;
+let maxBarHeight = 80;
+const fixedBarDistance = barWidth + barGap; // bar 之间的固定距离（5px）
 
-// test初始化柱状条数组
-// const numBars = 100; // 柱状条数量
-// for (let i = 0; i < numBars; i++) {
-//   bars.push({
-//     x: width + i * (barWidth + 10),
-//     height: Math.random() * (height - 50) + 50, // 随机高度
-//   });
-// }
+// 新增：记录当前振幅
+let currentPercent = 0;
+// 初始时间偏移（秒），用于时间刻度线的起始时间
+let initialTimeOffset = 0;
+// 用于时间驱动 frameCount 的时间戳
+let lastAnimateTime = 0;
+// 亚像素积累器：将浮点位移积累为整数像素，避免小数坐标导致 bar 粗细不均
+let pixelAccumulator = 0;
+
+function getCurrentBarHeight(percent = currentPercent) {
+  return Math.min(Math.max(maxBarHeight * percent, defaultBarHeight), maxBarHeight);
+}
+
+function ensureActiveBar() {
+  if (bars.length > 0) {
+    return bars[bars.length - 1];
+  }
+  const bar = {
+    x: centerX,
+    height: getCurrentBarHeight(),
+  };
+  bars.push(bar);
+  return bar;
+}
 
 export default Render({
-  init(w) {
-    width = w;
+  init(w, duration = 0) {
+    if (w && w > 0) {
+      width = w;
+      // 更新中心点位置
+      centerX = width / 2;
+    }
+    destroyed = false;
+    // 重置缓存
+    cachedGradient = null;
+    cachedFont = null;
+    // 将 duration（毫秒）转换为秒，作为初始时间偏移
+    initialTimeOffset = Math.floor(duration / 1000);
+    // 初始化右侧灰色波纹，预填充右侧区域
+    inactiveBars = [];
+    const startX = centerX + barWidth + barGap;
+    const endX = width;
+    const totalBarWidth = barWidth + barGap;
+    const availableWidth = endX - startX;
+    const numBars = Math.floor(availableWidth / totalBarWidth);
+    for (let i = 0; i < numBars; i++) {
+      inactiveBars.push({
+        x: startX + i * totalBarWidth,
+        height: defaultBarHeight,
+      });
+    }
   },
   updateBar(percent) {
-    bars.push({
-      x: width,
-      height: Math.max(240 * percent, 1),
-    });
+    // 记录当前振幅
+    currentPercent = percent;
+    // 只更新最后一个 bar 的高度；首个 bar 统一由 ensureActiveBar 初始化，避免启动阶段锚点不一致
+    const lastBar = ensureActiveBar();
+    lastBar.height = getCurrentBarHeight(percent);
   },
   updateSpeedValue(v) {
     speed = v;
+    // 当 speed 从 0 变为非 0（开始/恢复录音）时，重置时间戳，确保立即开始滚动
+    if (v > 0) {
+      lastAnimateTime = 0;
+    }
   },
-  pageDraw() {
+  /**
+   * 切回前台时调用：根据实际录音时长对齐 frameCount/initialTimeOffset，
+   * 使红色中心线处显示的时间 = 计时器（中心线时间 = initialTimeOffset + frameCount/gap）
+   */
+  syncDuration(durationMs, resetClock = true) {
+    if (durationMs == null || durationMs < 0) return;
+    const totalSeconds = durationMs / 1000;
+    initialTimeOffset = Math.floor(totalSeconds);
+    const secondsFromOffset = totalSeconds - initialTimeOffset;
+    // 中心线处时间 = initialTimeOffset + frameCount/msWidth => frameCount = secondsFromOffset * msWidth
+    frameCount = Math.round(secondsFromOffset * msWidth);
+    if (resetClock) {
+      // 重置时间戳，避免切回前台时突然跳变
+      lastAnimateTime = 0;
+      // 重置亚像素累积器，避免残余小数影响后续帧
+      pixelAccumulator = 0;
+    }
+
+
+    // 最后一根 bar 已超出屏幕可见范围（x <= 0），不再补 bar
+    if (speed > 0 && bars.length > 0) {
+      const lastBar = bars[bars.length - 1];
+      const distanceFromCenter = centerX - lastBar.x;
+      if (lastBar.x > 0 && distanceFromCenter > fixedBarDistance) {
+        let fillX = lastBar.x + fixedBarDistance;
+        while (fillX <= centerX) {
+          bars.push({
+            x: fillX,
+            height: defaultBarHeight,
+          });
+          fillX += fixedBarDistance;
+        }
+      }
+    }
+  },
+  pageDraw(dpr) {
     getCanvasById('waveAnimCanvas', this).then(canvas => {
-      const ctx = canvas.getContext('2d');
-      // const height = canvas.height;
+      ctx = canvas.getContext('2d');
+      // 初始化缓存对象
+      cachedGradient = ctx.createLinearGradient(0, 0, width, 0);
+      cachedGradient.addColorStop(0, '#1989FA');
+      cachedGradient.addColorStop(1, '#1CE8FF');
+      cachedFont = '12px';
+      // 1. 按 dpr 设置实际尺寸
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+
+      // 2. 缩放坐标系，使得绘制时仍然使用原来的逻辑尺寸
+      ctx.scale(dpr, dpr);
+
+      // 根据距中心红线的距离计算渐变颜色
+      // 设计稿：linear-gradient(270deg, #1CE8FF 0%, #1989FA 17%)
+      // 方向朝左 -> 紧贴红线（右侧）为青色 #1CE8FF，向左 17% 过渡到蓝色 #1989FA，再往左保持蓝色
+      // 波形容器宽 522、屏幕宽 375，过渡距离 ≈ 522 * 0.17 / 375 ≈ 0.2366 * width
+      function getGradientColor(x) {
+        const transitionDist = width * 0.2366;
+        const distanceFromCenter = centerX - x; // 距中心红线向左的距离
+        const ratio =
+          transitionDist > 0
+            ? Math.max(0, Math.min(1, distanceFromCenter / transitionDist))
+            : 1;
+
+        // 起始颜色（贴近红线）#1CE8FF (RGB: 28, 232, 255)
+        const startR = 28;
+        const startG = 232;
+        const startB = 255;
+
+        // 结束颜色（向左）#1989FA (RGB: 25, 137, 250)
+        const endR = 25;
+        const endG = 137;
+        const endB = 250;
+
+        const r = Math.round(startR + (endR - startR) * ratio);
+        const g = Math.round(startG + (endG - startG) * ratio);
+        const b = Math.round(startB + (endB - startB) * ratio);
+
+        return `rgb(${r}, ${g}, ${b})`;
+      }
+
       // 绘制柱状条
       function drawBars() {
-        ctx.clearRect(0, 0, width, height); // 清除画布
-
+        // 清除整个画布（这是最可靠的方式）
+        ctx.clearRect(0, 0, width, height);
         bars.forEach(bar => {
-          ctx.fillStyle = 'rgb(255, 70, 70)';
-          ctx.fillRect(bar.x, (height - bar.height) / 2, barWidth, bar.height); // 绘制柱状条
+          // 根据 bar 的 x 位置设置对应的渐变色
+          ctx.fillStyle = getGradientColor(bar.x);
+          ctx.fillRect(
+            bar.x,
+            (height - bar.height - timelineContentHeight - timelineContentTop) / 2,
+            barWidth,
+            bar.height > defaultBarHeight ? bar.height : defaultBarHeight
+          );
         });
       }
-      // 更新柱状条位置
-      function updatePositions() {
-        if (!bars.length) return;
-        bars.forEach((bar, idx) => {
-          // console.log('bar', bar.x);
-          bar.x -= speed;
-          if (bar.x < -barWidth) {
-            // 出屏幕后移除
-            bars.splice(idx, 1);
-          }
+      // 绘制中心线右侧的灰色波形（动态内容）
+      function drawInactiveWaveform() {
+        // 设置灰色
+        ctx.fillStyle = '#D8D8D8';
+        // 绘制灰色柱状条数组
+        inactiveBars.forEach(bar => {
+          const y = (height - bar.height - timelineContentHeight - timelineContentTop) / 2;
+          ctx.fillRect(bar.x, y, barWidth, bar.height);
         });
       }
 
-      // 动画循环
-      function animate() {
-        updatePositions();
+      // 更新右侧灰色波纹位置
+      function updateInactiveBars(frameDelta) {
+        if (speed > 0) {
+          // 有速度时，模拟滚动效果
+          // 1. 所有灰色柱向左移动（使用时间校正后的位移）
+          inactiveBars.forEach(bar => {
+            bar.x -= frameDelta;
+          });
+
+          // 2. 移除超出左侧边界的柱（超过中心线左侧一定距离）
+          inactiveBars = inactiveBars.filter(bar => bar.x > centerX - barWidth * 2);
+
+          // 3. 在右侧补充新的柱，确保右侧区域始终占满
+          const endX = width;
+          const totalBarWidth = barWidth + barGap;
+
+          // 找到最右侧的柱
+          let rightmostX = centerX;
+          if (inactiveBars.length > 0) {
+            rightmostX = Math.max(...inactiveBars.map(b => b.x));
+          }
+
+          // 持续在右侧生成新的柱，直到占满右侧区域
+          while (rightmostX + totalBarWidth <= endX + totalBarWidth) {
+            inactiveBars.push({
+              x: rightmostX + totalBarWidth,
+              height: defaultBarHeight,
+            });
+            rightmostX += totalBarWidth;
+          }
+        } else {
+          // 没有速度时，确保右侧区域填满灰色波纹（静态）
+          const startX = centerX + barWidth + barGap;
+          const endX = width;
+          const totalBarWidth = barWidth + barGap;
+          const availableWidth = endX - startX;
+          const numBars = Math.floor(availableWidth / totalBarWidth);
+
+          // 如果数量不足，重新填充
+          if (inactiveBars.length !== numBars) {
+            inactiveBars = [];
+            for (let i = 0; i < numBars; i++) {
+              inactiveBars.push({
+                x: startX + i * totalBarWidth,
+                height: defaultBarHeight,
+              });
+            }
+          }
+        }
+      }
+      // 绘制中心线
+      function drawCenterLine() {
+        const pointWidth = 8;
+        // 绘制中心线
+        ctx.fillStyle = centerLineColor;
+        const centerY =
+          (height - timelineContentHeight - timelineContentTop - centerLineHeight) / 2;
+        ctx.fillRect(centerX, centerY, 1, centerLineHeight);
+        ctx.beginPath();
+        ctx.arc(centerX, centerY + pointWidth / 2, pointWidth / 2, 0, Math.PI * 2);
+        ctx.arc(
+          centerX,
+          centerY + pointWidth / 2 + centerLineHeight,
+          pointWidth / 2,
+          0,
+          Math.PI * 2
+        );
+        ctx.closePath();
+        ctx.fill();
+      }
+      // 更新柱状条位置并自动生成新的 bar
+      function updatePositions(frameDelta) {
+        function getNextBarHeight() {
+          // 只有currentPercent接近0时才显示最短bar，否则平滑过渡
+          const minBarHeight = defaultBarHeight;
+          const percent = currentPercent;
+          if (percent < 0.01) {
+            // 没有声音，显示最短bar
+            return minBarHeight;
+          }
+          // 有声音，平滑过渡
+          currentPercent = percent * 0.9;
+          return Math.min(Math.max(maxBarHeight * percent * 0.9, minBarHeight), maxBarHeight);
+        }
+
+        let writeIdx = 0;
+        for (let readIdx = 0; readIdx < bars.length; readIdx++) {
+          bars[readIdx].x -= frameDelta; // 使用时间校正后的位移
+          if (bars[readIdx].x >= -barWidth) {
+            bars[writeIdx++] = bars[readIdx];
+          }
+        }
+        bars.length = writeIdx; // 截断多余元素
+
+        // 当有 speed 时，每隔固定距离从中心线处生成新的 bar
+        if (speed > 0) {
+          const lastBar = bars[bars.length - 1];
+          let nextX = lastBar ? lastBar.x + fixedBarDistance : centerX;
+          // 若单帧位移跨过多个固定间距，需要连续补齐，保证竖条间距始终一致
+          while (nextX <= centerX) {
+            bars.push({
+              x: nextX,
+              height: getNextBarHeight(),
+            });
+            nextX += fixedBarDistance;
+          }
+        }
+      }
+
+      // 缓存上一次的文字绘制参数，用于重绘
+      let lastTimeTextParams = null;
+
+      function drawTimeText(total, xStart, startTime) {
+        // 不需要清除，因为 drawBars 已经清除了整个画布
+        // 使用缓存的字体设置
+        ctx.fillStyle = timelineTextColor;
+        ctx.font = cachedFont;
+        ctx.textAlign = 'center';
+
+        const gap = msWidth; // 60px，每秒 60px
+
+        // 在中心线左侧最多显示 4 秒的时间刻度
+        const leftExtraSeconds = 4;
+        const centerTime = initialTimeOffset + frameCount / gap; // 中心线对应的时间（秒）
+
+        // 计算左侧起始时间：中心线时间 - 4 秒，但不能小于 0
+        const leftStartTime = Math.max(0, Math.floor(centerTime) - leftExtraSeconds);
+        // 计算左侧起始位置：从中心线往左偏移
+        const leftStartX = centerX - (centerTime - leftStartTime) * gap;
+
+        // 计算右侧结束时间：确保覆盖到画布右端
+        const rightEndTime = Math.ceil(centerTime) + Math.ceil((width - centerX) / gap) + 2;
+
+        // 从 leftStartTime 到 rightEndTime 绘制所有时间刻度
+        for (let t = leftStartTime; t <= rightEndTime; t++) {
+          const x = leftStartX + (t - leftStartTime) * gap;
+
+          // 只绘制在可视范围内的文字（优化性能）
+          if (x < -50 || x > width + 50) continue;
+
+          const minutes = Math.floor(t / 60);
+          const seconds = t % 60;
+          const timeText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(
+            2,
+            '0'
+          )}`;
+          ctx.fillText(timeText, x, 215);
+        }
+      }
+
+      function computedDrawTimelineData(contentWidth, gap) {
+        const overSize = contentWidth - centerX;
+        let startIndex = 0;
+        let xStart = centerX - contentWidth;
+
+        if (overSize <= 0) {
+          startIndex = 0;
+          xStart = centerX - contentWidth;
+        } else {
+          if (overSize % gap === 0) {
+            startIndex = overSize;
+            xStart = 0;
+          } else {
+            startIndex = Math.floor(overSize / gap) * gap;
+            xStart = -(overSize % gap);
+          }
+        }
+        // 时间刻度线的起始时间 = 初始时间偏移 + 基于 startIndex 计算的时间
+        const startTime = initialTimeOffset + Math.floor(startIndex / gap);
+        return [startTime, xStart];
+      }
+
+      // 绘制时间文字（降低计算频率，但每帧都重绘）
+      function drawGrid() {
+        // 每帧都重绘文字（因为画布被清除了）
+        // 直接调用 drawTimeText，参数在函数内部计算
+        drawTimeText(0, 0, 0); // 参数已在 drawTimeText 内部重新计算，这里传占位值
+      }
+
+      // 动画循环（timestamp 由 requestAnimationFrame 自动传入，单位：ms）
+      function animate(timestamp) {
+        if (destroyed) return; // 防止 destroy 后继续绘制
+
+        if (speed > 0) {
+          // ---- 基于真实时间计算本帧增量，修复高刷新率设备走快问题 ----
+          if (lastAnimateTime === 0) {
+            // 第一帧或重置后（含从后台切回），不做位移，只记录时间戳
+            lastAnimateTime = timestamp;
+          } else {
+            const rawDeltaMs = timestamp - lastAnimateTime;
+            lastAnimateTime = timestamp;
+
+            // 间隔超过 100ms（约 6 帧），说明刚从后台切回，直接跳过本帧位移。
+            if (rawDeltaMs <= 100) {
+              // 将 rawDeltaMs 折算成 60fps 基准下的精确位移量（浮点数）
+              const frameRatio = rawDeltaMs / (1000 / 60);
+              const exactDelta = speed * frameRatio;
+
+              // 60fps 下 exactDelta≈1，intDelta=1，与原代码完全一致
+              // 120fps 下 exactDelta≈0.5，每两帧积累到 1 后移动1px，等效 60fps 效果
+              pixelAccumulator += exactDelta;
+              const intDelta = Math.floor(pixelAccumulator);
+              pixelAccumulator -= intDelta;
+
+              // frameCount 与 bar 位移同步推进（整数），确保时间刻度和 bars 完全对齐
+              frameCount += intDelta;
+
+              // 若 bars 已全部清空（异常情况），重新在中心线处生成一个 bar
+              if (bars.length === 0) {
+                ensureActiveBar();
+              }
+
+              if (intDelta > 0) {
+                updatePositions(intDelta);
+                updateInactiveBars(intDelta); // 更新右侧灰色波纹
+              }
+            }
+          }
+
+        } else {
+          // 没有速度时：保持静态显示，重置时间戳
+          lastAnimateTime = 0;
+          updateInactiveBars(0); // 确保右侧区域填满灰色波纹
+        }
         drawBars();
-        requestAnimationFrame(animate); // 请求下一帧
+        drawInactiveWaveform(); // 绘制动态灰色波纹
+        drawGrid();
+        drawCenterLine(); // 中心线需要每帧绘制
+        animationId = requestAnimationFrame(animate); // 请求下一帧
       }
 
       // 启动动画
-      animate();
+      animate(0);
     });
+  },
+  // 销毁画布和动画
+  destroy() {
+    destroyed = true;
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+      animationId = null;
+      frameCount = 0;
+    }
+    bars = [];
+    inactiveBars = [];
+    if (ctx) {
+      ctx.clearRect(0, 0, width, height);
+      ctx = null;
+    }
+    // 清理缓存
+    cachedGradient = null;
+    cachedFont = null;
+    initialTimeOffset = 0;
+    lastAnimateTime = 0;
+    pixelAccumulator = 0;
   },
 });

@@ -20,6 +20,5 @@ export default function convertAdditionalStyles(style) {
 
   // const conv = cssToReactNative(tuples);
   const conv = tuples;
-  // console.log('conv', conv);
   return conv;
 }

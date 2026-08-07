@@ -1,35 +1,19 @@
-.topBarWrap {
-  .statusBar {
-    height: 20px;
-    // background-color: transparent;
-  }
+.navBar {
+  --nav-bar-background-color: var(--color-bg-page);
+  --hairline-bottom-width: 0;
+  --nav-bar-icon-color: var(--color-text-primary);
+  --nav-bar-height: 44px;
+  --nav-bar-title-text-color: var(--color-text-primary);
+  z-index: 100 !important;
+}
 
-  .topBar {
-    height: 44px;
-    display: flex;
+.navBarDark {
+  --nav-bar-background-color: #000000;
+  --nav-bar-icon-color: #ffffff;
+  --nav-bar-title-text-color: #ffffff;
+  --nav-bar-text-color: #ffffff;
+}
 
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    // padding: 0 12px;
-
-    .title {
-      font-size: 32rpx;
-      font-weight: 600;
-      color: '#19191b';
-    }
-
-    .btn {
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    :global(.icon-panel-arrowLeft) {
-      font-size: 88rpx;
-      color: rgba(0, 0, 0, 0.9);
-    }
-  }
+:global(.smart-nav-bar__left) {
+  white-space: nowrap;
 }

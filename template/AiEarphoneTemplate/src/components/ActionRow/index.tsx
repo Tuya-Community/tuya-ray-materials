@@ -1,8 +1,11 @@
 import React, { FC } from 'react';
-import { Text, View, Image, Switch } from '@ray-js/ray';
+// import { useSelector } from 'react-redux';
+import { Text, View, Switch } from '@ray-js/ray';
 import { Icon } from '@ray-js/icons';
+// import { selectThemeColorByKey } from '@/redux/modules/themeSlice';
 // @ts-ignore
 import Styles from './index.module.less';
+import ThemedImage from '@/components/ThemedImage';
 
 interface IProps {
   img?: any;
@@ -35,8 +38,11 @@ export const ActionRow: FC<IProps> = ({
   renderLeft,
   renderRight,
 }) => {
-  const iconColor = 'background: rgba(23, 23, 23, 1);';
-  const switchColor = '#3678E3';
+  // const iconColor = useSelector(selectThemeColorByKey('--app-B1-N4'));
+  // const switchColor = useSelector(selectThemeColorByKey('--app-M1'));
+
+  const iconColor = 'var(--color-dark-solid)';
+  const switchColor = 'var(--color-primary)';
 
   return (
     <View className={Styles.arrowMain} style={style} onClick={onClick}>
@@ -44,7 +50,7 @@ export const ActionRow: FC<IProps> = ({
         renderLeft()
       ) : (
         <View className={Styles.left}>
-          {img && <Image src={img} className={Styles.img} style={imgStyle} />}
+          {img && <ThemedImage src={img} className={Styles.img} style={imgStyle} />}
           <Text className={Styles.label}>{label}</Text>
         </View>
       )}
@@ -59,11 +65,13 @@ export const ActionRow: FC<IProps> = ({
             </Text>
           )}
           {actionType === 'arrow' && (
-            <Icon type="icon-right" size={16} color={iconColor} style={{ opacity: 0.4 }} />
+            <View style={{ opacity: 0.4 }}>
+              <Icon type="icon-right" size={16} color={iconColor} />
+            </View>
           )}
           {actionType === 'switch' && switchConfig && (
             <Switch
-              disabled={switchConfig?.disabled}
+              disabled={switchConfig?.disabled ?? false}
               checked={switchConfig?.checked}
               color={switchColor}
               onChange={switchConfig.onChange}

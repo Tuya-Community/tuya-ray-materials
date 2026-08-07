@@ -1,0 +1,88 @@
+.container {
+  padding: 32rpx;
+  width: calc(100vw - 64rpx);
+  border-radius: 32rpx;
+  background: var(--color-bg-topbar);
+  border: 2rpx solid var(--color-border-light);
+
+  &.hasMore {
+    padding: 32rpx 32rpx 0;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    font-size: 32rpx;
+    font-weight: 500;
+    line-height: 32rpx;
+    color: var(--color-text-primary);
+
+    .icon {
+      width: 40rpx;
+      height: 40rpx;
+      margin-right: 8rpx;
+      flex-shrink: 0;
+    }
+  }
+
+  .listWrapper {
+    max-height: fit-content; 
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &.expanded {
+      max-height: 600rpx; // 展开后的最大高度
+      overflow-y: auto;
+    }
+  }
+
+  .list {
+    padding: 40rpx 0 0;
+
+    .item {
+      display: flex;
+      align-items: flex-start;
+
+      &:not(:last-child) {
+        margin-bottom: 32rpx;
+      }
+
+      .time {
+        font-size: 28rpx;
+        color: var(--color-primary);
+        text-decoration: underline;
+        text-underline-offset: 8rpx;
+        margin-right: 32rpx;
+        font-variant-numeric: tabular-nums;
+        flex-shrink: 0;
+        line-height: 40rpx;
+      }
+
+      .itemTitle {
+        flex: 1;
+        font-size: 28rpx;
+        color: var(--color-text-secondary);
+        line-height: 40rpx;
+        transition: color 0.2s ease, font-weight 0.2s ease;
+
+        &.active {
+          color: var(--color-text-primary);
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .toggleBtn {
+    font-size: 24rpx;
+    color: var(--color-text-tertiary);
+    padding: 20rpx;
+    text-align: center;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:active {
+      opacity: 0.7;
+    }
+  }
+}

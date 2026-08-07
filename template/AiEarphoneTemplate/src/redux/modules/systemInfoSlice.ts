@@ -15,6 +15,18 @@ const systemInfoSlice = createSlice({
     topBarHeight: number;
     staticPrefix: string;
     platform: string; // ios或者安卓等
+    useWindowHeight: number; // 兼容useableWindowHeight和screenHeight, 有的机型useableWindowHeight才是真实窗口高度，不包含底部安全区域
+    menuBounding: {
+      top: number;
+      right: number;
+      bottom: number;
+      left: number;
+      width: number;
+      height: number;
+    };
+    /**  ray 包里面 getSystemInfoSync 对应的 d.ts 没有导出 deviceLevel 类型 */
+    /** 设备等级(低:low-中:middle-高:high) */
+    deviceLevel: string;
   },
   reducers: {
     updateSystemInfo(state, action: PayloadAction<Partial<SystemInfo>>) {

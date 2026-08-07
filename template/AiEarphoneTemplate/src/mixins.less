@@ -27,6 +27,7 @@
   animation: @animation @duration linear infinite;
   animation-play-state: paused;
   will-change: transform;
+
   &:global(.running) {
     animation-play-state: running;
   }
@@ -39,5 +40,14 @@
   height: 128rpx;
   width: 128rpx;
   border-radius: 48rpx;
-  background-color: #fff;
+  background-color: var(--color-bg-primary);
+}
+
+.textHidden(@line: 1, @overflow: ellipsis, @wordBreak: break-all) {
+  overflow: hidden;
+  text-overflow: @overflow;
+  word-break: @wordBreak;
+  display: -webkit-box;
+  -webkit-line-clamp: @line;
+  -webkit-box-orient: vertical;
 }

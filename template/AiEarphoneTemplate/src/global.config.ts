@@ -1,16 +1,29 @@
 import { GlobalConfig } from '@ray-js/types';
 
-export const thing = {
+export const tuya = {
+  themeLocation: 'theme.json',
   window: {
-    backgroundColor: '#e3eef6',
+    backgroundColor: '@bgColor',
     navigationBarTitleText: '',
-    navigationBarBackgroundColor: '#f2f4f6',
-    navigationBarTextStyle: 'black',
+    navigationBarBackgroundColor: '@navBgColor',
+    navigationBarTextStyle: '@navTxtStyle',
     navigationStyle: 'custom',
     custom: true,
   },
+  webviewRoot: 'webview',
+  usingPlugins: ['rjs://@tuya-miniapp/rjs-markmap'],
+  preloadRule: {
+    'pages/home/index': {
+      network: 'all',
+      packages: ['pkgEntry'],
+    },
+    'pages/detail/index': {
+      network: 'all',
+      packages: ['pkgTemplate'],
+    },
+  },
+  // 设备面板：系统设置页（未自定义设备详情时必填；一般为平台公共功能页，通常无需修改）
   functionalPages: {
-    // 若未自定义实现设备详情界面，该项为必填配置，不可删除。
     settings: {
       appid: 'tycryc71qaug8at6yt',
       entryCode: 'entrye0n05idydmmfv',

@@ -1,0 +1,99 @@
+.bottomSheet {
+  --bottom-sheet-padding: 0 32rpx 40rpx;
+  --popup-background-color: var(--color-bg-bottomnav);
+  min-height: 900rpx;
+}
+
+.scrollDisabled {
+  :global(.smart-bottom-sheet__content) {
+    overflow-y: hidden !important;
+  }
+}
+
+.scrollEnabled {
+  :global(.smart-bottom-sheet__content) {
+    overflow-y: auto !important;
+  }
+}
+
+.editorBox {
+  padding: 24rpx;
+  border-radius: 16rpx;
+  background: var(--color-bg-edit-box);
+  margin-bottom: 24rpx;
+  min-height: 266rpx;
+  box-sizing: border-box;
+}
+
+.tagDragWrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  justify-content: flex-start !important;
+}
+
+.tagDragActive {
+  opacity: 0.88;
+}
+
+
+.sheetTag {
+  --tag-padding: 8rpx 24rpx;
+  font-size: 26rpx !important;
+  line-height: 48rpx !important;
+  border-radius: 16rpx !important;
+  min-height: 48rpx;
+  box-sizing: border-box;
+}
+
+.historyLabel {
+  font-size: 24rpx;
+  line-height: 36rpx;
+  color: var(--color-text-tertiary);
+  margin-bottom: 16rpx;
+}
+
+.historyRow {
+  min-height: 250rpx;
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.historyTagHit {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.newPill {
+  position: fixed;
+  left: -2000px;
+  top: 0;
+  z-index: -1;
+  display: flex;
+  align-items: center;
+  width: max-content;
+  height: 64rpx;
+  padding: 0 24rpx;
+  line-height: 64rpx;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+}
+
+.newInput {
+  min-height: auto;
+  height: 64rpx;
+  line-height: 48rpx;
+  font-size: 28rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 16rpx;
+  background: var(--color-bg-tag-add);
+  border: 2rpx dashed var(--color-border-tag-add);
+  color: var(--color-blue-3582FA);
+}
+
+
+

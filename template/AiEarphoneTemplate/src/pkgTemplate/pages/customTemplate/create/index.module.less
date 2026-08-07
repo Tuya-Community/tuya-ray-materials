@@ -1,0 +1,296 @@
+@import '@/mixins.less';
+
+.container {
+  background: var(--color-bg-page);
+  min-height: 100vh;
+
+  .topBarDelete {
+    font-size: 28rpx;
+    --nav-bar-text-color: #F04C4C;
+    color: #F04C4C !important;
+  }
+
+  .form {
+    padding: 24rpx 32rpx;
+  }
+
+  .card {
+    background: var(--color-bg-primary);
+    border-radius: 24rpx;
+    padding: 32rpx;
+    margin-bottom: 24rpx;
+    position: relative;
+    box-shadow: 0 8rpx 24rpx var(--color-shadow-card);
+  }
+
+  .cardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24rpx;
+  }
+
+  .cardHeaderLeft {
+    display: flex;
+    align-items: center;
+  }
+
+  .required {
+    font-size: 28rpx;
+    color: #FF592A;
+    margin-right: 4rpx;
+  }
+
+  .label {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: var(--color-text-secondary-9);
+  }
+
+  .fieldBox {
+    position: relative;
+    background: var(--color-bg-edit-box);
+    border-radius: 16rpx;
+    padding: 28rpx 38rpx 56rpx;
+  }
+
+  /* Field 内部的原生 input/textarea 默认是白底，这里统一改为透明，让整块灰底铺满 */
+  .fieldBox :global(input),
+  .fieldBox :global(textarea) {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    text-indent: 0 !important;
+  }
+
+  /* SmartUI Field 基于 Cell：默认有左侧 label 占位、内边距和白底/分割线；
+     按设计稿把它们置空，让 placeholder/输入从左侧开始，整块背景由 .fieldBox 统一渲染 */
+  .fieldBox :global(.smart-cell) {
+    padding: 0 !important;
+    background: transparent !important;
+    line-height: 1.6 !important;
+  }
+
+  .fieldBox :global(.smart-cell::after) {
+    display: none !important;
+  }
+
+  .fieldBox :global(.smart-cell__title),
+  .fieldBox :global(.smart-field__label) {
+    display: none !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .fieldBox :global(.smart-cell__value),
+  .fieldBox :global(.smart-field__body) {
+    padding: 0 !important;
+    background: transparent !important;
+    text-align: left !important;
+  }
+
+  /* 单行 Field 默认 value 靠右对齐，这里统一改为左对齐，使 placeholder 贴左 */
+  .fieldBox :global(.smart-field__control) {
+    padding: 0 !important;
+    font-size: 28rpx;
+    color: var(--color-text-secondary-9);
+    line-height: 1.6;
+    min-height: 40rpx;
+    text-align: left !important;
+  }
+
+  .fieldBox :global(.smart-field__control--center),
+  .fieldBox :global(.smart-field__control--right) {
+    text-align: left !important;
+  }
+
+  /* textarea 版 Field（提示词）与单行版同样的 :global 归零 + 左对齐处理 */
+  .fieldBox :global(.smart-field__body--textarea) {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    text-align: left !important;
+    min-height: 200rpx;
+  }
+
+  .fieldBox :global(.smart-field__control--textarea) {
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 28rpx;
+    color: var(--color-text-secondary-9);
+    line-height: 1.6;
+    text-align: left !important;
+    min-height: 200rpx;
+    max-height: 600rpx;
+    overflow-y: auto;
+    background: transparent !important;
+  }
+
+  /* smart-field textarea 外包一层 __body__box，会额外带 padding，这里同样归零，
+     保证提示词 placeholder 的左/上距离与模板名称一致 */
+  .fieldBox :global(.smart-field__body__box) {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+  }
+
+  .fieldBox :global(.smart-field__left__body) {
+    display: none;
+  }
+
+  .field {
+    width: 100%;
+    background: transparent;
+  }
+
+  .fieldTextarea {
+    min-height: 200rpx;
+    padding: 0;
+  }
+
+  .fieldTextarea :global(.smart-field--textarea) {
+    padding: 0 !important;
+  }
+
+  /* 点击 Polish 润色时，隐藏输入内容并在左上角播放点动画，避免"Loading…"和 value 同时出现 */
+  .fieldHidden {
+    visibility: hidden;
+  }
+
+  .polishLoader {
+    position: absolute;
+    top: 28rpx;
+    left: 38rpx;
+    display: flex;
+    align-items: center;
+    height: 40rpx;
+  }
+
+
+
+
+  .input {
+    width: 100%;
+    height: 80rpx;
+    padding: 0;
+    font-size: 28rpx;
+    background: transparent;
+    color: var(--color-text-secondary-9);
+    border: none;
+    box-sizing: border-box;
+  }
+
+  .textarea {
+    width: 100%;
+    min-height: 160rpx;
+    padding: 0;
+    font-size: 28rpx;
+    background: transparent;
+    color: var(--color-text-secondary-9);
+    border: none;
+    box-sizing: border-box;
+    line-height: 1.6;
+  }
+
+  .fieldErrorMsg {
+    display: block;
+    font-size: 24rpx;
+    color: #ee0a24;
+    margin-top: 8rpx;
+  }
+
+  .counterInline {
+    position: absolute;
+    right: 24rpx;
+    bottom: 18rpx;
+    font-size: 24rpx;
+    color: var(--color-text-disabled);
+  }
+
+  .polishBtn {
+    display: flex;
+    align-items: center;
+    gap: 6rpx;
+  }
+
+  .polishStar {
+    width: 28rpx;
+    height: 28rpx;
+  }
+
+  .polishIcon {
+    font-size: 28rpx;
+    color: #427FF7;
+  }
+
+  .polishText {
+    font-size: 26rpx;
+    color: #427FF7;
+    font-weight: 500;
+  }
+
+  .polishDisabled {
+    opacity: 0.4;
+  }
+
+  .iconGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 72rpx);
+    row-gap: 32rpx;
+    justify-content: space-between;
+  }
+
+  .iconItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72rpx;
+    height: 72rpx;
+    border-radius: 12rpx;
+    border: 4rpx solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .iconActive {
+    border-color: var(--color-primary);
+  }
+
+  .iconThumb {
+    width: 50rpx;
+    height: 50rpx;
+  }
+
+  .buttonWrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20rpx 36rpx;
+    padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+    background: var(--color-bg-page);
+  }
+
+  .button {
+    width: 100%;
+    height: 104rpx;
+    border-radius: 88rpx;
+    font-size: 32rpx;
+    font-weight: 500;
+    background-color: var(--color-primary);
+    border: none;
+    color: #FFFFFF;
+
+    :global(.smart-loading__spinner) {
+      background-color: white;
+
+    }
+
+    &:disabled {
+      background: var(--color-bg-primary-transparent-3);
+      color: var(--color-text-white-5);
+    }
+  }
+}

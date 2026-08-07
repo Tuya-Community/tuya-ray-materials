@@ -1,0 +1,117 @@
+.container {
+  width: 560rpx;
+  position: fixed;
+  top: 140px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 110rpx;
+  color: var(--color-button-text);
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+}
+
+.importingContainer {
+  box-shadow: 0rpx 10rpx 20rpx 0rpx var(--color-shadow-blue-light);
+  padding: 20rpx 24rpx 20rpx 32rpx;
+  border: 2rpx solid var(--color-border-white);
+  height: 80rpx;
+  border-radius: 110rpx;
+  background: linear-gradient(277deg, var(--color-primary-light) 4%, var(--color-primary-dark) 97%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .left {
+    display: flex;
+    align-items: center;
+    font-size: 22rpx;
+    color: var(--color-button-text);
+
+    .circle {
+      margin-right: 16rpx;
+      width: 18px;
+      transform: rotate(90deg);
+      transform-origin: center center;
+    }
+  }
+
+  .cancelBtn {
+    color: var(--color-button-text);
+    padding: 4rpx 16rpx;
+    border-radius: 40rpx;
+    background: var(--color-bg-white-transparent-2);
+    line-height: 32rpx;
+    font-size: 20rpx;
+  }
+}
+
+.failedContainer {
+  box-shadow: 0rpx 10rpx 20rpx 0rpx var(--color-shadow-blue-light);
+  padding: 20rpx 24rpx 20rpx 32rpx;
+  border: 2rpx solid var(--color-border-white);
+  background: linear-gradient(303deg, var(--color-primary-light) 9%, var(--color-primary-dark) 98%);
+  border-radius: 32rpx;
+
+  .header {
+    display: flex;
+    align-items: center;
+
+    .icon {
+      width: 36rpx;
+      height: 36rpx;
+      margin-right: 16rpx;
+    }
+
+    .title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-bg-primary);
+    }
+  }
+
+  .scrollView {
+    max-height: 300rpx;
+    overflow-y: auto;
+    padding-left: 52rpx;
+    margin: 12rpx 0 16rpx;
+  }
+
+  .item {
+    margin-top: 24rpx;
+    font-size: 11px;
+    color: var(--color-text-white-7);
+
+    &:first-child {
+      margin-top: 12rpx;
+    }
+
+    .fileName {
+      margin-top: 8rpx;
+      color: var(--color-text-white-7);
+    }
+  }
+
+  .action {
+    display: flex;
+    justify-content: flex-end;
+
+    .cancel,
+    .retry {
+      border-radius: 132rpx;
+      font-size: 20rpx;
+      font-weight: 500;
+      line-height: 32rpx;
+      color: var(--color-bg-primary);
+      padding: 8rpx 30rpx;
+    }
+
+    .cancel {
+      background: transparent;
+    }
+
+    .retry {
+      background: var(--color-bg-white-transparent-2);
+    }
+  }
+}

@@ -1,0 +1,40 @@
+@import '@/mixins.less';
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
+  // padding-bottom: 48px;
+  background-color: var(--color-bg-page);
+
+  .time {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+
+    .timeAni {
+      display: flex;
+      align-items: center;
+      padding: 10rpx 0 10rpx 32rpx;
+      font-size: 34rpx;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .mgl10 {
+      margin-left: 20rpx;
+    }
+
+    .splitBtn {
+      padding-right: 32rpx;
+    }
+
+    .splitIcon {
+      width: 64rpx;
+      height: 44rpx;
+    }
+  }
+}

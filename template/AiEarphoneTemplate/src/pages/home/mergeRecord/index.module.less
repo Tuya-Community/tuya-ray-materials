@@ -1,0 +1,259 @@
+.container {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-gray-f9);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 36rpx 0;
+    position: relative;
+}
+
+.title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-align: center;
+    flex: 1;
+}
+
+.fileListHeader {
+    margin-bottom: 24rpx;
+}
+
+.closeBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+}
+
+.closeIcon {
+    width: 48rpx;
+    height: 48rpx;
+    color: var(--color-text-disabled);
+
+}
+
+.mergeVisual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24rpx;
+    column-gap: 12rpx;
+    padding: 30rpx 0;
+}
+
+.mergeSucess {
+    width: 190rpx;
+    height: 190rpx;
+}
+
+.fileIcon {
+    width: 140rpx;
+    height: 156rpx;
+}
+
+.folderIcon {
+    width: 150rpx;
+    height: 160rpx;
+}
+
+
+.mergeArrow {
+    width: 18px;
+    height: 4px;
+    margin-bottom: 20rpx;
+}
+
+
+.fileListContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-radius: 32rpx 32rpx 0 0;
+    overflow: hidden;
+}
+
+
+
+.headerText {
+    font-size: 36rpx;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-left: 2px;
+}
+
+.fileItem {
+    height: 154rpx;
+    width: 100%;
+    background: var(--color-bg-primary);
+    border-radius: 32rpx;
+    margin-bottom: 24rpx;
+    display: flex;
+    padding: 32rpx;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.fileInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12rpx;
+}
+
+.fileName {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    max-width: 90%;
+}
+
+.fileMeta {
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+}
+
+.fileDate {
+    font-size: 24rpx;
+    color: var(--color-text-tertiary);
+}
+
+.divider {
+    width: 1px;
+    height: 24rpx;
+    background-color: var(--color-border-divider);
+}
+
+.fileDuration {
+    font-size: 24rpx;
+    color: var(--color-text-tertiary);
+}
+
+.dragIcon {
+    width: 40rpx;
+    height: 40rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dragIconImg {
+    width: 40rpx;
+    height: 40rpx;
+}
+
+.active {
+    opacity: 0.8;
+    transform: scale(1.02);
+}
+
+.bottomBtnContainer {
+    padding: 32rpx 0 0 0;
+    margin-bottom: 34px;
+    width: 100%;
+}
+
+.bottomBtn {
+    width: 100%;
+    height: 108rpx;
+    background-color: var(--color-bg-primary);
+    border-radius: 88rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottomBtnText {
+    font-size: 32rpx;
+    font-weight: 600;
+}
+
+.cancelBtn {
+    .bottomBtnText {
+        color: var(--color-danger); // 红色
+    }
+}
+
+.completeBtn {
+    .bottomBtnText {
+        color: var(--color-primary-solid); // 蓝色
+    }
+}
+
+.startBtn {
+    background-color: var(--color-primary);
+
+    .bottomBtnText {
+        color: var(--color-button-text);
+    }
+}
+
+.mergeStatus {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 32rpx;
+    gap: 16rpx;
+}
+
+.statusText {
+    font-size: 36rpx;
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+.successText {
+    font-size: 36rpx;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.durationText {
+    font-size: 24rpx;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.durationLabel {
+    color: var(--color-text-tertiary);
+}
+
+.durationValue {
+    color: var(--color-text-tertiary);
+}
+
+.goToViewLink {
+    font-size: 24rpx;
+    color: var(--color-primary);
+    margin-left: 8rpx;
+}
+
+.progressBar {
+    width: 100%;
+    height: 16rpx;
+    background-color: var(--color-bg-primary-transparent-1);
+    border-radius: 32rpx;
+    overflow: hidden;
+    margin-top: 8rpx;
+}
+
+.progressFill {
+    height: 100%;
+    background-color: var(--color-primary);
+    border-radius: 4rpx;
+    transition: width 0.3s ease;
+}

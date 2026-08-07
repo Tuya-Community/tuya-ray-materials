@@ -1,0 +1,240 @@
+@import '@/variables.less';
+
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--color-bg-secondary);
+}
+
+.searchRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 16rpx 0;
+  gap: 24rpx;
+  background: var(--color-bg-secondary);
+}
+
+.inputShell {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 24rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  background: var(--color-bg-primary);
+  box-shadow: 0 2rpx 8rpx var(--color-shadow-light);
+
+}
+
+.searchInput {
+  border: none;
+  background-color: transparent;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  margin-left: 16rpx;
+  font-size: 30rpx;
+  color: var(--color-text-primary);
+}
+
+.cancelBtn {
+  flex-shrink: 0;
+  font-size: 34rpx;
+  color: var(--color-text-primary);
+  padding: 8rpx 0;
+  margin-left: 8rpx;
+}
+
+.scroll {
+  flex: 1;
+  padding: 32rpx 0 0;
+}
+
+.searchBox {
+  background-color: transparent !important;
+  width: 586rpx !important;
+  height: 100rpx !important;
+  padding: 0 !important;
+
+  :global(.smart-search__content) {
+    border-radius: 32rpx;
+    background: var(--color-bg-primary);
+    box-shadow: 0 12rpx 24rpx 0 var(--color-shadow-modal);
+
+  }
+}
+
+.requestErrorWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 56rpx 0 24rpx;
+}
+
+.requestErrorImg {
+  width: 176rpx;
+  height: 176rpx;
+}
+
+.requestErrorText {
+  margin-top: 16rpx;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  color: var(--color-text-tertiary);
+}
+
+.section {
+  margin-bottom: 40rpx;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.sectionTitle {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.loadingHintImg {
+  flex-shrink: 0;
+  display: block;
+  width: 32rpx;
+  height: 32rpx;
+  transform-origin: center center;
+  animation: loadingHintRotate 1.5s linear infinite;
+}
+
+@keyframes loadingHintRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.content {
+  margin-top: 16rpx;
+  font-size: 32rpx;
+  font-weight: normal;
+  line-height: 48rpx;
+  display: flex;
+  align-items: center;
+  letter-spacing: normal;
+  color: var(--color-text-secondary-9);
+}
+
+.chipWrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.historyChip {
+  max-width: 100%;
+  padding: 16rpx 28rpx;
+  border-radius: 32rpx;
+  background: var(--color-bg-primary);
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recentCardWrap {
+  margin-bottom: 24rpx;
+}
+
+.resultCard {
+  width: 100%;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  background: var(--color-bg-primary);
+  border-radius: 32rpx;
+  box-shadow: 0 2rpx 8rpx var(--color-shadow-light);
+}
+
+.resultTitle {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 12rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resultMeta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  font-size: 24rpx;
+  color: var(--color-text-tertiary);
+}
+
+.resultTags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+
+.tagPill {
+  max-width: 100%;
+  padding: 4rpx 16rpx;
+  border-radius: 16rpx;
+  background: var(--color-tag-bg, var(--color-bg-tertiary));
+  font-size: 24rpx;
+  color: var(--color-tag-text, var(--color-gray-66666));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.emHighlight {
+  color: var(--color-blue-3582FA);
+}
+
+.emptyHint {
+  text-align: center;
+  font-size: 28rpx;
+  color: var(--color-text-tertiary);
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingHintWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingHint {
+  text-align: center;
+  font-size: 24rpx;
+  color: var(--color-text-tertiary);
+  padding: 16rpx;
+}

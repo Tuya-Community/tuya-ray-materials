@@ -6,6 +6,8 @@
 import React, { useMemo } from 'react';
 import { Text } from '@ray-js/components';
 import MarkdownIt from 'markdown-it';
+// import { Text, StyleSheet } from 'react-native';
+// import PropTypes from 'prop-types';
 import parser from './lib/parser';
 import getUniqueID from './lib/util/getUniqueID';
 import hasParents from './lib/util/hasParents';
@@ -16,6 +18,7 @@ import AstRenderer from './lib/AstRenderer';
 import removeTextStyleProps from './lib/util/removeTextStyleProps';
 import { styles } from './lib/styles';
 import { stringToTokens } from './lib/util/stringToTokens';
+// import FitImage from 'react-native-fit-image';
 import textStyleProps from './lib/data/textStyleProps';
 
 export {
@@ -30,13 +33,17 @@ export {
   MarkdownIt,
   styles,
   removeTextStyleProps,
+  // FitImage,
   textStyleProps,
 };
 
+// we use StyleSheet.flatten here to make sure we have an object, in case someone
+// passes in a StyleSheet.create result to the style prop
 const getStyle = (mergeStyle, style) => {
   let useStyles = {};
 
   if (mergeStyle === true && style !== null) {
+    // make sure we get anything user defuned
     Object.keys(style).forEach(value => {
       useStyles[value] = {
         // ...StyleSheet.flatten(style[value]),
@@ -85,18 +92,6 @@ const getRenderer = (
   defaultImageHandler,
   debugPrintTree
 ) => {
-  if (renderer && rules) {
-    console.warn(
-      'react-native-markdown-display you are using renderer and rules at the same time. This is not possible, props.rules is ignored'
-    );
-  }
-
-  if (renderer && style) {
-    console.warn(
-      'react-native-markdown-display you are using renderer and style at the same time. This is not possible, props.style is ignored'
-    );
-  }
-
   // these checks are here to prevent extra overhead.
   if (renderer) {
     if (!(typeof renderer === 'function') || renderer instanceof AstRenderer) {
@@ -107,8 +102,6 @@ const getRenderer = (
     );
   } else {
     const useStyles = getStyle(mergeStyle, style);
-
-    // console.log('useStyles', useStyles);
 
     return new AstRenderer(
       {
@@ -126,16 +119,29 @@ const getRenderer = (
   }
 };
 
+// Normalize markdown source so common AI-generated quirks still parse as
+// regular markdown. Currently:
+// - Dedent leading whitespace before list markers ("- ", "* ", "+ ", "1. ").
+//   CommonMark treats lines indented with 4+ spaces as code blocks, which
+//   prevents bullet lists from rendering when upstream content is indented.
+const normalizeMarkdownSource = (raw: string): string => {
+  if (!raw) {
+    return '';
+  }
+  return raw.replace(/\r\n?/g, '\n').replace(/^[ \t]+(?=(?:[-*+]|\d+[.)])\s+)/gm, '');
+};
+
 const Markdown = ({
-  children,
+  children = '',
   renderer = null,
   rules = null,
   style = null,
   mergeStyle = true,
   markdownit = MarkdownIt({
     typographer: true,
+    breaks: true, // 把段落中\n 自动识别成换行
   }),
-  onLinkPress = () => { },
+  onLinkPress = () => {},
   maxTopLevelChildren = null,
   topLevelMaxExceededItem = <Text key="dotdotdot">...</Text>,
   allowedImageHandlers = [
@@ -175,10 +181,51 @@ const Markdown = ({
       debugPrintTree,
     ]
   );
-
   const momoizedParser = useMemo(() => markdownit, [markdownit]);
+  const source = useMemo(() => {
+    const raw = Array.isArray(children) ? children.join('') : String(children ?? '');
+    return normalizeMarkdownSource(raw);
+  }, [children]);
 
-  return parser(children, momoizedRenderer.render, momoizedParser);
+  return parser(source, momoizedRenderer.render, momoizedParser);
 };
+
+// Markdown.propTypes = {
+//   children: PropTypes.oneOfType([PropTypes.node, PropTypes.array]).isRequired,
+//   renderer: PropTypes.oneOfType([PropTypes.func, PropTypes.instanceOf(AstRenderer)]),
+//   onLinkPress: PropTypes.func,
+//   maxTopLevelChildren: PropTypes.number,
+//   topLevelMaxExceededItem: PropTypes.any,
+//   rules: (props, propName, componentName) => {
+//     let invalidProps = [];
+//     const prop = props[propName];
+
+//     if (!prop) {
+//       return;
+//     }
+
+//     if (typeof prop === 'object') {
+//       invalidProps = Object.keys(prop).filter(key => typeof prop[key] !== 'function');
+//     }
+
+//     if (typeof prop !== 'object') {
+//       return new Error(
+//         `Invalid prop \`${propName}\` supplied to \`${componentName}\`. Must be of shape {[index:string]:function} `
+//       );
+//     }
+//     if (invalidProps.length > 0) {
+//       return new Error(
+//         `Invalid prop \`${propName}\` supplied to \`${componentName}\`. These ` +
+//           `props are not of type function \`${invalidProps.join(', ')}\` `
+//       );
+//     }
+//   },
+//   markdownit: PropTypes.instanceOf(MarkdownIt),
+//   style: PropTypes.any,
+//   mergeStyle: PropTypes.bool,
+//   allowedImageHandlers: PropTypes.arrayOf(PropTypes.string),
+//   defaultImageHandler: PropTypes.string,
+//   debugPrintTree: PropTypes.bool,
+// };
 
 export default React.memo(Markdown);

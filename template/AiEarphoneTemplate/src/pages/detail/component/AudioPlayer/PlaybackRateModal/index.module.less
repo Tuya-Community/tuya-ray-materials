@@ -1,0 +1,34 @@
+.btnGroupContainer {
+  display: flex;
+  width: 100%;
+  padding-bottom: 10px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  .btnItem {
+    margin-right: 6px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 1px solid var(--color-border-light);
+    padding: 14px 8px;
+    border-radius: 8px;
+    .btnItemText {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+    }
+
+    .icon {
+      width: 44rpx;
+      height: 44rpx;
+    }
+  }
+  .btnItemActive {
+    background: var(--color-bg-primary-transparent-1);
+    border-color: var(--color-primary-solid);
+    color: var(--color-primary-solid);
+  }
+}

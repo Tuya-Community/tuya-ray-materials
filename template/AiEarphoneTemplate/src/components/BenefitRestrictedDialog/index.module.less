@@ -1,0 +1,81 @@
+.dialog {
+  --dialog-width: 584rpx;
+  --dialog-padding: 48rpx 44rpx 48rpx 44rpx;
+}
+
+/* 整个 title slot 区域：图标 + 文字 + 按钮 */
+.titleSlot {
+  /* 自动布局子元素 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32rpx;
+  width: 100%;
+  padding: 60rpx 32rpx 48rpx 32rpx;
+}
+
+/* 图标 + 文字内容区域 */
+.content {
+  /* 自动布局子元素 */
+  width: 432rpx;
+  /* 自动布局 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24rpx;
+  z-index: 0;
+}
+
+/* 标题 + 描述文字区域 */
+.textGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+  width: 100%;
+}
+
+.benefitRestrictedIcon {
+  width: 116rpx;
+  height: 116rpx;
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: SF UI Display;
+  font-size: 34rpx;
+  font-weight: 600;
+  line-height: normal;
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+  letter-spacing: normal;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.desc {
+  font-family: PingFang SC;
+  font-size: 26rpx;
+  font-weight: normal;
+  line-height: normal;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+  letter-spacing: normal;
+}
+
+.btnConfirm {
+  width: 496rpx;
+  height: 100rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 568rpx;
+  background: linear-gradient(98deg, rgba(64, 109, 255, 0.75) 0%, #ff80c4 99%);
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: normal;
+}

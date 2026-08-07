@@ -1,0 +1,39 @@
+.bottomSheet {
+  --bottom-sheet-max-height: 80vh;
+  --bottom-sheet-padding: 0 32rpx 48rpx;
+  --popup-background-color: var(--color-gray-f9);
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    --loading-spinner-color: var(--color-button-text);
+
+
+    .downloadMindImg {
+      width: 302rpx;
+      height: 300rpx;
+      margin-top: 78rpx;
+    }
+
+    .button {
+      margin-top: 92rpx;
+      background: var(--color-primary);
+      color: var(--color-button-text);
+      border-radius: 88rpx;
+      width: 686rpx;
+      height: 108rpx;
+      font-size: 32rpx;
+      font-weight: 600;
+    }
+  }
+}
+
+.hiddenIframeContainer {
+  position: fixed;
+  top: -100vh;
+  left: -100vw;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}

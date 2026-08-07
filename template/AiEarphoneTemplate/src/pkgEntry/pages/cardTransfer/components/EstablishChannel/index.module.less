@@ -1,0 +1,144 @@
+.container {
+  padding: 62rpx 32rpx 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  .title {
+    font-size: 36rpx;
+    font-weight: 600;
+    line-height: 52rpx;
+    color: var(--color-text-primary);
+    text-align: center;
+  }
+
+  .tip {
+    margin-top: 4rpx;
+    font-size: 24rpx;
+    line-height: 36rpx;
+    color: var(--color-text-tertiary);
+    text-align: center;
+  }
+
+  .banner {
+    margin-top: 66rpx;
+    width: 100%;
+    height: 456rpx;
+    background-image: var(--cdn-img-card-transfer-banner);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    padding: 46rpx 0 34rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    .bannerImg {
+      display: flex;
+      align-items: center;
+
+      .cardImg {
+        width: 176rpx;
+        height: 218rpx;
+        transform: translateX(32rpx);
+      }
+
+      .phoneImg {
+        margin-left: 10rpx;
+        width: 146rpx;
+        height: 270rpx;
+        box-shadow: 12rpx 16rpx 50rpx 0rpx var(--color-shadow-modal);
+        border-radius: 24rpx;
+      }
+    }
+
+    .bannerTip {
+      padding: 16rpx 40rpx;
+      border-radius: 42rpx;
+      background: var(--color-gray-171717);
+      font-size: 24rpx;
+      font-weight: 500;
+      color: var(--color-button-text);
+    }
+  }
+
+  .step {
+    margin-top: 68rpx;
+    padding: 0 24rpx;
+
+    .stepItem {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+
+      &:not(:first-child) {
+        margin-top: 32rpx;
+      }
+
+      .text {
+        flex: 1;
+        margin-right: 16rpx;
+        font-size: 28rpx;
+        font-weight: 500;
+        line-height: 44rpx;
+        color: var(--color-text-tertiary);
+
+        &.active {
+          color: var(--color-primary);
+        }
+
+        &.failed {
+          color: var(--color-danger);
+        }
+      }
+
+      .icon {
+        width: 32rpx;
+        height: 32rpx;
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .buttonWrapper {
+
+    .retry,
+    .back {
+      width: 100%;
+      height: 108rpx;
+      border-radius: 88rpx;
+      background: var(--color-primary);
+      border: none;
+      font-size: 32rpx;
+      font-weight: 600;
+    }
+
+    .retry {
+      color: var(--color-button-text-primary);
+    }
+
+    .back {
+      margin-top: 16rpx;
+      color: var(--color-primary);
+      background: var(--color-button-text-primary);
+    }
+
+    .help {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 24rpx;
+      font-size: 28rpx;
+      color: var(--color-primary);
+
+      .icon {
+        width: 32rpx;
+        height: 32rpx;
+        flex-shrink: 0;
+        margin-right: 8rpx;
+      }
+    }
+  }
+}

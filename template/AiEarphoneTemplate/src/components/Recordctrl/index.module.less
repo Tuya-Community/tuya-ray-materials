@@ -1,0 +1,184 @@
+@import '@/mixins.less';
+
+.bottomBox {
+  position: absolute;
+  bottom: 0;
+  .safe-area-padding-bottom();
+  width: 100vw;
+  padding-top: 48rpx;
+  background-color: var(--color-bg-page);
+
+  .controlArea {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .controlBtnBox {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 240rpx;
+      height: 112rpx;
+    }
+
+    .controlBtn,
+    .controlPause,
+    .controlStart {
+      width: 240rpx;
+      height: 112rpx;
+      border-radius: 28px;
+      border: 3px solid var(--color-border-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+      position: absolute;
+      z-index: 1;
+      pointer-events: auto;
+      padding: 3px;
+
+      &.displayNone {
+        // display: none;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .icon {
+        width: 31rpx;
+        height: 37rpx;
+      }
+
+      .startText,
+      .pauseText,
+      .recordingText {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 28px;
+        text-align: center;
+        font-size: 26rpx;
+        font-weight: 500;
+      }
+    }
+
+    .controlBtn {
+      border-color: var(--color-gray-d1);
+
+      .recordingText {
+        background: var(--color-bg-gray-transparent-1);
+        color: var(--color-text-primary);
+      }
+    }
+
+    .controlStart {
+      border-color: var(--color-danger);
+
+      .startText {
+        background: var(--color-bg-error-transparent-1);
+        color: var(--color-danger);
+      }
+    }
+
+    .controlPause {
+      border-color: var(--color-blue-7ba4f8);
+
+      .pauseText {
+        background: var(--color-bg-blue-transparent-1);
+        color: var(--color-blue-427ff7);
+      }
+    }
+
+    .saveBox,
+    .content {
+      width: calc((100% - 115px) / 2);
+      flex-flow: column;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+
+    .save {
+      font-size: 24rpx;
+    }
+
+    .saveIcon {
+      width: 44rpx;
+      height: 44rpx;
+    }
+
+    .done {
+      font-size: 32rpx;
+      color: var(--color-primary);
+      font-weight: bold;
+    }
+  }
+
+  .scrollView {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  .devBox {
+    padding: 0 32rpx;
+
+    .devItem {
+      display: flex;
+      align-items: center;
+      padding: 44rpx 0;
+      justify-content: space-between;
+
+      &:not(:last-child) {
+        border-bottom: 1rpx solid var(--color-gray-d8);
+      }
+    }
+  }
+
+  .devEntry {
+    .devEntryImgs {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .leftIcon {
+        width: 44rpx;
+        height: 44rpx;
+      }
+
+      .rightIcon {
+        width: 24rpx;
+        height: 24rpx;
+      }
+    }
+  }
+
+  .devIcon {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 6rpx;
+  }
+}
+
+.disabled {
+  opacity: 0.4;
+}
+
+.checkIcon {
+  width: 28rpx;
+  height: 20rpx;
+}
+
+.devTextBox {
+  min-width: 180rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 16rpx;
+  display: flex;
+  align-items: center;
+}
+
+.aiDisclaimer {
+  padding: 20rpx 32rpx 0;
+}

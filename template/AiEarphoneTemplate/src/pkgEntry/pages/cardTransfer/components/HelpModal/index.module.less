@@ -1,0 +1,35 @@
+.container {
+  --dialog-width: 578rpx;
+  padding: 60rpx 64rpx;
+
+  .item {
+    &:not(:first-child) {
+      margin-top: 24rpx;
+    }
+
+    .title {
+      font-size: 26rpx;
+      font-weight: 500;
+      color: var(--color-text-primary);
+    }
+
+    .tip {
+      margin-top: 8rpx;
+      font-size: 24rpx;
+      line-height: 36rpx;
+      color: var(--color-text-tertiary);
+    }
+  }
+
+  .close {
+    margin-top: 40rpx;
+    width: 450rpx;
+    height: 96rpx;
+    color: var(--color-primary);
+    background: var(--color-button-text-primary);
+    border: 2rpx solid var(--color-border-active);
+    border-radius: 592rpx;
+    font-size: 26rpx;
+    font-weight: 600;
+  }
+}

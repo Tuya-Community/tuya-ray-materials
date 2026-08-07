@@ -1,0 +1,38 @@
+.container {
+  max-width: 500rpx;
+  width: max-content;
+  position: fixed;
+  top: 92px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 110rpx;
+  background: linear-gradient(278deg, var(--color-primary-light) 4%, var(--color-primary-dark) 97%);
+  border: 2rpx solid var(--color-border-white);
+  box-shadow: 0rpx 8rpx 20rpx 0rpx var(--color-shadow-blue);
+  z-index: 1000;
+
+  .inner {
+    display: flex;
+    align-items: center;
+    padding: 16rpx 32rpx;
+  }
+
+  .icon {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 16rpx;
+    flex-shrink: 0;
+  }
+
+  .tip {
+    font-size: 11px;
+    color: var(--color-bg-primary);
+    flex: 1;
+  }
+
+  .close {
+    margin-left: 16rpx;
+    flex-shrink: 0;
+  }
+}

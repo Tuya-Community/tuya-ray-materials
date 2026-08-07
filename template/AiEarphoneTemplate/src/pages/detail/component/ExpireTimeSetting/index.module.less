@@ -1,0 +1,38 @@
+.blueText {
+  color: var(--color-primary);
+}
+
+.bdR12 {
+  border-radius: 24rpx !important;
+}
+
+.popupContainer {
+  width: calc(100vw - 32rpx);
+  border-radius: 32rpx !important;
+  top: 70% !important;
+
+  .popupTitle,
+  .popupItem {
+    height: 112rpx;
+    font-size: 32rpx;
+    line-height: 112rpx;
+    text-align: center;
+    color: var(--color-text-primary);
+    border-bottom: 1rpx solid var(--color-border-light);
+    padding: 0 32rpx;
+    position: relative;
+  }
+
+  .popupTitle {
+    color: var(--color-text-tertiary);
+  }
+
+  .checkIcon {
+    position: absolute;
+    width: 56rpx;
+    height: 56rpx;
+    right: 32rpx;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

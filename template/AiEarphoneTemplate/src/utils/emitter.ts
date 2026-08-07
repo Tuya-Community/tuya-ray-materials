@@ -39,6 +39,11 @@ class EventEmitter<T extends string | number | symbol> {
     };
     this.on(event, onceListener);
   }
+
+  // 清除所有事件监听
+  removeAll(): void {
+    this.events = {} as Record<T, EventFun[]>;
+  }
 }
 
 export default EventEmitter;

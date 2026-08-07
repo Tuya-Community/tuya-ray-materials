@@ -1,0 +1,122 @@
+@import '@/mixins.less';
+
+page {
+  font-family: 'PingFang SC', Arial, Helvetica, sans-serif;
+  font-size: 24rpx;
+}
+
+.main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  .safe-area-padding-bottom();
+
+  .tabs {
+    --tab-font-size: 28rpx;
+    --tabs-background-color: var(--color-bg-secondary);
+    --tabs-line-height: auto;
+    --tabs-bottom-bar-color: var(--color-primary);
+    --tabs-card-text-color: var(--color-text-tertiary);
+    --tabs-card-text-active-color: var(--color-text-primary);
+
+    :global(.smart-tabs__nav) {
+      padding: 0 16rpx;
+
+      &::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 0.5px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--color-gray-d8);
+      }
+    }
+
+    :global(.smart-tab) {
+      flex: none;
+      padding: 48rpx 16rpx 20rpx;
+    }
+
+    :global(.smart-tabs__line) {
+      width: 40rpx;
+      height: 2px;
+      border-radius: 2rpx;
+      left: 16rpx;
+      bottom: 10rpx;
+    }
+  }
+
+  .skeleton {
+    margin-top: 40rpx;
+  }
+
+  .content {
+    background-color: transparent;
+  }
+}
+
+// 思维导图tab：固定在页面底部
+.feedbackBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-bg-page);
+  z-index: 10;
+  padding-bottom: 160rpx;
+}
+
+// 转写/总结tab：跟随内容区域，滚动到底部才可见
+.feedbackBarInline {
+  background: var(--color-bg-page);
+}
+
+.feedbackAiDisclaimer {
+  padding: 24rpx 32rpx;
+}
+
+.feedbackBarDividerInline {
+  margin-left: 32rpx;
+  margin-right: 32rpx;
+}
+
+.feedbackBarDivider {
+  height: 1px;
+  background: var(--color-border-base);
+}
+
+.feedbackBarButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40rpx;
+  padding: 0 40rpx 48rpx;
+}
+
+.feedbackBtn {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 16rpx 32rpx;
+  border-radius: 12rpx;
+  border: 1px solid var(--color-border-base);
+  background-color: var(--color-bg-primary);
+}
+
+.feedbackBtnIcon {
+  width: 36rpx;
+  height: 36rpx;
+  flex-shrink: 0;
+}
+
+.feedbackBtnText {
+  font-size: 24rpx;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}

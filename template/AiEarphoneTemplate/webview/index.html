@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Markmap</title>
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    svg.markmap {
+      width: 100%;
+      height: 100vh;
+      padding: 0;
+      margin: 0;
+    }
+
+    .markmap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+  <script>
+    window.markmap = {
+      autoLoader: { manual: true },
+    };
+    // 定义 SVG 命名空间变量
+    const p1 = 'htt';
+    const p2 = 'p:';
+    const p3 = '//www.w3.org/2000/svg'
+    window.SVG_NS = `${p1}${p2}${p3}`;
+  </script>
+  <script src="markmap.js"></script>
+</head>
+
+<body>
+  <!-- <div id="clickBtn" style="
+        margin-top: 44px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      ">
+    <svg id="closeSvg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path fill-rule="evenodd" clip-rule="evenodd"
+        d="M19.0713 4.92888C19.4618 5.3194 19.4618 5.95257 19.0713 6.34309L13.4151 11.9992L19.0713 17.6568C19.4618 18.0473 19.4618 18.6805 19.0713 19.071C18.6807 19.4615 18.0476 19.4615 17.657 19.071L12.0009 13.4135L6.34334 19.071C5.95281 19.4615 5.31965 19.4615 4.92912 19.071C4.5386 18.6805 4.5386 18.0473 4.92912 17.6568L10.5867 11.9992L4.92912 6.34309C4.5386 5.95257 4.5386 5.3194 4.92912 4.92888C5.31965 4.53836 5.95281 4.53836 6.34334 4.92888L12.0009 10.585L17.657 4.92888C18.0476 4.53836 18.6807 4.53836 19.0713 4.92888Z"
+        fill="black" fill-opacity="0.9" />
+    </svg>
+  </div> -->
+  <div class="markmap" id="mindMapContainer">
+    <script id="myScript" type="text/template"></script>
+  </div>
+  <script src="jssdk.js"></script>
+  <script src="index.js"></script>
+  <script>
+    // 动态设置 SVG 的 xmlns 属性（closeSvg 可能不存在，做保护）
+    var closeSvgEl = document.getElementById('closeSvg');
+    if (closeSvgEl) {
+      closeSvgEl.setAttribute('xmlns', window.SVG_NS);
+    }
+  </script>
+</body>
+
+</html>

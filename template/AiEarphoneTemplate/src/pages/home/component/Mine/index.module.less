@@ -1,0 +1,85 @@
+.container {
+  width: 100vw;
+  // background: linear-gradient(180deg, #e2edff 0%, var(--color-bg-secondary) 29%), var(--color-bg-primary);
+
+  .content {
+    padding: 10rpx 32rpx 0;
+  }
+
+  .userInfo {
+    display: flex;
+    align-items: center;
+
+    .avatar {
+      width: 120rpx;
+      height: 120rpx;
+      border-radius: 50%;
+      margin-right: 16rpx;
+    }
+
+    .nickName {
+      font-size: 32rpx;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+  }
+
+  .card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32rpx 36rpx;
+    min-height: 142rpx;
+    width: 100%;
+    background: var(--color-bg-primary);
+    border-radius: 32rpx;
+    margin-top: 24rpx;
+  }
+
+  .cardContent {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-right: 24rpx;
+  }
+
+  .cardTitle {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .cardDesc {
+    font-size: 26rpx;
+    color: var(--color-text-tertiary);
+    margin-top: 4rpx;
+  }
+
+  .widgetBadge {
+    display: flex;
+    align-items: center;
+    gap: 8rpx;
+    position: relative;
+
+    .redDot {
+      width: 8rpx;
+      height: 8rpx;
+      position: absolute;
+      top: 0;
+      right: 44rpx;
+      border-radius: 50%;
+      background-color: #F04C4C;
+      flex-shrink: 0;
+    }
+
+    .newTag {
+      font-size: 24rpx;
+      font-weight: 500;
+      color: #F04C4C;
+    }
+
+    .iconRight {
+      margin-left: 16rpx;
+    }
+  }
+}

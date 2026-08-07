@@ -1,0 +1,7 @@
+<canvas 
+  class="{{className}}"
+  id="wifiSignalCanvas" 
+  canvas-id="wifiSignalCanvas"
+  style="width: {{canvasWidth}}px; height: {{canvasHeight}}px; display: block;"
+></canvas>
+

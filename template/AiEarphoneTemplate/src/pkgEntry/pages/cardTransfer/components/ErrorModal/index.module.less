@@ -1,0 +1,50 @@
+.container {
+  --dialog-width: 578rpx;
+  padding: 60rpx 64rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .icon {
+    width: 180rpx;
+    height: 180rpx;
+  }
+
+  .title {
+    font-size: 26rpx;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    text-align: center;
+  }
+
+  .tip {
+    margin-top: 8rpx;
+    margin-bottom: 40rpx;
+    font-size: 24rpx;
+    line-height: 36rpx;
+    color: var(--color-text-tertiary);
+    text-align: center;
+  }
+
+  .retry,
+  .back {
+    width: 450rpx;
+    height: 96rpx;
+    border-radius: 592rpx;
+    background: var(--color-primary);
+    border: 2rpx solid var(--color-border-active);
+    font-size: 26rpx;
+    font-weight: 600;
+  }
+
+  .retry {
+    color: var(--color-button-text-primary);
+    margin-bottom: 16rpx;
+  }
+
+  .back {
+    margin-top: 16rpx;
+    color: var(--color-primary);
+    background: var(--color-button-text-primary);
+  }
+}

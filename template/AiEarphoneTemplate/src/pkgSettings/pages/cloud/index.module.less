@@ -1,0 +1,163 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-bg-page);
+
+  .inner {
+    height: calc(100vh - 88px);
+  }
+
+  .header {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .img {
+      margin-top: 80rpx;
+      width: 114rpx;
+      height: 86rpx;
+    }
+
+    .title {
+      font-size: 44rpx;
+      font-weight: 600;
+      line-height: 52rpx;
+      color: var(--color-text-primary);
+      margin-top: 32rpx;
+    }
+  }
+
+  .content {
+    padding: 0 40rpx;
+    width: 100vw;
+
+    .desc {
+      font-size: 24rpx;
+      color: var(--color-text-tertiary);
+      margin-top: 48rpx;
+      line-height: 36rpx;
+    }
+
+    .intro {
+      margin-top: 8rpx;
+      font-size: 24rpx;
+      line-height: 36rpx;
+      color: var(--color-text-tertiary);
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    .divider {
+      margin: 28rpx 0 20rpx;
+      width: 100%;
+      height: 2rpx;
+      background-color: var(--color-border-light);
+    }
+
+    .card {
+      padding: 32rpx 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+
+      .cardContent {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-right: 16rpx;
+      }
+
+      .cardTitle {
+        font-size: 28rpx;
+        font-weight: 500;
+        line-height: 48rpx;
+        color: var(--color-text-primary);
+      }
+
+      .cardSubTitle {
+        margin-top: 4rpx;
+        font-size: 24rpx;
+        color: var(--color-text-tertiary);
+      }
+    }
+
+    .cacheSize {
+      font-size: 28rpx;
+      color: var(--color-text-tertiary);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+
+      .iconRight {
+        margin-left: 4rpx;
+      }
+    }
+  }
+
+  .clearDialog {
+    .clearDialogContent {
+      padding: 48rpx 32rpx;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .clearDialogTitle {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 40rpx;
+        text-align: center;
+        color: var(--color-text-primary);
+      }
+
+      .clearDialogDesc {
+        margin-top: 16rpx;
+        font-size: 14px;
+        color: var(--color-text-disabled);
+        text-align: center;
+      }
+    }
+
+    .clearDialogButtons {
+      display: flex;
+      border-top: 1px solid var(--color-border-divider);
+
+      .clearDialogCancel,
+      .clearDialogConfirm {
+        flex: 1;
+        height: 96rpx;
+        font-size: 32rpx;
+        line-height: 96rpx;
+        text-align: center;
+        color: var(--color-text-tertiary);
+        font-weight: normal;
+      }
+
+      .clearDialogConfirm {
+        color: #ff4d4f;
+        font-weight: 500;
+      }
+
+      .clearDialogDivider {
+        height: auto;
+        width: 1px;
+        background: var(--color-bg-black-transparent-08);
+      }
+    }
+  }
+
+  .footer {
+    padding: 0 64rpx 80rpx;
+
+    .tip {
+      font-size: 24rpx;
+      line-height: 36rpx;
+      color: var(--color-blue-3f76e3);
+      text-align: center;
+    }
+  }
+}

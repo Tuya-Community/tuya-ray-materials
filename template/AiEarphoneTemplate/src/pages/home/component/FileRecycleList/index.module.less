@@ -1,0 +1,47 @@
+.recycleView {
+  padding: 0 32rpx 16rpx;
+
+  .empty {
+    --empty-image-width: 202rpx;
+    --empty-image-height: 174rpx;
+    --empty-description-margin-top: 24rpx;
+    margin-top: 200rpx;
+  }
+
+  .batchModeEmpty {
+    margin-top: 400rpx;
+  }
+
+  .item {
+    display: flex;
+    align-items: flex-end;
+  }
+}
+
+.popover {
+  z-index: 100;
+  position: fixed;
+  width: max-content;
+  min-width: 200rpx;
+  border-radius: 32rpx;
+  background: var(--color-bg-primary);
+  box-shadow: 0rpx 0rpx 36rpx 0rpx var(--color-shadow-card);
+  padding: 12rpx 0;
+  transition: opacity 0.2s ease-in-out;
+  background-color: var(--color-bg-topbar);
+
+  .popoverItem {
+    padding: 36rpx 32rpx;
+    font-size: 28rpx;
+    font-weight: 500;
+    color: var(--color-text-primary);
+
+    &.delete {
+      color: var(--color-red-ff5252);
+    }
+
+    &:not(:last-child) {
+      border-bottom: 2rpx solid var(--color-border-divider);
+    }
+  }
+}

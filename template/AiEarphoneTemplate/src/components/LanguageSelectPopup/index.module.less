@@ -1,0 +1,154 @@
+@import '@/mixins.less';
+
+.bottomSheet {
+  --bottom-sheet-padding: 40rpx 32rpx;
+  --popup-background-color: var(--color-bg-secondary);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  // 使用更长的过渡时间和更平滑的缓动函数
+  transition: height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  // 确保内部容器也应用过渡效果
+  :global(.smart-bottom-sheet__content) {
+    transition: height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 68rpx;
+    margin-bottom: 30rpx;
+
+    .cancel {
+      padding: 24rpx;
+      margin-left: -24rpx;
+      font-size: 32rpx;
+      color: var(--color-text-tertiary);
+    }
+
+    .title {
+      flex: 1;
+      text-align: center;
+      font-size: 34rpx;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .confirm {
+      padding: 24rpx;
+      margin-right: -24rpx;
+      font-size: 32rpx;
+      font-weight: 700;
+      color: var(--color-blue-007cff);
+    }
+  }
+
+  .langList {
+    .listItem,
+    .autoLang {
+      height: 132rpx;
+      padding: 28rpx 0;
+      font-size: 32rpx;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2rpx solid var(--color-border-divider);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .checkIcon {
+        margin-right: 6rpx;
+        width: 34rpx;
+        height: 26rpx;
+        visibility: hidden;
+
+        &.show {
+          visibility: visible;
+        }
+      }
+
+      .langTitle {
+        height: 38rpx;
+        line-height: 38rpx;
+        text-align: left;
+        font-size: 32rpx;
+        font-weight: 600;
+        margin-bottom: auto;
+        color: var(--color-text-primary);
+      }
+
+      .langText {
+        height: 34rpx;
+        line-height: 34rpx;
+        text-align: left;
+        font-size: 24rpx;
+        color: var(--color-text-tertiary);
+      }
+    }
+
+    .autoLang {
+      height: 116rpx;
+      line-height: normal;
+      background: var(--color-bg-primary);
+      padding: 0 32rpx;
+      border-radius: 32rpx;
+      margin-bottom: 20rpx;
+      border-bottom: none;
+
+      // 单行选项：文字垂直居中，去掉两行语言项用的顶部对齐
+      .langTitle {
+        height: auto;
+        line-height: normal;
+        margin-bottom: 0;
+      }
+    }
+
+    .listItemDisabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .catograyTitle {
+      height: 34rpx;
+      line-height: 34rpx;
+      text-align: left;
+      font-size: 26rpx;
+      color: var(--color-text-tertiary);
+      margin-bottom: 12rpx;
+
+      &:first-child {
+        margin-top: 20rpx;
+      }
+    }
+
+    .langBox {
+      border-radius: 32rpx;
+      padding: 4rpx 32rpx;
+      background: var(--color-bg-primary);
+      margin-bottom: 40rpx;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .searchBox {
+    padding: 0;
+    height: 50px;
+    border-radius: 16rpx;
+    background: var(--color-bg-hover);
+    overflow: hidden;
+    margin: 10px 0;
+    --search-submit-color: var(--color-primary);
+  }
+}

@@ -1,0 +1,67 @@
+@import '@/mixins.less';
+
+.bottomSheet {
+  --bottom-sheet-padding: 0 32rpx 40rpx;
+
+  .header {
+    height: 100rpx;
+    padding: 0 32rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .title {
+    font-size: 34rpx;
+  }
+
+  .extra {
+    position: absolute;
+    right: 32rpx;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .list {
+    padding-bottom: 20rpx;
+  }
+
+  .listItem {
+    height: 120rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2rpx solid var(--color-border-divider);
+    font-size: 32rpx;
+    color: var(--color-text-primary);
+    font-weight: 500;
+    column-gap: 20rpx;
+
+    &.disabled {
+      color: var(--color-text-tertiary);
+    }
+
+    .label {
+      flex: 1;
+      .textHidden();
+    }
+
+    .checkIcon {
+      font-size: 80rpx;
+      visibility: hidden;
+
+      &.show {
+        visibility: visible;
+      }
+    }
+  }
+
+  .save {
+    width: 678rpx;
+    height: 100rpx;
+    border-radius: 88rpx;
+    background: var(--color-primary);
+    color: var(--color-button-text);
+  }
+}

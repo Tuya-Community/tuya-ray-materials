@@ -49,9 +49,6 @@ export default class AstRenderer {
     const renderFunction = this._renderRules[type];
 
     if (!renderFunction) {
-      console.warn(
-        `Warning, unknown render rule encountered: ${type}. 'unknown' render rule used (by default, returns null - nothing rendered)`
-      );
       return this._renderRules.unknown;
     }
 
@@ -68,26 +65,12 @@ export default class AstRenderer {
     const renderFunction = this.getRenderFunction(node.type);
     const parents = [...parentNodes];
 
-    if (this._debugPrintTree === true) {
-      let str = '';
-      for (let a = 0; a < parents.length; a++) {
-        str += '-';
-      }
-
-      console.log(`${str}${node.type}`);
-    }
-
     parents.unshift(node);
-    // console.log('parents', parents, node);
 
     // calculate the children first
     let children = node.children.map(value => {
-      // console.log('---value----', value);
-
       return this.renderNode(value, parents);
     });
-
-    // console.log('children', children);
 
     // render any special types of nodes that have different renderRule function signatures
 
@@ -187,9 +170,7 @@ export default class AstRenderer {
    * @return {*}
    */
   render = nodes => {
-    console.log('nodes', nodes);
     const root = { type: 'body', key: getUniqueID(), children: nodes };
-    console.log('root', root);
     return this.renderNode(root, [], true);
   };
 }

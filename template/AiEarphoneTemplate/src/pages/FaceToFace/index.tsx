@@ -1,429 +1,389 @@
-import React, { FC, useCallback, useEffect, useState, useRef } from 'react';
-import { View, Text, Image } from '@ray-js/components';
-import {
-  setNavigationBarBack,
-  hideLoading,
-  setKeepScreenOn,
-  showLoading,
-  showModal,
-  getLaunchOptionsSync,
-} from '@ray-js/ray';
-import Res from '@/res';
-import { selectDevInfo } from '@/redux/modules/devInfoSlice';
-import { useSelector } from 'react-redux';
-import { useInterval } from 'ahooks';
+/*
+ * @Author: hkc
+ * @Date: 2025-07-09 16:55:50
+ * @LastEditors: hkc
+ * @LastEditTime: 2026-04-08 14:14:09
+ * @Description: 面对面翻译
+ */
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { getStorageSync, router, setStorageSync, usePageEvent, View } from '@ray-js/ray';
+import { Button } from '@ray-js/smart-ui';
 import { TopBar } from '@/components';
-import { tttStartRecord, tttPauseRecord, tttResumeRecord, tttStopRecord } from '@/api/ttt';
-import { selectSystemInfo } from '@/redux/modules/systemInfoSlice';
-import { RecordStatus, selectAudioFileByKey } from '@/redux/modules/audioFileSlice';
-import TyNotification from '@ray-js/ty-notification';
+import ThemedImage from '@/components/ThemedImage';
+import ThemedIcon from '@/components/ThemedIcon';
+import Tabs from '@ray-js/components-ty-tabs';
+import clsx from 'clsx';
+import { DevInfo } from '@ray-js/panel-sdk';
+
 import Strings from '@/i18n';
-import { convertMillisecondsToTime, matchLanguageWithRegex, backToHome } from '@/utils';
-import { selectUiStateByKey } from '@/redux/modules/uiStateSlice';
-import { AGENTS } from '@/constant';
-import { selectUserInfo } from '@/redux/modules/userInfoSlice';
-import LangSwitch from '@/components/LangSwitch';
-import DoingContent from './component/DoingContent';
-import ChooseLanguage from './component/ChooseLanguage';
+import Res from '@/res';
+import { backToHome, formatDevSchema } from '@/utils';
+import SelectListPopup from '@/components/SelectListPopup';
+import LanguageSelectPopup from '@/components/LanguageSelectPopup';
+import { useSelector } from '@/redux';
+import { useDispatch } from 'react-redux';
+import { RecordStatus, selectAudioFileByKey } from '@/redux/modules/audioFileSlice';
+import { updateLangSelects } from '@/redux/modules/f2fLangSelectsSlice';
+import { trackEvent } from '@/utils/track';
+import { DEVTYPES } from '@/constant/enums';
+import { devInfoChange } from '@/redux/modules/devInfoSlice';
+import LanguageSelectCard, { ModeType } from './component/LanguageSelectCard';
+
 // @ts-ignore
 import styles from './index.module.less';
 
-let uniqueKeyCounter = 0; // 全局计数器
-const SimultaneousRecording: FC<any> = () => {
-  const querys = getLaunchOptionsSync()?.query || {};
-  const fromType = querys.fromType || ''; // app端进入
-  const lastTimeRef = useRef(0);
-  const { devId: deviceId, isOnline, isDevOnline } = useSelector(selectDevInfo);
-  const { topBarHeight, language } = useSelector(selectSystemInfo);
-  const { regionCode } = useSelector(selectUserInfo);
-  const [duration, setDuration] = useState(0); // 毫秒
+export enum FTFTabType {
+  Phone = 'phone',
+  Earphone = 'earphone',
+  PhoneEar = 'phone_ear',
+}
+
+const Index = props => {
   const task = useSelector(selectAudioFileByKey('task'));
-  const [textList, setTextList] = useState([]);
-  const supportLangList = useSelector(selectUiStateByKey('supportLangList'));
-  const productStyle = useSelector(selectUiStateByKey('productStyle'));
-  const isOpusCelt = useSelector(selectUiStateByKey('isOpusCelt'));
-  const isCardStyle = productStyle === 'card';
-  const [leftLanguage, setLeftLanguage] = useState(supportLangList?.[0]?.lang || ''); // 左耳语言
-  const [rightLanguage, setRightLanguage] = useState(supportLangList?.[1]?.lang || ''); // 右耳语言
-  const [activeType, setActiveType] = useState(''); // 当前激活的耳机
-  const [showChooseLanguagePopup, setShowChooseLanguagePopup] = useState(false);
-  const [lines, setLines] = useState([]);
+  const dispatch = useDispatch();
+  // 定义当前激活的tab
+  const [activeKey, setActiveKey] = useState(FTFTabType.Phone);
+  // 获取启动参数
+  const query = props?.location?.query || {};
+  const fromType = query?.fromType || '';
+  const deviceList = useSelector(state => state.deviceList); // 家庭设备列表
+  const [headsetList, setHeadsetList] = useState([]); // 耳机列表
+  const [selectedDevice, setSelectedDevice] = useState<DevInfo>(null); // 选择的设备
+  const [showPopup, setShowPopup] = useState(false);
+  const [showLangPopup, setShowLangPopup] = useState(false); // 语言选择弹窗显示状态
+  const [currentTransOption, setCurrentTransOption] = useState<'input' | 'output'>('input'); // 当前翻译选项
+  const { myLang, friendLang } = useSelector(state => state.f2fLangSelects);
 
-  const [intervals, setIntervals] = useState<number | undefined>(undefined);
-  const clear = useInterval(
-    () => {
-      const now = Date.now();
-      const elapsed = now - lastTimeRef.current; // 计算实际经过的时间
-      lastTimeRef.current = now;
-      setDuration(prevDuration => prevDuration + elapsed); // 累加实际经过的时间
-    },
-    intervals,
-    {
-      immediate: false,
+  usePageEvent('onShow', () => {
+    // 埋点-面对面翻译设置页面
+    trackEvent('ty_F7XfNiwV0FcsSOhAcST7QNS5PXtlMoaz', 'viewed_page');
+  });
+
+  // 判断选中的设备是否离线
+  const isOffline = useMemo(() => {
+    if (activeKey !== FTFTabType.Phone && !selectedDevice?.isOnline) {
+      return true;
     }
-  );
+    return false;
+  }, [selectedDevice, activeKey]);
 
+  // 根据tab设置设备列表和选中的设备
   useEffect(() => {
-    if (supportLangList?.length > 1) {
-      // 查询是否有和系统语言匹配上的lang
-      const matchLang = matchLanguageWithRegex(
-        language,
-        supportLangList.map(({ lang }) => lang)
+    if (!deviceList.length) return;
+
+    const getSelectedDevice = (storageKey: string, customDevType, filteredList) => {
+      const storedDevId = getStorageSync({ key: storageKey });
+      const catchDev = filteredList.find(item => item.devId === storedDevId); // 可能没选过，导致没有默认选中的设备,假设设备都离线？
+      const firstDevOnline = filteredList.find(
+        item => item.isOnline && item.customDevType === customDevType
       );
-      // 英语
-      const englishItem = supportLangList.find(({ lang }) => lang === 'en');
-      if (!leftLanguage) {
-        // 左耳为自己使用的语言
-        let initLeftLang = supportLangList?.[0]?.lang;
-        if (matchLang) initLeftLang = matchLang;
-        setLeftLanguage(initLeftLang);
-      }
-      if (!rightLanguage || rightLanguage === leftLanguage) {
-        // 右耳为对方使用的语言
-        let initRightLang =
-          englishItem && leftLanguage !== 'en' ? 'en' : supportLangList?.[1]?.lang;
-        if (matchLang) {
-          // 左右耳初始语言不同
-          initRightLang = supportLangList.filter(({ lang }) => lang !== matchLang)[0].lang;
-        }
-        setRightLanguage(initRightLang);
-      }
-    }
-  }, [supportLangList, leftLanguage, rightLanguage, language]);
+      const firstDev = filteredList.find(item => item.customDevType === customDevType); // 第一个非手机设备
 
-  useEffect(() => {
-    if (!task) return;
-    switch (task.state) {
-      case RecordStatus.FINISH: {
-        setIntervals(undefined);
+      return catchDev || firstDevOnline || firstDev || filteredList?.[0];
+    };
+
+    const entryOrProDevList = deviceList
+      .filter(item =>
+        [DEVTYPES.entry, DEVTYPES.pro, DEVTYPES.os].includes(item?.customDevType as DEVTYPES)
+      )
+      .sort((a, b) => +b.isOnline - +a.isOnline);
+
+    switch (activeKey) {
+      case FTFTabType.Phone: {
+        setHeadsetList(deviceList);
+        const phoneDev = deviceList.find(item => item.customDevType === DEVTYPES.phone);
+        setSelectedDevice(phoneDev);
         break;
       }
-      case RecordStatus.PAUSE:
-        setIntervals(undefined);
+      case FTFTabType.Earphone:
+      case FTFTabType.PhoneEar: {
+        setHeadsetList(entryOrProDevList);
+        const dev = getSelectedDevice('ftfCachedDevId', DEVTYPES.pro, entryOrProDevList);
+        setSelectedDevice(dev);
         break;
-      case RecordStatus.RECORDING:
-        setIntervals(1000);
-        lastTimeRef.current = Date.now();
-        break;
+      }
       default:
+        // 默认也需要列表，不然手机的id会丢失
+        setHeadsetList(deviceList);
         break;
     }
-  }, [task]);
+  }, [deviceList, activeKey]);
 
-  const checkRecordTask = async () => {
-    // 当前存在任务
-    if (task) {
-      const { userRecordDuration, originalLanguage, targetLanguage } = task;
-      setDuration(userRecordDuration);
-      setLeftLanguage(originalLanguage);
-      setRightLanguage(targetLanguage);
-      if (task.state === RecordStatus.RECORDING) {
-        setIntervals(1000);
-        lastTimeRef.current = Date.now();
-      }
-    } else {
-      setDuration(0);
-    }
-  };
+  // 定义tab列表
+  const tabList = useMemo(() => {
+    const list = [
+      {
+        icon: Res.phoneIcon,
+        activeIcon: Res.phoneActiveIcon,
+        title: Strings.getLang('ftf_phone_title'),
+        desc: Strings.getLang('ftf_phone_desc'),
+        key: FTFTabType.Phone,
+        imageName: 'phoneIcon',
+        activeImageName: 'phoneActiveIcon',
+      },
+      {
+        icon: Res.basicIcon,
+        activeIcon: Res.basicActiveIcon,
+        title: Strings.getLang('ftf_basic_title'),
+        desc: Strings.getLang('ftf_basic_desc'),
+        key: FTFTabType.Earphone,
+        imageName: 'basicIcon',
+        activeImageName: 'basicActiveIcon',
+      },
+      {
+        icon: Res.phoneEarIcon,
+        activeIcon: Res.phoneEarActiveIcon,
+        title: Strings.getLang('ftf_phone_ear_title'),
+        desc: Strings.getLang('ftf_phone_ear_desc'),
+        key: FTFTabType.PhoneEar,
+        imageName: 'phoneEarIcon',
+        activeImageName: 'phoneEarActiveIcon',
+      },
+    ];
+    // 判断是否有专业版, TODO: 暂时取消专业版本入门版的区分
+    // const hasPro = deviceList.some(item => item?.customDevType === 'pro_version');
 
-  // 停止
-  const handleStopRecord = async () => {
-    try {
-      showLoading({ title: '' });
-      await tttStopRecord(deviceId);
-      hideLoading();
-      backToHome(fromType);
-    } catch (error) {
-      hideLoading();
-    }
-  };
+    // if (hasPro) {
+    //   list.push({
+    //     icon: proIcon,
+    //     activeIcon: proActiveIcon,
+    //     title: Strings.getLang('ftf_pro_title'),
+    //     desc: Strings.getLang('ftf_pro_desc'),
+    //     key: FTFTabType.Pro,
+    //   });
+    // }
 
-  useEffect(() => {
-    ty.hideMenuButton();
-    setKeepScreenOn({ keepScreenOn: true });
-    checkRecordTask();
-  }, []);
+    return list;
+  }, [deviceList]);
 
-  const [showBluetoothError, setShowBluetoothError] = useState(false);
-  useEffect(() => {
-    setShowBluetoothError(!isOnline);
-    if (!isOnline && duration) {
-      // 断开连接时，停止录音
-      handlePauseRecord();
-    }
-  }, [isOnline]);
-
-  const renderTitle = () => {
-    if (task) {
-      return (
-        <View className={styles.topBox}>
-          <Text className={styles.topTime}>{convertMillisecondsToTime(duration)}</Text>
-        </View>
-      );
-    }
-    return (
-      <Text className={styles.title}>{Strings.getLang('mode_title_faceToFace_recording')}</Text>
-    );
-  };
-
-  const getRandomLineHight = (h = 0) => {
-    const arr = [];
-    for (let i = 0; i < 16; i++) {
-      arr.push({ key: uniqueKeyCounter++, value: h || Math.floor(Math.random() * 16) + 1 });
-    }
-
-    return arr;
-  };
-
-  // 开始1v1录音
-  const handleStartRecord = useCallback(
-    (type: 'left' | 'right') => {
-      const startRecordFn = async (type: 'left' | 'right') => {
-        setLines(getRandomLineHight(1));
-        setInterval(() => {
-          setLines(getRandomLineHight());
-        }, 1000);
-
-        if (!isOnline) return;
-
-        try {
-          showLoading({ title: '' });
-          const config: any = {
-            // 出错时是否要保留音频文件
-            saveDataWhenError: true,
-            // 录音类型，0呼叫，1会议，2同声传译，3面对面翻译
-            recordType: 3,
-            // dp控制超时时间 单位秒
-            controlTimeout: 5,
-            // 灌流超时时间 单位秒
-            dataTimeout: 10,
-            // 0文件转写，1实时转写
-            // 同声传译使用实时转写模式，设置为0并不起作用
-            transferType: 1,
-            // 是否需要翻译
-            // 同声传译需要翻译，设置为false并不起作用
-            needTranslate: true,
-            /**
-             * 起始语言
-             * 会议或者电话模式，表示起始语言
-             * 同声传译模式，表示左耳语言 （自己戴）
-             */
-            originalLanguage: type === 'left' ? leftLanguage : rightLanguage,
-            /**
-             * 目标语言
-             * 会议或者电话模式，表示目标语言
-             * 同声传译模式，表示右耳语言
-             */
-            targetLanguage: type === 'left' ? rightLanguage : leftLanguage,
-            // 智能体id 固定，后面具体根据提供的sdk获取agentId。
-            agentId: '',
-            /**
-             * 录音通道 0 ble 1 Bt 2 micro
-             * 默认是0 为了适配原有逻辑
-             */
-            recordChannel: isCardStyle || isDevOnline === false ? 2 : 1,
-            // 0代表左耳 1代表右耳
-            f2fChannel: type === 'left' ? 0 : 1,
-            // TTS流编码方式，通过编码后将流写入到耳机设备0：opus_silk  1:opus_celt
-            ttsEncode: isOpusCelt ? 1 : 0,
-            // 是否需要tts
-            needTts: true,
-          };
-          await tttStartRecord(
-            {
-              deviceId,
-              config,
-            },
-            true
-          );
-          setActiveType(type);
-          hideLoading();
-          setIntervals(1000);
-          lastTimeRef.current = Date.now();
-        } catch (error) {
-          ty.showToast({
-            title: Strings.getLang('error_simultaneous_recording_start'),
-            icon: 'error',
-          });
-          hideLoading();
-        }
-      };
-      ty.authorize({
-        scope: 'scope.record',
-        success: () => {
-          startRecordFn(type);
-        },
-        fail: e => {
-          ty.showToast({ title: Strings.getLang('no_record_permisson'), icon: 'error' });
-          console.log('cope.record: ', e);
-        },
-      });
-    },
-    [deviceId, isOnline, rightLanguage, leftLanguage]
-  );
-
-  // 暂停
-  const handlePauseRecord = async () => {
-    setActiveType(''); // 临时调试
-    try {
-      await tttPauseRecord(deviceId);
-      setActiveType('');
-      setIntervals(undefined);
-    } catch (error) {
-      console.log('handlePauseRecord fail', error);
-    }
-  };
-
-  // 恢复
-  const handleResumeRecord = async () => {
-    if (!isOnline) return;
-    try {
-      await tttResumeRecord(deviceId);
-      setIntervals(1000);
-      lastTimeRef.current = Date.now();
-    } catch (error) {
-      console.log('handleResumeRecord fail', error);
-    }
-  };
-
-  const onLeftStart = () => {
-    if (activeType === 'left') {
-      handleResumeRecord();
-      return;
-    }
-    handleStartRecord('left');
-  };
-
-  const onRightStart = () => {
-    if (activeType === 'right') {
-      handleResumeRecord();
-      return;
-    }
-    handleStartRecord('right');
-  };
-
-  const onBack = () => {
-    clear();
-    if (!textList?.length && !task) {
-      setNavigationBarBack({ type: 'system' });
-      backToHome(fromType, false);
-      return;
-    }
-
-    // 小于90秒弹提示
-    showModal({
-      title: Strings.getLang('tip'),
-      content: Strings.getLang('sure_to_stop_record'),
-      showCancel: true,
-      cancelText: Strings.getLang('cancel'),
-      cancelColor: '#66666',
-      confirmText: Strings.getLang('confirm'),
-      confirmColor: '#3678E3',
-      success: async ({ confirm }) => {
-        try {
-          if (confirm) {
-            handleStopRecord();
-            setNavigationBarBack({ type: 'system' });
-            backToHome(fromType);
-          }
-        } catch (error) {
-          console.log(error);
-        }
+  // tab 切换事件
+  const handleTabChange = (key: FTFTabType) => {
+    // 埋点-面对面翻译设置页面tab切换
+    trackEvent('ty_45ncDwBaCqD4Ki4zRBrndiGJ7CCddMQa', 'card_click', {
+      position_info: {
+        position_type: key === FTFTabType.Phone ? 'phone' : 'earbuds',
       },
     });
+
+    setActiveKey(key);
   };
 
+  // 返回事件
+  const onBack = () => {
+    backToHome(fromType);
+    // router.back();
+  };
+
+  // 录音点击
+  const handleRecord = useCallback(() => {
+    // 埋点-面对面翻译设置页面录音点击
+    trackEvent('ty_5PP1LQNWeYvj3ig8Mqm241Lz05g8Lqkr', 'card_click');
+
+    if (isOffline) {
+      return;
+    }
+    // 录音中，无法重复开启
+    if (
+      task &&
+      task?.recordType !== 3 &&
+      (task?.state === RecordStatus.RECORDING || task?.state === RecordStatus.PAUSE)
+    ) {
+      ty.showToast({ icon: 'none', title: Strings.getLang('recording_warn') });
+      return;
+    }
+
+    // 切换当前录音设备到选中设备（手机模式为 PHONE）
+    if (selectedDevice) {
+      dispatch(devInfoChange(formatDevSchema(selectedDevice)));
+    }
+
+    router.push(
+      `/faceToFace/recording?mode=${activeKey}&deviceId=${
+        activeKey === FTFTabType.Phone ? 'PHONE' : selectedDevice?.devId
+      }&fromType=${fromType}`
+    );
+  }, [activeKey, isOffline, task, fromType, selectedDevice, dispatch]);
+
+  // 设备列表选中
+  const handleSave = useCallback(
+    (_, data) => {
+      console.log('handleSave', data);
+      setSelectedDevice(data);
+      switch (activeKey) {
+        case FTFTabType.Earphone:
+        case FTFTabType.PhoneEar:
+          setStorageSync({
+            key: 'ftfCachedDevId',
+            data: data?.devId,
+          });
+          break;
+        default:
+          break;
+      }
+    },
+    [activeKey]
+  );
+
+  // 语言选择弹窗打开
+  const handleLangClick = useCallback((option: 'input' | 'output') => {
+    setCurrentTransOption(option);
+    setShowLangPopup(true);
+  }, []);
+
+  // 语言选择保存
+  const handleLangSave = useCallback(
+    (lang: string) => {
+      if (currentTransOption === 'input') {
+        dispatch(updateLangSelects({ friendLang: lang }));
+      } else {
+        dispatch(updateLangSelects({ myLang: lang }));
+      }
+      setShowLangPopup(false);
+    },
+    [dispatch, currentTransOption]
+  );
+
+  const dataSource = useMemo(
+    () =>
+      headsetList.map(item => ({
+        ...item,
+        disabled: !item.isOnline,
+        label: (
+          <View className={styles.label}>
+            <View className={styles.name}>{item.name}</View>
+            {!item.isOnline && <View className={styles.tag}>{Strings.getLang('offline')}</View>}
+          </View>
+        ),
+      })),
+    [headsetList]
+  );
+
   return (
-    <View className={styles.main}>
-      <TopBar renderTitle={renderTitle} onBack={onBack} type="custom" />
-      <TyNotification
-        show={showBluetoothError}
-        top={topBarHeight}
-        onClosed={() => setShowBluetoothError(false)}
-        text={Strings.getLang('device_offline')}
-      />
-
+    <>
       <View className={styles.container}>
-        {/* 选择左右耳语言 */}
-        <LangSwitch
-          duration={duration}
-          setShowChooseLanguagePopup={setShowChooseLanguagePopup}
-          leftLanguage={leftLanguage}
-          rightLanguage={rightLanguage}
-          supportLangList={supportLangList}
-          reverseLangHandle={() => {
-            setLeftLanguage(rightLanguage);
-            setRightLanguage(leftLanguage);
-          }}
-        />
-
-        <DoingContent activeType={activeType} textList={textList} setTextList={setTextList} />
-        <View className={styles.startBox}>
-          {activeType ? (
-            <View
-              className={`${styles.startIng} ${styles[activeType]}`}
-              onClick={handlePauseRecord}
-            >
-              <View>
-                <View className={styles.top}>
-                  <View className={styles.lineBox}>
-                    {lines?.map(item => {
-                      return (
-                        <View
-                          className={styles.line}
-                          key={item.key}
-                          style={{
-                            height: item.value,
-                          }}
-                        />
-                      );
-                    })}
+        <View>
+          <TopBar title={Strings.getLang('ftf_title')} onBack={onBack} />
+          <Tabs
+            className={styles.tabs}
+            tabsClassName={styles.tabBar}
+            onChange={handleTabChange}
+            activeKey={activeKey}
+            tabStyle={isActive => ({
+              backgroundColor: isActive ? 'var(--color-bg-navbar)' : 'transparent',
+              color: isActive ? 'var(--color-primary)' : 'var(--color-black)',
+            })}
+            swipeable
+          >
+            {tabList.map(item => (
+              <Tabs.TabPanel
+                tab={
+                  <ThemedImage
+                    imageName={activeKey === item.key ? item.activeImageName : item.imageName}
+                    src={activeKey === item.key ? item.activeIcon : item.icon}
+                    className={styles.tabIcon}
+                    // style={
+                    //   item.key === FTFTabType.Pro && {
+                    //     position: 'relative',
+                    //     top: '-6rpx',
+                    //   }
+                    // }
+                  />
+                }
+                tabKey={item.key}
+                key={item.key}
+              >
+                <View className={styles.tabContent}>
+                  <View className={styles.title}>{item.title}</View>
+                  <View className={styles.desc}>{item.desc}</View>
+                  <View className={styles.lang}>
+                    <LanguageSelectCard
+                      mode={item.key === FTFTabType.PhoneEar ? ModeType.PhoneEar : ModeType.Normal}
+                      onLangClick={handleLangClick}
+                    />
                   </View>
                 </View>
-                <View>
-                  <Text className={styles.startIngText}>{Strings.getLang('again_click_stop')}</Text>
-                </View>
-              </View>
+              </Tabs.TabPanel>
+            ))}
+          </Tabs>
+          {/* <View className={styles.dot}>
+            {tabList.map(item => (
+              <View
+                className={clsx(styles.dotItem, {
+                  [styles.active]: activeKey === item.key,
+                })}
+                key={item.key}
+              />
+            ))}
+          </View> */}
+        </View>
+
+        <View className={styles.footer}>
+          {activeKey !== FTFTabType.Phone && !headsetList.length ? (
+            <View className={styles.add} onClick={() => router.back()}>
+              <View className={styles.tip}>{Strings.getLang('ftf_add_tip')}</View>
+              <Button customClass={styles.button}>{Strings.getLang('ftf_add')}</Button>
             </View>
           ) : (
             <>
-              <View className={`${styles.leftStartIcon} ${styles.startBtn}`} onClick={onLeftStart}>
-                <Image src={Res.leftSpeekIcon} className={styles.startIcon} />
-                <Text className={styles.leftText}>
-                  {supportLangList?.find(i => i.lang === leftLanguage)?.display || ''}
-                </Text>
-              </View>
+              {activeKey !== FTFTabType.Phone && selectedDevice && (
+                <View
+                  className={styles.deviceName}
+                  onClick={() => {
+                    // 埋点-面对面翻译设置页面点击切换设备
+                    trackEvent('ty_LGbltEFk6SFfzUCZkag9YW5REstWwa6q', 'card_click');
 
+                    setShowPopup(true);
+                  }}
+                >
+                  <View className={styles.name}>{selectedDevice?.name}</View>
+                  <ThemedIcon iconName="changeSvg" name={Res.changeSvg} className={styles.icon} />
+                </View>
+              )}
               <View
-                className={`${styles.rightStartIcon} ${styles.startBtn}`}
-                onClick={onRightStart}
+                id="faceToface-to-record"
+                className={clsx(styles.img, {
+                  [styles.disabled]: isOffline,
+                })}
+                onClick={handleRecord}
               >
-                <Image src={Res.rightSpeekIcon} className={styles.startIcon} />
-                <Text className={styles.rightText}>
-                  {supportLangList?.find(i => i.lang === rightLanguage)?.display || ''}
-                </Text>
+                <ThemedImage
+                  imageName="speakerPng"
+                  src={Res.speakerPng}
+                  className={styles.speaker}
+                />
               </View>
             </>
           )}
         </View>
       </View>
-      {supportLangList?.length && (
-        <ChooseLanguage
-          leftLanguage={leftLanguage}
-          rightLanguage={rightLanguage}
-          show={showChooseLanguagePopup}
-          onBottomBtnClick={(leftLang, rightLang) => {
-            setLeftLanguage(leftLang);
-            setRightLanguage(rightLang);
-            setShowChooseLanguagePopup(false);
-          }}
-          onClickOverlay={() => {
-            setShowChooseLanguagePopup(false);
-          }}
-        />
-      )}
-    </View>
+      <SelectListPopup
+        fieldNames={{
+          value: 'devId',
+        }}
+        selectedValue={selectedDevice?.devId}
+        show={showPopup}
+        onClose={() => setShowPopup(false)}
+        dataSource={dataSource}
+        onSave={handleSave}
+      />
+      <LanguageSelectPopup
+        show={showLangPopup}
+        onClose={() => setShowLangPopup(false)}
+        title={
+          currentTransOption === 'input'
+            ? activeKey === FTFTabType.PhoneEar
+              ? Strings.getLang('ftf_phone')
+              : Strings.getLang('ftf_friend')
+            : activeKey === FTFTabType.PhoneEar
+            ? Strings.getLang('ftf_earphone')
+            : Strings.getLang('ftf_my')
+        }
+        selectedLang={currentTransOption === 'input' ? friendLang : myLang}
+        disabledLang={currentTransOption === 'input' ? myLang : friendLang}
+        onSave={handleLangSave}
+      />
+    </>
   );
 };
 
-export default React.memo(SimultaneousRecording);
+export default Index;

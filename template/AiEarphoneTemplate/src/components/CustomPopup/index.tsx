@@ -9,12 +9,13 @@ interface Props {
   title?: string;
   bottomBtnText?: string;
   onBottomBtnClick?: () => void;
-  onClickOverlay: () => void;
+  onClickOverlay?: () => void;
   children: React.ReactNode;
   hideBottomBtn?: boolean;
   style?: any;
   renderHeader?: () => React.ReactNode;
   renderBottom?: () => React.ReactNode;
+  loading?: boolean; // 底部按钮loading
 }
 
 const CustomPopup: FC<Props> = ({
@@ -28,6 +29,7 @@ const CustomPopup: FC<Props> = ({
   style = {},
   renderHeader,
   renderBottom,
+  loading,
 }) => {
   return (
     <Popup
@@ -40,9 +42,11 @@ const CustomPopup: FC<Props> = ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'var(--color-bg-topbar)',
         ...style,
       }}
     >
+      {/* {show && ( */}
       <View className={styles.modalContainer}>
         {renderHeader ? (
           renderHeader()
@@ -56,14 +60,18 @@ const CustomPopup: FC<Props> = ({
         {!hideBottomBtn && !renderBottom && (
           <Button
             className={styles.bottomBtn}
+            disabled={loading}
+            type="primary"
             onClick={() => {
               onBottomBtnClick?.();
             }}
+            loading={loading}
           >
             <Text className={styles.bottomBtnText}>{bottomBtnText || ''}</Text>
           </Button>
         )}
       </View>
+      {/* )} */}
     </Popup>
   );
 };

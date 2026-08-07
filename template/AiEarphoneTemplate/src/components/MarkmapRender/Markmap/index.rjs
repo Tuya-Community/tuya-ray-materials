@@ -1,0 +1,8 @@
+export default Render({
+  render({ mount, markdown, theme, waitStable }) {
+    requirePlugin('rjs://@tuya-miniapp/rjs-markmap').then(({ createMarkmap }) => {
+      createMarkmap({ mount, markdown, theme, waitStable }).then(() => {
+      });
+    });
+  },
+});

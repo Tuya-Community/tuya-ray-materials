@@ -1,0 +1,36 @@
+.container {
+  width: 660rpx;
+  position: fixed;
+  top: 200rpx;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 86rpx;
+  background: var(--color-bg-topbar);
+  box-shadow: 0rpx 8rpx 20rpx 0rpx var(--color-shadow-float);
+  z-index: 1000;
+
+  .inner {
+    display: flex;
+    align-items: center;
+    padding: 24rpx 32rpx;
+  }
+
+  .icon {
+    width: 44rpx;
+    height: 44rpx;
+    margin-right: 16rpx;
+    flex-shrink: 0;
+  }
+
+  .tip {
+    font-size: 28rpx;
+    color: var(--color-text-secondary);
+    flex: 1;
+  }
+
+  .close {
+    margin-left: 16rpx;
+    flex-shrink: 0;
+  }
+}

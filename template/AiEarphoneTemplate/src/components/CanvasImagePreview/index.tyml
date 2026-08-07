@@ -1,0 +1,21 @@
+<view
+  style="position: fixed; z-index: 9999; top: 0; left: 0; width: {{canvasWidth}}px; height: {{canvasHeight}}px; overflow: hidden; background: #000; {{visible ? '' : 'display: none;'}}"
+>
+  <image
+    src="{{src}}"
+    mode="aspectFit"
+    style="position: absolute; top: 0; left: 0; width: {{canvasWidth}}px; height: {{canvasHeight}}px; opacity: {{canvasReady ? 0 : 1}};"
+  />
+  <canvas
+    id="{{canvasId}}"
+    canvas-id="{{canvasId}}"
+    style="position: absolute; top: 0; left: 0; width: {{canvasWidth}}px; height: {{canvasHeight}}px; opacity: {{canvasReady ? 1 : 0}};"
+  ></canvas>
+  <view
+    style="position: absolute; z-index: 1; top: 0; left: 0; width: {{canvasWidth}}px; height: {{canvasHeight}}px; background: transparent;"
+    catch:touchstart="handleTouchStart"
+    catch:touchmove="handleTouchMove"
+    catch:touchend="handleTouchEnd"
+    catch:touchcancel="handleTouchEnd"
+  ></view>
+</view>

@@ -1,0 +1,148 @@
+.container {
+  --bottom-sheet-max-height: auto;
+  --bottom-sheet-padding: 0;
+  position: relative;
+
+  .close {
+    position: absolute;
+    top: 20rpx;
+    right: 20rpx;
+  }
+
+  .banner {
+    width: 100%;
+    height: 456rpx;
+    position: relative;
+    background-image: var(--cdn-img-connect-wifi-bg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    .phone {
+      padding: 64rpx 38rpx;
+      width: 410rpx;
+      height: 364rpx;
+      border-radius: 48rpx;
+      background: var(--color-bg-secondary);
+      border: 8rpx solid var(--color-primary-light);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom: none;
+
+      .title {
+        font-size: 26rpx;
+        font-weight: 600;
+        color: var(--color-text-primary);
+      }
+
+      .wifi {
+        margin-top: 32rpx;
+        padding: 26rpx 24rpx 26rpx 34rpx;
+        width: 444rpx;
+        height: 88rpx;
+        border: 3rpx solid var(--color-border-active);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 20rpx;
+        box-shadow: 0rpx 4rpx 24rpx 0rpx var(--color-shadow-base);
+        background: var(--color-bg-primary);
+        transform: translateX(-62rpx);
+
+        .left {
+          display: flex;
+          align-items: center;
+
+          .icon {
+            width: 36rpx;
+            height: 36rpx;
+            margin-right: 20rpx;
+          }
+
+          .name {
+            font-size: 24rpx;
+            font-weight: 500;
+            color: var(--color-text-primary);
+          }
+        }
+
+        .switchIcon {
+          width: 64rpx;
+          height: 64rpx;
+        }
+      }
+
+      .wifiItem {
+        margin-top: 16rpx;
+        width: 100%;
+        height: 36rpx;
+        background: rgba(161, 161, 161, 0.1);
+      }
+    }
+  }
+
+  .content {
+    padding: 78rpx 32rpx 20rpx;
+    width: 100%;
+    margin-top: -30rpx; // 向上移动，与上方内容重叠
+    background-color: var(--color-bg-primary);
+    clip-path: polygon(0% 0%,
+        8% 1%,
+        20% 2.5%,
+        35% 3.5%,
+        50% 4%,
+        65% 3.5%,
+        80% 2.5%,
+        92% 1%,
+        100% 0%,
+        100% 100%,
+        0% 100%);
+
+    .title {
+      font-size: 32rpx;
+      font-weight: 600;
+      line-height: 44rpx;
+      color: var(--color-text-primary);
+    }
+
+    .tip {
+      margin-top: 16rpx;
+      font-size: 28rpx;
+      line-height: 44rpx;
+      color: var(--color-text-tertiary);
+
+      &:first-child {
+        margin-top: 24rpx;
+      }
+    }
+
+    .buttonWrapper {
+      margin-top: 46rpx;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .cancel,
+      .open {
+        width: 331rpx;
+        height: 104rpx;
+        border-radius: 88rpx;
+        font-size: 28rpx;
+        font-weight: 500;
+        border: none;
+      }
+
+      .cancel {
+        background: var(--color-bg-secondary);
+        color: var(--color-text-tertiary);
+      }
+
+      .open {
+        background: var(--color-primary);
+        color: var(--color-button-text);
+      }
+    }
+  }
+}

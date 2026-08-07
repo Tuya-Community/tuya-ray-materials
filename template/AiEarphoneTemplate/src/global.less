@@ -4,12 +4,12 @@
 .hide-scrollbar();
 
 input {
-  caret-color: @theme-color !important;
+  caret-color: var(--color-primary-light) !important;
 }
 
 text,
 text.rayui-tabs-control-item-text {
-  color: #000;
+  color: var(--color-text-primary);
 }
 
 .hover-class__button-press-1 {
@@ -56,4 +56,26 @@ text.rayui-tabs-control-item-text {
   &>view {
     transform: none !important;
   }
+}
+
+/* ============ 图片主题适配 ============ */
+/* 纯黑白色图片 - 暗黑模式下反转颜色（白变黑，黑变白） */
+/* 纯灰色图标 - 暗黑模式下变成浅灰色 */
+/* 带彩色的图片 - 不做改变（默认，无需添加类名） */
+:root[theme='dark'] {
+  .img-theme-bw {
+    filter: invert(1);
+  }
+
+  .img-theme-gray {
+    filter: brightness(1.5) grayscale(1);
+    opacity: 0.8;
+  }
+}
+
+.markmap-container,
+.markup,
+.markmap {
+  width: 100% !important;
+  height: 100% !important;
 }

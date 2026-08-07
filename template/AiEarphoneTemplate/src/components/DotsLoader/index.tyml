@@ -1,0 +1,7 @@
+  <canvas 
+    class="{{className}}"
+    id="{{canvasId}}" 
+    canvas-id="{{canvasId}}"
+    style="width: {{canvasWidth}}px; height: {{canvasHeight}}px; vertical-align: middle; display: inline-block; line-height: 0;"
+  ></canvas>
+

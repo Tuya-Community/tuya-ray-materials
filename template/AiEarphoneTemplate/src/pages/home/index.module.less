@@ -1,0 +1,58 @@
+@import '@/mixins.less';
+
+page {
+  font-family: 'PingFang SC', Arial, Helvetica, sans-serif;
+  font-size: 24rpx;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--color-bg-secondary);
+  // .safe-area-padding-bottom();
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  // flex: 1;
+
+  .leftTitle {
+    font-size: 44rpx;
+    font-weight: 600;
+  }
+
+  .rightTitle {
+    display: flex;
+    align-items: center;
+  }
+
+  .tabRow {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 32rpx;
+    gap: 32rpx;
+    line-height: 84rpx;
+  }
+
+  .tabItem {
+    font-weight: 600;
+
+    &.tabActive .tabText {
+      color: var(--color-text-home);
+      font-weight: 600;
+    }
+  }
+
+  .tabText {
+    font-size: 36rpx;
+    color: var(--color-text-home-dark);
+  }
+
+}
+

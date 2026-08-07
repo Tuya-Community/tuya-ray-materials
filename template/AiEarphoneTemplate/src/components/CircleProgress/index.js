@@ -4,7 +4,6 @@ Component({
   externalClasses: ['my-class'],
   observers: {
     progress: function (progress) {
-      console.log('this.data::', this.data);
       const { radius, strokeWidth, color, strokeStyle, size } = this.data;
       this.rjs?.pageDraw(progress, radius, strokeWidth, color, strokeStyle, size);
     },
@@ -13,9 +12,6 @@ Component({
     progress: {
       type: Number,
       value: 0, // 进度值，范围 0-100
-      observer(newValue, oldValue) {
-        console.log('newValue::', newValue);
-      },
     },
     radius: {
       type: Number,

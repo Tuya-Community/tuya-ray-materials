@@ -1,0 +1,138 @@
+.container {
+  z-index: 99;
+  position: fixed;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  padding: 20rpx 32rpx;
+
+
+  .outlineWrapper {
+    position: relative;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 826rpx; // 展开状态：足够容纳完整列表
+
+    &.compact {
+      max-height: 144rpx; // 收起状态：只显示一行的高度
+    }
+
+    .outline {
+      transition: all 0.2s ease;
+      visibility: hidden;
+      box-shadow: 0rpx 16rpx 40rpx 0rpx var(--color-shadow-light);
+
+      &.show {
+        visibility: visible;
+      }
+    }
+  }
+
+  // 缩略模式遮罩层
+  .compactOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: var( --color-bg-topbar);
+    border-radius: 32rpx;
+    border: 2rpx solid var(--color-border-light);
+    box-shadow: 0rpx 16rpx 40rpx 0rpx var(--color-shadow-light);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    .compactContent {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32rpx;
+      height: 104rpx;
+
+      .info {
+        flex: 1;
+        margin-right: 16rpx;
+        overflow: hidden;
+        position: relative;
+        height: 100%; // 固定高度，防止动画时抖动
+
+        .chapterSlide {
+          position: absolute;
+          top: 50%; // 顶部在50%位置
+          left: 0;
+          right: 0;
+          display: flex;
+          align-items: center;
+          transform: translateY(-50%); // 默认垂直居中
+
+          .time {
+            font-size: 28rpx;
+            color: var(--color-text-tertiary);
+            // text-decoration: underline;
+            // text-underline-offset: 8rpx;
+            margin-right: 24rpx;
+            font-variant-numeric: tabular-nums;
+            flex-shrink: 0;
+          }
+
+          .title {
+            flex: 1;
+            font-size: 28rpx;
+            color: var(--color-text-primary);
+            line-height: 40rpx;
+            font-weight: 600;
+          }
+
+          // 新章节：从下方滑入
+          &.slideIn {
+            animation: slideInFromBottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+
+          // 旧章节：向上滑出
+          &.slideOut {
+            animation: slideOutToTop 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation-fill-mode: forwards; // 保持动画最终状态，避免闪烁
+          }
+
+          // 初始显示（无过渡）
+          &.initialShow {
+            animation: none;
+          }
+        }
+      }
+
+      .expandHint {
+        flex-shrink: 0;
+        padding: 8rpx 20rpx;
+        font-size: 24rpx;
+        color: var(--color-text-tertiary);
+      }
+    }
+  }
+}
+
+// 新章节：从 info 底部 10rpx 处滑入到垂直居中
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(calc(-50% + 42rpx)); // 距离底部 10rpx（104/2 - 10 = 42rpx）
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(-50%); // 垂直居中
+    opacity: 1;
+  }
+}
+
+// 旧章节：从垂直居中滑出到距离 info 顶部 10rpx
+@keyframes slideOutToTop {
+  0% {
+    transform: translateY(-50%); // 垂直居中
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(calc(-50% - 42rpx)); // 距离顶部 10rpx
+    opacity: 0;
+  }
+}

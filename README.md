@@ -741,17 +741,6 @@ Tuya Ray Materials
 </tr>
 
 <tr>
-  <td id="AiEarphoneTemplate">2025/12</td>
-  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/AiEarphoneTemplate">AiEarphoneTemplate</a></td>
-  <td>
-  <details>
-  <summary>Scan QRCode</summary>
-  <img src="./qrCode/template-AiEarphoneTemplate.png" width="100" height="100">
-  </details>
-  </td>
-</tr>
-
-<tr>
   <td id="BLETransparentUtils">2025/12</td>
   <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=utils/BLETransparentUtils">BLETransparentUtils</a></td>
   <td>
@@ -857,6 +846,17 @@ Tuya Ray Materials
   <details>
   <summary>Scan QRCode</summary>
   <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=ServicePurchase" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
+
+<tr>
+  <td id="AiEarphoneTemplate">2026/08</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/AiEarphoneTemplate">AiEarphoneTemplate</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=AiEarphoneTemplate" target="_blank">View Details</a>
   </details>
   </td>
 </tr>

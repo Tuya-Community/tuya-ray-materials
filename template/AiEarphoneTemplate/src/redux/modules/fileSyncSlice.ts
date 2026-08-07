@@ -1,8 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ReduxState } from '..';
+import { DeviceOfflineFileResult } from '@/api/ttt.interface';
 
-type FileSync = {
-  isSyncing: boolean;
+export interface CurrentSyncCardDevInfo extends DeviceOfflineFileResult {
+  deviceId: string;
+  name: string;
+}
+
+type IState = {
+  isCardSyncing: boolean;
+  currentSyncCardDevInfo: CurrentSyncCardDevInfo;
 };
 
 /**
@@ -12,10 +19,11 @@ const fileSyncSlice = createSlice({
   name: 'fileSync',
   initialState: {
     // 是否在同步中
-    isSyncing: false,
-  },
+    isCardSyncing: false,
+    currentSyncCardDevInfo: {},
+  } as IState,
   reducers: {
-    updateFileSync(state, action: PayloadAction<Partial<FileSync>>) {
+    updateFileSync(state, action: PayloadAction<Partial<IState>>) {
       return { ...state, ...action.payload };
     },
   },
@@ -30,6 +38,6 @@ export const { updateFileSync } = fileSyncSlice.actions;
 /**
  * Selectors
  */
-export const selectfileSync = (state: ReduxState) => state.fileSync.isSyncing;
+export const selectFileSync = (state: ReduxState) => state.fileSync;
 
 export default fileSyncSlice.reducer;

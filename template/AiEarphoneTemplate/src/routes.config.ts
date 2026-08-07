@@ -1,40 +1,30 @@
-import { Routes } from '@ray-js/types';
+import { Routes, SubPackages } from '@ray-js/types';
 
 export const routes: Routes = [
   {
     route: '/',
-    path: '/pages/Home/index',
+    path: '/pages/home/index',
     name: 'Home',
   },
   {
-    route: '/recording',
-    path: '/pages/Recording/index',
-    name: 'Recording',
-  },
-  {
-    route: '/realTimeRecording',
-    path: '/pages/RealTimeRecording/index',
-    name: 'RealTimeRecording',
-  },
-  {
-    route: '/simultaneousRecording',
-    path: '/pages/SimultaneousRecording/index',
-    name: 'SimultaneousRecording',
-  },
-  {
     route: '/detail',
-    path: '/pages/Detail/index',
+    path: '/pages/detail/index',
     name: 'Detail',
   },
   {
-    route: '/setting',
-    path: '/pages/Setting/index',
-    name: 'Setting',
+    route: '/btOffline',
+    path: '/pages/btOffline/index',
+    name: 'BtOffline',
   },
   {
-    route: '/records',
-    path: '/pages/Records/index',
-    name: 'Records',
+    route: '/recordingMode',
+    path: '/pages/recordingMode/index',
+    name: 'RecordingMode',
+  },
+  {
+    route: '/imagePreview',
+    path: '/pages/imagePreview/index',
+    name: 'ImagePreview',
   },
   {
     route: '/faceToFace',
@@ -42,14 +32,92 @@ export const routes: Routes = [
     name: 'FaceToFace',
   },
   {
-    route: '/btOffline',
-    path: '/pages/BtOffline/index',
-    name: 'BtOffline',
+    route: '/faceToFace/recording',
+    path: '/pages/FaceToFace/Recording/index',
+    name: 'FaceToFace_Recording',
+  },
+];
+
+export const subPackages: SubPackages = [
+  {
+    root: 'pkgEntry',
+    routes: [
+      {
+        route: '/search',
+        path: '/pages/search/index',
+      },
+      {
+        route: '/cardTransfer',
+        path: '/pages/cardTransfer/index',
+      },
+      {
+        route: '/home/batchFileList',
+        path: '/pages/batchFileList/index',
+      },
+    ],
   },
   {
-    route: '/howToUse',
-    path: '/pages/HowToUse/index',
-    name: 'HowToUse',
+    root: 'pkgShop',
+    routes: [
+      {
+        route: '/shop',
+        path: '/pages/shop/index',
+      },
+      {
+        route: '/activatedBenefit',
+        path: '/pages/activatedBenefit/index',
+      },
+      {
+        route: '/autoRenewAgreement',
+        path: '/pages/autoRenewAgreement/index',
+      },
+    ],
+  },
+  {
+    root: 'pkgSettings',
+    routes: [
+      {
+        route: '/setting',
+        path: '/pages/setting/index',
+      },
+      {
+        route: '/records',
+        path: '/pages/records/index',
+      },
+      {
+        route: '/cloud',
+        path: '/pages/cloud/index',
+      },
+      {
+        route: '/webVersion',
+        path: '/pages/webVersion/index',
+      },
+      {
+        route: '/widget',
+        path: '/pages/widget/index',
+      },
+    ],
+  },
+  {
+    root: 'pkgTemplate',
+    routes: [
+      {
+        route: '/customTemplate/create',
+        path: '/pages/customTemplate/create/index',
+      },
+      {
+        route: '/customTemplate/manage',
+        path: '/pages/customTemplate/manage/index',
+      },
+      {
+        route: '/detail/moreTemplate',
+        path: '/pages/moreTemplate/index',
+      },
+      {
+        route: '/detail/templateDetail',
+        path: '/pages/templateDetail/index',
+      },
+    ],
   },
 ];
 

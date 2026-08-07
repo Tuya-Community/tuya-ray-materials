@@ -1,0 +1,349 @@
+@import '@/variables.less';
+@import '@/mixins.less';
+
+page {
+  font-family: 'PingFang SC', Arial, Helvetica, sans-serif;
+  font-size: 24rpx;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  // height: 100vh;
+  width: 100vw;
+  flex: 1;
+
+  .syncGif {
+    width: 36rpx;
+    height: 36rpx;
+  }
+
+  .rightText {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .cloudSyncCard {
+    height: 0;
+    transition: height 0.2s linear;
+    overflow: hidden;
+    position: relative;
+
+    .cloudSyncInnerCard {
+      padding-top: 12px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    position: relative;
+
+    .offlineMarkBox {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .offlineMark {
+        height: 28px;
+        border-radius: 14px;
+        background: var(--color-gray-e3);
+        padding: 0 8px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 10px;
+
+        .grayDot {
+          width: 4px;
+          height: 4px;
+          border-radius: 2px;
+          background: var(--color-gray-8c);
+          margin-right: 4px;
+        }
+
+        .offlineText {
+          font-size: 14px;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .fileHeader {
+      height: 21px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      // margin-bottom: 16rpx;
+
+      .title {
+        font-size: 36rpx;
+        font-weight: 600;
+        color: var(--color-text-primary);
+      }
+
+      .batch {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--color-primary);
+      }
+    }
+
+    .scroll {
+      width: 100%;
+      height: 500px;
+
+      .item {
+        width: 100%;
+        // height: 151px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: var(--color-bg-primary);
+        margin-bottom: 12px;
+        border-radius: 16px;
+
+        .header {
+          display: flex;
+          justify-content: space-between;
+          column-gap: 24rpx;
+          align-items: center;
+          margin-bottom: 16rpx;
+
+          .name {
+            font-size: 32rpx;
+            font-weight: 600;
+            color: var(--color-text-primary);
+          }
+
+          .status {
+            flex-shrink: 0;
+
+            .transferStatus {
+              font-size: 12px;
+              font-weight: 400;
+              opacity: 0.4;
+            }
+
+            .icon {
+              width: 18px;
+              height: 18px;
+            }
+          }
+        }
+
+        .desc {
+          font-size: 12px;
+          font-weight: 400;
+          opacity: 0.4;
+        }
+
+        .info {
+          display: flex;
+          align-items: center;
+          width: 100%;
+
+          .duration,
+          .date,
+          .sourceBox {
+            display: flex;
+            align-items: center;
+            font-size: 24rpx;
+            color: var(--color-text-tertiary);
+            white-space: nowrap;
+          }
+
+          .text {
+            font-size: 24rpx;
+            color: var(--color-text-tertiary);
+          }
+
+          .icon {
+            width: 28rpx;
+            height: 28rpx;
+            margin-right: 8rpx;
+          }
+
+          .dateIcon {
+            margin-top: -4rpx;
+          }
+
+          .duration,
+          .sourceBox {
+            margin-left: 24rpx;
+          }
+        }
+      }
+
+      .editItem {
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .unVisitItem {
+        padding-top: 8px;
+      }
+
+      .dotBox {
+        display: flex;
+        justify-content: flex-end;
+
+        .dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 4px;
+          background-color: var(--color-error-red-solid);
+        }
+      }
+
+      .editContentBox {
+        width: calc(100% - 36px);
+      }
+    }
+
+    .emptyBox {
+      height: 100%;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 0;
+
+      .emptyImg {
+        width: 100px;
+        height: 87px;
+        margin-bottom: 12px;
+      }
+
+      .emptyText {
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 0.5;
+      }
+    }
+
+    .recordBtnBox {
+      // position: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      // padding: 0 16px 42px 16px;
+      padding: 0 16px 16px 16px;
+
+      // background: linear-gradient(
+      //   to bottom,
+      //   rgba(255, 255, 255, 0) 0%,
+      //   rgba(255, 255, 255, 1) 100%
+      // );
+      .recordBtn {
+        min-width: 203px;
+        height: 56px;
+        border-radius: 28px;
+        background-color: var(--color-primary-solid);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        box-shadow: 0px 2px 7.9px 0px var(--color-shadow-light);
+
+        .btnIcon {
+          width: 18px;
+          height: 18px;
+        }
+
+        .btnText {
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--color-bg-primary);
+        }
+      }
+
+      .recording {
+        background-color: var(--color-red-ff2e2e);
+      }
+
+      .offlineBtn {
+        background-color: var(--color-gray-ca);
+      }
+    }
+  }
+
+  .bluetoothIcon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .editBar {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    // height: 55px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    bottom: 0;
+    background: var(--color-bg-primary);
+
+    .safe-area-padding-bottom();
+
+    .item {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+      height: 100%;
+      padding: 8px 0;
+
+      .icon {
+        width: 20px;
+        height: 20px;
+        margin-bottom: 2px;
+      }
+
+      .editText {
+        font-size: 12px;
+      }
+
+      .deleteText {
+        font-size: 12px;
+        color: var(--color-red-ff4646);
+      }
+    }
+
+    .disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  .error {
+    color: var(--color-danger);
+  }
+
+  .success {
+    color: var(--color-green-00b25c);
+  }
+}
+
+.ai {
+  left: 0;
+  top: 100px;
+}

@@ -1,0 +1,117 @@
+.bottomSheet {
+  --bottom-sheet-header-height: 94rpx;
+  --bottom-sheet-max-height: 90vh;
+  --bottom-sheet-padding: 0;
+  --popup-background-color: var(--color-bg-white);
+}
+
+.content {
+  width: 100%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.illustration {
+  width: 100%;
+  margin-bottom: 48rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // dark 与 light 都用同一套
+  background: linear-gradient(180deg, #0151cb 0%, #578cdd 100%);
+  border-bottom-left-radius: 50% 8%;
+  border-bottom-right-radius: 50% 8%;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  position: relative;
+}
+
+.illustrationPlaceholder {
+  width: 100%;
+  height: 320rpx;
+  border-radius: 24rpx;
+  margin: 60rpx 0;
+}
+
+.mainTitle {
+  width: 100%;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 16rpx;
+  padding: 0 48rpx;
+}
+
+.subTitle {
+  width: 100%;
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 24rpx;
+  line-height: 40rpx;
+  padding: 0 48rpx;
+}
+
+.benefitsList {
+  width: 100%;
+  margin-bottom: 48rpx;
+  padding: 0 48rpx;
+}
+
+.benefitItem {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 32rpx;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.benefitContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.benefitTitle {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 8rpx;
+  line-height: 44rpx;
+}
+
+.benefitDesc {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  line-height: 40rpx;
+}
+
+.openButton {
+  width: 100%;
+  height: 96rpx;
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  background: var(--color-primary);
+  color: var(--color-button-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonWrapper {
+  width: 100%;
+  padding: 0 48rpx;
+}
+
+.closeIcon {
+  position: absolute;
+  right: 20rpx;
+  top: 20rpx;
+  width: 20px;
+  height: 20px;
+}

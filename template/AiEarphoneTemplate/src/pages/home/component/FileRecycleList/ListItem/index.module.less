@@ -1,0 +1,288 @@
+.item {
+  width: 100%;
+  min-height: 76px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--color-bg-primary);
+  border-radius: 16px;
+
+  .editContentBox {
+    width: calc(100% - 36px);
+    min-width: 0;
+  }
+
+  .syncGif {
+    width: 36rpx;
+    height: 36rpx;
+  }
+
+  .dotBox {
+    display: flex;
+    justify-content: flex-end;
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 4px;
+      background-color: var(--color-error-red-solid);
+    }
+  }
+
+  .error {
+    color: var(--color-danger);
+  }
+
+  .success {
+    color: var(--color-green-00b25c);
+  }
+
+  .header {
+    height: 19px;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 24rpx;
+    align-items: center;
+    margin-bottom: 6px;
+
+    .name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .status {
+      flex-shrink: 0;
+      font-size: 12px;
+
+      .icon {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+  }
+
+  .desc {
+    font-size: 12px;
+    font-weight: 400;
+    opacity: 0.4;
+  }
+
+  .info {
+    height: 19px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    .duration,
+    .date {
+      font-size: 24rpx;
+      color: var(--color-text-tertiary);
+      white-space: nowrap;
+      margin-right: 16rpx;
+    }
+
+    .divider {
+      width: 1px;
+      height: 8px;
+      background: var(--color-text-tertiary);
+      margin-right: 16rpx;
+    }
+
+    .text {
+      font-size: 24rpx;
+      color: var(--color-text-tertiary);
+    }
+
+    .icon {
+      flex-shrink: 0;
+      width: 28rpx;
+      height: 28rpx;
+      margin-right: 16rpx;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .dateIcon {
+      margin-top: -4rpx;
+    }
+  }
+
+  .tagsRow {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin-top: 6px;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+
+    .tag {
+      flex-shrink: 0;
+      padding: 2px 5px;
+      font-size: 11px;
+      line-height: 20px;
+      border-radius: 16rpx;
+      white-space: nowrap;
+      margin-right: 6px;
+    }
+  }
+
+}
+
+.editItem {
+  flex-direction: row;
+  align-items: center;
+}
+
+/* 批量模式下替代 Checkbox 的纯视觉指示器：无事件绑定，点击可冒泡到 RecycleView 代理层 */
+.checkboxIndicator {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-text-tertiary);
+  margin-right: 12px;
+  background-color: transparent;
+}
+
+.checkboxIndicatorSelected {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  /* 用 SVG data-uri 绘制 checkmark，避免引入额外图片资源 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8l3.5 3.5L13 5' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size: 14px 14px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.unVisitItem {
+  padding-top: 8px;
+}
+
+.emHighlight {
+  color: #3582FA;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.transferring {
+  color: var(--color-text-secondary);
+  font-size: 24rpx;
+}
+
+
+@keyframes breathe {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.processingIcon {
+  width: 20px;
+  height: 20px;
+  animation: breathe 2s ease-in-out infinite;
+}
+
+.processing {
+  display: flex;
+  color: var(--color-primary);
+  align-items: center;
+  font-size: 24rpx;
+}
+
+.processingText {
+  color: var(--color-primary);
+}
+
+.processingDots {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-primary);
+}
+
+@keyframes dot1 {
+  0% {
+    opacity: 0;
+  }
+
+  1%,
+  99% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes dot2 {
+
+  0%,
+  33.33% {
+    opacity: 0;
+  }
+
+  33.34%,
+  99% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes dot3 {
+
+  0%,
+  66.66% {
+    opacity: 0;
+  }
+
+  66.67%,
+  99% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.processingDot {
+  display: inline-block;
+  color: var(--color-primary);
+  opacity: 0;
+
+  &:nth-child(1) {
+    animation: dot1 1.5s ease-in-out infinite;
+  }
+
+  &:nth-child(2) {
+    animation: dot2 1.5s ease-in-out infinite;
+  }
+
+  &:nth-child(3) {
+    animation: dot3 1.5s ease-in-out infinite;
+  }
+}
+
+.tagEm {
+  word-break: keep-all;
+}

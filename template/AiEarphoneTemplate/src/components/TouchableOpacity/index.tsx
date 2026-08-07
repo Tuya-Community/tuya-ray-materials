@@ -20,7 +20,9 @@ const TouchableOpacity: FC<Props> = ({
     <View
       hoverClassName={clsx(`hover-class__button-press-${activeOpacity * 10}`)}
       hoverStayTime={disabled ? 0 : 120}
-      onClick={disabled ? () => { } : onClick}
+      // hoverStyle不起作用?
+      // hoverStyle={{ opacity: 0.1 }}
+      onClick={disabled ? () => {} : onClick}
       {...props}
     >
       {children}

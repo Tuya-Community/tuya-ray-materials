@@ -1,0 +1,190 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-page);
+}
+
+.scroll {
+  flex: 1;
+  width: 100%;
+}
+
+.section {
+  padding: 48rpx 40rpx 0;
+  padding-bottom: 16rpx;
+}
+
+.sectionTitle {
+  font-size: 36rpx;
+  font-weight: 600;
+  line-height: 42rpx;
+  letter-spacing: normal;
+  color: var(--color-text-primary);
+}
+
+/* 桌面快捷方式：白色背景框，上图为 shortcut，中间灰色分割线，下为按钮 */
+.card {
+  width: 100%;
+  background-color: var(--color-bg-primary);
+  border-radius: 32rpx;
+  overflow: hidden;
+  height: auto;
+  margin-top: 32rpx;
+  min-height: 488rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardTop {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32rpx;
+  box-sizing: border-box;
+  height: 366rpx;
+  flex: 0 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 图片不缩放，按原始尺寸显示 */
+.img {
+  width: 400rpx;
+  height: 860rpx;
+  max-width: none;
+  max-height: none;
+  object-fit: none;
+  position: absolute;
+  top: 64rpx;
+}
+
+.shortcutDivider {
+  margin: 0 16rpx;
+  height: 1px;
+  background-color: var(--color-border-divider);
+  flex: 0 0 auto;
+}
+
+.shortcutCardBottom {
+  padding: 32rpx;
+  padding-top: 24rpx;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controlCenterBottom {
+  padding: 32rpx;
+  padding-top: 24rpx;
+  flex: 1;
+  display: block;
+  align-items: center;
+  justify-content: center;
+}
+
+.shortcutAddLink {
+  color: var(--color-primary);
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: normal;
+}
+
+.shortcutAddLinkDisabled {
+  color: var(--color-text-disabled);
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: normal;
+}
+
+.mockup {
+  width: 100%;
+  min-height: 280rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24rpx;
+  border-radius: 24rpx;
+  background-color: var(--color-bg-secondary);
+}
+
+.mockupInner {
+  width: 240rpx;
+  height: 240rpx;
+  border-radius: 48rpx;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mockupIcon {
+  width: 120rpx;
+  height: 120rpx;
+}
+
+.mockupInnerSmall {
+  width: 160rpx;
+  height: 120rpx;
+  border-radius: 24rpx;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mockupIconSmall {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.controlCenterImg {
+  width: 100%;
+  height: auto;
+  min-height: 320rpx;
+  border-radius: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.howToAdd {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 16rpx;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-top: 12rpx;
+  font-family: PingFang SC;
+  font-size: 28rpx;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: normal;
+  color: var(--color-text-primary);
+}
+
+.step {
+  color: var(--color-text-tertiary);
+  font-size: 24rpx;
+  font-weight: normal;
+  line-height: normal;
+  letter-spacing: normal;
+}
+
+.stepTuyaBold {
+  font-weight: 600;
+}
+
+.bottomPlaceholder {
+  height: 80rpx;
+}

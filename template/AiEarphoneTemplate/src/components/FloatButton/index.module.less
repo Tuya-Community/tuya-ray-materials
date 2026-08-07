@@ -1,0 +1,26 @@
+.container {
+  position: fixed;
+  bottom: 180px;
+  right: 21px;
+  width: 76rpx;
+  height: 76rpx;
+  background-color: var(--color-bg-topbar);
+  border-radius: 50%;
+  box-shadow: 0rpx 0rpx 12rpx 0rpx var(--color-shadow-float);
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.show {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .icon {
+    width: 100%;
+    height: 100%;
+  }
+}

@@ -22,8 +22,8 @@ export const ioTCloudFunCodeMap = {
   tyabi4wfwm: 'offlineUsage',
   // 复用入门版能力，开启时候，专业版也支持实时转录和会议的 通道切换。并且直接默认传bt通道
   tyabi54eva: 'supportRecordChannelChange',
-  // 是否支持耳机控制功能
-  tyabipgtaq: 'supportEarControl',
+  // 是否隐藏设置
+  tyabimgmcm: 'hideSetting',
 };
 /**
  * 放置IoT 云能力面板业务功能配置默认值

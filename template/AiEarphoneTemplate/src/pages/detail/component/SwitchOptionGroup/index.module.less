@@ -1,0 +1,30 @@
+
+.switchGroup {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: var(--color-bg-primary);
+    border-radius: 24rpx;
+    overflow: hidden;
+  }
+
+  .switchItem {
+    width: 100%;
+    height: 104rpx;
+    padding: 0 32rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-bg-primary);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .switchLabel {
+    font-size: 28rpx;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }

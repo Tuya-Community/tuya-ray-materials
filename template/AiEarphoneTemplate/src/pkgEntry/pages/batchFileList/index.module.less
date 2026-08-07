@@ -1,0 +1,178 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-bg-page);
+
+  .selectionInfo {
+    position: fixed;
+    bottom: 106px;
+    left: 75rpx;
+    right: 75rpx;
+    width: calc(100% - 150rpx);
+    background-color: var(--color-bg-topbar);
+    padding: 24rpx 32rpx;
+    border-radius: 60rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0rpx 4rpx 12rpx 0rpx var(--color-shadow-light);
+  }
+
+  .infoText {
+    font-size: 28rpx;
+    color: var(--color-text-primary);
+    text-align: center;
+  }
+
+  .durationText {
+    color: var(--color-primary);
+
+    &.durationExceeded {
+      color: var(--color-danger);
+    }
+  }
+
+  .bottomActions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: var(--color-bg-secondary);
+    box-shadow: 0rpx 2rpx 24rpx 0rpx var(--color-shadow-base);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 32rpx;
+    gap: 40rpx;
+  }
+
+  .merge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+    font-size: 26rpx;
+    flex: 1;
+
+    .inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-left: 50px;
+      color: var(--color-text-secondary);
+    }
+
+    .mergeIcon {
+      width: 40rpx;
+      height: 40rpx;
+      margin-bottom: 12rpx;
+    }
+
+    &.disabled {
+      .inner {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  .cannotMergeDialog {
+    .cannotMergeContent {
+      padding: 48rpx 32rpx 32rpx;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .cannotMergeTitle {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 40rpx;
+        text-align: center;
+        color: var(--color-text-primary);
+      }
+
+      .cannotMergeDesc {
+        margin-top: 16rpx;
+        font-size: 14px;
+        color: var(--color-text-disabled);
+        text-align: center;
+        line-height: 40rpx;
+      }
+
+      .cannotMergeFileList {
+        margin-top: 16rpx;
+        width: 100%;
+        max-height: 240rpx;
+        overflow-y: auto;
+
+        .cannotMergeFileItem {
+          font-size: 14px;
+          color: var(--color-text-secondary);
+          line-height: 48rpx;
+          text-align: left;
+        }
+      }
+    }
+
+    .cannotMergeButtons {
+      display: flex;
+      border-top: 1px solid var(--color-border-divider);
+
+      .cannotMergeCancel,
+      .cannotMergeConfirm {
+        flex: 1;
+        height: 96rpx;
+        font-size: 32rpx;
+        line-height: 40rpx;
+        color: var(--color-text-tertiary);
+        font-weight: normal;
+        padding: 28rpx 0;
+        background-color: transparent;
+      }
+
+      .cannotMergeConfirm {
+        color: var(--color-text-primary);
+      }
+
+      .cannotMergeDivider {
+        height: auto;
+        width: 1px;
+        background: var(--color-bg-black-transparent-08);
+      }
+    }
+  }
+
+  .delete {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-danger);
+    font-size: 26rpx;
+    flex: 1;
+
+    .inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-right: 50px;
+    }
+
+    .deleteIcon {
+      width: 40rpx;
+      height: 40rpx;
+      margin-bottom: 12rpx;
+    }
+
+    &.disabled {
+      .inner {
+        opacity: 0.5;
+      }
+    }
+  }
+}

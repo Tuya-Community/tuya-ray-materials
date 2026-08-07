@@ -1,0 +1,52 @@
+.dialog {
+  .content {
+    padding: 48rpx 32rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .title {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 40rpx;
+      text-align: center;
+      color: var(--color-text-primary);
+    }
+
+    .desc {
+      margin-top: 16rpx;
+      font-size: 14px;
+      color: var(--color-text-disabled);
+      text-align: center;
+    }
+  }
+
+  .buttonWrapper {
+    display: flex;
+    border-top: 1px solid var(--color-border-divider);
+
+    .cancel,
+    .confirmDelete {
+      flex: 1;
+      height: 96rpx;
+      font-size: 32rpx;
+      line-height: 40rpx;
+      color: var(--color-text-tertiary);
+      font-weight: normal;
+      padding: 28rpx 0;
+      background-color: transparent;
+    }
+
+    .confirmDelete {
+      color: #ff4d4f;
+      font-weight: 500;
+    }
+
+    .divider {
+      height: auto;
+      width: 1px;
+      background: var(--color-bg-black-transparent-08);
+    }
+  }
+}

@@ -1,0 +1,332 @@
+const MIN_SCALE = 1;
+const MAX_SCALE = 4;
+const RESET_SCALE_THRESHOLD = 1.02;
+const TRANSFORM_TRANSLATE_EPSILON = 0.5;
+const TRANSFORM_SCALE_EPSILON = 0.003;
+
+const instances = {};
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function getDistance(touchA, touchB) {
+  const x = touchA.pageX - touchB.pageX;
+  const y = touchA.pageY - touchB.pageY;
+  return Math.sqrt(x * x + y * y);
+}
+
+function getMidPoint(touchA, touchB) {
+  return {
+    pageX: (touchA.pageX + touchB.pageX) / 2,
+    pageY: (touchA.pageY + touchB.pageY) / 2,
+  };
+}
+
+function getInstance(canvasId) {
+  if (!instances[canvasId]) {
+    instances[canvasId] = {
+      canvasId,
+      canvas: null,
+      ctx: null,
+      image: null,
+      width: 0,
+      height: 0,
+      dpr: 1,
+      imageWidth: 0,
+      imageHeight: 0,
+      drawWidth: 0,
+      drawHeight: 0,
+      x: 0,
+      y: 0,
+      scale: MIN_SCALE,
+      frameId: null,
+      destroyed: false,
+      gesture: {
+        mode: 'none',
+        startX: 0,
+        startY: 0,
+        startTranslateX: 0,
+        startTranslateY: 0,
+        startScale: MIN_SCALE,
+        startDistance: 0,
+        startMidX: 0,
+        startMidY: 0,
+      },
+    };
+  }
+  return instances[canvasId];
+}
+
+function resetGesture(instance) {
+  instance.gesture = {
+    mode: 'none',
+    startX: 0,
+    startY: 0,
+    startTranslateX: 0,
+    startTranslateY: 0,
+    startScale: instance.scale,
+    startDistance: 0,
+    startMidX: 0,
+    startMidY: 0,
+  };
+}
+
+function updateDrawSize(instance) {
+  if (!instance.imageWidth || !instance.imageHeight || !instance.width || !instance.height) {
+    return;
+  }
+
+  const imageRatio = instance.imageWidth / instance.imageHeight;
+  const viewportRatio = instance.width / instance.height;
+  if (imageRatio > viewportRatio) {
+    instance.drawWidth = instance.width;
+    instance.drawHeight = instance.width / imageRatio;
+  } else {
+    instance.drawHeight = instance.height;
+    instance.drawWidth = instance.height * imageRatio;
+  }
+}
+
+function clampTranslate(instance, x, y, scale) {
+  if (scale <= MIN_SCALE) {
+    return { x: 0, y: 0 };
+  }
+
+  const maxX = Math.max(0, (instance.drawWidth * scale - instance.width) / 2);
+  const maxY = Math.max(0, (instance.drawHeight * scale - instance.height) / 2);
+  return {
+    x: clamp(x, -maxX, maxX),
+    y: clamp(y, -maxY, maxY),
+  };
+}
+
+function setTransform(instance, x, y, scale) {
+  const nextScale = clamp(scale, MIN_SCALE, MAX_SCALE);
+  const translate = clampTranslate(instance, x, y, nextScale);
+  const changed =
+    Math.abs(translate.x - instance.x) >= TRANSFORM_TRANSLATE_EPSILON ||
+    Math.abs(translate.y - instance.y) >= TRANSFORM_TRANSLATE_EPSILON ||
+    Math.abs(nextScale - instance.scale) >= TRANSFORM_SCALE_EPSILON;
+
+  if (!changed) {
+    return false;
+  }
+
+  instance.x = translate.x;
+  instance.y = translate.y;
+  instance.scale = nextScale;
+  return true;
+}
+
+function draw(instance) {
+  if (instance.destroyed || !instance.ctx || !instance.image || !instance.drawWidth) {
+    return;
+  }
+
+  const ctx = instance.ctx;
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, instance.width * instance.dpr, instance.height * instance.dpr);
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(0, 0, instance.width * instance.dpr, instance.height * instance.dpr);
+  ctx.restore();
+
+  ctx.save();
+  ctx.setTransform(instance.dpr, 0, 0, instance.dpr, 0, 0);
+  ctx.translate(instance.width / 2 + instance.x, instance.height / 2 + instance.y);
+  ctx.scale(instance.scale, instance.scale);
+  ctx.drawImage(
+    instance.image,
+    -instance.drawWidth / 2,
+    -instance.drawHeight / 2,
+    instance.drawWidth,
+    instance.drawHeight
+  );
+  ctx.restore();
+}
+
+function scheduleDraw(instance) {
+  if (instance.frameId !== null || !instance.canvas) {
+    return;
+  }
+
+  instance.frameId = instance.canvas.requestAnimationFrame(function () {
+    instance.frameId = null;
+    draw(instance);
+  });
+}
+
+export default Render({
+  init(canvasId, src, width, height, dpr) {
+    const instance = getInstance(canvasId);
+    this.canvasId = canvasId;
+    instance.destroyed = false;
+    instance.width = width || 375;
+    instance.height = height || 667;
+    instance.dpr = dpr || 1;
+    instance.x = 0;
+    instance.y = 0;
+    instance.scale = MIN_SCALE;
+    resetGesture(instance);
+
+    getCanvasById(canvasId, this).then(canvas => {
+      if (instance.destroyed) {
+        return;
+      }
+
+      instance.canvas = canvas;
+      instance.ctx = canvas.getContext('2d');
+      canvas.width = instance.width * instance.dpr;
+      canvas.height = instance.height * instance.dpr;
+
+      const image = canvas.createImage();
+      image.onload = () => {
+        if (instance.destroyed) {
+          return;
+        }
+
+        instance.image = image;
+        instance.imageWidth = image.width || instance.width;
+        instance.imageHeight = image.height || instance.height;
+        updateDrawSize(instance);
+        draw(instance);
+        this.instance.callMethod('handleCanvasReady');
+      };
+      image.onerror = () => {
+        this.instance.callMethod('handleCanvasFailed');
+      };
+      image.src = src;
+    });
+  },
+
+  touchStart(canvasId, touches) {
+    const instance = getInstance(canvasId);
+    if (!touches || touches.length === 0) {
+      return;
+    }
+
+    if (touches.length >= 2) {
+      const midPoint = getMidPoint(touches[0], touches[1]);
+      instance.gesture = {
+        mode: 'pinch',
+        startX: 0,
+        startY: 0,
+        startTranslateX: instance.x,
+        startTranslateY: instance.y,
+        startScale: instance.scale,
+        startDistance: getDistance(touches[0], touches[1]),
+        startMidX: midPoint.pageX,
+        startMidY: midPoint.pageY,
+      };
+      return;
+    }
+
+    instance.gesture = {
+      mode: 'pan',
+      startX: touches[0].pageX,
+      startY: touches[0].pageY,
+      startTranslateX: instance.x,
+      startTranslateY: instance.y,
+      startScale: instance.scale,
+      startDistance: 0,
+      startMidX: 0,
+      startMidY: 0,
+    };
+  },
+
+  touchMove(canvasId, touches) {
+    const instance = getInstance(canvasId);
+    const gesture = instance.gesture;
+
+    if (gesture.mode === 'pinch' && touches && touches.length >= 2 && gesture.startDistance > 0) {
+      const distance = getDistance(touches[0], touches[1]);
+      const midPoint = getMidPoint(touches[0], touches[1]);
+      const nextScale = clamp(
+        gesture.startScale * (distance / gesture.startDistance),
+        MIN_SCALE,
+        MAX_SCALE
+      );
+      const scaleRatio = nextScale / gesture.startScale;
+      const centerX = instance.width / 2;
+      const centerY = instance.height / 2;
+      const nextX =
+        midPoint.pageX -
+        centerX -
+        scaleRatio * (gesture.startMidX - centerX - gesture.startTranslateX);
+      const nextY =
+        midPoint.pageY -
+        centerY -
+        scaleRatio * (gesture.startMidY - centerY - gesture.startTranslateY);
+
+      if (setTransform(instance, nextX, nextY, nextScale)) {
+        scheduleDraw(instance);
+      }
+      return;
+    }
+
+    if (gesture.mode === 'pan' && touches && touches.length === 1) {
+      const dx = touches[0].pageX - gesture.startX;
+      const dy = touches[0].pageY - gesture.startY;
+      if (setTransform(
+        instance,
+        gesture.startTranslateX + dx,
+        gesture.startTranslateY + dy,
+        gesture.startScale
+      )) {
+        scheduleDraw(instance);
+      }
+    }
+  },
+
+  touchEnd(canvasId, touches) {
+    const instance = getInstance(canvasId);
+
+    if (touches && touches.length === 1 && instance.scale > MIN_SCALE) {
+      instance.gesture = {
+        mode: 'pan',
+        startX: touches[0].pageX,
+        startY: touches[0].pageY,
+        startTranslateX: instance.x,
+        startTranslateY: instance.y,
+        startScale: instance.scale,
+        startDistance: 0,
+        startMidX: 0,
+        startMidY: 0,
+      };
+      return;
+    }
+
+    resetGesture(instance);
+    if (instance.scale <= RESET_SCALE_THRESHOLD) {
+      if (setTransform(instance, 0, 0, MIN_SCALE)) {
+        scheduleDraw(instance);
+      }
+    } else {
+      if (setTransform(instance, instance.x, instance.y, instance.scale)) {
+        scheduleDraw(instance);
+      }
+    }
+  },
+
+  redraw(canvasId) {
+    const instance = instances[canvasId];
+    if (!instance || instance.destroyed) return;
+    draw(instance);
+  },
+
+  destroy(canvasId) {
+    if (!canvasId) {
+      return;
+    }
+    const instance = getInstance(canvasId);
+    instance.destroyed = true;
+    if (instance.canvas && instance.frameId !== null) {
+      instance.canvas.cancelAnimationFrame(instance.frameId);
+    }
+    if (instance.ctx) {
+      instance.ctx.clearRect(0, 0, instance.width * instance.dpr, instance.height * instance.dpr);
+    }
+    delete instances[canvasId];
+  },
+});

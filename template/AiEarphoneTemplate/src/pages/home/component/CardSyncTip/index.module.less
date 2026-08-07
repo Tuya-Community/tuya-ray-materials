@@ -1,0 +1,32 @@
+.container {
+  overflow: hidden;
+  position: relative;
+  transition: height 0.3s ease-in-out;
+  width: 100%;
+
+  .inner {
+    padding: 24rpx 32rpx 24rpx 22rpx;
+    border-radius: 32rpx;
+    background: var(--color-bg-primary-transparent-08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 32rpx;
+    right: 32rpx;
+  }
+
+  .icon {
+    width: 38rpx;
+    height: 38rpx;
+    flex-shrink: 0;
+    margin-right: 8rpx;
+  }
+
+  .tip {
+    color: var(--color-primary);
+    font-size: 24rpx;
+    line-height: 40rpx;
+  }
+}

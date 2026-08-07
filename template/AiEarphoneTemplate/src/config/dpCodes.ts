@@ -32,3 +32,4 @@ export const softVersionCode = 'soft_version';
 export const recordInterruptCode = 'record_interrupt';
 export const recordControlCode = 'record_control';
 export const aiModeCode = 'ai_mode';
+export const offlineRecordCode = 'offline_record_state';

@@ -1,0 +1,8 @@
+<view class="canvas-progress-bar {{className}}" style="{{containerStyle}}">
+  <canvas 
+    id="canvasProgressBar" 
+    canvas-id="canvasProgressBar"
+    style="width: {{width === '100%' ? '100%' : (canvasWidth + 'px')}}; height: {{canvasHeight}}px; display: block; vertical-align: middle; line-height: 0;"
+  ></canvas>
+</view>
+

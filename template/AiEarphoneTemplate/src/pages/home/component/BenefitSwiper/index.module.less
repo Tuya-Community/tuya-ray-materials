@@ -1,0 +1,205 @@
+// 权益卡片整体深浅色一致，颜色按设计稿写死
+@card-text-primary: #ffffff;
+@card-text-secondary: rgba(255, 255, 255, 0.5);
+@card-bar-track: rgba(0, 0, 0, 0.05);
+@card-bar-active: #ffffff;
+
+.container {
+  width: 100%;
+  position: relative;
+
+  .swiper {
+    width: 100%;
+    height: fit-content;
+  }
+
+  .dots {
+    margin-top: 16rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 8rpx;
+
+    .dot {
+      width: 12rpx;
+      height: 12rpx;
+      background: #e2e2e2;
+      border-radius: 50%;
+
+      &.active {
+        background: #3678e3;
+      }
+    }
+  }
+
+  // SwiperItem 包裹层：透明，仅用于占位，高度由 Swiper 控制
+  .benefitSlide {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+  }
+
+  .benefitItem {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 28rpx;
+    border-radius: 32rpx;
+    overflow: hidden;
+    // 实际背景（装饰图 + 渐变）由 index.tsx 内联 cardBgStyle 控制；此处渐变为兜底
+    background: linear-gradient(288deg, #92baff 3%, #2a7efc 97%);
+
+    .header {
+      height: 56rpx;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .title {
+        font-size: 30rpx;
+        font-weight: 600;
+        color: @card-text-primary;
+        flex: 1;
+      }
+
+      .buyButton {
+        flex-shrink: 0;
+        height: 56rpx;
+        padding: 0 24rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 522rpx;
+        background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.77) 100%);
+        box-shadow: 0rpx 8rpx 20rpx 0rpx rgba(51, 108, 200, 0.2);
+        font-size: 20rpx;
+        font-weight: 500;
+        color: #3678e3;
+      }
+    }
+
+    // 适用范围：标题下方
+    .scope {
+      font-size: 24rpx;
+      line-height: 34rpx;
+      color: @card-text-secondary;
+      display: flex;
+    }
+
+    .label {
+      flex-shrink: 0;
+    }
+
+    .separator {
+      margin: 0 10rpx;
+    }
+  }
+
+  // 进度条 + 底部信息区域（无进度条时保持高度一致）
+  .meter {
+    margin-top: 40rpx;
+
+    // 无进度条时，底部行与上方文案的间距 = 有进度条卡片底部行与进度条的间距（14rpx）
+    &.meterNoBar {
+      margin-top: 14rpx;
+    }
+
+    .bar {
+      width: 100%;
+      height: 12rpx;
+      background: @card-bar-track;
+      border-radius: 100rpx;
+      position: relative;
+      overflow: hidden;
+
+      .barActive {
+        height: 100%;
+        border-radius: 100rpx;
+        background: @card-bar-active;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+
+    .meterBottom {
+      margin-top: 14rpx;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 20rpx;
+      line-height: 34rpx;
+      color: @card-text-secondary;
+
+      // 无进度条时，底部信息紧贴上方内容，去掉进度条留出的间距，字号保持 24rpx
+      &.meterBottomNoBar {
+        margin-top: 0;
+        font-size: 24rpx;
+      }
+    }
+
+    .remain,
+    .expire {
+      display: flex;
+      align-items: center;
+      min-height: 34rpx;
+    }
+
+    .colon {
+      margin: 0 6rpx;
+    }
+
+    .expired {
+      margin-left: 8rpx;
+      padding: 0 8rpx;
+      height: 34rpx;
+      font-size: 22rpx;
+      border-radius: 6rpx;
+      background: rgba(255, 255, 255, 0.25);
+      text-align: center;
+      line-height: 34rpx;
+      color: #ffffff;
+    }
+  }
+
+  .introItem {
+    box-sizing: border-box;
+    width: 100%;
+
+    .intro {
+      margin-top: 50rpx;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .imgWrapper {
+        width: 68rpx;
+        height: 68rpx;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .img {
+          width: 38rpx;
+          height: 38rpx;
+        }
+      }
+
+      .itemTitle {
+        font-size: 22rpx;
+        line-height: 30rpx;
+        color: @card-text-primary;
+        margin-top: 8rpx;
+        text-align: center;
+      }
+    }
+  }
+}

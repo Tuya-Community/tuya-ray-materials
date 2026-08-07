@@ -1,0 +1,27 @@
+.waveAnimMini {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 20px;
+  background: transparent;
+  // gap: 3px;
+  margin-left: 12px;
+}
+
+.waveAnimMini> :not(:first-child) {
+  margin-left: 3px;
+}
+
+.waveBar {
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--color-waveform-gradient-start) 0%, var(--color-waveform-gradient-end) 100%);
+  transition: height 0.2s cubic-bezier(.4, 0, .2, 1);
+  flex-shrink: 0;
+}
+
+.voiceGif {
+  height: 28px;
+  width: 28px;
+}
