@@ -1,0 +1,72 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f3f4f6;
+
+  /* Tabs 吸顶栏贴边、白底 */
+  :global(.smart-tabs__nav) {
+    background-color: #fff;
+  }
+
+  /* 对齐 RN tabBarStyle height:48：--tabs-line-height 默认 32px 偏矮，抬高到 48px */
+  :global(.smart-tabs--line) {
+    --tabs-line-height: 48px;
+  }
+}
+
+.flex {
+  flex: 1;
+  height: 0;
+}
+
+.tabContent {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+// ===== 右下角添加按钮 =====
+.addBtn {
+  position: absolute;
+  right: 48rpx;
+  bottom: calc(64rpx + env(safe-area-inset-bottom));
+  bottom: calc(64rpx + constant(safe-area-inset-bottom));
+  z-index: 10;
+}
+
+.addIcon {
+  width: 112rpx;
+  height: 112rpx;
+}
+
+// ===== 蓝牙重连倒计时弹框（与 lock 页一致） =====
+.reconnectBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 200rpx;
+  max-width: 80%;
+  padding: 48rpx 40rpx;
+  border-radius: 16rpx;
+  background-color: rgba(0, 0, 0, 0.75);
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.reconnectText {
+  margin-top: 28rpx;
+  color: #ffffff;
+  font-size: 26rpx;
+  line-height: 1.4;
+  text-align: center;
+  word-break: break-word;
+}

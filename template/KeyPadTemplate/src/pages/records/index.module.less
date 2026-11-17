@@ -1,0 +1,130 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f8f8f8;
+}
+
+.scroll {
+  flex: 1;
+  height: 0;
+}
+
+// 列表项改为通栏整行（对齐 RN），容器仅保留上下留白
+.list {
+  padding-top: 16rpx;
+}
+
+// ===== 日期分组标题 =====
+// 对齐 RN headerStyle marginTop:12 marginBottom:4；左缩进对齐内容区（item 横向 padding 56rpx）
+// Ray 的 Text 编译为小程序 <text>（inline 元素），垂直 margin 默认不生效，需声明 block。
+.sectionTitle {
+  display: block;
+  margin: 24rpx 56rpx 8rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.sectionTitle:first-child {
+  margin-top: 8rpx;
+}
+
+// ===== 单条记录 =====
+// 对齐 RN listItem：扁平整行，无圆角无外边距，仅靠 padding 撑开。
+// RN listItem 与内层 View 均未设 alignItems（默认 stretch），avatar 与文字列顶部对齐。
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 24rpx 56rpx;
+  background-color: #fff;
+}
+
+// 对齐 RN avatar：cx(48)→96rpx 圆形，#f8f8f8 底色，cx(12)→24rpx 右间距。
+// 顶部对齐时圆形图标与第一行标题顶边齐平（对齐 RN Image 默认 stretch 行为）。
+.itemIcon {
+  flex-shrink: 0;
+  width: 96rpx;
+  height: 96rpx;
+  margin-right: 24rpx;
+  border-radius: 48rpx;
+  background-color: #f8f8f8;
+}
+
+.itemBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.itemTitle {
+  color: #333;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+
+// ===== 关联子设备（对齐 RN relateDevName：小锁图标 + 设备名，灰字限宽） =====
+.itemSub {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 12rpx;
+}
+
+.itemSubIcon {
+  flex-shrink: 0;
+  width: 28rpx;
+  height: 28rpx;
+}
+
+.itemSubText {
+  max-width: 300rpx;
+  overflow: hidden;
+  color: #999;
+  font-size: 24rpx;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.itemTime {
+  margin-top: 8rpx;
+  color: #999;
+  font-size: 24rpx;
+}
+
+// ===== 空状态 =====
+.empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 218rpx;
+}
+
+.emptyIcon {
+  width: 320rpx;
+  height: 320rpx;
+}
+
+.emptyText {
+  margin-top: 8rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+// ===== 加载更多 =====
+.footer {
+  padding: 24rpx 0 48rpx;
+  color: #999;
+  font-size: 24rpx;
+  text-align: center;
+}
+
+.retry {
+  padding: 24rpx 32rpx;
+  font-size: 28rpx;
+  text-align: center;
+}

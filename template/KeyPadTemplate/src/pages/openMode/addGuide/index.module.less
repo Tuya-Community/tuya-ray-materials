@@ -1,0 +1,95 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f3f4f6;
+}
+
+// ===== 顶部标题区（对齐 RN top：主标题 + 副标题） =====
+.top {
+  padding: 24rpx 32rpx 0;
+}
+
+.topTitle {
+  color: #333;
+  font-size: 44rpx;
+  font-weight: bold;
+}
+
+.topSubTitle {
+  display: block;
+  margin-top: 16rpx;
+  color: #999;
+  font-size: 26rpx;
+  line-height: 1.5;
+}
+
+// ===== 引导图（对齐 RN image：整宽大图） =====
+.imageWrap {
+  flex: 1;
+  height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  width: 100%;
+  height: 632rpx;
+}
+
+// 引导图资源未上传 CDN 时的占位（保持布局，不显示裂图）
+.imagePlaceholder {
+  width: 60%;
+  height: 400rpx;
+  border-radius: 16rpx;
+  background-color: #ececec;
+}
+
+// ===== 底部「开始采集」按钮（对齐 RN AddBtnView） =====
+.footer {
+  padding: 16rpx 32rpx calc(16rpx + env(safe-area-inset-bottom));
+  padding: 16rpx 32rpx calc(16rpx + constant(safe-area-inset-bottom));
+  background-color: #f3f4f6;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  border-radius: 44rpx;
+}
+
+.btnText {
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+// ===== 蓝牙重连倒计时弹框（对齐 openMode/index.module.less） =====
+.reconnectBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 200rpx;
+  max-width: 80%;
+  padding: 48rpx 40rpx;
+  border-radius: 16rpx;
+  background-color: rgba(0, 0, 0, 0.75);
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.reconnectText {
+  margin-top: 28rpx;
+  color: #ffffff;
+  font-size: 28rpx;
+}

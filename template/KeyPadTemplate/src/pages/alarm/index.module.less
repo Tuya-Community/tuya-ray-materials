@@ -1,0 +1,111 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f8f8f8;
+}
+
+.scroll {
+  flex: 1;
+  height: 0;
+}
+
+// 列表项通栏整行（对齐 RN listItem：无圆角无侧边距，仅靠 padding 撑开）
+.list {
+  padding-top: 16rpx;
+}
+
+// ===== 日期分组标题 =====
+// 左缩进对齐内容区（item 横向 padding 32rpx）
+// Ray 的 Text 编译为小程序 <text>（inline 元素），垂直 margin 默认不生效，需声明 block。
+.sectionTitle {
+  display: block;
+  margin: 24rpx 32rpx 8rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.sectionTitle:first-child {
+  margin-top: 8rpx;
+}
+
+// ===== 单条告警 =====
+// 扁平整行：无圆角无侧边距，padding cx(16)→32rpx。
+// 对齐 RN alarm.js listItem：无 alignItems（默认 stretch），iconBg 与文字列顶部对齐。
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 32rpx;
+  background-color: #fff;
+}
+
+// 对齐 RN iconBg：24px→48rpx 圆形描边框，marginRight cx(8)→16rpx。
+// iconBg 内部用 center 居中放图标；顶部对齐时框顶边与标题顶边齐平。
+.itemIcon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 16rpx;
+  border: 1rpx solid #dbdbdb;
+  border-radius: 24rpx;
+  background-color: #fff;
+}
+
+.itemBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.itemTitle {
+  color: #333;
+  font-size: 28rpx;
+  line-height: 40rpx;
+}
+
+.itemTime {
+  margin-top: 8rpx;
+  color: #999;
+  font-size: 24rpx;
+}
+
+// ===== 空状态 =====
+.empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 218rpx;
+}
+
+.emptyIcon {
+  width: 320rpx;
+  height: 320rpx;
+}
+
+.emptyText {
+  margin-top: 8rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+// ===== 加载更多 =====
+.footer {
+  padding: 24rpx 0 48rpx;
+  color: #999;
+  font-size: 24rpx;
+  text-align: center;
+}
+
+.retry {
+  padding: 24rpx 32rpx;
+  font-size: 28rpx;
+  text-align: center;
+}

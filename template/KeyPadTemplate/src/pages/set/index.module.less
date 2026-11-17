@@ -1,0 +1,55 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f8f8f8;
+  /* ActionSheet 列表弹框：去除左右下边距（贴边全宽展示） */
+  --action-sheet-left: 0;
+  --action-sheet-width: 100%;
+  --action-sheet-margin: 0;
+
+  /* 仅保留顶部两个圆角，底部贴边处归零 */
+  :global(.smart-action-sheet) {
+    border-radius: 16px 16px 0 0 !important;
+  }
+}
+
+.scroll {
+  flex: 1;
+  height: 0;
+  margin-top: 24rpx;
+  background-color: #fff;
+}
+
+// 蓝牙重连倒计时弹框（对齐 pages/lock，与 RN reConnectBle 的 Notification 居中弹窗一致）。
+// Overlay 仅作遮罩，盒子用 fixed 自居中，避免依赖 Overlay 内部布局导致偏左上角。
+// 宽高自适应：min-width 保证短文案（如中文）不会太窄，padding 给长文案（如英文）留空间，
+// 文案自动换行，多语言下不会溢出。
+.reconnectBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 200rpx;
+  max-width: 80%;
+  padding: 48rpx 40rpx;
+  border-radius: 16rpx;
+  background-color: rgba(0, 0, 0, 0.75);
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.reconnectText {
+  margin-top: 28rpx;
+  color: #ffffff;
+  font-size: 26rpx;
+  line-height: 1.4;
+  text-align: center;
+  word-break: break-word;
+}

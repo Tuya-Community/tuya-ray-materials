@@ -1,0 +1,201 @@
+/**
+ * 无效开锁方式列表样式。
+ * 对齐 RN(0000007ew6) failurePsw.js StyleSheet：
+ * - 容器 #f8f8f8 背景；
+ * - listItem 圆角白卡、opacity 0.5（视觉上的「失效」感）；
+ * - iconBg 主题色 24px(→48rpx) 圆形，内部图标按 RN 资源逻辑尺寸 24px 展示；
+ * - 各类副信息行 #939393 / 12px(→24rpx)。
+ * px → rpx：RN cx/cy 为 dp，小程序按 2x 换算（1dp ≈ 2rpx）。
+ */
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f8f8f8;
+}
+
+.flex {
+  flex: 1;
+  height: 0;
+}
+
+.scroll {
+  flex: 1;
+  height: 0;
+  box-sizing: border-box;
+  padding: 20rpx 32rpx 0;
+}
+
+// ===== 列表项（对齐 RN listItem）=====
+.item {
+  // opacity 0.5 对齐 RN listItem 显式透明，体现「失效」语义
+  opacity: 0.5;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 24rpx 28rpx;
+  margin-bottom: 20rpx;
+  border-radius: 12rpx;
+  background-color: #fff;
+}
+
+.itemTop {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.iconBg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 26rpx;
+  border-radius: 24rpx;
+}
+
+.icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  color: #333;
+  font-size: 32rpx;
+  .ellipsis();
+}
+
+// 时间 / 手机号行（对齐 RN time / phone）
+.time {
+  margin-bottom: 8rpx;
+  margin-left: 16rpx;
+  max-width: 630rpx;
+  overflow: hidden;
+  color: #939393;
+  font-size: 24rpx;
+  // Ray 的 Text 编译为 <text>，多行省略需声明
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  word-break: break-all;
+}
+
+.phone {
+  margin-top: 8rpx;
+  margin-bottom: 8rpx;
+  margin-left: 16rpx;
+  max-width: 630rpx;
+  color: #939393;
+  font-size: 24rpx;
+}
+
+// 副信息行（用户名 / 门锁名 / 时间段，对齐 RN itemCenter）
+.itemCenter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 8rpx;
+  margin-bottom: 8rpx;
+  margin-left: 16rpx;
+}
+
+.subIcon {
+  flex-shrink: 0;
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 8rpx;
+}
+
+.userName,
+.lockName,
+.itemText {
+  color: #939393;
+  font-size: 24rpx;
+  .ellipsis();
+}
+
+// ===== 清空码徽标（对齐 RN hasSetClearBtn）=====
+.hasSetClearBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28rpx;
+  margin-left: 8rpx;
+  padding: 0 6rpx;
+  border-radius: 4rpx;
+  background-color: #fff3e8;
+}
+
+.clearBtnText {
+  color: #ff7200;
+  font-size: 20rpx;
+  font-weight: bold;
+  line-height: 28rpx;
+}
+
+// ===== 撤销密码区（对齐 RN revokedPwdView，opModeSubType===8）=====
+.revokedPwdView {
+  margin-top: 16rpx;
+}
+
+.revokedPwdTitle {
+  display: block;
+  margin-bottom: 20rpx;
+  color: #999;
+  font-size: 20rpx;
+}
+
+.revokedPswWarp {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20rpx 32rpx 24rpx;
+  border-radius: 12rpx;
+  border: 2rpx solid rgba(0, 0, 0, 0.08);
+  background-color: #f8f8f8;
+}
+
+.revokedPwdName {
+  color: #333;
+  font-size: 28rpx;
+}
+
+.revokedPwdTime {
+  display: block;
+  margin-top: 14rpx;
+  color: #999;
+  font-size: 20rpx;
+}
+
+// ===== 空状态（对齐 RN renderEmptyView）=====
+.empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.noneIcon {
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.tip {
+  margin-top: 12rpx;
+  margin-left: 12rpx;
+  color: #939393;
+  font-size: 24rpx;
+}
+
+// ===== 工具：单行省略 =====
+.ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,32 @@
+.addBtnWrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  padding: 24rpx 32rpx;
+  // 兼容 iPhone X 安全区
+  padding-bottom: calc(24rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  background-color: transparent;
+  z-index: 10;
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 96rpx;
+  border-radius: 48rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.12);
+}
+
+.addBtnDisabled {
+  background-color: #ccc;
+}
+
+.addBtnText {
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: bold;
+}

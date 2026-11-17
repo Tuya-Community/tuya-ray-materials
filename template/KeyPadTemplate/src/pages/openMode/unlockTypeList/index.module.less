@@ -1,0 +1,322 @@
+// ===== 开锁方式列表 / 卡片样式（自 openMode/index.module.less 迁出，供 unlockTypeList/* 共用）=====
+
+.flex {
+  flex: 1;
+  height: 0;
+}
+
+.scroll {
+  flex: 1;
+  height: 0;
+  // 底部留白略大于列表项间距即可；右下「+」浮标只占右下角，无需整宽避让
+  padding: 20rpx 24rpx 40rpx;
+  box-sizing: border-box;
+}
+
+// ===== 通用列表项（MethodItem：蓝牙钥匙 / 指纹 / 卡 / 人脸 / 掌静脉）=====
+.item {
+  width: 100%;
+  padding: 24rpx 28rpx;
+  margin-bottom: 20rpx;
+  border-radius: 16rpx;
+  background-color: #fff;
+}
+
+.itemTop {
+  display: flex;
+  align-items: center;
+}
+
+.iconBg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 20rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  color: #333;
+  font-size: 30rpx;
+  .ellipsis();
+}
+
+// 副信息行（对齐 RN itemCenter：小图标 + 文字，均在白卡内）
+.itemSub {
+  display: flex;
+  align-items: center;
+  margin-top: 12rpx;
+  margin-left: 10rpx;
+}
+
+.subIcon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+
+.itemSubText {
+  flex: 1;
+  min-width: 0;
+  color: #939393;
+  font-size: 24rpx;
+  .ellipsis();
+}
+
+// ===== 空状态（对齐 RN noneWarp：在内容区内垂直居中） =====
+// 空态 + 底部「查看无效开锁方式」入口的容器
+.emptyWrap {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.noneWrap {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.noneIcon {
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.tip {
+  margin-top: 30rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+// ===== 无效开锁方式入口（对齐 RN failureText，#999 / 24rpx，居中） =====
+// 底部留安全距离：常规间距 + iOS 底部安全区
+.failureEntry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx 0 calc(48rpx + env(safe-area-inset-bottom));
+  padding: 24rpx 0 calc(48rpx + constant(safe-area-inset-bottom));
+}
+
+.failureText {
+  color: #999;
+  font-size: 24rpx;
+}
+
+// ===== 密码开锁方式（对齐 RN openMode/password/index.js）=====
+// 可折叠分组头（标题 + 数量 + 箭头）
+.pwdHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 8rpx 12rpx;
+}
+
+.pwdHeaderLeft {
+  display: flex;
+  align-items: baseline;
+}
+
+.pwdHeaderTitle {
+  color: #333;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.pwdHeaderCount {
+  margin-left: 8rpx;
+  color: #939393;
+  font-size: 24rpx;
+}
+
+.pwdArrow {
+  width: 28rpx;
+  height: 20rpx;
+}
+
+// 密码卡片
+.pwdItem {
+  width: 100%;
+  padding: 24rpx 28rpx;
+  margin-bottom: 20rpx;
+  border-radius: 16rpx;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.pwdItemTop {
+  display: flex;
+  align-items: center;
+  // 标签紧跟标题、超宽换行（对齐 RN itemTop flexWrap:wrap，不用 space-between）
+  flex-wrap: wrap;
+}
+
+.pwdIcon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.pwdTitle {
+  // 不撑满，标签紧跟其后（对齐 RN title maxWidth:cx(220)，非 flex:1）
+  max-width: 440rpx;
+  margin-left: 20rpx;
+  color: #333;
+  font-size: 30rpx;
+  .ellipsis();
+}
+
+// 生效时间 / 手机号行
+.pwdTime {
+  margin-top: 12rpx;
+  margin-left: 16rpx;
+  color: #939393;
+  font-size: 24rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.pwdPhone {
+  margin-top: 8rpx;
+  margin-left: 16rpx;
+  color: #939393;
+  font-size: 24rpx;
+}
+
+// 副信息行（用户名 / 门锁 / 可开所有门锁）
+.pwdCenter {
+  display: flex;
+  align-items: center;
+  margin-top: 12rpx;
+  margin-left: 10rpx;
+}
+
+.pwdSubText {
+  flex: 1;
+  min-width: 0;
+  color: #939393;
+  font-size: 24rpx;
+  .ellipsis();
+}
+
+// 超时未使用标（对齐 RN overTimeTag）
+.overTimeTag {
+  flex-shrink: 0;
+  margin-left: 8rpx;
+  padding: 0 8rpx;
+  border-radius: 4rpx;
+  background-color: #fff3e8;
+}
+
+.overTimeText {
+  color: #ff7200;
+  font-size: 20rpx;
+  line-height: 32rpx;
+}
+
+// 劫持 / 清空码标（对齐 RN hasSetClearBtn，默认橙底橙字，清空单个覆写为主题绿）
+.clearTag {
+  flex-shrink: 0;
+  margin-left: 8rpx;
+  padding: 0 8rpx;
+  border-radius: 4rpx;
+  background-color: #fff3e8;
+}
+
+.clearTagText {
+  color: #ff7200;
+  font-size: 20rpx;
+  font-weight: bold;
+  line-height: 32rpx;
+}
+
+// 未完成状态标（对齐 RN pwsStatusTag：主题色底、白字）
+.statusTag {
+  align-self: flex-start;
+  margin-top: 16rpx;
+  margin-left: 76rpx;
+  padding: 2rpx 12rpx;
+  border-radius: 4rpx;
+}
+
+.statusTagText {
+  color: #fff;
+  font-size: 20rpx;
+}
+
+// 撤销密码区（对齐 RN revokedPwdView，opModeSubType===8）
+.revokedView {
+  margin-top: 16rpx;
+  margin-left: 40rpx;
+}
+
+.revokedTitle {
+  display: block;
+  margin-bottom: 16rpx;
+  color: #999;
+  font-size: 20rpx;
+}
+
+.revokedBox {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20rpx 24rpx;
+  border-radius: 12rpx;
+  border: 2rpx solid rgba(0, 0, 0, 0.08);
+  background-color: #f8f8f8;
+}
+
+.revokedName {
+  color: #333;
+  font-size: 28rpx;
+}
+
+.revokedTime {
+  display: block;
+  margin-top: 12rpx;
+  color: #999;
+  font-size: 20rpx;
+}
+
+// ===== 重命名弹框输入区（Dialog useSlot 内）=====
+.renameField {
+  padding: 24rpx 24rpx 8rpx;
+}
+
+// 操作菜单（ActionSheet）去掉左右下浮动间距，改为贴底通栏
+// smart-ui 默认 left:16px / width:calc(100%-32px) / margin:0 0 16px，均由 CSS 变量控制
+:global(.smart-action-sheet) {
+  --action-sheet-left: 0;
+  --action-sheet-width: 100%;
+  --action-sheet-margin: 0;
+}
+
+// 底部两角改直角（保留顶部圆角）。双写类名提高优先级，压过 smart-ui 的 border-radius:...!important
+:global(.smart-action-sheet.smart-action-sheet) {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+// ===== 工具：单行省略 =====
+.ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

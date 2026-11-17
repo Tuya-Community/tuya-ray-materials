@@ -1,0 +1,184 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #f8f8f8;
+}
+
+/* 顶部标题区（对齐 RN topWarp/topTitle，白底） */
+.topWrap {
+  width: 100vw;
+  background-color: #ffffff;
+  padding-bottom: 8rpx;
+}
+
+.topTitle {
+  display: block;
+  margin: 48rpx 0 0 48rpx;
+  color: #333333;
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+/* 副标题（对齐 RN topSubTitle：·请及时保存…） */
+.topSubTitle {
+  display: block;
+  margin: 8rpx 48rpx 0;
+  color: #999999;
+  font-size: 24rpx;
+  line-height: 40rpx;
+}
+
+/* 清空单个：被清空密码信息卡（对齐 RN clearPswWarp / choosePsw） */
+.chooseWrap {
+  width: 100vw;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+}
+
+.chooseCard {
+  width: 654rpx;
+  box-sizing: border-box;
+  padding: 20rpx 32rpx;
+  margin-top: 24rpx;
+  background-color: #f8f8f8;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16rpx;
+}
+
+.chooseName {
+  display: block;
+  color: #333333;
+  font-size: 32rpx;
+}
+
+.chooseTime {
+  display: block;
+  margin-top: 16rpx;
+  color: #999999;
+  font-size: 24rpx;
+}
+
+/* 密码展示区（对齐 RN pswWarp，白底） */
+.pswWrap {
+  width: 100vw;
+  background-color: #ffffff;
+  padding-bottom: 24rpx;
+}
+
+/* pwdBg 背景图 327x58（对齐 RN），居中 */
+.pwdBg {
+  position: relative;
+  width: 654rpx;
+  height: 116rpx;
+  margin: 40rpx auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pwdBgImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 654rpx;
+  height: 116rpx;
+}
+
+/* 未获取：灰色星号（对齐 RN pwdTextDefault） */
+.pwdText {
+  position: relative;
+  color: #212121;
+  font-size: 60rpx;
+  font-weight: bold;
+  letter-spacing: 8rpx;
+}
+
+/* 已获取：主题色高亮（对齐 RN pwdText，绿色→主题色） */
+.pwdTextActive {
+  font-size: 64rpx;
+  letter-spacing: 14rpx;
+}
+
+/* 复制链接（对齐 RN copyText，左对齐） */
+.copyText {
+  display: block;
+  margin: 22rpx 0 0 48rpx;
+  font-size: 28rpx;
+}
+
+/* 命名行（对齐 RN nameItem：左标题 + 右输入框） */
+.nameItem {
+  width: 100vw;
+  margin-top: 48rpx;
+  padding: 0 48rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.nameLabel {
+  color: #333333;
+  font-size: 32rpx;
+}
+
+/*
+ * 嵌套选择器提高优先级，覆盖 Ray 基础 .input（自带 2rpx 边框 + padding:10rpx，
+ * 单类同权重靠加载顺序取胜不可靠 → 会出现「框框」）。RN TextInput 无边框、透明底、右对齐。
+ */
+.nameItem .nameInput {
+  flex: 1;
+  min-height: 0;
+  margin-left: 24rpx;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: #333333;
+  font-size: 28rpx;
+  text-align: right;
+}
+
+/* 底部区（对齐 RN bottomWarp，白底、提示 + 按钮） */
+.bottomWrap {
+  margin-top: 20rpx;
+  width: 100vw;
+  min-height: 300rpx;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottomTip {
+  max-width: 620rpx;
+  color: #999999;
+  font-size: 24rpx;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* 不可获取时红色提示（对齐 RN !canGet color:#FF0000） */
+.bottomTipWarn {
+  color: #ff0000;
+}
+
+.btn {
+  width: 356rpx;
+  height: 88rpx;
+  margin-top: 40rpx;
+  border-radius: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnText {
+  color: #ffffff;
+  font-size: 32rpx;
+}

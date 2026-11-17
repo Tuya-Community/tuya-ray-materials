@@ -1,0 +1,244 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f8f8f8;
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+}
+
+.topWrap {
+  width: 100vw;
+  background-color: #ffffff;
+  padding-bottom: 8rpx;
+}
+
+.topTitle {
+  display: block;
+  margin: 32rpx 0 0 48rpx;
+  color: #333333;
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+.topSubTitle {
+  display: block;
+  margin: 20rpx 48rpx 0;
+  color: #999999;
+  font-size: 24rpx;
+  line-height: 40rpx;
+}
+
+/* 密码输入区 */
+.pswWrap {
+  width: 100vw;
+  background-color: #ffffff;
+  padding: 40rpx 48rpx 24rpx;
+  box-sizing: border-box;
+}
+
+.pwdTextTitle {
+  display: block;
+  color: #333333;
+  font-size: 28rpx;
+}
+
+.pswBox {
+  margin-top: 16rpx;
+  height: 120rpx;
+  padding: 0 32rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f8f8;
+  border: 1rpx solid rgba(0, 0, 0, 0.08);
+  border-radius: 16rpx;
+  box-sizing: border-box;
+}
+
+.pswBox .pswInput {
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: #333333;
+  font-size: 48rpx;
+  font-weight: bold;
+  letter-spacing: 12rpx;
+}
+
+.randomBtn {
+  margin-left: 24rpx;
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+.copyText {
+  display: block;
+  margin-top: 22rpx;
+  font-size: 28rpx;
+}
+
+/* 命名行 */
+.nameItem {
+  width: 100vw;
+  margin-top: 20rpx;
+  height: 96rpx;
+  padding: 0 48rpx;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.nameItem .nameInput {
+  flex: 1;
+  min-height: 0;
+  margin-left: 24rpx;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: #333333;
+  font-size: 28rpx;
+  text-align: right;
+}
+
+/* 分组（生效/失效 + 重复） */
+.group {
+  width: 100vw;
+  margin-top: 20rpx;
+  background-color: #ffffff;
+}
+
+.row {
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 24rpx 48rpx;
+  min-height: 96rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.itemLabel {
+  color: #333333;
+  font-size: 32rpx;
+}
+
+.valueWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.value {
+  color: #333333;
+  font-size: 28rpx;
+}
+
+.placeholder {
+  color: rgba(51, 51, 51, 0.2);
+  font-size: 28rpx;
+}
+
+.arrow {
+  width: 16rpx;
+  height: 16rpx;
+  margin-left: 16rpx;
+  border-top: 3rpx solid #c8c8c8;
+  border-right: 3rpx solid #c8c8c8;
+  transform: rotate(45deg);
+}
+
+/* 周选择（对齐 RN WeekView） */
+.weekRow {
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 16rpx 32rpx 32rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.weekDay {
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 38rpx;
+  border: 1rpx solid rgba(51, 51, 51, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weekDayActive {
+  border-color: transparent;
+}
+
+.weekText {
+  font-size: 24rpx;
+  font-weight: bold;
+  color: rgba(51, 51, 51, 0.5);
+}
+
+.weekTextActive {
+  color: #ffffff;
+}
+
+.bottomWrap {
+  width: 100vw;
+  background-color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24rpx 0 64rpx;
+}
+
+.btn {
+  width: 622rpx;
+  height: 88rpx;
+  border-radius: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnText {
+  color: #ffffff;
+  font-size: 32rpx;
+}
+
+.reconnectMask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.reconnectBox {
+  padding: 40rpx 48rpx;
+  border-radius: 16rpx;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.reconnectText {
+  color: #ffffff;
+  font-size: 28rpx;
+}

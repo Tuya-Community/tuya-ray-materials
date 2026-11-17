@@ -1,0 +1,189 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #f8f8f8;
+}
+
+.topWrap {
+  width: 100vw;
+  background-color: #ffffff;
+  padding-bottom: 8rpx;
+}
+
+.topTitle {
+  display: block;
+  margin: 32rpx 0 0 48rpx;
+  color: #333333;
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+.topSubTitle {
+  display: block;
+  margin: 8rpx 48rpx 0;
+  color: #999999;
+  font-size: 24rpx;
+  line-height: 40rpx;
+}
+
+.pswWrap {
+  width: 100vw;
+  background-color: #ffffff;
+  padding-bottom: 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pwdBg {
+  position: relative;
+  width: 654rpx;
+  height: 116rpx;
+  margin: 74rpx auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pwdBgImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 654rpx;
+  height: 116rpx;
+}
+
+.pwdText {
+  position: relative;
+  color: #212121;
+  font-size: 60rpx;
+  font-weight: bold;
+  letter-spacing: 8rpx;
+}
+
+.pwdTextActive {
+  font-size: 64rpx;
+  letter-spacing: 14rpx;
+}
+
+.copyText {
+  display: block;
+  margin: 22rpx 0 0 48rpx;
+  font-size: 28rpx;
+}
+
+/* 命名行 */
+.nameItem {
+  width: 100vw;
+  margin-top: 48rpx;
+  padding: 0 48rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.nameLabel {
+  color: #333333;
+  font-size: 32rpx;
+}
+
+/*
+ * 嵌套选择器提高优先级，覆盖 Ray 基础 .input（自带 2rpx 边框 + padding:10rpx）。
+ * RN TextInput 无边框、透明底、右对齐。
+ */
+.nameItem .nameInput {
+  flex: 1;
+  min-height: 0;
+  margin-left: 24rpx;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: #333333;
+  font-size: 28rpx;
+  text-align: right;
+}
+
+/* 时间选择行组（对齐 RN renderPicker） */
+.timeGroup {
+  width: 100vw;
+  margin-top: 40rpx;
+}
+
+.timeRow {
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 24rpx 48rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.timeLabel {
+  color: #333333;
+  font-size: 32rpx;
+}
+
+.timeValueWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.timeValue {
+  color: #333333;
+  font-size: 28rpx;
+}
+
+.timePlaceholder {
+  color: rgba(51, 51, 51, 0.2);
+  font-size: 28rpx;
+}
+
+.arrow {
+  width: 16rpx;
+  height: 16rpx;
+  margin-left: 16rpx;
+  border-top: 3rpx solid #c8c8c8;
+  border-right: 3rpx solid #c8c8c8;
+  transform: rotate(45deg);
+}
+
+/* 底部区（对齐 RN bottomWarp：自然高度紧跟时间选择区，不撑满） */
+.bottomWrap {
+  margin-top: 20rpx;
+  width: 100vw;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48rpx 0 64rpx;
+}
+
+.bottomTip {
+  max-width: 620rpx;
+  color: #999999;
+  font-size: 24rpx;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.btn {
+  width: 356rpx;
+  height: 88rpx;
+  margin-top: 40rpx;
+  border-radius: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnText {
+  color: #ffffff;
+  font-size: 32rpx;
+}

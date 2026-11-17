@@ -1,0 +1,263 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f2f4f6;
+}
+
+.space-around {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+// ===== 首页顶部栏 =====
+.topBar {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 34rpx;
+  padding-bottom: 20rpx;
+}
+
+.battery {
+  position: absolute;
+  left: 56rpx;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.batteryIcon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 6rpx;
+}
+
+.batteryText {
+  font-size: 24rpx;
+  color: #525252;
+}
+
+.saveTime {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 68rpx;
+}
+
+.saveIcon {
+  margin-right: 12rpx;
+}
+
+.saveText {
+  font-size: 24rpx;
+  color: #666;
+}
+
+// ===== 首页中间内容区 =====
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.onlineImg {
+  width: 500rpx;
+  height: 500rpx;
+}
+
+.offline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.offlineBg {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 384rpx;
+  height: 384rpx;
+}
+
+.offlineBgImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 384rpx;
+  height: 384rpx;
+}
+
+.noneIcon {
+  position: relative;
+}
+
+.noneText {
+  margin-top: 40rpx;
+  padding: 0 40rpx;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  text-align: center;
+}
+
+// ===== 首页底部区 =====
+.bottom {
+  margin: 0 24rpx;
+  padding-bottom: 40rpx;
+}
+
+// --- 告警提示卡片 ---
+.alarmTip {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 112rpx;
+  margin-bottom: 20rpx;
+  padding: 0 28rpx;
+  border-radius: 16rpx;
+  background-color: #fff;
+}
+
+.alarmLeft {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+}
+
+.alarmIcon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  background-color: #f4f4f4;
+}
+
+.alarmText {
+  flex: 1;
+  margin-left: 32rpx;
+  overflow: hidden;
+  color: #878787;
+  font-size: 28rpx;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.alarmBadge {
+  position: absolute;
+  top: 28rpx;
+  right: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40rpx;
+  height: 40rpx;
+  padding: 0 8rpx;
+  border-radius: 20rpx;
+  background-color: #fc4747;
+}
+
+.alarmBadgeText {
+  color: #fff;
+  font-size: 20rpx;
+}
+
+// --- 功能按钮栏 ---
+.controllerBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: 112rpx;
+  border-radius: 16rpx;
+  background-color: #fff;
+}
+
+.actionItem {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  height: 112rpx;
+}
+
+// --- 引导气泡 ---
+.bubble {
+  position: absolute;
+  bottom: 100rpx;
+  left: 50%;
+  display: flex;
+  width: max-content;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.bubbleBox {
+  display: flex;
+  width: max-content;
+  flex-direction: row;
+  align-items: center;
+  height: 58rpx;
+  padding: 0 16rpx;
+  border-radius: 12rpx;
+  background-color: #000;
+  white-space: nowrap;
+}
+
+.bubbleText {
+  flex-shrink: 0;
+  color: #fff;
+  font-size: 24rpx;
+  white-space: nowrap;
+}
+
+.bubbleCloseSlot {
+  position: relative;
+  flex-shrink: 0;
+  width: 40rpx;
+  height: 40rpx;
+  margin-left: 16rpx;
+}
+
+// 保留原图标占位，扩大透明点击区；使用 px 保证窄屏下也不小于 40px。
+.bubbleClose {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+}
+
+.bubbleArrow {
+  width: 0;
+  height: 0;
+  border-top: 12rpx solid #000;
+  border-right: 12rpx solid transparent;
+  border-left: 12rpx solid transparent;
+}

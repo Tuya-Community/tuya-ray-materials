@@ -1,0 +1,146 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f8f8f8;
+
+  /* ActionSheet 列表弹框：去除左右下边距（贴边全宽展示） */
+  --action-sheet-left: 0;
+  --action-sheet-width: 100%;
+  --action-sheet-margin: 0;
+
+  /* 仅保留顶部两个圆角，底部贴边处归零 */
+  :global(.smart-action-sheet) {
+    border-radius: 16px 16px 0 0 !important;
+  }
+}
+
+.scroll {
+  flex: 1;
+  height: 0;
+  padding: 24rpx 32rpx 160rpx;
+  box-sizing: border-box;
+}
+
+// ===== 列表项 =====
+.item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  border-radius: 16rpx;
+  background-color: #fff;
+}
+
+.icon {
+  width: 84rpx;
+  height: 84rpx;
+  margin-right: 24rpx;
+  border-radius: 12rpx;
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  color: #333;
+  font-size: 30rpx;
+  .ellipsis();
+}
+
+.subTitle {
+  margin-top: 8rpx;
+  color: #999;
+  font-size: 26rpx;
+  .ellipsis();
+}
+
+.subTitleWarn {
+  color: rgba(255, 0, 0, 0.7);
+}
+
+// ===== 激活按钮（对齐 RN lock 页 Action：maxWidth cx(98)/maxHeight cx(32)/
+// borderRadius cx(15)/padding 12×3/fontSize cx(14)，cx ≈ 2rpx） =====
+.activateBtn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 196rpx;
+  height: 64rpx;
+  margin-left: 16rpx;
+  padding: 0 24rpx;
+  border-radius: 30rpx;
+  box-sizing: border-box;
+}
+
+.activateText {
+  color: #fff;
+  font-size: 28rpx;
+  .ellipsis();
+}
+
+// ===== 空状态 =====
+.noneWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 226rpx;
+}
+
+.noneIcon {
+  width: 240rpx;
+  height: 240rpx;
+}
+
+.tip {
+  margin-top: 30rpx;
+  color: #7a7a7a;
+  font-size: 30rpx;
+}
+
+// ===== 蓝牙重连倒计时弹框（对齐 RN 居中紧凑深色 Loading） =====
+// Overlay 仅作遮罩，盒子用 fixed 自居中，避免依赖 Overlay 内部布局导致偏左上角。
+// 宽高自适应：min-width 保证短文案（如中文）不会太窄，padding 给长文案（如英文）留空间，
+// 文案自动换行，多语言下不会溢出。
+.reconnectBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 200rpx;
+  max-width: 80%;
+  padding: 48rpx 40rpx;
+  border-radius: 16rpx;
+  background-color: rgba(0, 0, 0, 0.75);
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.reconnectText {
+  margin-top: 28rpx;
+  color: #ffffff;
+  font-size: 26rpx;
+  line-height: 1.4;
+  text-align: center;
+  word-break: break-word;
+}
+
+// ===== 工具：单行省略 =====
+.ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

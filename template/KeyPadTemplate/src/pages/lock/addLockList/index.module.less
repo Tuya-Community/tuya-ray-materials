@@ -1,0 +1,108 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f8f8f8;
+}
+
+.scroll {
+  flex: 1;
+  height: 0;
+  padding: 24rpx 32rpx 160rpx;
+  box-sizing: border-box;
+}
+
+// ===== 列表项 =====
+.item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  border-radius: 16rpx;
+  background-color: #fff;
+}
+
+.itemDisabled {
+  opacity: 0.5;
+}
+
+.icon {
+  width: 84rpx;
+  height: 84rpx;
+  margin-right: 24rpx;
+  border-radius: 12rpx;
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  color: #333;
+  font-size: 30rpx;
+  .ellipsis();
+}
+
+.subTitle {
+  margin-top: 8rpx;
+  color: #999;
+  font-size: 26rpx;
+  .ellipsis();
+}
+
+// 右侧单选图标
+.chooseIcon {
+  width: 48rpx;
+  height: 48rpx;
+  flex-shrink: 0;
+}
+
+// ===== 空状态 =====
+.noneWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 226rpx;
+}
+
+.noneIcon {
+  width: 240rpx;
+  height: 240rpx;
+}
+
+.tip {
+  margin-top: 30rpx;
+  color: #7a7a7a;
+  font-size: 30rpx;
+}
+
+// v2.3 §6：空态「去添加」胶囊按钮（对齐 RN goAddBtn/goAddBtnText：主题色背景、白字居中）
+.goAddBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 240rpx;
+  margin-top: 32rpx;
+  padding: 24rpx 24rpx;
+  border-radius: 200rpx;
+  box-sizing: border-box;
+}
+
+.goAddBtnText {
+  color: #fff;
+  font-size: 32rpx;
+}
+
+// ===== 工具：单行省略 =====
+.ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

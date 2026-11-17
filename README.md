@@ -860,5 +860,16 @@ Tuya Ray Materials
   </details>
   </td>
 </tr>
+
+<tr>
+  <td id="KeyPadTemplate">2026/11</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/KeyPadTemplate">KeyPadTemplate</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <img src="./qrCode/template-KeyPadTemplate.png" width="100" height="100">
+  </details>
+  </td>
+</tr>
 </table>
 <!-- txp-asset-qrcode-end -->

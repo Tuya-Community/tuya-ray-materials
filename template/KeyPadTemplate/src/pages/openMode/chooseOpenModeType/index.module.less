@@ -1,0 +1,115 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f3f4f6;
+
+  /* 清空码 ActionSheet：去除左右下浮动间距，改为贴底通栏（对齐 lock/set/unlockTypeList） */
+  --action-sheet-left: 0;
+  --action-sheet-width: 100%;
+  --action-sheet-margin: 0;
+
+  /* 仅保留顶部两个圆角，底部贴边处归零 */
+  :global(.smart-action-sheet) {
+    border-radius: 16px 16px 0 0 !important;
+  }
+}
+
+.scroll {
+  flex: 1;
+  height: 0;
+  padding: 20rpx 24rpx calc(48rpx + env(safe-area-inset-bottom));
+  padding: 20rpx 24rpx calc(48rpx + constant(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+// ===== 分组（对齐 RN renderHeader：标题 + 副标题） =====
+.section {
+  margin-bottom: 28rpx;
+}
+
+.sectionHeader {
+  padding: 24rpx 8rpx 16rpx;
+}
+
+.sectionTitle {
+  color: #333;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.sectionSubTitle {
+  display: block;
+  margin-top: 12rpx;
+  color: rgba(51, 51, 51, 0.5);
+  font-size: 24rpx;
+}
+
+// ===== 列表项（对齐 RN listItem：白色圆角卡，左 icon + 标题，右箭头） =====
+.item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 112rpx;
+  padding: 0 28rpx;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+// 同组内多项：分隔线 + 首尾圆角
+.item + .item {
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.itemFirst {
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+}
+
+.itemLast {
+  border-bottom-left-radius: 16rpx;
+  border-bottom-right-radius: 16rpx;
+}
+
+.itemDisabled {
+  opacity: 0.4;
+}
+
+.iconBg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 20rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  color: #333;
+  font-size: 30rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// CSS 绘制的右向箭头（对齐 RN TYSectionList arrow）
+.arrow {
+  width: 16rpx;
+  height: 16rpx;
+  margin-left: 16rpx;
+  border-top: 3rpx solid #c8c8c8;
+  border-right: 3rpx solid #c8c8c8;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}

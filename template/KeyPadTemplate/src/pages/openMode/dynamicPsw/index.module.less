@@ -1,0 +1,105 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f8f8f8;
+}
+
+/* 顶部标题区（对齐 RN topWarp/topTitle，白底） */
+.topWrap {
+  width: 100vw;
+  background-color: #ffffff;
+}
+
+.topTitle {
+  display: block;
+  margin: 48rpx 0 0 48rpx;
+  color: #333333;
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+/* 密码展示区（对齐 RN pswWarp，白底） */
+.pswWrap {
+  width: 100vw;
+  background-color: #ffffff;
+  padding-bottom: 24rpx;
+}
+
+/* pwdBg 背景图 327x58（对齐 RN），居中 */
+.pwdBg {
+  position: relative;
+  width: 654rpx;
+  height: 116rpx;
+  margin: 74rpx auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pwdBgImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 654rpx;
+  height: 116rpx;
+}
+
+/* 未获取：灰色星号（对齐 RN pwdTextDefault） */
+.pwdText {
+  position: relative;
+  color: #212121;
+  font-size: 60rpx;
+  font-weight: bold;
+  letter-spacing: 8rpx;
+}
+
+/* 已获取：主题色高亮（对齐 RN pwdText，绿色→主题色） */
+.pwdTextActive {
+  font-size: 64rpx;
+  letter-spacing: 14rpx;
+}
+
+/* 复制链接（对齐 RN copyText，左对齐） */
+.copyText {
+  display: block;
+  margin: 22rpx 0 0 48rpx;
+  font-size: 28rpx;
+}
+
+/* 底部区（对齐 RN bottomWarp，白底、按钮 + 提示） */
+.bottomWrap {
+  margin-top: 20rpx;
+  width: 100vw;
+  min-height: 300rpx;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottomTip {
+  max-width: 620rpx;
+  color: #999999;
+  font-size: 24rpx;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.btn {
+  width: 356rpx;
+  height: 88rpx;
+  margin-top: 40rpx;
+  border-radius: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnText {
+  color: #ffffff;
+  font-size: 32rpx;
+}

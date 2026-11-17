@@ -1,0 +1,180 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f8f8f8;
+}
+
+/* ===== 采集视觉区（对齐 RN 各 add*View renderCenter），四类均垂直居中 ===== */
+.visualWrap {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 指纹填充 SVG */
+.fingerImg {
+  width: 360rpx;
+  height: 360rpx;
+}
+
+/* 门卡圆环 + 居中门卡图标 */
+.ringWrap {
+  position: relative;
+  width: 480rpx;
+  height: 480rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ringImg {
+  width: 480rpx;
+  height: 480rpx;
+}
+
+.ringIcon {
+  position: absolute;
+  width: 196rpx;
+  height: 208rpx;
+}
+
+/* 人脸 / 掌静脉大图标 */
+.bigIcon {
+  width: 400rpx;
+  height: 400rpx;
+}
+
+/* step/total 计数（指纹/掌静脉） */
+.countRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40rpx;
+  margin-bottom: 16rpx;
+}
+
+.countCurrent {
+  font-size: 40rpx;
+}
+
+.countTotal {
+  font-size: 32rpx;
+  color: #999999;
+}
+
+/* 倒计时秒数（门卡/人脸） */
+.seconds {
+  margin-top: 48rpx;
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #999999;
+}
+
+.tip {
+  margin-top: 16rpx;
+  max-width: 540rpx;
+  text-align: center;
+  color: #333333;
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+
+/* ===== 结果页（对齐 RN ResultView） ===== */
+.resultPage {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  padding-bottom: calc(70rpx + env(safe-area-inset-bottom));
+  padding-bottom: calc(70rpx + constant(safe-area-inset-bottom));
+}
+
+/* 内容整体垂直居中（成功/失败共用）；成功时底部「完成」按钮为独立兄弟节点固定在底部 */
+.resultContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.resultImgBg {
+  width: 144rpx;
+  height: 144rpx;
+  border-radius: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resultImg {
+  width: 64rpx;
+  height: 64rpx;
+}
+
+.resultText {
+  margin-top: 32rpx;
+  color: #333333;
+  font-size: 32rpx;
+}
+
+/* 对齐 RN ResultView：nameView 通栏，标题与输入统一左内边距 32rpx(=RN 16px) */
+.nameView {
+  width: 100vw;
+  margin-top: 32rpx;
+}
+
+.nameTitle {
+  display: block;
+  margin: 24rpx 0 0 32rpx;
+  color: #999999;
+  font-size: 24rpx;
+}
+
+/*
+ * 嵌套选择器提高优先级，覆盖 Ray 基础 .input（自带 padding:10rpx + 2rpx 边框，
+ * 与本类同权重、靠加载顺序取胜——不可靠导致左内边距塌到 10rpx 与标题错位）。
+ * RN InputItem：height 48px(96rpx)、paddingHorizontal 16px(32rpx)、无边框。
+ */
+.nameView .nameInput {
+  width: 100%;
+  min-height: 0;
+  height: 96rpx;
+  padding: 0 32rpx;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 0;
+  background-color: #ffffff;
+  color: #333333;
+  font-size: 32rpx;
+  text-align: left;
+}
+
+.resultBtn {
+  width: 460rpx;
+  height: 96rpx;
+  border-radius: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100rpx;
+}
+
+.doneBtn {
+  margin-top: 0;
+}
+
+.resultBtnText {
+  color: #ffffff;
+  font-size: 32rpx;
+  font-weight: bold;
+}

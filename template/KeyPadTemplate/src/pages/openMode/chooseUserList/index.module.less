@@ -1,0 +1,138 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f3f4f6;
+
+  /* 添加成员 ActionSheet：去除左右下浮动间距，改为贴底通栏（对齐 lock/set/unlockTypeList/chooseOpenModeType） */
+  --action-sheet-left: 0;
+  --action-sheet-width: 100%;
+  --action-sheet-margin: 0;
+
+  /* 仅保留顶部两个圆角，底部贴边处归零 */
+  :global(.smart-action-sheet) {
+    border-radius: 16px 16px 0 0 !important;
+  }
+}
+
+.scroll {
+  flex: 1;
+  height: 0;
+  // 底部为按钮预留空间（按钮高度 + 安全区）
+  padding: 24rpx 24rpx calc(200rpx + env(safe-area-inset-bottom));
+  padding: 24rpx 24rpx calc(200rpx + constant(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+// v2.3 §7：导航栏右上角「快捷添加人员」+（撑大点击区）
+.navPlus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16rpx;
+}
+
+// ===== 成员列表项（对齐 RN listItem：白色圆角卡，左头像 + 昵称/联系方式，右单选） =====
+.item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 128rpx;
+  padding: 20rpx 28rpx;
+  margin-bottom: 24rpx;
+  border-radius: 16rpx;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.avatar {
+  width: 72rpx;
+  height: 72rpx;
+  margin-right: 20rpx;
+  border-radius: 32rpx;
+  background-color: #f8f8f8;
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  color: #333;
+  font-size: 30rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.subTitle {
+  margin-top: 8rpx;
+  color: #999;
+  font-size: 24rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.radio {
+  width: 44rpx;
+  height: 44rpx;
+  margin-left: 16rpx;
+  flex-shrink: 0;
+}
+
+// ===== 空状态（对齐 RN noneWarp） =====
+.noneWrap {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 220rpx;
+}
+
+.noneIcon {
+  width: 240rpx;
+  height: 240rpx;
+}
+
+.tip {
+  margin-top: 30rpx;
+  color: #7a7a7a;
+  font-size: 30rpx;
+}
+
+// ===== 底部「下一步」按钮（对齐 RN AddBtnView） =====
+.footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16rpx 32rpx calc(16rpx + env(safe-area-inset-bottom));
+  padding: 16rpx 32rpx calc(16rpx + constant(safe-area-inset-bottom));
+  background-color: #f3f4f6;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  border-radius: 44rpx;
+}
+
+.btnText {
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.btnDisabled {
+  opacity: 0.4;
+}
