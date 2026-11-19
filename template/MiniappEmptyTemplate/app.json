@@ -1,0 +1,20 @@
+{
+  "entryPagePath": "pages/tab1/index",
+  "themeLocation": "theme.json",
+  "pages": [
+    "pages/tab1/index",
+    "pages/tab2/index"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "@navBgColor",
+    "navigationBarTextStyle": "@navTxtStyle",
+    "navigationBarTitleText": "miniprogram",
+    "backgroundColor": "@bgColor",
+    "backgroundTextStyle": "@bgTxtStyle",
+    "backgroundColorTop": "@bgColorTop",
+    "backgroundColorBottom": "@bgColorBottom",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 50,
+    "pageOrientation": "portrait"
+  }
+}

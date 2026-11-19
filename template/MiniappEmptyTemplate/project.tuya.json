@@ -1,0 +1,12 @@
+{
+  "projectname": "智能小程序 hello world 模板",
+  "i18n": false,
+  "description": "智能小程序空白模板",
+  "baseversion": "2.33.4",
+  "dependencies": {
+    "BaseKit": "3.0.6",
+    "MiniKit": "3.0.7",
+    "BizKit": "4.2.0"
+  },
+  "compileType": "miniprogram"
+}
