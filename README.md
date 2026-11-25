@@ -882,5 +882,16 @@ Tuya Ray Materials
   </details>
   </td>
 </tr>
+
+<tr>
+  <td id="RayDemo">2026/11</td>
+  <td><a href="https://github.com/Tuya-Community/tuya-ray-materials?path=template/RayDemo">RayDemo</a></td>
+  <td>
+  <details>
+  <summary>Scan QRCode</summary>
+  <a href="https://developer.tuya.com/material/library_hKiOVClc/component?code=RayDemo" target="_blank">View Details</a>
+  </details>
+  </td>
+</tr>
 </table>
 <!-- txp-asset-qrcode-end -->

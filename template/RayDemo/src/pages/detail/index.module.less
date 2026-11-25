@@ -1,0 +1,28 @@
+.entry {
+  display: flex;
+  flex-direction: column;
+  padding: 18rpx 0;
+}
+
+.entry + .entry {
+  border-top: 1rpx solid var(--border-color);
+}
+
+.key {
+  color: var(--text-secondary);
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.value {
+  margin-top: 8rpx;
+  color: var(--code-text-color);
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 25rpx;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.button {
+  margin: 20rpx 0 0;
+}

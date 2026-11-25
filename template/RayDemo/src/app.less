@@ -1,0 +1,72 @@
+page,
+:root {
+  --page-bg-color: #f5f6fa;
+  --card-bg-color: #ffffff;
+  --card-shadow-color: rgba(25, 36, 56, 0.08);
+  --border-color: #e3e7ef;
+  --hover-bg-color: #f8eee7;
+  --text-primary: #202a3d;
+  --text-secondary: #536079;
+  --input-placeholder-color: #636f83;
+  --primary-color: #a54224;
+  --accent-bg-color: #fcf0e8;
+  --code-bg-color: #edf1f7;
+  --code-text-color: #283952;
+
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+page {
+  box-sizing: border-box;
+  background-color: var(--page-bg-color);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media screen {
+  body {
+    // Ray Web sets the body background inline.
+    background-color: var(--page-bg-color) !important;
+  }
+
+  [data-route] > div:has(> [data-full-route]) {
+    background-color: var(--card-bg-color);
+    color: var(--text-secondary);
+    border-top-color: var(--border-color);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  page,
+  :root {
+    --page-bg-color: #101620;
+    --card-bg-color: #1a2332;
+    --card-shadow-color: rgba(0, 0, 0, 0.2);
+    --border-color: #303c50;
+    --hover-bg-color: #322b30;
+    --text-primary: #eef2f9;
+    --text-secondary: #b4bfd0;
+    --input-placeholder-color: #a8b4c6;
+    --primary-color: #ffb68e;
+    --accent-bg-color: #3b2d30;
+    --code-bg-color: #131b28;
+    --code-text-color: #dce7fa;
+  }
+}
+
+button {
+  margin-bottom: 12px;
+}
+
+input {
+  color: var(--text-primary) !important;
+  background-color: var(--card-bg-color) !important;
+  border: 1px solid var(--border-color) !important;
+  padding: 8px 12px !important;
+  border-radius: 8px !important;
+}
+
+input::placeholder {
+  color: var(--input-placeholder-color) !important;
+  opacity: 1;
+}

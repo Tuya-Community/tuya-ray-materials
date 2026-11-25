@@ -1,0 +1,97 @@
+.wrapper {
+  margin: 0 32rpx 36rpx;
+}
+
+.title {
+  display: block;
+  margin: 0 0 16rpx;
+  padding-left: 16rpx;
+  border-left: 5rpx solid var(--primary-color);
+  color: var(--text-primary);
+  font-size: 30rpx;
+  font-weight: 650;
+  line-height: 38rpx;
+}
+
+.listWrapper {
+  overflow: hidden;
+  background-color: var(--card-bg-color);
+  border: 1rpx solid var(--border-color);
+  border-radius: 24rpx;
+  box-shadow: 0 4rpx 14rpx var(--card-shadow-color);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 46px;
+  box-sizing: border-box;
+  padding: 14rpx 24rpx;
+}
+
+.item + .item {
+  border-top: 1rpx solid var(--border-color);
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.grid .item {
+  width: 49%;
+  min-height: 46px;
+  margin-bottom: 12rpx;
+  border: 1rpx solid var(--border-color);
+  border-radius: 20rpx;
+  background-color: var(--card-bg-color);
+  box-shadow: 0 4rpx 14rpx var(--card-shadow-color);
+}
+
+.itemName {
+  min-width: 0;
+  color: var(--text-primary);
+  font-size: 28rpx;
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.apiName {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 26rpx;
+  font-weight: 500;
+}
+
+.indicator {
+  display: flex;
+  flex: 0 0 42rpx;
+  align-items: center;
+  justify-content: center;
+  height: 42rpx;
+  margin-left: 12rpx;
+  border-radius: 50%;
+  background-color: var(--accent-bg-color);
+}
+
+.arrow {
+  width: 11rpx;
+  height: 11rpx;
+  margin-right: 4rpx;
+  border-top: 2rpx solid var(--primary-color);
+  border-right: 2rpx solid var(--primary-color);
+  transform: rotate(45deg);
+}
+
+.play {
+  margin-left: 3rpx;
+  border-top: 7rpx solid transparent;
+  border-bottom: 7rpx solid transparent;
+  border-left: 10rpx solid var(--primary-color);
+}
+
+.item.itemHover {
+  background-color: var(--hover-bg-color);
+}

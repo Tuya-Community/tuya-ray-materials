@@ -1,0 +1,14 @@
+{
+  "projectId": "placeholder-project-id",
+  "projectname": "Ray 官方demo",
+  "i18n": true,
+  "description": "ray官方demo",
+  "baseversion": "2.33.4",
+  "devMode": "raypack",
+  "dependencies": {
+    "BaseKit": "3.40.2",
+    "MiniKit": "3.0.0",
+    "TYKit": "2.3.4"
+  },
+  "compileType": "miniprogram"
+}

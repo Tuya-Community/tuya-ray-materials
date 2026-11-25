@@ -1,0 +1,46 @@
+.wrapper {
+  min-width: 0;
+  overflow: hidden;
+  margin: 24rpx 32rpx;
+  border: 1rpx solid var(--border-color);
+  border-radius: 24rpx;
+  background-color: var(--code-bg-color);
+}
+
+.scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.code {
+  display: inline-block;
+  min-width: 100%;
+  box-sizing: border-box;
+  padding: 24rpx;
+  white-space: pre;
+  font-family: ui-monospace, Menlo, Consolas, 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--code-text-color);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18rpx 24rpx;
+  border-bottom: 1rpx solid var(--border-color);
+  background-color: var(--card-bg-color);
+  color: var(--text-primary);
+  font-size: 26rpx;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.titleExample {
+  flex-shrink: 0;
+  margin-left: 16rpx;
+  color: var(--primary-color);
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 22rpx;
+}
